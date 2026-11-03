@@ -1577,17 +1577,19 @@ def verificar_componente(stack: str, caminho: Path, destino_logs: Path, instalar
     return {"stack": stack, "situacao": sit, "resumo": total, "execucoes": execs}
 
 
-def verificar_stacks(somente: list[str] | None = None) -> Path:
+def verificar_stacks(somente: list[str] | None = None, ignorar: dict[str, str] | None = None) -> Path:
     """Cria cada esqueleto num diretório temporário, instala, testa e registra o resultado REAL."""
     import tempfile
     linhas = ["# Verificação das stacks", "", f"Executado em {agora()} por `fabrica.py stacks verificar` (instala dependências e roda os testes de cada esqueleto).", "",
-              "| Stack | Linguagem | Situação | Testes | Detalhe |", "|---|---|---|---|---|"]
+              "| Stack | Linguagem | Situação | Verificações (instalar + testes + build) | Detalhe |", "|---|---|---|---|---|"]
     resultados = {}
     logs = FAB / "stacks" / "_verificacao"
     for sid in somente or listar_stacks():
         st = carregar_stack(sid)
         faltam = [f for f in st.get("requer", []) if not shutil.which(f)]
-        if faltam:
+        if ignorar and sid in ignorar:
+            resultados[sid] = {"situacao": "NAO_VERIFICADO", "detalhe": f"não executado nesta máquina: {ignorar[sid]}"}
+        elif faltam:
             resultados[sid] = {"situacao": "NAO_VERIFICADO", "detalhe": f"ferramenta ausente: {', '.join(faltam)}"}
         else:
             with tempfile.TemporaryDirectory(prefix=f"stack-{sid}-") as tmp:
@@ -1598,7 +1600,7 @@ def verificar_stacks(somente: list[str] | None = None) -> Path:
         res = resultados[sid]
         tot = res.get("resumo", {})
         linhas.append(f"| {sid} | {st['linguagem']} | {res['situacao']} | {tot.get('testes', '—')} ({tot.get('falhas', 0) + tot.get('erros', 0) if tot else '—'} falhas) | {res['detalhe']} |")
-    linhas += ["", "NAO_VERIFICADO = a ferramenta da linguagem não estava instalada nesta máquina; o esqueleto existe mas não foi executado aqui.",
+    linhas += ["", "NAO_VERIFICADO = o esqueleto existe, mas não foi executado nesta máquina (motivo na coluna Detalhe). Rode `fabrica.py stacks verificar <stack>` onde a ferramenta estiver disponível.",
                "Logs: `fabrica/stacks/_verificacao/<stack>/`.", ""]
     saida = FAB / "stacks" / "VERIFICACAO.md"
     saida.write_text("\n".join(linhas), encoding="utf-8")
@@ -1869,6 +1871,7 @@ def main(argv: list[str] | None = None) -> int:
     stx = sp.add_parser("stacks", help="Stacks multi-linguagem").add_subparsers(dest="sub", required=True)
     stx.add_parser("listar")
     x = stx.add_parser("verificar"); x.add_argument("ids", nargs="*")
+    x.add_argument("--ignorar", action="append", default=[], help="stack=motivo (registra como NAO_VERIFICADO)")
     x = sp.add_parser("componente", help="Cria esqueleto de uma stack"); x.add_argument("stack"); x.add_argument("destino"); x.add_argument("--nome", default="Sistema")
     x = sp.add_parser("projeto", help="Testa os componentes do PROJETO.yaml"); x.add_argument("sub", choices=["verificar"]); x.add_argument("--instalar", action="store_true")
     x = sp.add_parser("modelo", help="Exporta a configuração da fábrica para um repositório novo"); x.add_argument("sub", choices=["exportar"]); x.add_argument("destino")
@@ -1969,7 +1972,8 @@ def main(argv: list[str] | None = None) -> int:
                 for s in listar_stacks():
                     st = carregar_stack(s); print(f"{s:20} {st['linguagem']:28} {st.get('framework', '')}")
             else:
-                print(rel(verificar_stacks(a.ids or None)))
+                ign = dict(i.split("=", 1) for i in a.ignorar)
+                print(rel(verificar_stacks(a.ids or None, ign)))
         elif a.cmd == "componente":
             print(criar_componente(a.stack, Path(a.destino), a.nome))
         elif a.cmd == "projeto":
