@@ -1,0 +1,15 @@
+entidade: Protocolo
+tabela: protocolos
+rotulo: Protocolos
+modulo: MOD-102
+campos:
+  - {nome: numero, rotulo: "Número", tipo: texto, max: 30, obrigatorio: true, unico: true, busca: true}
+  - {nome: assunto, tipo: texto, max: 200, obrigatorio: true, busca: true}
+  - {nome: interessado_id, rotulo: "Interessado", tipo: referencia, alvo: interessados, obrigatorio: true}
+  - {nome: canal, tipo: enum, opcoes: [PRESENCIAL, EMAIL, PORTAL, TELEFONE], obrigatorio: true}
+  - {nome: prioridade, tipo: enum, opcoes: [NORMAL, URGENTE], obrigatorio: true}
+  - {nome: prazo, tipo: data}
+  - {nome: valor_taxa, rotulo: "Valor da taxa (R$)", tipo: decimal, min: 0}
+  - {nome: quantidade_folhas, rotulo: "Quantidade de folhas", tipo: inteiro, min: 0, max: 10000}
+  - {nome: sigiloso, tipo: booleano}
+permissoes: {ler: [ADMIN, GESTOR, OPERADOR, CONSULTA], escrever: [ADMIN, GESTOR, OPERADOR], excluir: [ADMIN, GESTOR]}
