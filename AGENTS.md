@@ -6,12 +6,12 @@ Idioma de trabalho: **português do Brasil**.
 ## O que é este repositório
 
 Uma fábrica de software para contratos públicos de TI (desenvolvimento, manutenção, sustentação). Ela organiza
-40 agentes de IA (20 da Fábrica Governamental `G01–G20` + 20 do time de Engenharia `E01–E20`), profissionais
+44 agentes de IA (24 da Fábrica Governamental `G01–G24` + 20 do time de Engenharia `E01–E20`), profissionais
 humanos reais, contratos, ordens de serviço (OS), evidências, medição (UST/PF), relatórios e entregas.
 
 | Pasta | Conteúdo |
 |---|---|
-| `fabrica/agentes/registry.yaml` | **Fonte única** dos 40 agentes (função, responsabilidades, ferramentas, comunicação) |
+| `fabrica/agentes/registry.yaml` | **Fonte única** dos 44 agentes (função, responsabilidades, ferramentas, comunicação) |
 | `fabrica/docs/EQUIPE_AGENTES.md` | Tabela da equipe (gerada) |
 | `fabrica/ferramentas/fabrica.py` | CLI: quadro de tarefas, mensagens, evidências, testes, auditoria, medição, checklist, relatórios, entrega |
 | `fabrica/comunicacao/` | `AGENT_TASKS.json`, `AGENT_MESSAGES.jsonl`, `AGENT_DECISIONS.md`, `AGENT_HANDOFFS.md`, `AGENT_BLOCKERS.md` |
@@ -24,6 +24,8 @@ humanos reais, contratos, ordens de serviço (OS), evidências, medição (UST/P
 | `PROJETO.yaml` | Identidade do repositório: um repositório = um sistema; componentes e stacks |
 | `fabrica/stacks/` | Perfis e esqueletos por linguagem (Python, TypeScript/React/Node, Java, C#, PHP, Go, Rust) + `VERIFICACAO.md` |
 | `fabrica/modelos_repositorio/` | README, CI, .gitignore e PROJETO.yaml usados ao criar repositórios novos |
+| `fabrica/CONFIGURACAO_FABRICA.yaml` | **Configuração central**: empresa, fuso, jornada, feriados, produtividade, relatórios, rateio, stacks, limites |
+| `fabrica/conhecimento/` | Biblioteca absorvida (Superpowers, spec-kit, skills Apache da Anthropic, conceitos LangGraph) com licenças |
 | `.claude/agents/`, `.claude/skills/` | Agentes e comandos no formato do Claude Code (gerados/definidos aqui) |
 
 ## Regras inegociáveis
@@ -49,6 +51,9 @@ humanos reais, contratos, ordens de serviço (OS), evidências, medição (UST/P
 19. **Três relatórios por dia:** abertura (`fabrica.py abertura`), relatório diário (`relatorio diario`) e fechamento (`fechamento`), todos em Word.
 20. **Código real e completo:** cadastro = tabela + migração + API validada + auditoria + permissão + tela + testes de API e de tela, separado por módulo (`fabrica.py crud gerar`), provado com testes no PostgreSQL, `alembic check` e build. Sem teste executado, não há entrega.
 21. **Sessão nova:** todo chat novo começa rodando `fabrica.py iniciar` e `fabrica.py proximo-passo` e diz ao usuário o que falta e a próxima ação (skill `proximo-passo`). Manual: `fabrica/docs/TREINAMENTO.md`; prompt para colar: `fabrica/docs/PROMPT_INICIAL.md`.
+22. **Evidência antes de afirmação:** antes de dizer "pronto", "passou", "corrigido" ou de fazer commit, rode o comando que prova e leia a saída (skill `verificar-antes-de-concluir`). Cuidado com pipe (`cmd | tail`): o código de saída não é o do teste.
+23. **Disciplina de engenharia:** código novo por TDD (`tdd`); erro só se corrige depois da causa raiz (`depuracao-sistematica`); módulo complexo começa por especificação (`especificar-modulo`) e plano (`plano-implementacao`); revisão em duas etapas (especificação, depois qualidade).
+24. **Estimativa ≠ execução real:** capacidade, cronograma, custos e mensalidades são ESTIMATIVA e aparecem rotulados; produção REAL é só o comprovado/aceito.
 
 ## Como os agentes trabalham juntos
 
@@ -98,12 +103,21 @@ Cada comando tem uma skill em `.claude/skills/<nome>/SKILL.md` (Codex: leia o ar
 | ABERTURA DO DIA | `abertura-dia` | `abertura` |
 | PLANEJAMENTO (por projeto) | `planejamento-projetos` | `planejamento consolidar|gerar-os` |
 | GERAR CRUD / CADASTRO | `gerar-crud` | `crud gerar` |
+| ANÁLISE INTEGRAL DO EDITAL | `analise-integral-edital` | `edital confrontar`, `gec` |
+| GEC (completo, Word) | `gec-completo` | `gec` |
+| QUANTO EU PRODUZO / CAPACIDADE | `capacidade-producao` | `capacidade [--simular]` |
+| FLUXO DA OS / EXECUTAR TUDO | `fluxo-os` | `fluxo [--aprovado-por]` |
+| CONFIGURAR FÁBRICA | `configurar-fabrica` | `config verificar|mostrar` |
+| ESPECIFICAR MÓDULO (spec → plano → tarefas) | `especificar-modulo`, `plano-implementacao`, `executar-plano` | `tarefas criar` |
+| Disciplina: verificar, TDD, depurar, revisar, paralelo, concluir | `verificar-antes-de-concluir`, `tdd`, `depuracao-sistematica`, `revisao-de-codigo`, `trabalho-paralelo`, `concluir-entrega` | — |
+| Interface, testes de tela, integrações, novas skills | `design-de-interface`, `testar-webapp`, `integracao-mcp`, `criar-skill` | — |
 | Produção diária automática | `producao-diaria` | todas as anteriores, sem publicar |
 
 ## Verificações antes de concluir qualquer trabalho
 
 ```bash
 python3 fabrica/ferramentas/fabrica.py iniciar
+python3 fabrica/ferramentas/fabrica.py config verificar
 python3 -m pytest fabrica/ferramentas/tests -q
 python3 fabrica/ferramentas/fabrica.py projeto verificar --instalar   # testa todos os componentes do PROJETO.yaml
 python3 fabrica/ferramentas/fabrica.py tarefas validar

@@ -36,8 +36,8 @@ def fab(tmp_path, monkeypatch):
     sys.path.remove(str(ORIGEM / "fabrica/ferramentas"))
 
 
-def test_registro_tem_40_agentes_e_gera_arquivos(fab):
-    assert len(fab.gerar_agentes()) == 40
+def test_registro_tem_44_agentes_e_gera_arquivos(fab):
+    assert len(fab.gerar_agentes()) == 44
     assert fab.verificar_agentes() == []
 
 
@@ -481,3 +481,55 @@ def test_proximo_passo_guia_do_comeco_ao_fim(fab):
     r = fab.proximo_passo("CT-1", "2026-11-03")
     assert next(e for e in r["etapas"] if e["etapa"].startswith("Equipe"))["ok"]
     assert "Próximo passo — CT-1" in fab.texto_proximo_passo(r)
+
+
+# ------------------------------------------- configuração, capacidade, fluxo, GEC
+
+def test_configuracao_central_e_feriados(fab):
+    cfgp = fab.FAB / "CONFIGURACAO_FABRICA.yaml"
+    cfgp.write_text("jornada: {horas_por_dia: 6, aproveitamento: 0.5, feriados: ['2026-11-20']}\nproducao: {produtividade_horas_por_pf: 10}\n")
+    assert fab.configuracao()["jornada"]["horas_por_dia"] == 6
+    assert fab.dias_uteis(fab.date(2026, 11, 16), fab.date(2026, 11, 20)) == 4  # sexta 20/11 é feriado
+    assert any("razao_social" in a for a in fab.verificar_configuracao())
+
+
+def test_capacidade_estimada_por_pessoa_e_simulada(fab):
+    _catalogo(fab)  # DEV fator 1.0 / 100 R$/h ; TESTE fator 0.5 / 80 R$/h
+    (fab.FAB / "CONFIGURACAO_FABRICA.yaml").write_text("jornada: {horas_por_dia: 8, aproveitamento: 0.5}\nproducao: {produtividade_horas_por_pf: 4}\n")
+    (fab.CONTRATOS / "C1/PROFISSIONAIS.csv").write_text("id,nome,funcao\nP01,Ana,Dev\nP02,Beto,Analista de Teste\n")
+    md = fab.capacidade("C1").read_text()
+    assert "| Ana | Dev | DEV | 4,0 | 4,00 | 1,00 | R$ 400,00 |" in md
+    assert "| Por dia | 8,0 | 6,00 | 2,00 | R$ 720,00 |" in md and "ESTIMATIVA" in md
+    sim = fab.capacidade("C1", dias=20, simular="DEV=2").read_text()
+    assert "| Por mês (20 dias úteis) | 160 | 160,00 | 40,00 | R$ 16.000,00 |" in sim
+
+
+def test_fluxo_para_pausa_e_retoma(fab):
+    fab.novo_contrato("C1")
+    _os_minima(fab)
+    p = fab.CONTRATOS / "C1/os/OS1.yaml"
+    o = yaml.safe_load(p.read_text()); o["autorizacao"]["autorizado"] = False; p.write_text(yaml.safe_dump(o))
+    e = fab.fluxo("C1", "OS1")
+    assert e["nos"]["autorizacao"]["status"] == "PAUSA" and e["situacao"].startswith("PAUSADO")
+    o["autorizacao"]["autorizado"] = True; p.write_text(yaml.safe_dump(o))
+    e = fab.fluxo("C1", "OS1", ate="testes")
+    assert e["nos"]["autorizacao"]["status"] == "CONCLUIDO" and e["nos"]["testes"]["status"] == "CONCLUIDO"
+    assert e["nos"]["commits"]["status"] == "PENDENTE"
+    e = fab.fluxo("C1", "OS1")  # retoma: auditoria reprova porque os modelos de evidência não foram preenchidos
+    assert e["nos"]["testes"]["status"] == "CONCLUIDO" and e["nos"]["auditoria"]["status"] in ("FALHOU", "CONCLUIDO")
+    assert (fab.CONTRATOS / "C1/fluxos/OS1.json").exists()
+
+
+def test_gec_completo_com_estimativa_e_real(fab):
+    d = _catalogo(fab)
+    (d / "PLANEJAMENTO.csv").write_text("projeto,modulo,nome,area,servico,quantidade,inicio,fim,responsavel,prioridade,observacao\n"
+                                        "A,MOD-1,Cadastro X,BACKEND,S1,1,2026-11-02,2026-11-03,,ALTA,\n")
+    (d / "EDITAL.yaml").write_text("servicos: [{codigo: S1, nome: Cadastro, explicacao_tecnica: 'API + tela + testes', origem: 'TR 5.2, p. 14'}]\n"
+                                   "habilitacao: [{grupo: Técnica, documento: Atestado, exigencia: '30%', origem: 'Edital 9.3'}]\n"
+                                   "slas: [{indicador: Prazo, meta: 'no prazo', medicao: 'datas', glosa: '1%/dia', origem: 'TR 11'}]\n")
+    md = fab.gec("C1").read_text()
+    for sec in ("## 3. Serviços contratados", "API + tela + testes", "TR 5.2, p. 14", "## 7. Cronograma diário (ESTIMATIVA)",
+                "## 8. Cronograma mensal e mensalidades (ESTIMATIVA)", "Atestado", "1%/dia", "## 16. ESTIMATIVA × EXECUÇÃO REAL",
+                "## 17. Pendências"):
+        assert sec in md, sec
+    assert "| 2026-11-02 | MOD-1 | 6.00 | 7.0 |" in md  # 12 UST / 2 dias úteis

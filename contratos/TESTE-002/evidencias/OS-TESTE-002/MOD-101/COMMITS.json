@@ -1,6 +1,6 @@
 {
   "fonte": "git log (gerado por fabrica.py evidencias commits)",
-  "gerado_em": "2026-11-03T01:04:47-03:00",
+  "gerado_em": "2026-11-03T06:49:07-03:00",
   "caminhos": [
     "projetos/gestao-documental/backend/app/modulos/interessados",
     "projetos/gestao-documental/backend/migrations/versions/0003_interessados.py",

@@ -1,0 +1,992 @@
+$ (cd projetos/gestao-documental/backend && python3 -m pytest tests/test_mod100_base_modular.py -v --junitxml=/home/user/CFFCODEGOV/contratos/TESTE-002/evidencias/OS-TESTE-002/MOD-100/LOGS_TESTES/backend-20261103T064715.xml)
+# início: 2026-11-03T06:47:15.835289-03:00
+# fim: 2026-11-03T06:47:21.722159-03:00
+# código de saída: 1
+# TEST_DATABASE_URL=postgresql+psycopg2://gd_teste:***@localhost:5432/gd_teste
+
+============================= test session starts ==============================
+platform linux -- Python 3.13.18, pytest-9.2.0, pluggy-1.7.0
+rootdir: /home/user/CFFCODEGOV/projetos/gestao-documental/backend
+configfile: pytest.ini
+plugins: anyio-4.15.1
+collected 4 items
+
+tests/test_mod100_base_modular.py EEEE                                   [100%]
+
+==================================== ERRORS ====================================
+___________ ERROR at setup of test_modulos_descobertos_e_registrados ___________
+
+self = <sqlalchemy.engine.base.Connection object at 0x7f583518cec0>
+engine = Engine(postgresql+psycopg2://gd_teste:***@localhost:5432/gd_teste)
+connection = None, _has_events = None, _allow_revalidate = True
+_allow_autobegin = True
+
+    def __init__(
+        self,
+        engine: Engine,
+        connection: Optional[PoolProxiedConnection] = None,
+        _has_events: Optional[bool] = None,
+        _allow_revalidate: bool = True,
+        _allow_autobegin: bool = True,
+    ):
+        """Construct a new Connection."""
+        self.engine = engine
+        self.dialect = dialect = engine.dialect
+    
+        if connection is None:
+            try:
+>               self._dbapi_connection = engine.raw_connection()
+                                         ^^^^^^^^^^^^^^^^^^^^^^^
+
+/usr/local/lib/python3.13/site-packages/sqlalchemy/engine/base.py:149: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+/usr/local/lib/python3.13/site-packages/sqlalchemy/engine/base.py:3299: in raw_connection
+    return self.pool.connect()
+           ^^^^^^^^^^^^^^^^^^^
+/usr/local/lib/python3.13/site-packages/sqlalchemy/pool/base.py:445: in connect
+    return _ConnectionFairy._checkout(self)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+/usr/local/lib/python3.13/site-packages/sqlalchemy/pool/base.py:1324: in _checkout
+    fairy = _ConnectionRecord.checkout(pool)
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+/usr/local/lib/python3.13/site-packages/sqlalchemy/pool/base.py:709: in checkout
+    rec = pool._do_get()
+          ^^^^^^^^^^^^^^
+/usr/local/lib/python3.13/site-packages/sqlalchemy/pool/impl.py:176: in _do_get
+    with util.safe_reraise():
+         ^^^^^^^^^^^^^^^^^^^
+/usr/local/lib/python3.13/site-packages/sqlalchemy/util/langhelpers.py:166: in __exit__
+    raise exc_value.with_traceback(exc_tb)
+/usr/local/lib/python3.13/site-packages/sqlalchemy/pool/impl.py:174: in _do_get
+    return self._create_connection()
+           ^^^^^^^^^^^^^^^^^^^^^^^^^
+/usr/local/lib/python3.13/site-packages/sqlalchemy/pool/base.py:386: in _create_connection
+    return _ConnectionRecord(self)
+           ^^^^^^^^^^^^^^^^^^^^^^^
+/usr/local/lib/python3.13/site-packages/sqlalchemy/pool/base.py:671: in __init__
+    self.__connect()
+/usr/local/lib/python3.13/site-packages/sqlalchemy/pool/base.py:916: in __connect
+    with util.safe_reraise():
+         ^^^^^^^^^^^^^^^^^^^
+/usr/local/lib/python3.13/site-packages/sqlalchemy/util/langhelpers.py:166: in __exit__
+    raise exc_value.with_traceback(exc_tb)
+/usr/local/lib/python3.13/site-packages/sqlalchemy/pool/base.py:912: in __connect
+    self.dbapi_connection = connection = pool._invoke_creator(self)
+                                         ^^^^^^^^^^^^^^^^^^^^^^^^^^
+/usr/local/lib/python3.13/site-packages/sqlalchemy/engine/create.py:645: in connect
+    return dialect.connect(*cargs_tup, **cparams)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+/usr/local/lib/python3.13/site-packages/sqlalchemy/engine/default.py:869: in connect
+    return self.loaded_dbapi.connect(*cargs, **cparams)  # type: ignore[no-any-return]  # NOQA: E501
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+dsn = 'host=localhost dbname=gd_teste user=gd_teste password=gd_teste_local port=5432'
+connection_factory = None, cursor_factory = None
+kwargs = {'host': 'localhost', 'dbname': 'gd_teste', 'user': 'gd_teste', 'password': 'gd_teste_local', ...}
+
+    def connect(dsn=None, connection_factory=None, cursor_factory=None, **kwargs):
+        """
+        Create a new database connection.
+    
+        The connection parameters can be specified as a string:
+    
+            conn = psycopg2.connect("dbname=test user=postgres password=secret")
+    
+        or using a set of keyword arguments:
+    
+            conn = psycopg2.connect(database="test", user="postgres", password="secret")
+    
+        Or as a mix of both. The basic connection parameters are:
+    
+        - *dbname*: the database name
+        - *database*: the database name (only as keyword argument)
+        - *user*: user name used to authenticate
+        - *password*: password used to authenticate
+        - *host*: database host address (defaults to UNIX socket if not provided)
+        - *port*: connection port number (defaults to 5432 if not provided)
+    
+        Using the *connection_factory* parameter a different class or connections
+        factory can be specified. It should be a callable object taking a dsn
+        argument.
+    
+        Using the *cursor_factory* parameter, a new default cursor factory will be
+        used by cursor().
+    
+        Using *async*=True an asynchronous connection will be created. *async_* is
+        a valid alias (for Python versions where ``async`` is a keyword).
+    
+        Any other keyword parameter will be passed to the underlying client
+        library: the list of supported parameters depends on the library version.
+    
+        """
+        kwasync = {}
+        if 'async' in kwargs:
+            kwasync['async'] = kwargs.pop('async')
+        if 'async_' in kwargs:
+            kwasync['async_'] = kwargs.pop('async_')
+    
+        dsn = _ext.make_dsn(dsn, **kwargs)
+>       conn = _connect(dsn, connection_factory=connection_factory, **kwasync)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       psycopg2.OperationalError: connection to server at "localhost" (127.0.0.1), port 5432 failed: Connection refused
+E       	Is the server running on that host and accepting TCP/IP connections?
+
+/usr/local/lib/python3.13/site-packages/psycopg2/__init__.py:122: OperationalError
+
+The above exception was the direct cause of the following exception:
+
+    @pytest.fixture(scope="session", autouse=True)
+    def _schema():
+        if EH_PG:
+            raiz = Path(__file__).resolve().parents[1]
+>           with engine.begin() as c:
+                 ^^^^^^^^^^^^^^
+
+tests/conftest.py:39: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+/usr/local/lib/python3.13/contextlib.py:141: in __enter__
+    return next(self.gen)
+           ^^^^^^^^^^^^^^
+/usr/local/lib/python3.13/site-packages/sqlalchemy/engine/base.py:3239: in begin
+    with self.connect() as conn:
+         ^^^^^^^^^^^^^^
+/usr/local/lib/python3.13/site-packages/sqlalchemy/engine/base.py:3275: in connect
+    return self._connection_cls(self)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^
+/usr/local/lib/python3.13/site-packages/sqlalchemy/engine/base.py:151: in __init__
+    Connection._handle_dbapi_exception_noconnection(
+/usr/local/lib/python3.13/site-packages/sqlalchemy/engine/base.py:2432: in _handle_dbapi_exception_noconnection
+    raise sqlalchemy_exception.with_traceback(exc_info[2]) from e
+/usr/local/lib/python3.13/site-packages/sqlalchemy/engine/base.py:149: in __init__
+    self._dbapi_connection = engine.raw_connection()
+                             ^^^^^^^^^^^^^^^^^^^^^^^
+/usr/local/lib/python3.13/site-packages/sqlalchemy/engine/base.py:3299: in raw_connection
+    return self.pool.connect()
+           ^^^^^^^^^^^^^^^^^^^
+/usr/local/lib/python3.13/site-packages/sqlalchemy/pool/base.py:445: in connect
+    return _ConnectionFairy._checkout(self)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+/usr/local/lib/python3.13/site-packages/sqlalchemy/pool/base.py:1324: in _checkout
+    fairy = _ConnectionRecord.checkout(pool)
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+/usr/local/lib/python3.13/site-packages/sqlalchemy/pool/base.py:709: in checkout
+    rec = pool._do_get()
+          ^^^^^^^^^^^^^^
+/usr/local/lib/python3.13/site-packages/sqlalchemy/pool/impl.py:176: in _do_get
+    with util.safe_reraise():
+         ^^^^^^^^^^^^^^^^^^^
+/usr/local/lib/python3.13/site-packages/sqlalchemy/util/langhelpers.py:166: in __exit__
+    raise exc_value.with_traceback(exc_tb)
+/usr/local/lib/python3.13/site-packages/sqlalchemy/pool/impl.py:174: in _do_get
+    return self._create_connection()
+           ^^^^^^^^^^^^^^^^^^^^^^^^^
+/usr/local/lib/python3.13/site-packages/sqlalchemy/pool/base.py:386: in _create_connection
+    return _ConnectionRecord(self)
+           ^^^^^^^^^^^^^^^^^^^^^^^
+/usr/local/lib/python3.13/site-packages/sqlalchemy/pool/base.py:671: in __init__
+    self.__connect()
+/usr/local/lib/python3.13/site-packages/sqlalchemy/pool/base.py:916: in __connect
+    with util.safe_reraise():
+         ^^^^^^^^^^^^^^^^^^^
+/usr/local/lib/python3.13/site-packages/sqlalchemy/util/langhelpers.py:166: in __exit__
+    raise exc_value.with_traceback(exc_tb)
+/usr/local/lib/python3.13/site-packages/sqlalchemy/pool/base.py:912: in __connect
+    self.dbapi_connection = connection = pool._invoke_creator(self)
+                                         ^^^^^^^^^^^^^^^^^^^^^^^^^^
+/usr/local/lib/python3.13/site-packages/sqlalchemy/engine/create.py:645: in connect
+    return dialect.connect(*cargs_tup, **cparams)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+/usr/local/lib/python3.13/site-packages/sqlalchemy/engine/default.py:869: in connect
+    return self.loaded_dbapi.connect(*cargs, **cparams)  # type: ignore[no-any-return]  # NOQA: E501
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+dsn = 'host=localhost dbname=gd_teste user=gd_teste password=gd_teste_local port=5432'
+connection_factory = None, cursor_factory = None
+kwargs = {'host': 'localhost', 'dbname': 'gd_teste', 'user': 'gd_teste', 'password': 'gd_teste_local', ...}
+
+    def connect(dsn=None, connection_factory=None, cursor_factory=None, **kwargs):
+        """
+        Create a new database connection.
+    
+        The connection parameters can be specified as a string:
+    
+            conn = psycopg2.connect("dbname=test user=postgres password=secret")
+    
+        or using a set of keyword arguments:
+    
+            conn = psycopg2.connect(database="test", user="postgres", password="secret")
+    
+        Or as a mix of both. The basic connection parameters are:
+    
+        - *dbname*: the database name
+        - *database*: the database name (only as keyword argument)
+        - *user*: user name used to authenticate
+        - *password*: password used to authenticate
+        - *host*: database host address (defaults to UNIX socket if not provided)
+        - *port*: connection port number (defaults to 5432 if not provided)
+    
+        Using the *connection_factory* parameter a different class or connections
+        factory can be specified. It should be a callable object taking a dsn
+        argument.
+    
+        Using the *cursor_factory* parameter, a new default cursor factory will be
+        used by cursor().
+    
+        Using *async*=True an asynchronous connection will be created. *async_* is
+        a valid alias (for Python versions where ``async`` is a keyword).
+    
+        Any other keyword parameter will be passed to the underlying client
+        library: the list of supported parameters depends on the library version.
+    
+        """
+        kwasync = {}
+        if 'async' in kwargs:
+            kwasync['async'] = kwargs.pop('async')
+        if 'async_' in kwargs:
+            kwasync['async_'] = kwargs.pop('async_')
+    
+        dsn = _ext.make_dsn(dsn, **kwargs)
+>       conn = _connect(dsn, connection_factory=connection_factory, **kwasync)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       sqlalchemy.exc.OperationalError: (psycopg2.OperationalError) connection to server at "localhost" (127.0.0.1), port 5432 failed: Connection refused
+E       	Is the server running on that host and accepting TCP/IP connections?
+E       
+E       (Background on this error at: https://sqlalche.me/e/21/e3q8)
+
+/usr/local/lib/python3.13/site-packages/psycopg2/__init__.py:122: OperationalError
+_________________ ERROR at setup of test_validadores_cpf_cnpj __________________
+
+self = <sqlalchemy.engine.base.Connection object at 0x7f583518cec0>
+engine = Engine(postgresql+psycopg2://gd_teste:***@localhost:5432/gd_teste)
+connection = None, _has_events = None, _allow_revalidate = True
+_allow_autobegin = True
+
+    def __init__(
+        self,
+        engine: Engine,
+        connection: Optional[PoolProxiedConnection] = None,
+        _has_events: Optional[bool] = None,
+        _allow_revalidate: bool = True,
+        _allow_autobegin: bool = True,
+    ):
+        """Construct a new Connection."""
+        self.engine = engine
+        self.dialect = dialect = engine.dialect
+    
+        if connection is None:
+            try:
+>               self._dbapi_connection = engine.raw_connection()
+                                         ^^^^^^^^^^^^^^^^^^^^^^^
+
+/usr/local/lib/python3.13/site-packages/sqlalchemy/engine/base.py:149: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+/usr/local/lib/python3.13/site-packages/sqlalchemy/engine/base.py:3299: in raw_connection
+    return self.pool.connect()
+           ^^^^^^^^^^^^^^^^^^^
+/usr/local/lib/python3.13/site-packages/sqlalchemy/pool/base.py:445: in connect
+    return _ConnectionFairy._checkout(self)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+/usr/local/lib/python3.13/site-packages/sqlalchemy/pool/base.py:1324: in _checkout
+    fairy = _ConnectionRecord.checkout(pool)
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+/usr/local/lib/python3.13/site-packages/sqlalchemy/pool/base.py:709: in checkout
+    rec = pool._do_get()
+          ^^^^^^^^^^^^^^
+/usr/local/lib/python3.13/site-packages/sqlalchemy/pool/impl.py:176: in _do_get
+    with util.safe_reraise():
+         ^^^^^^^^^^^^^^^^^^^
+/usr/local/lib/python3.13/site-packages/sqlalchemy/util/langhelpers.py:166: in __exit__
+    raise exc_value.with_traceback(exc_tb)
+/usr/local/lib/python3.13/site-packages/sqlalchemy/pool/impl.py:174: in _do_get
+    return self._create_connection()
+           ^^^^^^^^^^^^^^^^^^^^^^^^^
+/usr/local/lib/python3.13/site-packages/sqlalchemy/pool/base.py:386: in _create_connection
+    return _ConnectionRecord(self)
+           ^^^^^^^^^^^^^^^^^^^^^^^
+/usr/local/lib/python3.13/site-packages/sqlalchemy/pool/base.py:671: in __init__
+    self.__connect()
+/usr/local/lib/python3.13/site-packages/sqlalchemy/pool/base.py:916: in __connect
+    with util.safe_reraise():
+         ^^^^^^^^^^^^^^^^^^^
+/usr/local/lib/python3.13/site-packages/sqlalchemy/util/langhelpers.py:166: in __exit__
+    raise exc_value.with_traceback(exc_tb)
+/usr/local/lib/python3.13/site-packages/sqlalchemy/pool/base.py:912: in __connect
+    self.dbapi_connection = connection = pool._invoke_creator(self)
+                                         ^^^^^^^^^^^^^^^^^^^^^^^^^^
+/usr/local/lib/python3.13/site-packages/sqlalchemy/engine/create.py:645: in connect
+    return dialect.connect(*cargs_tup, **cparams)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+/usr/local/lib/python3.13/site-packages/sqlalchemy/engine/default.py:869: in connect
+    return self.loaded_dbapi.connect(*cargs, **cparams)  # type: ignore[no-any-return]  # NOQA: E501
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+dsn = 'host=localhost dbname=gd_teste user=gd_teste password=gd_teste_local port=5432'
+connection_factory = None, cursor_factory = None
+kwargs = {'host': 'localhost', 'dbname': 'gd_teste', 'user': 'gd_teste', 'password': 'gd_teste_local', ...}
+
+    def connect(dsn=None, connection_factory=None, cursor_factory=None, **kwargs):
+        """
+        Create a new database connection.
+    
+        The connection parameters can be specified as a string:
+    
+            conn = psycopg2.connect("dbname=test user=postgres password=secret")
+    
+        or using a set of keyword arguments:
+    
+            conn = psycopg2.connect(database="test", user="postgres", password="secret")
+    
+        Or as a mix of both. The basic connection parameters are:
+    
+        - *dbname*: the database name
+        - *database*: the database name (only as keyword argument)
+        - *user*: user name used to authenticate
+        - *password*: password used to authenticate
+        - *host*: database host address (defaults to UNIX socket if not provided)
+        - *port*: connection port number (defaults to 5432 if not provided)
+    
+        Using the *connection_factory* parameter a different class or connections
+        factory can be specified. It should be a callable object taking a dsn
+        argument.
+    
+        Using the *cursor_factory* parameter, a new default cursor factory will be
+        used by cursor().
+    
+        Using *async*=True an asynchronous connection will be created. *async_* is
+        a valid alias (for Python versions where ``async`` is a keyword).
+    
+        Any other keyword parameter will be passed to the underlying client
+        library: the list of supported parameters depends on the library version.
+    
+        """
+        kwasync = {}
+        if 'async' in kwargs:
+            kwasync['async'] = kwargs.pop('async')
+        if 'async_' in kwargs:
+            kwasync['async_'] = kwargs.pop('async_')
+    
+        dsn = _ext.make_dsn(dsn, **kwargs)
+>       conn = _connect(dsn, connection_factory=connection_factory, **kwasync)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       psycopg2.OperationalError: connection to server at "localhost" (127.0.0.1), port 5432 failed: Connection refused
+E       	Is the server running on that host and accepting TCP/IP connections?
+
+/usr/local/lib/python3.13/site-packages/psycopg2/__init__.py:122: OperationalError
+
+The above exception was the direct cause of the following exception:
+
+    @pytest.fixture(scope="session", autouse=True)
+    def _schema():
+        if EH_PG:
+            raiz = Path(__file__).resolve().parents[1]
+>           with engine.begin() as c:
+                 ^^^^^^^^^^^^^^
+
+tests/conftest.py:39: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+/usr/local/lib/python3.13/contextlib.py:141: in __enter__
+    return next(self.gen)
+           ^^^^^^^^^^^^^^
+/usr/local/lib/python3.13/site-packages/sqlalchemy/engine/base.py:3239: in begin
+    with self.connect() as conn:
+         ^^^^^^^^^^^^^^
+/usr/local/lib/python3.13/site-packages/sqlalchemy/engine/base.py:3275: in connect
+    return self._connection_cls(self)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^
+/usr/local/lib/python3.13/site-packages/sqlalchemy/engine/base.py:151: in __init__
+    Connection._handle_dbapi_exception_noconnection(
+/usr/local/lib/python3.13/site-packages/sqlalchemy/engine/base.py:2432: in _handle_dbapi_exception_noconnection
+    raise sqlalchemy_exception.with_traceback(exc_info[2]) from e
+/usr/local/lib/python3.13/site-packages/sqlalchemy/engine/base.py:149: in __init__
+    self._dbapi_connection = engine.raw_connection()
+                             ^^^^^^^^^^^^^^^^^^^^^^^
+/usr/local/lib/python3.13/site-packages/sqlalchemy/engine/base.py:3299: in raw_connection
+    return self.pool.connect()
+           ^^^^^^^^^^^^^^^^^^^
+/usr/local/lib/python3.13/site-packages/sqlalchemy/pool/base.py:445: in connect
+    return _ConnectionFairy._checkout(self)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+/usr/local/lib/python3.13/site-packages/sqlalchemy/pool/base.py:1324: in _checkout
+    fairy = _ConnectionRecord.checkout(pool)
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+/usr/local/lib/python3.13/site-packages/sqlalchemy/pool/base.py:709: in checkout
+    rec = pool._do_get()
+          ^^^^^^^^^^^^^^
+/usr/local/lib/python3.13/site-packages/sqlalchemy/pool/impl.py:176: in _do_get
+    with util.safe_reraise():
+         ^^^^^^^^^^^^^^^^^^^
+/usr/local/lib/python3.13/site-packages/sqlalchemy/util/langhelpers.py:166: in __exit__
+    raise exc_value.with_traceback(exc_tb)
+/usr/local/lib/python3.13/site-packages/sqlalchemy/pool/impl.py:174: in _do_get
+    return self._create_connection()
+           ^^^^^^^^^^^^^^^^^^^^^^^^^
+/usr/local/lib/python3.13/site-packages/sqlalchemy/pool/base.py:386: in _create_connection
+    return _ConnectionRecord(self)
+           ^^^^^^^^^^^^^^^^^^^^^^^
+/usr/local/lib/python3.13/site-packages/sqlalchemy/pool/base.py:671: in __init__
+    self.__connect()
+/usr/local/lib/python3.13/site-packages/sqlalchemy/pool/base.py:916: in __connect
+    with util.safe_reraise():
+         ^^^^^^^^^^^^^^^^^^^
+/usr/local/lib/python3.13/site-packages/sqlalchemy/util/langhelpers.py:166: in __exit__
+    raise exc_value.with_traceback(exc_tb)
+/usr/local/lib/python3.13/site-packages/sqlalchemy/pool/base.py:912: in __connect
+    self.dbapi_connection = connection = pool._invoke_creator(self)
+                                         ^^^^^^^^^^^^^^^^^^^^^^^^^^
+/usr/local/lib/python3.13/site-packages/sqlalchemy/engine/create.py:645: in connect
+    return dialect.connect(*cargs_tup, **cparams)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+/usr/local/lib/python3.13/site-packages/sqlalchemy/engine/default.py:869: in connect
+    return self.loaded_dbapi.connect(*cargs, **cparams)  # type: ignore[no-any-return]  # NOQA: E501
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+dsn = 'host=localhost dbname=gd_teste user=gd_teste password=gd_teste_local port=5432'
+connection_factory = None, cursor_factory = None
+kwargs = {'host': 'localhost', 'dbname': 'gd_teste', 'user': 'gd_teste', 'password': 'gd_teste_local', ...}
+
+    def connect(dsn=None, connection_factory=None, cursor_factory=None, **kwargs):
+        """
+        Create a new database connection.
+    
+        The connection parameters can be specified as a string:
+    
+            conn = psycopg2.connect("dbname=test user=postgres password=secret")
+    
+        or using a set of keyword arguments:
+    
+            conn = psycopg2.connect(database="test", user="postgres", password="secret")
+    
+        Or as a mix of both. The basic connection parameters are:
+    
+        - *dbname*: the database name
+        - *database*: the database name (only as keyword argument)
+        - *user*: user name used to authenticate
+        - *password*: password used to authenticate
+        - *host*: database host address (defaults to UNIX socket if not provided)
+        - *port*: connection port number (defaults to 5432 if not provided)
+    
+        Using the *connection_factory* parameter a different class or connections
+        factory can be specified. It should be a callable object taking a dsn
+        argument.
+    
+        Using the *cursor_factory* parameter, a new default cursor factory will be
+        used by cursor().
+    
+        Using *async*=True an asynchronous connection will be created. *async_* is
+        a valid alias (for Python versions where ``async`` is a keyword).
+    
+        Any other keyword parameter will be passed to the underlying client
+        library: the list of supported parameters depends on the library version.
+    
+        """
+        kwasync = {}
+        if 'async' in kwargs:
+            kwasync['async'] = kwargs.pop('async')
+        if 'async_' in kwargs:
+            kwasync['async_'] = kwargs.pop('async_')
+    
+        dsn = _ext.make_dsn(dsn, **kwargs)
+>       conn = _connect(dsn, connection_factory=connection_factory, **kwasync)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       sqlalchemy.exc.OperationalError: (psycopg2.OperationalError) connection to server at "localhost" (127.0.0.1), port 5432 failed: Connection refused
+E       	Is the server running on that host and accepting TCP/IP connections?
+E       
+E       (Background on this error at: https://sqlalche.me/e/21/e3q8)
+
+/usr/local/lib/python3.13/site-packages/psycopg2/__init__.py:122: OperationalError
+_________ ERROR at setup of test_exigir_perfil_bloqueia_quem_nao_pode __________
+
+self = <sqlalchemy.engine.base.Connection object at 0x7f583518cec0>
+engine = Engine(postgresql+psycopg2://gd_teste:***@localhost:5432/gd_teste)
+connection = None, _has_events = None, _allow_revalidate = True
+_allow_autobegin = True
+
+    def __init__(
+        self,
+        engine: Engine,
+        connection: Optional[PoolProxiedConnection] = None,
+        _has_events: Optional[bool] = None,
+        _allow_revalidate: bool = True,
+        _allow_autobegin: bool = True,
+    ):
+        """Construct a new Connection."""
+        self.engine = engine
+        self.dialect = dialect = engine.dialect
+    
+        if connection is None:
+            try:
+>               self._dbapi_connection = engine.raw_connection()
+                                         ^^^^^^^^^^^^^^^^^^^^^^^
+
+/usr/local/lib/python3.13/site-packages/sqlalchemy/engine/base.py:149: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+/usr/local/lib/python3.13/site-packages/sqlalchemy/engine/base.py:3299: in raw_connection
+    return self.pool.connect()
+           ^^^^^^^^^^^^^^^^^^^
+/usr/local/lib/python3.13/site-packages/sqlalchemy/pool/base.py:445: in connect
+    return _ConnectionFairy._checkout(self)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+/usr/local/lib/python3.13/site-packages/sqlalchemy/pool/base.py:1324: in _checkout
+    fairy = _ConnectionRecord.checkout(pool)
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+/usr/local/lib/python3.13/site-packages/sqlalchemy/pool/base.py:709: in checkout
+    rec = pool._do_get()
+          ^^^^^^^^^^^^^^
+/usr/local/lib/python3.13/site-packages/sqlalchemy/pool/impl.py:176: in _do_get
+    with util.safe_reraise():
+         ^^^^^^^^^^^^^^^^^^^
+/usr/local/lib/python3.13/site-packages/sqlalchemy/util/langhelpers.py:166: in __exit__
+    raise exc_value.with_traceback(exc_tb)
+/usr/local/lib/python3.13/site-packages/sqlalchemy/pool/impl.py:174: in _do_get
+    return self._create_connection()
+           ^^^^^^^^^^^^^^^^^^^^^^^^^
+/usr/local/lib/python3.13/site-packages/sqlalchemy/pool/base.py:386: in _create_connection
+    return _ConnectionRecord(self)
+           ^^^^^^^^^^^^^^^^^^^^^^^
+/usr/local/lib/python3.13/site-packages/sqlalchemy/pool/base.py:671: in __init__
+    self.__connect()
+/usr/local/lib/python3.13/site-packages/sqlalchemy/pool/base.py:916: in __connect
+    with util.safe_reraise():
+         ^^^^^^^^^^^^^^^^^^^
+/usr/local/lib/python3.13/site-packages/sqlalchemy/util/langhelpers.py:166: in __exit__
+    raise exc_value.with_traceback(exc_tb)
+/usr/local/lib/python3.13/site-packages/sqlalchemy/pool/base.py:912: in __connect
+    self.dbapi_connection = connection = pool._invoke_creator(self)
+                                         ^^^^^^^^^^^^^^^^^^^^^^^^^^
+/usr/local/lib/python3.13/site-packages/sqlalchemy/engine/create.py:645: in connect
+    return dialect.connect(*cargs_tup, **cparams)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+/usr/local/lib/python3.13/site-packages/sqlalchemy/engine/default.py:869: in connect
+    return self.loaded_dbapi.connect(*cargs, **cparams)  # type: ignore[no-any-return]  # NOQA: E501
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+dsn = 'host=localhost dbname=gd_teste user=gd_teste password=gd_teste_local port=5432'
+connection_factory = None, cursor_factory = None
+kwargs = {'host': 'localhost', 'dbname': 'gd_teste', 'user': 'gd_teste', 'password': 'gd_teste_local', ...}
+
+    def connect(dsn=None, connection_factory=None, cursor_factory=None, **kwargs):
+        """
+        Create a new database connection.
+    
+        The connection parameters can be specified as a string:
+    
+            conn = psycopg2.connect("dbname=test user=postgres password=secret")
+    
+        or using a set of keyword arguments:
+    
+            conn = psycopg2.connect(database="test", user="postgres", password="secret")
+    
+        Or as a mix of both. The basic connection parameters are:
+    
+        - *dbname*: the database name
+        - *database*: the database name (only as keyword argument)
+        - *user*: user name used to authenticate
+        - *password*: password used to authenticate
+        - *host*: database host address (defaults to UNIX socket if not provided)
+        - *port*: connection port number (defaults to 5432 if not provided)
+    
+        Using the *connection_factory* parameter a different class or connections
+        factory can be specified. It should be a callable object taking a dsn
+        argument.
+    
+        Using the *cursor_factory* parameter, a new default cursor factory will be
+        used by cursor().
+    
+        Using *async*=True an asynchronous connection will be created. *async_* is
+        a valid alias (for Python versions where ``async`` is a keyword).
+    
+        Any other keyword parameter will be passed to the underlying client
+        library: the list of supported parameters depends on the library version.
+    
+        """
+        kwasync = {}
+        if 'async' in kwargs:
+            kwasync['async'] = kwargs.pop('async')
+        if 'async_' in kwargs:
+            kwasync['async_'] = kwargs.pop('async_')
+    
+        dsn = _ext.make_dsn(dsn, **kwargs)
+>       conn = _connect(dsn, connection_factory=connection_factory, **kwasync)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       psycopg2.OperationalError: connection to server at "localhost" (127.0.0.1), port 5432 failed: Connection refused
+E       	Is the server running on that host and accepting TCP/IP connections?
+
+/usr/local/lib/python3.13/site-packages/psycopg2/__init__.py:122: OperationalError
+
+The above exception was the direct cause of the following exception:
+
+    @pytest.fixture(scope="session", autouse=True)
+    def _schema():
+        if EH_PG:
+            raiz = Path(__file__).resolve().parents[1]
+>           with engine.begin() as c:
+                 ^^^^^^^^^^^^^^
+
+tests/conftest.py:39: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+/usr/local/lib/python3.13/contextlib.py:141: in __enter__
+    return next(self.gen)
+           ^^^^^^^^^^^^^^
+/usr/local/lib/python3.13/site-packages/sqlalchemy/engine/base.py:3239: in begin
+    with self.connect() as conn:
+         ^^^^^^^^^^^^^^
+/usr/local/lib/python3.13/site-packages/sqlalchemy/engine/base.py:3275: in connect
+    return self._connection_cls(self)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^
+/usr/local/lib/python3.13/site-packages/sqlalchemy/engine/base.py:151: in __init__
+    Connection._handle_dbapi_exception_noconnection(
+/usr/local/lib/python3.13/site-packages/sqlalchemy/engine/base.py:2432: in _handle_dbapi_exception_noconnection
+    raise sqlalchemy_exception.with_traceback(exc_info[2]) from e
+/usr/local/lib/python3.13/site-packages/sqlalchemy/engine/base.py:149: in __init__
+    self._dbapi_connection = engine.raw_connection()
+                             ^^^^^^^^^^^^^^^^^^^^^^^
+/usr/local/lib/python3.13/site-packages/sqlalchemy/engine/base.py:3299: in raw_connection
+    return self.pool.connect()
+           ^^^^^^^^^^^^^^^^^^^
+/usr/local/lib/python3.13/site-packages/sqlalchemy/pool/base.py:445: in connect
+    return _ConnectionFairy._checkout(self)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+/usr/local/lib/python3.13/site-packages/sqlalchemy/pool/base.py:1324: in _checkout
+    fairy = _ConnectionRecord.checkout(pool)
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+/usr/local/lib/python3.13/site-packages/sqlalchemy/pool/base.py:709: in checkout
+    rec = pool._do_get()
+          ^^^^^^^^^^^^^^
+/usr/local/lib/python3.13/site-packages/sqlalchemy/pool/impl.py:176: in _do_get
+    with util.safe_reraise():
+         ^^^^^^^^^^^^^^^^^^^
+/usr/local/lib/python3.13/site-packages/sqlalchemy/util/langhelpers.py:166: in __exit__
+    raise exc_value.with_traceback(exc_tb)
+/usr/local/lib/python3.13/site-packages/sqlalchemy/pool/impl.py:174: in _do_get
+    return self._create_connection()
+           ^^^^^^^^^^^^^^^^^^^^^^^^^
+/usr/local/lib/python3.13/site-packages/sqlalchemy/pool/base.py:386: in _create_connection
+    return _ConnectionRecord(self)
+           ^^^^^^^^^^^^^^^^^^^^^^^
+/usr/local/lib/python3.13/site-packages/sqlalchemy/pool/base.py:671: in __init__
+    self.__connect()
+/usr/local/lib/python3.13/site-packages/sqlalchemy/pool/base.py:916: in __connect
+    with util.safe_reraise():
+         ^^^^^^^^^^^^^^^^^^^
+/usr/local/lib/python3.13/site-packages/sqlalchemy/util/langhelpers.py:166: in __exit__
+    raise exc_value.with_traceback(exc_tb)
+/usr/local/lib/python3.13/site-packages/sqlalchemy/pool/base.py:912: in __connect
+    self.dbapi_connection = connection = pool._invoke_creator(self)
+                                         ^^^^^^^^^^^^^^^^^^^^^^^^^^
+/usr/local/lib/python3.13/site-packages/sqlalchemy/engine/create.py:645: in connect
+    return dialect.connect(*cargs_tup, **cparams)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+/usr/local/lib/python3.13/site-packages/sqlalchemy/engine/default.py:869: in connect
+    return self.loaded_dbapi.connect(*cargs, **cparams)  # type: ignore[no-any-return]  # NOQA: E501
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+dsn = 'host=localhost dbname=gd_teste user=gd_teste password=gd_teste_local port=5432'
+connection_factory = None, cursor_factory = None
+kwargs = {'host': 'localhost', 'dbname': 'gd_teste', 'user': 'gd_teste', 'password': 'gd_teste_local', ...}
+
+    def connect(dsn=None, connection_factory=None, cursor_factory=None, **kwargs):
+        """
+        Create a new database connection.
+    
+        The connection parameters can be specified as a string:
+    
+            conn = psycopg2.connect("dbname=test user=postgres password=secret")
+    
+        or using a set of keyword arguments:
+    
+            conn = psycopg2.connect(database="test", user="postgres", password="secret")
+    
+        Or as a mix of both. The basic connection parameters are:
+    
+        - *dbname*: the database name
+        - *database*: the database name (only as keyword argument)
+        - *user*: user name used to authenticate
+        - *password*: password used to authenticate
+        - *host*: database host address (defaults to UNIX socket if not provided)
+        - *port*: connection port number (defaults to 5432 if not provided)
+    
+        Using the *connection_factory* parameter a different class or connections
+        factory can be specified. It should be a callable object taking a dsn
+        argument.
+    
+        Using the *cursor_factory* parameter, a new default cursor factory will be
+        used by cursor().
+    
+        Using *async*=True an asynchronous connection will be created. *async_* is
+        a valid alias (for Python versions where ``async`` is a keyword).
+    
+        Any other keyword parameter will be passed to the underlying client
+        library: the list of supported parameters depends on the library version.
+    
+        """
+        kwasync = {}
+        if 'async' in kwargs:
+            kwasync['async'] = kwargs.pop('async')
+        if 'async_' in kwargs:
+            kwasync['async_'] = kwargs.pop('async_')
+    
+        dsn = _ext.make_dsn(dsn, **kwargs)
+>       conn = _connect(dsn, connection_factory=connection_factory, **kwasync)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       sqlalchemy.exc.OperationalError: (psycopg2.OperationalError) connection to server at "localhost" (127.0.0.1), port 5432 failed: Connection refused
+E       	Is the server running on that host and accepting TCP/IP connections?
+E       
+E       (Background on this error at: https://sqlalche.me/e/21/e3q8)
+
+/usr/local/lib/python3.13/site-packages/psycopg2/__init__.py:122: OperationalError
+____________ ERROR at setup of test_tabelas_dos_modulos_no_metadata ____________
+
+self = <sqlalchemy.engine.base.Connection object at 0x7f583518cec0>
+engine = Engine(postgresql+psycopg2://gd_teste:***@localhost:5432/gd_teste)
+connection = None, _has_events = None, _allow_revalidate = True
+_allow_autobegin = True
+
+    def __init__(
+        self,
+        engine: Engine,
+        connection: Optional[PoolProxiedConnection] = None,
+        _has_events: Optional[bool] = None,
+        _allow_revalidate: bool = True,
+        _allow_autobegin: bool = True,
+    ):
+        """Construct a new Connection."""
+        self.engine = engine
+        self.dialect = dialect = engine.dialect
+    
+        if connection is None:
+            try:
+>               self._dbapi_connection = engine.raw_connection()
+                                         ^^^^^^^^^^^^^^^^^^^^^^^
+
+/usr/local/lib/python3.13/site-packages/sqlalchemy/engine/base.py:149: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+/usr/local/lib/python3.13/site-packages/sqlalchemy/engine/base.py:3299: in raw_connection
+    return self.pool.connect()
+           ^^^^^^^^^^^^^^^^^^^
+/usr/local/lib/python3.13/site-packages/sqlalchemy/pool/base.py:445: in connect
+    return _ConnectionFairy._checkout(self)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+/usr/local/lib/python3.13/site-packages/sqlalchemy/pool/base.py:1324: in _checkout
+    fairy = _ConnectionRecord.checkout(pool)
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+/usr/local/lib/python3.13/site-packages/sqlalchemy/pool/base.py:709: in checkout
+    rec = pool._do_get()
+          ^^^^^^^^^^^^^^
+/usr/local/lib/python3.13/site-packages/sqlalchemy/pool/impl.py:176: in _do_get
+    with util.safe_reraise():
+         ^^^^^^^^^^^^^^^^^^^
+/usr/local/lib/python3.13/site-packages/sqlalchemy/util/langhelpers.py:166: in __exit__
+    raise exc_value.with_traceback(exc_tb)
+/usr/local/lib/python3.13/site-packages/sqlalchemy/pool/impl.py:174: in _do_get
+    return self._create_connection()
+           ^^^^^^^^^^^^^^^^^^^^^^^^^
+/usr/local/lib/python3.13/site-packages/sqlalchemy/pool/base.py:386: in _create_connection
+    return _ConnectionRecord(self)
+           ^^^^^^^^^^^^^^^^^^^^^^^
+/usr/local/lib/python3.13/site-packages/sqlalchemy/pool/base.py:671: in __init__
+    self.__connect()
+/usr/local/lib/python3.13/site-packages/sqlalchemy/pool/base.py:916: in __connect
+    with util.safe_reraise():
+         ^^^^^^^^^^^^^^^^^^^
+/usr/local/lib/python3.13/site-packages/sqlalchemy/util/langhelpers.py:166: in __exit__
+    raise exc_value.with_traceback(exc_tb)
+/usr/local/lib/python3.13/site-packages/sqlalchemy/pool/base.py:912: in __connect
+    self.dbapi_connection = connection = pool._invoke_creator(self)
+                                         ^^^^^^^^^^^^^^^^^^^^^^^^^^
+/usr/local/lib/python3.13/site-packages/sqlalchemy/engine/create.py:645: in connect
+    return dialect.connect(*cargs_tup, **cparams)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+/usr/local/lib/python3.13/site-packages/sqlalchemy/engine/default.py:869: in connect
+    return self.loaded_dbapi.connect(*cargs, **cparams)  # type: ignore[no-any-return]  # NOQA: E501
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+dsn = 'host=localhost dbname=gd_teste user=gd_teste password=gd_teste_local port=5432'
+connection_factory = None, cursor_factory = None
+kwargs = {'host': 'localhost', 'dbname': 'gd_teste', 'user': 'gd_teste', 'password': 'gd_teste_local', ...}
+
+    def connect(dsn=None, connection_factory=None, cursor_factory=None, **kwargs):
+        """
+        Create a new database connection.
+    
+        The connection parameters can be specified as a string:
+    
+            conn = psycopg2.connect("dbname=test user=postgres password=secret")
+    
+        or using a set of keyword arguments:
+    
+            conn = psycopg2.connect(database="test", user="postgres", password="secret")
+    
+        Or as a mix of both. The basic connection parameters are:
+    
+        - *dbname*: the database name
+        - *database*: the database name (only as keyword argument)
+        - *user*: user name used to authenticate
+        - *password*: password used to authenticate
+        - *host*: database host address (defaults to UNIX socket if not provided)
+        - *port*: connection port number (defaults to 5432 if not provided)
+    
+        Using the *connection_factory* parameter a different class or connections
+        factory can be specified. It should be a callable object taking a dsn
+        argument.
+    
+        Using the *cursor_factory* parameter, a new default cursor factory will be
+        used by cursor().
+    
+        Using *async*=True an asynchronous connection will be created. *async_* is
+        a valid alias (for Python versions where ``async`` is a keyword).
+    
+        Any other keyword parameter will be passed to the underlying client
+        library: the list of supported parameters depends on the library version.
+    
+        """
+        kwasync = {}
+        if 'async' in kwargs:
+            kwasync['async'] = kwargs.pop('async')
+        if 'async_' in kwargs:
+            kwasync['async_'] = kwargs.pop('async_')
+    
+        dsn = _ext.make_dsn(dsn, **kwargs)
+>       conn = _connect(dsn, connection_factory=connection_factory, **kwasync)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       psycopg2.OperationalError: connection to server at "localhost" (127.0.0.1), port 5432 failed: Connection refused
+E       	Is the server running on that host and accepting TCP/IP connections?
+
+/usr/local/lib/python3.13/site-packages/psycopg2/__init__.py:122: OperationalError
+
+The above exception was the direct cause of the following exception:
+
+    @pytest.fixture(scope="session", autouse=True)
+    def _schema():
+        if EH_PG:
+            raiz = Path(__file__).resolve().parents[1]
+>           with engine.begin() as c:
+                 ^^^^^^^^^^^^^^
+
+tests/conftest.py:39: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+/usr/local/lib/python3.13/contextlib.py:141: in __enter__
+    return next(self.gen)
+           ^^^^^^^^^^^^^^
+/usr/local/lib/python3.13/site-packages/sqlalchemy/engine/base.py:3239: in begin
+    with self.connect() as conn:
+         ^^^^^^^^^^^^^^
+/usr/local/lib/python3.13/site-packages/sqlalchemy/engine/base.py:3275: in connect
+    return self._connection_cls(self)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^
+/usr/local/lib/python3.13/site-packages/sqlalchemy/engine/base.py:151: in __init__
+    Connection._handle_dbapi_exception_noconnection(
+/usr/local/lib/python3.13/site-packages/sqlalchemy/engine/base.py:2432: in _handle_dbapi_exception_noconnection
+    raise sqlalchemy_exception.with_traceback(exc_info[2]) from e
+/usr/local/lib/python3.13/site-packages/sqlalchemy/engine/base.py:149: in __init__
+    self._dbapi_connection = engine.raw_connection()
+                             ^^^^^^^^^^^^^^^^^^^^^^^
+/usr/local/lib/python3.13/site-packages/sqlalchemy/engine/base.py:3299: in raw_connection
+    return self.pool.connect()
+           ^^^^^^^^^^^^^^^^^^^
+/usr/local/lib/python3.13/site-packages/sqlalchemy/pool/base.py:445: in connect
+    return _ConnectionFairy._checkout(self)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+/usr/local/lib/python3.13/site-packages/sqlalchemy/pool/base.py:1324: in _checkout
+    fairy = _ConnectionRecord.checkout(pool)
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+/usr/local/lib/python3.13/site-packages/sqlalchemy/pool/base.py:709: in checkout
+    rec = pool._do_get()
+          ^^^^^^^^^^^^^^
+/usr/local/lib/python3.13/site-packages/sqlalchemy/pool/impl.py:176: in _do_get
+    with util.safe_reraise():
+         ^^^^^^^^^^^^^^^^^^^
+/usr/local/lib/python3.13/site-packages/sqlalchemy/util/langhelpers.py:166: in __exit__
+    raise exc_value.with_traceback(exc_tb)
+/usr/local/lib/python3.13/site-packages/sqlalchemy/pool/impl.py:174: in _do_get
+    return self._create_connection()
+           ^^^^^^^^^^^^^^^^^^^^^^^^^
+/usr/local/lib/python3.13/site-packages/sqlalchemy/pool/base.py:386: in _create_connection
+    return _ConnectionRecord(self)
+           ^^^^^^^^^^^^^^^^^^^^^^^
+/usr/local/lib/python3.13/site-packages/sqlalchemy/pool/base.py:671: in __init__
+    self.__connect()
+/usr/local/lib/python3.13/site-packages/sqlalchemy/pool/base.py:916: in __connect
+    with util.safe_reraise():
+         ^^^^^^^^^^^^^^^^^^^
+/usr/local/lib/python3.13/site-packages/sqlalchemy/util/langhelpers.py:166: in __exit__
+    raise exc_value.with_traceback(exc_tb)
+/usr/local/lib/python3.13/site-packages/sqlalchemy/pool/base.py:912: in __connect
+    self.dbapi_connection = connection = pool._invoke_creator(self)
+                                         ^^^^^^^^^^^^^^^^^^^^^^^^^^
+/usr/local/lib/python3.13/site-packages/sqlalchemy/engine/create.py:645: in connect
+    return dialect.connect(*cargs_tup, **cparams)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+/usr/local/lib/python3.13/site-packages/sqlalchemy/engine/default.py:869: in connect
+    return self.loaded_dbapi.connect(*cargs, **cparams)  # type: ignore[no-any-return]  # NOQA: E501
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+dsn = 'host=localhost dbname=gd_teste user=gd_teste password=gd_teste_local port=5432'
+connection_factory = None, cursor_factory = None
+kwargs = {'host': 'localhost', 'dbname': 'gd_teste', 'user': 'gd_teste', 'password': 'gd_teste_local', ...}
+
+    def connect(dsn=None, connection_factory=None, cursor_factory=None, **kwargs):
+        """
+        Create a new database connection.
+    
+        The connection parameters can be specified as a string:
+    
+            conn = psycopg2.connect("dbname=test user=postgres password=secret")
+    
+        or using a set of keyword arguments:
+    
+            conn = psycopg2.connect(database="test", user="postgres", password="secret")
+    
+        Or as a mix of both. The basic connection parameters are:
+    
+        - *dbname*: the database name
+        - *database*: the database name (only as keyword argument)
+        - *user*: user name used to authenticate
+        - *password*: password used to authenticate
+        - *host*: database host address (defaults to UNIX socket if not provided)
+        - *port*: connection port number (defaults to 5432 if not provided)
+    
+        Using the *connection_factory* parameter a different class or connections
+        factory can be specified. It should be a callable object taking a dsn
+        argument.
+    
+        Using the *cursor_factory* parameter, a new default cursor factory will be
+        used by cursor().
+    
+        Using *async*=True an asynchronous connection will be created. *async_* is
+        a valid alias (for Python versions where ``async`` is a keyword).
+    
+        Any other keyword parameter will be passed to the underlying client
+        library: the list of supported parameters depends on the library version.
+    
+        """
+        kwasync = {}
+        if 'async' in kwargs:
+            kwasync['async'] = kwargs.pop('async')
+        if 'async_' in kwargs:
+            kwasync['async_'] = kwargs.pop('async_')
+    
+        dsn = _ext.make_dsn(dsn, **kwargs)
+>       conn = _connect(dsn, connection_factory=connection_factory, **kwasync)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       sqlalchemy.exc.OperationalError: (psycopg2.OperationalError) connection to server at "localhost" (127.0.0.1), port 5432 failed: Connection refused
+E       	Is the server running on that host and accepting TCP/IP connections?
+E       
+E       (Background on this error at: https://sqlalche.me/e/21/e3q8)
+
+/usr/local/lib/python3.13/site-packages/psycopg2/__init__.py:122: OperationalError
+- generated xml file: /home/user/CFFCODEGOV/contratos/TESTE-002/evidencias/OS-TESTE-002/MOD-100/LOGS_TESTES/backend-20261103T064715.xml -
+=========================== short test summary info ============================
+ERROR tests/test_mod100_base_modular.py::test_modulos_descobertos_e_registrados
+ERROR tests/test_mod100_base_modular.py::test_validadores_cpf_cnpj - sqlalche...
+ERROR tests/test_mod100_base_modular.py::test_exigir_perfil_bloqueia_quem_nao_pode
+ERROR tests/test_mod100_base_modular.py::test_tabelas_dos_modulos_no_metadata
+============================== 4 errors in 0.78s ===============================
+

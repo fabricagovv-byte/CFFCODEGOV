@@ -1,0 +1,10 @@
+$ (cd projetos/gestao-documental/backend && sh -c rm -f .check.db && DATABASE_URL=sqlite:///./.check.db python3 -m alembic upgrade head && DATABASE_URL=sqlite:///./.check.db python3 -m alembic check; s=$?; rm -f .check.db; exit $s)
+# início: 2026-11-03T06:48:26.985236-03:00
+# fim: 2026-11-03T06:48:29.451979-03:00
+# código de saída: 0
+# TEST_DATABASE_URL=postgresql+psycopg2://gd_teste:***@localhost:5432/gd_teste
+
+No new upgrade operations detected.
+
+JWT_SECRET não definido: usando segredo efêmero (apenas dev/test)
+JWT_SECRET não definido: usando segredo efêmero (apenas dev/test)

@@ -1,7 +1,7 @@
 {
   "contrato": "TESTE-002",
   "os": "OS-TESTE-002",
-  "gerado_em": "2026-11-03T01:09:11-03:00",
+  "gerado_em": "2026-11-03T06:49:09-03:00",
   "situacao_entrega": "PENDENTE_VERIFICACAO_HUMANA",
   "criticos_reprovados": [],
   "criticos_nao_verificados": [
@@ -586,7 +586,7 @@
       "metodo": "JUnit XML",
       "critico": true,
       "resultado": "APROVADO",
-      "evidencia": "33 testes, 0 falhas (contratos/TESTE-002/evidencias/OS-TESTE-002/MOD-102/LOGS_TESTES/backend-20261103T010440.xml)",
+      "evidencia": "33 testes, 0 falhas (contratos/TESTE-002/evidencias/OS-TESTE-002/MOD-102/LOGS_TESTES/backend-20261103T064858.xml)",
       "responsavel": "G17 (automático)",
       "data": "2026-11-03"
     },
@@ -597,7 +597,7 @@
       "metodo": "JUnit XML",
       "critico": true,
       "resultado": "APROVADO",
-      "evidencia": "6 testes, 0 falhas (contratos/TESTE-002/evidencias/OS-TESTE-002/MOD-102/LOGS_TESTES/frontend-20261103T010445.xml)",
+      "evidencia": "6 testes, 0 falhas (contratos/TESTE-002/evidencias/OS-TESTE-002/MOD-102/LOGS_TESTES/frontend-20261103T064904.xml)",
       "responsavel": "G17 (automático)",
       "data": "2026-11-03"
     },
@@ -1004,7 +1004,7 @@
       "metodo": "fabrica.py auditar",
       "critico": true,
       "resultado": "APROVADO",
-      "evidencia": "evidencias/OS-TESTE-002/AUDITORIA.md (2026-11-03T01:05)",
+      "evidencia": "evidencias/OS-TESTE-002/AUDITORIA.md (2026-11-03T06:49)",
       "responsavel": "G17 (automático)",
       "data": "2026-11-03"
     },

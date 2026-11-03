@@ -7,7 +7,7 @@ As instruções gerais da fábrica estão em AGENTS.md (compartilhadas com o Cod
 ## Específico do Claude Code
 
 - **Início de sessão:** se o usuário não fez um pedido específico, rode a skill `/proximo-passo` e diga o que falta e a próxima ação.
-- **Agentes:** `.claude/agents/*.md` (40 subagentes) são **gerados** de `fabrica/agentes/registry.yaml` com
+- **Agentes:** `.claude/agents/*.md` (44 subagentes) são **gerados** de `fabrica/agentes/registry.yaml` com
   `python3 fabrica/ferramentas/fabrica.py agentes gerar`. Edite o registro, não os arquivos gerados. Depois de gerar,
   reinicie a sessão (ou use `/agents`) para o Claude Code recarregar.
 - **Delegação:** para tarefas paralelas, delegue ao subagente do papel (ex.: `g13-revisor-codigo` para revisão independente,

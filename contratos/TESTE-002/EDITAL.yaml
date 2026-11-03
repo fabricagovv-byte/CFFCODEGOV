@@ -1,4 +1,25 @@
-# TESTE-002 (FICTÍCIO): exigências de demonstração.
+# TESTE-002 (FICTÍCIO): exigências de DEMONSTRAÇÃO — não vêm de edital real.
 relatorios_exigidos: [abertura, diario, fechamento, semanal, mensal, planejamento]
 medicao: {unidade: UST}
 tecnologias_exigidas: [{nome: React, origem: "demonstração"}, {nome: FastAPI, origem: "demonstração"}, {nome: PostgreSQL, origem: "demonstração"}]
+equipe_exigida:
+  - {perfil: "Desenvolvedor Sênior", quantidade: 1, palavras_chave: ["desenvolvedor senior", "desenvolvedora senior"], experiencia_anos: 5, origem: "FICTÍCIO — TR demo 7.1"}
+  - {perfil: "Analista de Testes", quantidade: 1, palavras_chave: ["testes", "qualidade"], origem: "FICTÍCIO — TR demo 7.2"}
+servicos:
+  - {codigo: SRV-BASE, nome: "Estrutura base de módulos", unidade: UST, origem: "FICTÍCIO — catálogo demo item 1",
+     explicacao_tecnica: "Infraestrutura que permite adicionar cadastros como módulos independentes: descoberta automática de modelos e rotas, validadores e permissões por perfil."}
+  - {codigo: SRV-CRUD-M, nome: "Cadastro média complexidade", unidade: UST, origem: "FICTÍCIO — catálogo demo item 2",
+     explicacao_tecnica: "Cadastro completo de uma entidade sem relacionamentos complexos: tabela e migração, API REST com validação, busca e paginação, exclusão lógica, auditoria, tela com lista e formulário, testes de API e de tela."}
+  - {codigo: SRV-CRUD-A, nome: "Cadastro alta complexidade com relacionamentos", unidade: UST, origem: "FICTÍCIO — catálogo demo item 3",
+     explicacao_tecnica: "Como o de média complexidade, com relacionamentos entre tabelas (chave estrangeira validada), listas de opções, campos monetários e de data e mais regras de validação."}
+  - {codigo: SRV-REL, nome: "Relatório gerencial com filtros", unidade: UST, origem: "FICTÍCIO — catálogo demo item 4",
+     explicacao_tecnica: "Consulta agregada com filtros por período e categoria, tabela e exportação, com testes dos totais."}
+habilitacao:
+  - {grupo: "Habilitação jurídica", documento: "Ato constitutivo e alterações", exigencia: "vigente", origem: "FICTÍCIO — Edital demo 9.1", situacao: "a verificar"}
+  - {grupo: "Regularidade fiscal e trabalhista", documento: "CND federal, FGTS, CNDT", exigencia: "válidas na data da sessão", origem: "FICTÍCIO — Edital demo 9.2", situacao: "a verificar"}
+  - {grupo: "Qualificação técnica", documento: "Atestado de capacidade técnica", exigencia: "desenvolvimento de sistema web com banco relacional", origem: "FICTÍCIO — Edital demo 9.3", situacao: "a verificar"}
+  - {grupo: "Econômico-financeira", documento: "Balanço patrimonial e certidão de falência", exigencia: "último exercício", origem: "FICTÍCIO — Edital demo 9.4", situacao: "a verificar"}
+slas:
+  - {indicador: "Prazo de entrega da OS", meta: "até a data da OS", medicao: "data de entrega − prazo", glosa: "1% por dia útil de atraso, até 10%", origem: "FICTÍCIO — TR demo 11.1"}
+  - {indicador: "Defeitos na homologação", meta: "0 defeito crítico", medicao: "defeitos críticos abertos no aceite", glosa: "5% do valor da OS por defeito crítico", origem: "FICTÍCIO — TR demo 11.2"}
+pagamento: {regra: "mensal, após aceite definitivo da OS (FICTÍCIO — Contrato demo cláusula 6)"}

@@ -32,7 +32,15 @@ from zoneinfo import ZoneInfo
 
 import yaml
 
-TZ = ZoneInfo(os.environ.get("FABRICA_TZ", "America/Sao_Paulo"))
+def _fuso_configurado() -> str:
+    p = Path(os.environ.get("FABRICA_RAIZ", Path(__file__).resolve().parents[2])) / "fabrica" / "CONFIGURACAO_FABRICA.yaml"
+    try:
+        return (yaml.safe_load(p.read_text(encoding="utf-8")) or {}).get("fuso_horario") or "America/Sao_Paulo"
+    except (OSError, yaml.YAMLError):
+        return "America/Sao_Paulo"
+
+
+TZ = ZoneInfo(os.environ.get("FABRICA_TZ") or _fuso_configurado())
 RAIZ = Path(os.environ.get("FABRICA_RAIZ", Path(__file__).resolve().parents[2]))
 FAB = RAIZ / "fabrica"
 COM = FAB / "comunicacao"
@@ -155,7 +163,7 @@ def exportar_word(md: Path, cid: str | None = None, periodo: str = "", classific
     """Gera a versão Word (.docx) de um documento Markdown da fábrica (capa, cabeçalho, rodapé, tabelas).
 
     Desligue com FABRICA_WORD=0. Sem Node/biblioteca docx, avisa e segue (o .md continua valendo)."""
-    if os.environ.get("FABRICA_WORD", "1") == "0":
+    if os.environ.get("FABRICA_WORD", "1") == "0" or configuracao().get("gerar_word") is False:
         return None
     meta = {"periodo": periodo, "classificacao": classificacao, "subtitulo": subtitulo, "gerado_em": agora()[:16].replace("T", " "),
             "sem_capa": not capa}
@@ -239,7 +247,7 @@ def gerar_tabela_equipe(reg: dict) -> Path:
     """Documento legível com a equipe de agentes (para o usuário e para o Codex)."""
     L = ["# Equipe de agentes da Fábrica", "",
          "Gerado por `fabrica.py agentes gerar` a partir de `fabrica/agentes/registry.yaml`.", ""]
-    for equipe, titulo in (("governanca", "Fábrica Governamental (G01–G20)"), ("engenharia", "Engenharia de Software (E01–E20)")):
+    for equipe, titulo in (("governanca", "Fábrica Governamental (G01–G24)"), ("engenharia", "Engenharia de Software (E01–E20)")):
         L += [f"## {titulo}", "", "| ID | Agente | Função | Ferramentas | Equivale |", "|---|---|---|---|---|"]
         for a in reg["agentes"]:
             if a["equipe"] == equipe:
@@ -259,10 +267,10 @@ def verificar_agentes() -> list[str]:
     ids = [a["id"] for a in reg["agentes"]]
     if len(ids) != len(set(ids)):
         problemas.append("IDs de agentes duplicados no registro")
-    for equipe in ("governanca", "engenharia"):
+    for equipe, esperado in (("governanca", 24), ("engenharia", 20)):
         n = sum(1 for a in reg["agentes"] if a["equipe"] == equipe)
-        if n != 20:
-            problemas.append(f"equipe {equipe} tem {n} agentes (esperado 20)")
+        if n != esperado:
+            problemas.append(f"equipe {equipe} tem {n} agentes (esperado {esperado})")
     for a in reg["agentes"]:
         p = RAIZ / ".claude" / "agents" / f"{a['slug']}.md"
         if not p.exists():
@@ -2417,7 +2425,9 @@ def ppj(cid: str) -> Path:
 
 
 def dias_uteis(ini: date, fim: date) -> int:
-    return sum(1 for i in range((fim - ini).days + 1) if (ini + timedelta(days=i)).weekday() < 5)
+    feriados = {str(x) for x in configuracao()["jornada"].get("feriados") or []}
+    return sum(1 for i in range((fim - ini).days + 1)
+               if (ini + timedelta(days=i)).weekday() < 5 and (ini + timedelta(days=i)).isoformat() not in feriados)
 
 
 def carregar_planejamento(cid: str) -> list[dict]:
@@ -2427,9 +2437,10 @@ def carregar_planejamento(cid: str) -> list[dict]:
     return ler_tabela(p)
 
 
-def planejamento(cid: str, horas_dia: float = 8.0) -> Path:
+def planejamento(cid: str, horas_dia: float | None = None) -> Path:
     """Consolida o planejamento feito pelo usuário: por projeto UST, horas por perfil, valor, prazo e módulos;
     confronta com a capacidade da equipe, o saldo do contrato e o edital."""
+    horas_dia = horas_dia or float(configuracao()["jornada"]["horas_por_dia"])
     plano = carregar_planejamento(cid)
     profs = carregar_profissionais(cid)
     sd = saldo(cid)
@@ -2586,6 +2597,373 @@ def adicionar_profissional(cid: str, nome: str, funcao: str, area: str = "", sen
     return next(p["id"] for p in carregar_profissionais(cid) if p["nome"].lower() == nome.strip().lower())
 
 
+# ------------------------------------------------------- configuração central
+
+def configuracao() -> dict:
+    p = FAB / "CONFIGURACAO_FABRICA.yaml"
+    cfg = (ler_yaml(p) or {}) if p.exists() else {}
+    j = cfg.setdefault("jornada", {})
+    j.setdefault("horas_por_dia", 8); j.setdefault("aproveitamento", 0.8); j.setdefault("feriados", [])
+    cfg.setdefault("producao", {})
+    return cfg
+
+
+def verificar_configuracao() -> list[str]:
+    cfg = configuracao()
+    avisos = []
+    if not (cfg.get("empresa") or {}).get("razao_social"):
+        avisos.append("empresa.razao_social vazio")
+    j = cfg["jornada"]
+    if not (0 < float(j["horas_por_dia"]) <= 12):
+        avisos.append("jornada.horas_por_dia fora de 1..12")
+    if not (0 < float(j["aproveitamento"]) <= 1):
+        avisos.append("jornada.aproveitamento deve estar entre 0 e 1")
+    for f in j.get("feriados") or []:
+        try:
+            date.fromisoformat(str(f))
+        except ValueError:
+            avisos.append(f"feriado inválido: {f}")
+    if not (cfg["producao"].get("produtividade_horas_por_pf")):
+        avisos.append("producao.produtividade_horas_por_pf vazio (estimativa de PF/dia indisponível)")
+    return avisos
+
+
+# ------------------------------------------------- capacidade / estimativa de produção
+
+def capacidade(cid: str, dias: int = 21, simular: str = "") -> Path:
+    """ESTIMA quanto a equipe produz por dia e por mês (UST, PF, horas, valor). Não é medição."""
+    cfg = configuracao()
+    j, prod = cfg["jornada"], cfg["producao"]
+    hd, aprov = float(j["horas_por_dia"]), float(j["aproveitamento"])
+    _, perfis, med = catalogo(cid)
+    formula = str(med.get("formula") or "").upper()
+    h_pf = numero(med.get("produtividade_horas_por_pf")) or numero(prod.get("produtividade_horas_por_pf"))
+    ust_h_padrao = numero(prod.get("ust_por_hora_padrao"))
+    pessoas = []
+    if simular:  # "DESENVOLVEDOR_PLENO=3,ANALISTA_TESTES=1"
+        for par in simular.split(","):
+            perfil, _, n = par.partition("=")
+            for i in range(int(n or 1)):
+                pessoas.append({"nome": f"{perfil.strip()} #{i + 1} (simulado)", "funcao": perfil.strip(), "perfil": perfil.strip()})
+    else:
+        for p in carregar_profissionais(cid):
+            perfil = next((k for k in perfis if perfil_casa(p["funcao"], k)), "")
+            pessoas.append({"nome": p["nome"], "funcao": p["funcao"], "perfil": perfil})
+    linhas = []
+    for x in pessoas:
+        h = hd * aprov
+        pf_ = perfis.get(x["perfil"], {})
+        fator = numero(pf_.get("fator_ust_por_hora"))
+        ust = h * fator if (fator is not None and formula in ("HORAS_X_FATOR", "")) else (h * ust_h_padrao if ust_h_padrao else None)
+        vh = numero(pf_.get("valor_hora"))
+        linhas.append({**x, "horas_dia": h, "ust_dia": ust, "pf_dia": (h / h_pf) if h_pf else None, "valor_dia": h * vh if vh else None})
+    def soma(k):
+        vs = [l[k] for l in linhas if l[k] is not None]
+        return sum(vs) if vs else None
+    def f(v, casas=2):
+        return "—" if v is None else f"{v:.{casas}f}".replace(".", ",")
+    hist = None
+    if (dir_contrato(cid) / "PRODUCAO_HISTORICA.csv").exists() and _linhas_reais(dir_contrato(cid) / "PRODUCAO_HISTORICA.csv"):
+        hist = estatisticas_producao(dir_contrato(cid) / "PRODUCAO_HISTORICA.csv")
+    L = [f"# Capacidade e estimativa de produção — {cid}", "",
+         f"Gerado em {agora()} pelo Planejador de Cronograma e Capacidade (G24).", "",
+         "> **ESTIMATIVA.** Não é medição nem promessa ao órgão. A produção real sai do trabalho comprovado e do aceite. "
+         f"Premissas: {hd:g} h/dia × aproveitamento {aprov:g} = {hd * aprov:g} h produtivas por pessoa; "
+         f"UST pelo fator de cada perfil ({'fórmula ' + formula if formula else 'sem fórmula no contrato'}); "
+         f"PF por {f(h_pf, 1) + ' h/PF' if h_pf else 'produtividade não informada'}.", "",
+         "| Pessoa | Cargo | Perfil do catálogo | Horas produtivas/dia | UST/dia | PF/dia | Valor/dia |", "|---|---|---|---|---|---|---|"]
+    for l in linhas:
+        L.append(f"| {l['nome']} | {l['funcao']} | {l['perfil'] or 'sem perfil'} | {f(l['horas_dia'], 1)} | {f(l['ust_dia'])} | {f(l['pf_dia'])} | {brl(l['valor_dia']) if l['valor_dia'] else '—'} |")
+    if not linhas:
+        L.append("| — | nenhuma pessoa cadastrada (use --simular PERFIL=N) | | | | | |")
+    L += ["", "## Equipe inteira", "", "| Período | Horas | UST | PF | Valor |", "|---|---|---|---|---|",
+          f"| Por dia | {f(soma('horas_dia'), 1)} | {f(soma('ust_dia'))} | {f(soma('pf_dia'))} | {brl(soma('valor_dia')) if soma('valor_dia') else '—'} |",
+          f"| Por mês ({dias} dias úteis) | {f((soma('horas_dia') or 0) * dias, 0)} | {f(soma('ust_dia') * dias if soma('ust_dia') is not None else None)} | "
+          f"{f(soma('pf_dia') * dias if soma('pf_dia') is not None else None)} | {brl(soma('valor_dia') * dias) if soma('valor_dia') else '—'} |"]
+    if hist and hist["linhas"]:
+        L += ["", "## Comparação com o histórico real (aceito)", "", "| Profissional | Complexidade | OS | Média UST aceita por OS |", "|---|---|---|---|",
+              *[f"| {x['profissional']} | {x['complexidade']} | {x['os_registradas']} | {x['media_ust_por_os']:g} |" for x in hist["linhas"]]]
+    L += ["", "## Como melhorar a estimativa", "",
+          "- Informe a produtividade (h/PF) do contrato ou do seu histórico em `CONFIGURACAO_FABRICA.yaml` (producao.produtividade_horas_por_pf).",
+          "- Cadastre cargos que correspondam aos perfis do catálogo (PERFIS.csv).",
+          "- Preencha PRODUCAO_HISTORICA.csv com o que já foi aceito: a comparação mostra o quanto a estimativa está otimista.", ""]
+    p = dir_contrato(cid) / "CAPACIDADE.md"
+    p.write_text("\n".join(L), encoding="utf-8")
+    exportar_word(p, cid, subtitulo="Estimativa de produção por pessoa, dia e mês")
+    return p
+
+
+# --------------------------------------------------------- fluxo (grafo com checkpoints)
+
+NOS_FLUXO = ["autorizacao", "testes", "commits", "auditoria", "medicao", "relatorios", "checklist", "entrega"]
+
+
+def fluxo(cid: str, osid: str, retomar: bool = True, aprovado_por: str = "", ate: str | None = None) -> dict:
+    """Executa a OS do começo ao fim como um grafo de etapas, gravando um checkpoint por etapa.
+
+    Para quando algo falha e PAUSA quando precisa de um humano (autorização ou verificação humana do checklist).
+    Inspirado em LangGraph (execução durável + interrupções humanas), sem dependência externa."""
+    arq = dir_contrato(cid) / "fluxos" / f"{osid}.json"
+    estado = ler_json(arq) if (retomar and arq.exists()) else None
+    estado = estado or {"contrato": cid, "os": osid, "criado_em": agora(), "nos": {n: {"status": "PENDENTE"} for n in NOS_FLUXO}}
+    estado["situacao"] = "EXECUTANDO"
+
+    def salvar():
+        estado["atualizado_em"] = agora()
+        gravar_json(arq, estado)
+
+    def rodar(no: str, fn) -> bool:
+        info = estado["nos"][no]
+        if info.get("status") == "CONCLUIDO":
+            return True
+        info.update(status="EXECUTANDO", inicio=agora())
+        salvar()
+        try:
+            res = fn()
+        except ErroFabrica as e:
+            info.update(status="FALHOU", fim=agora(), erro=str(e))
+            estado["situacao"] = f"PARADO em {no}: {e}"
+            salvar()
+            return False
+        if isinstance(res, tuple) and res[0] in ("FALHOU", "PAUSA"):
+            info.update(status=res[0], fim=agora(), resultado=res[1])
+            estado["situacao"] = (f"PAUSADO em {no} (aguardando humano): {res[1]}" if res[0] == "PAUSA" else f"PARADO em {no}: {res[1]}")
+            salvar()
+            return False
+        info.update(status="CONCLUIDO", fim=agora(), resultado=res)
+        salvar()
+        return True
+
+    def n_autorizacao():
+        try:
+            exigir_autorizacao(carregar_os(cid, osid))
+        except ErroFabrica as e:
+            return ("PAUSA", str(e))
+        return "autorização registrada"
+
+    def n_testes():
+        r = executar_testes(cid, osid)
+        ruins = [m for m, x in r.items() if x["situacao"] != "APROVADO"]
+        tot = sum(x["resumo"]["testes"] for x in r.values())
+        return ("FALHOU", f"módulos com falha: {', '.join(ruins)} — corrigir e rodar com --retomar") if ruins else f"{tot} verificações aprovadas"
+
+    def n_auditoria():
+        a = auditar(cid, osid)
+        ruins = [m["modulo"] for m in a["modulos"] if m["tecnico"] != "APROVADO"]
+        return ("FALHOU", f"auditoria reprovada: {', '.join(ruins)}") if ruins else f"{len(a['modulos'])} módulos aprovados"
+
+    def n_medicao():
+        t_ = medir(cid, osid)["totais"]
+        return f"previsto {t_['previsto']:g} · comprovado {t_['comprovado']:g} · aceito {t_['aceito']:g}"
+
+    def n_relatorios():
+        relatorio(cid, "diario")
+        fechamento(cid)
+        return "relatório diário e fechamento gerados"
+
+    def n_checklist():
+        ck = checklist(cid, osid)
+        if ck["situacao_entrega"] == "BLOQUEADA":
+            return ("FALHOU", f"críticos reprovados: {', '.join(ck['criticos_reprovados'])}")
+        if ck["situacao_entrega"] == "PENDENTE_VERIFICACAO_HUMANA" and not aprovado_por:
+            return ("PAUSA", f"{len(ck['criticos_nao_verificados'])} controle(s) crítico(s) aguardam verificação humana — "
+                             "verifique e rode de novo com --aprovado-por \"Nome (cargo)\"")
+        if aprovado_por:
+            estado["aprovacao_humana"] = {"por": aprovado_por, "em": agora()}
+        return ck["situacao_entrega"]
+
+    passos = [("autorizacao", n_autorizacao), ("testes", n_testes), ("commits", lambda: f"{sum(coletar_commits(cid, osid).values())} commits"),
+              ("auditoria", n_auditoria), ("medicao", n_medicao), ("relatorios", n_relatorios), ("checklist", n_checklist),
+              ("entrega", lambda: rel(preparar_entrega(cid, osid)))]
+    for no, fn in passos:
+        if estado["nos"][no].get("status") in ("PAUSA", "FALHOU"):
+            estado["nos"][no]["status"] = "PENDENTE"  # nova tentativa
+        if not rodar(no, fn):
+            return estado
+        if ate and no == ate:
+            estado["situacao"] = f"PARADO a pedido após {no}"
+            salvar()
+            return estado
+    estado["situacao"] = "CONCLUIDO"
+    salvar()
+    return estado
+
+
+# ------------------------------------------------------------------ GEC completo
+
+def gec(cid: str) -> Path:
+    """Plano de Gestão da Execução Contratual completo, montado dos dados do contrato, do edital e do plano.
+
+    Separa ESTIMATIVA (plano, cronograma, custos) de EXECUÇÃO REAL (comprovado/aceito) e cita a origem de cada exigência."""
+    d = dir_contrato(cid)
+    c = ler_yaml(d / "contrato.yaml") or {}
+    ed = edital_cfg(cid)
+    edraw = (ler_yaml(d / "EDITAL.yaml") or {}) if (d / "EDITAL.yaml").exists() else {}
+    cont, ctr, med, tec = c.get("contratante") or {}, c.get("contrato") or {}, c.get("medicao") or {}, c.get("tecnico") or {}
+    profs = carregar_profissionais(cid)
+    cat, perfis, _ = catalogo(cid)
+    sd = saldo(cid)
+    un = sd["unidade"]
+    reg = carregar_registro()
+    def v(x, padrao="**a preencher**"):
+        return padrao if x in (None, "", []) else x
+    def f(x):
+        return "—" if x is None else f"{x:g}".replace(".", ",")
+    L = [f"# Plano de Gestão da Execução Contratual (GEC) — {cid}", "",
+         f"Gerado em {agora()} pelo Planejador GEC (G04) com apoio de G02, G21, G22, G23 e G24. Itens **a preencher** dependem do edital ou do responsável.", "",
+         "> **Legenda:** ESTIMATIVA = planejado/calculado antes da execução · REAL = comprovado (auditado) ou aceito pelo órgão. "
+         "Cada exigência indica a origem (documento, cláusula, página).", ""]
+    L += ["## 1. Identificação do contrato", "", "| Campo | Valor |", "|---|---|",
+          f"| Órgão contratante | {v(cont.get('orgao'))} |", f"| Esfera | {v(cont.get('esfera'))} |",
+          f"| Contrato / processo / edital | {v(ctr.get('numero'))} / {v(ctr.get('processo'))} / {v(ctr.get('edital'))} |",
+          f"| Regime jurídico | {v(ctr.get('regime_juridico'))} |", f"| Vigência | {v(ctr.get('vigencia_inicio'))} a {v(ctr.get('vigencia_fim'))} |",
+          f"| Valor global | {v(ctr.get('valor_global'))} |", f"| Gestor / fiscal do contrato | {v(cont.get('gestor_contrato'))} / {v(cont.get('fiscal_tecnico'))} |",
+          f"| Preposto da contratada | {v((c.get('equipe') or {}).get('preposto'))} |", ""]
+    L += ["## 2. Objeto e escopo", "", f"**Objeto:** {v(ctr.get('objeto'))}", "",
+          f"Tecnologias obrigatórias: {', '.join(tec.get('tecnologias_obrigatorias') or []) or 'a preencher'} · Banco: {v(tec.get('banco_de_dados'))} · "
+          f"Infraestrutura: {v(tec.get('infraestrutura'))}", "", "Matriz de rastreabilidade completa: `MATRIZ_RASTREABILIDADE.md`.", ""]
+    L += ["## 3. Serviços contratados — explicação técnica", ""]
+    servs = edraw.get("servicos") or []
+    if servs:
+        L += ["| Código | Serviço | Explicação técnica | Unidade | Origem |", "|---|---|---|---|---|"]
+        L += [f"| {s_.get('codigo', '')} | {s_.get('nome', '')} | {s_.get('explicacao_tecnica', 'a preencher')} | {s_.get('unidade', un)} | {s_.get('origem', 'a citar')} |" for s_ in servs]
+    else:
+        L.append("A preencher pelo Analista de Editais (G02) em `EDITAL.yaml` → `servicos` (código, nome, explicação técnica, unidade, origem).")
+    if cat:
+        L += ["", "**Catálogo de serviços × perfis (horas por execução):**", "", "| Serviço | Perfil | Horas | Origem |", "|---|---|---|---|"]
+        L += [f"| {cod} — {ln['servico']} | {ln['perfil']} | {ln['horas']} | {ln.get('referencia', '')} |" for cod, lns in cat.items() for ln in lns]
+    L += ["", "## 4. Equipe exigida × equipe designada", ""]
+    exig = ed.get("equipe_exigida") or []
+    if exig:
+        L += ["| Perfil exigido | Qtd | Requisitos | Origem |", "|---|---|---|---|"]
+        L += [f"| {e.get('perfil', '')} | {e.get('quantidade', 1)} | {', '.join(filter(None, [', '.join(e.get('certificacoes') or []), (str(e['experiencia_anos']) + ' anos') if e.get('experiencia_anos') else '', e.get('formacao', '')])) or '—'} | {e.get('origem', 'a citar')} |" for e in exig]
+    else:
+        L.append("Perfis exigidos: a preencher (EDITAL.yaml → equipe_exigida).")
+    L += ["", "**Designados:**", ""]
+    L += [f"- {p['nome']} — {p['funcao']}{' (' + p['senioridade'] + ')' if p.get('senioridade') else ''}" for p in profs] or \
+         ["- Nomes a informar no final (a fábrica trabalha com os perfis; os nomes entram no cadastro da equipe antes da entrega)."]
+    if (d / "CONFRONTO_EDITAL.md").exists():
+        L.append("\nConfronto completo edital × documento base: `CONFRONTO_EDITAL.md`.")
+    L += ["", "## 5. Organização: agentes de IA e responsabilidade humana", "",
+          "| Etapa | Agentes de IA | Responsável humano (aprova) |", "|---|---|---|",
+          "| Leitura do edital, habilitação, SLAs | G02, G21, G23 | Gestor do contrato |",
+          "| Planejamento, cronograma, custos | G04, G24, G22 | Gerente de projeto |",
+          "| Arquitetura e desenvolvimento | G05, G06–G09, E01–E13 | Responsável técnico |",
+          "| Testes, revisão, segurança | G12, G13, G10, E16–E18 | Responsável técnico |",
+          "| Evidências, medição, relatórios | G17, G15, G16, G19 | Gerente de projeto / preposto |",
+          "| Homologação e entrega | G20, G11 | Fiscal do órgão (aceite) |",
+          f"\nTotal: {len(reg['agentes'])} agentes de IA (lista em `fabrica/docs/EQUIPE_AGENTES.md`)."]
+    plano_j = ler_json(d / "PLANO_PROJETOS.json") if (d / "PLANO_PROJETOS.json").exists() else None
+    if not plano_j and (d / "PLANEJAMENTO.csv").exists() and _linhas_reais(d / "PLANEJAMENTO.csv"):
+        try:
+            planejamento(cid)
+            plano_j = ler_json(d / "PLANO_PROJETOS.json")
+        except ErroFabrica:
+            plano_j = None
+    L += ["", "## 6. Planejamento por projeto (ESTIMATIVA)", ""]
+    linhas = (plano_j or {}).get("linhas", [])
+    if linhas:
+        por: dict[str, list] = {}
+        for x in linhas:
+            por.setdefault(x["projeto"], []).append(x)
+        L += [f"| Projeto | Módulos | {un} | Horas | Valor | Início | Fim |", "|---|---|---|---|---|---|---|"]
+        for pj, xs in por.items():
+            L.append(f"| {pj} | {len(xs)} | {f(sum(x['quantidade'] for x in xs))} | {f(sum(x['horas'] for x in xs))} | {brl(sum(x['valor'] for x in xs))} | "
+                     f"{min(x['ini'] for x in xs)} | {max(x['fim_d'] for x in xs)} |")
+        L += ["", f"| Projeto | Módulo | Serviço | {un} | Horas | Início | Fim | Responsável |", "|---|---|---|---|---|---|---|---|"]
+        L += [f"| {x['projeto']} | {x['modulo']} {x['nome']} | {x['servico']} | {f(x['quantidade'])} | {f(x['horas'])} | {x['ini']} | {x['fim_d']} | {x.get('responsavel') or 'a definir'} |" for x in linhas]
+        # cronograma diário e mensal
+        dia_a_dia: dict[str, dict] = {}
+        feriados = {str(x) for x in configuracao()["jornada"].get("feriados") or []}
+        for x in linhas:
+            ini, fim = date.fromisoformat(x["ini"]), date.fromisoformat(x["fim_d"])
+            uteis = [ini + timedelta(days=i) for i in range((fim - ini).days + 1)
+                     if (ini + timedelta(days=i)).weekday() < 5 and (ini + timedelta(days=i)).isoformat() not in feriados]
+            for dd in uteis:
+                k = dd.isoformat()
+                e_ = dia_a_dia.setdefault(k, {"mods": [], "q": 0.0, "h": 0.0, "v": 0.0})
+                e_["mods"].append(x["modulo"]); e_["q"] += x["quantidade"] / len(uteis); e_["h"] += x["horas"] / len(uteis); e_["v"] += x["valor"] / len(uteis)
+        dias_ord = sorted(dia_a_dia)
+        L += ["", "## 7. Cronograma diário (ESTIMATIVA)", "", f"| Dia | Módulos em execução | Meta ({un}) | Horas | Valor |", "|---|---|---|---|---|"]
+        for k in dias_ord[:62]:
+            e_ = dia_a_dia[k]
+            L.append(f"| {k} | {', '.join(e_['mods'])} | {e_['q']:.2f} | {e_['h']:.1f} | {brl(e_['v'])} |")
+        if len(dias_ord) > 62:
+            L.append(f"| … | mais {len(dias_ord) - 62} dia(s) úteis | | | |")
+        meses: dict[str, dict] = {}
+        for k, e_ in dia_a_dia.items():
+            m_ = meses.setdefault(k[:7], {"q": 0.0, "h": 0.0, "v": 0.0, "dias": 0})
+            m_["q"] += e_["q"]; m_["h"] += e_["h"]; m_["v"] += e_["v"]; m_["dias"] += 1
+        L += ["", "## 8. Cronograma mensal e mensalidades (ESTIMATIVA)", "", f"| Mês | Dias úteis com execução | {un} | Horas | Mensalidade estimada |", "|---|---|---|---|---|"]
+        L += [f"| {k} | {m_['dias']} | {m_['q']:.2f} | {m_['h']:.1f} | {brl(m_['v'])} |" for k, m_ in sorted(meses.items())]
+        L.append(f"\nPagamento conforme o contrato: {v((edraw.get('pagamento') or {}).get('regra'), 'a preencher (EDITAL.yaml → pagamento.regra, ex.: mensal após aceite)')}.")
+    else:
+        L.append("Sem PLANEJAMENTO.csv preenchido: o plano por projeto, o cronograma diário/mensal e as mensalidades aparecem aqui quando o responsável preencher o plano.")
+    L += ["", "## 9. Medição e cálculos", "",
+          f"- Modalidade: {v(med.get('modalidade'))} · Metodologia: {v(med.get('metodologia'))} · Fórmula: {v(med.get('formula'))}",
+          f"- Quantidade contratada: {v(med.get('quantidade_contratada'))} · Valor unitário: {v(med.get('valor_unitario'))}",
+          f"- Medição parcial: {v(med.get('regra_medicao_parcial'))}", ""]
+    if perfis:
+        L += ["| Perfil | Valor/hora | Fator UST/hora | Origem |", "|---|---|---|---|"]
+        L += [f"| {k} | {brl(numero(p_.get('valor_hora')))} | {p_.get('fator_ust_por_hora', '—')} | {p_.get('referencia', '')} |" for k, p_ in perfis.items()]
+    hpf = numero(med.get("produtividade_horas_por_pf")) or numero(configuracao()["producao"].get("produtividade_horas_por_pf"))
+    L += ["", f"- Pontos de função: {'produtividade de ' + f(hpf) + ' h/PF (ESTIMATIVA de esforço)' if hpf else 'contagem pela metodologia do contrato (G16); produtividade h/PF não informada'}.",
+          "- Regras: previsto = OS; comprovado = auditoria aprovada; aceito = documento do órgão. UST/PF/horas só se convertem pela fórmula do contrato.", ""]
+    L += ["## 10. Custos estimados por perfil (ESTIMATIVA)", ""]
+    if linhas:
+        hp: dict[str, float] = {}
+        for x in linhas:
+            for k, h in x["horas_por_perfil"].items():
+                hp[k] = hp.get(k, 0) + h
+        L += ["| Perfil | Horas planejadas | Valor/hora | Custo estimado |", "|---|---|---|---|"]
+        tot = 0.0
+        for k, h in sorted(hp.items()):
+            vh = numero((perfis.get(k) or {}).get("valor_hora"))
+            tot += h * (vh or 0)
+            L.append(f"| {k} | {f(h)} | {brl(vh)} | {brl(h * vh) if vh else '—'} |")
+        L.append(f"| **Total** | **{f(sum(hp.values()))}** | | **{brl(tot)}** |")
+    else:
+        L.append("Depende do planejamento.")
+    L += ["", "## 11. Documentos de habilitação", ""]
+    hab = edraw.get("habilitacao") or []
+    if hab:
+        L += ["| Grupo | Documento | Exigência | Origem | Situação |", "|---|---|---|---|---|"]
+        L += [f"| {h.get('grupo', '')} | {h.get('documento', '')} | {h.get('exigencia', '')} | {h.get('origem', 'a citar')} | {h.get('situacao', 'a verificar')} |" for h in hab]
+    else:
+        L.append("A preencher pelo Analista de Habilitação (G21) em `EDITAL.yaml` → `habilitacao` (jurídica, fiscal/trabalhista, técnica, econômico-financeira).")
+    L += ["", "## 12. Níveis de serviço (SLA) e glosas", ""]
+    slas = edraw.get("slas") or []
+    if slas:
+        L += ["| Indicador | Meta | Como medir | Glosa | Origem |", "|---|---|---|---|---|"]
+        L += [f"| {s_.get('indicador', '')} | {s_.get('meta', '')} | {s_.get('medicao', '')} | {s_.get('glosa', '')} | {s_.get('origem', 'a citar')} |" for s_ in slas]
+    else:
+        L.append(f"A preencher pelo Analista de SLA (G23) em `EDITAL.yaml` → `slas`. Contrato: {v(med.get('glosas_e_sla'))}.")
+    L += ["", "## 13. Relatórios e evidências", "",
+          f"- Relatórios exigidos: {', '.join(map(str, ed.get('relatorios_exigidos') or [])) or 'a preencher'} (títulos adaptados ao edital).",
+          "- Todo dia: abertura, relatório diário e fechamento (Word).",
+          "- Por módulo: 15 evidências obrigatórias (escopo, requisitos, arquitetura, código alterado, commits, testes, logs, segurança, preview, capturas, revisões, responsáveis, medição, implantação, aceite).",
+          "- Checklist de 100 controles antes de cada entrega.", ""]
+    L += ["## 14. Riscos", ""]
+    alertas = (plano_j or {}).get("alertas", [])
+    bloq = [t for t in carregar_tarefas()["tarefas"] if t["contrato"] == cid and t["status"] == "BLOCKED"]
+    L += [f"- ⚠ {a}" for a in alertas] + [f"- ⛔ {t['id']}: {t['historico'][-1]['nota']}" for t in bloq] or ["- Nenhum risco registrado."]
+    L += ["", "## 15. Comunicação e controle de mudanças", "",
+          "- Canal com o órgão: gestor/fiscal do contrato. Relatórios diários e mensais em Word.",
+          "- Mudança de escopo = registro de decisão + nova linha no planejamento + aprovação humana + aditivo quando o contrato exigir.", ""]
+    L += ["## 16. ESTIMATIVA × EXECUÇÃO REAL", "",
+          f"| Medida | Planejado (ESTIMATIVA) | Comprovado (REAL) | Aceito (REAL) |", "|---|---|---|---|",
+          f"| {un} | {f((plano_j or {}).get('totais', {}).get('quantidade'))} | {f(sd['comprovado'])} | {f(sd['aceito'])} |",
+          f"| Saldo do contrato | — | {f(sd['saldo_projetado'])} (projetado) | {f(sd['saldo_oficial'])} (oficial) |", ""]
+    pp = proximo_passo(cid)
+    falta = [e["etapa"] for e in pp["etapas"] if not e["ok"]]
+    L += ["## 17. Pendências para completar este GEC", "", *([f"- {x}" for x in falta] or ["- Nenhuma."]), "",
+          "---", "Aprovação humana do GEC: **pendente** (responsável técnico e gestor do contrato).", ""]
+    p = d / "GEC.md"
+    p.write_text("\n".join(L), encoding="utf-8")
+    exportar_word(p, cid, subtitulo="Plano de Gestão da Execução Contratual")
+    return p
+
+
 # ------------------------------------------------------------- próximo passo
 
 def _linhas_reais(p: Path) -> int:
@@ -2603,7 +2981,7 @@ def proximo_passo(cid: str | None = None, dia: str | None = None) -> dict:
     agentes_ok = not verificar_agentes()
     word_ok = subprocess.run(["node", "-e", "require('docx')"], capture_output=True, cwd=FAB / "ferramentas").returncode == 0 \
         if shutil.which("node") else False
-    etapa("Fábrica configurada (40 agentes, comandos, regras)", agentes_ok, "Diga: INICIAR FÁBRICA", "fabrica.py agentes gerar && fabrica.py iniciar")
+    etapa("Fábrica configurada (44 agentes, comandos, regras)", agentes_ok, "Diga: INICIAR FÁBRICA", "fabrica.py agentes gerar && fabrica.py iniciar")
     etapa("Gerador de Word disponível", word_ok, "Rode uma vez: npm install --prefix fabrica/ferramentas", "npm install --prefix fabrica/ferramentas")
     contratos = sorted(p.name for p in CONTRATOS.iterdir() if p.is_dir() and (p / "contrato.yaml").exists()) if CONTRATOS.exists() else []
     if not cid:
@@ -2691,6 +3069,7 @@ def gerar_pacotes(destino: Path) -> dict[str, Path]:
         shutil.copytree(FAB / "templates", pre / "modelos_csv_yaml", ignore=shutil.ignore_patterns("evidencias", "PROFISSIONAIS.csv"))
         shutil.copytree(FAB / "templates" / "evidencias", pre / "modelos_evidencia")
         equipe_modelo(pre / "EQUIPE_NOME_CPF_CARGO.docx")
+        shutil.copy2(FAB / "CONFIGURACAO_FABRICA.yaml", pre / "CONFIGURACAO_FABRICA.yaml")
         for doc in ("TREINAMENTO.md", "PROMPT_INICIAL.md", "PREENCHIMENTO_LEIA-ME.md", "O_QUE_ENVIAR.md", "COMO_INICIAR.md", "MEDICAO_UST.md"):
             shutil.copy2(FAB / "docs" / doc, pre / doc)
             exportar_word(pre / doc, subtitulo="Guia da Fábrica de Software Governamental")
@@ -2736,7 +3115,7 @@ def iniciar() -> list[tuple[str, bool, str]]:
     ok("CLAUDE.md", (RAIZ / "CLAUDE.md").exists())
     ok("AGENTS.md", (RAIZ / "AGENTS.md").exists())
     prob = verificar_agentes()
-    ok("40 agentes (20 G + 20 E) gerados e válidos", not prob, "; ".join(prob[:3]))
+    ok("44 agentes (24 G + 20 E) gerados e válidos", not prob, "; ".join(prob[:3]))
     skills = sorted(p.parent.name for p in (RAIZ / ".claude" / "skills").glob("*/SKILL.md"))
     ok("skills internas (comandos operacionais)", len(skills) >= 12, ", ".join(skills))
     for f in ("AGENT_TASKS.json", "AGENT_MESSAGES.jsonl", "AGENT_DECISIONS.md", "AGENT_HANDOFFS.md", "AGENT_BLOCKERS.md"):
@@ -2833,6 +3212,12 @@ def main(argv: list[str] | None = None) -> int:
     x = sp.add_parser("ppj", help="Planejamento de Projeto Sustentável"); x.add_argument("contrato")
     x = sp.add_parser("oportunidades", help="Trabalho comprovado × catálogo (sugestões de medição)"); x.add_argument("contrato"); x.add_argument("os")
     x = sp.add_parser("word", help="Converte um documento .md da fábrica para Word"); x.add_argument("arquivo"); x.add_argument("--contrato")
+    x = sp.add_parser("config", help="Configuração central (CONFIGURACAO_FABRICA.yaml)"); x.add_argument("sub", choices=["verificar", "mostrar"])
+    x = sp.add_parser("capacidade", help="ESTIMATIVA de produção por pessoa/dia/mês (UST, PF, horas, valor)"); x.add_argument("contrato")
+    x.add_argument("--dias", type=int, default=21); x.add_argument("--simular", default="", help='ex.: "DESENVOLVEDOR_PLENO=3,ANALISTA_TESTES=1"')
+    x = sp.add_parser("fluxo", help="Executa a OS do começo ao fim (checkpoints, pausas humanas)"); x.add_argument("contrato"); x.add_argument("os")
+    x.add_argument("--do-zero", action="store_true"); x.add_argument("--aprovado-por", default=""); x.add_argument("--ate", choices=NOS_FLUXO)
+    x = sp.add_parser("gec", help="Gera o GEC completo (Word)"); x.add_argument("contrato")
     x = sp.add_parser("proximo-passo", help="O que falta e o que fazer agora (do começo ao fim)"); x.add_argument("contrato", nargs="?"); x.add_argument("--data")
     x = sp.add_parser("abertura", help="Abertura do dia (contratado, saldo, equipe, plano do dia)"); x.add_argument("contrato"); x.add_argument("--data")
     pj = sp.add_parser("planejamento", help="Plano por projeto (UST, horas, perfis, prazos, capacidade)").add_subparsers(dest="sub", required=True)
@@ -2968,6 +3353,20 @@ def main(argv: list[str] | None = None) -> int:
             print(rel(ppj(a.contrato)))
         elif a.cmd == "oportunidades":
             print(rel(oportunidades_medicao(a.contrato, a.os)))
+        elif a.cmd == "config":
+            if a.sub == "mostrar":
+                print(yaml.safe_dump(configuracao(), allow_unicode=True, sort_keys=False))
+            else:
+                av = verificar_configuracao(); print("\n".join(f"aviso: {x}" for x in av) or "OK: configuração válida")
+        elif a.cmd == "capacidade":
+            print(rel(capacidade(a.contrato, a.dias, a.simular)))
+        elif a.cmd == "fluxo":
+            e = fluxo(a.contrato, a.os, retomar=not a.do_zero, aprovado_por=a.aprovado_por, ate=a.ate)
+            for n, i in e["nos"].items():
+                print(f"{n:11} {i['status']:10} {i.get('resultado') or i.get('erro') or ''}")
+            print(f"\nSituação: {e['situacao']}")
+        elif a.cmd == "gec":
+            print(rel(gec(a.contrato)))
         elif a.cmd == "proximo-passo":
             print(texto_proximo_passo(proximo_passo(a.contrato, a.data)))
         elif a.cmd == "abertura":

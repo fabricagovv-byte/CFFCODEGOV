@@ -1,6 +1,6 @@
 # CFFCODEGOV — Fábrica de Software Governamental com IA
 
-Estrutura para executar contratos públicos de software com **40 agentes de IA** (Claude Code e Codex),
+Estrutura para executar contratos públicos de software com **44 agentes de IA** (Claude Code e Codex),
 **profissionais humanos reais**, evidências verificáveis, medição por UST/PF e entregas mensais.
 
 ## Comece por aqui

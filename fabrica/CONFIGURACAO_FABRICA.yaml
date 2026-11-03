@@ -1,0 +1,42 @@
+# =====================================================================
+# CONFIGURAÇÃO CENTRAL DA FÁBRICA — edite aqui; vale para todo o repositório.
+# Verifique depois de editar:  python3 fabrica/ferramentas/fabrica.py config verificar
+# =====================================================================
+
+empresa:                       # dados da contratada (também podem vir do Documento Base)
+  razao_social: ""
+  cnpj: ""
+  responsavel_tecnico: ""      # nome do responsável técnico da fábrica
+  contato: ""
+
+fuso_horario: America/Sao_Paulo
+
+jornada:
+  horas_por_dia: 8             # horas de trabalho por pessoa por dia útil
+  aproveitamento: 0.8          # fração das horas que vira produção (o resto: reuniões, suporte, imprevistos)
+  feriados: []                 # ex.: ["2026-11-15", "2026-11-20", "2026-12-25"]
+
+producao:                      # usado só em ESTIMATIVAS (capacidade, GEC); a medição real segue o contrato
+  produtividade_horas_por_pf: null   # horas por ponto de função (do contrato ou do seu histórico). Ex.: 10
+  ust_por_hora_padrao: null          # se o contrato não tiver fator por perfil. Ex.: 1.0
+
+relatorios_diarios: [abertura, diario, fechamento]   # os 3 do dia
+gerar_word: true               # false = só Markdown
+
+rateio_padrao: proporcional    # proporcional | senior_da_area
+
+stacks_preferidas: [sistema-gov, react-vite]   # usadas quando o edital não exige outra
+
+limites:                       # o que a IA NUNCA faz sem autorização humana registrada
+  - executar ordem de serviço sem autorização (quem, quando, documento)
+  - publicar em produção
+  - enviar documentos ou mensagens ao órgão
+  - assinar, declarar aceite ou atestar participação humana
+  - alterar quantidades medidas sem trabalho comprovado
+  - guardar CPF ou senhas no repositório
+
+conhecimento_externo:          # bibliotecas absorvidas (fabrica/conhecimento/)
+  superpowers: true
+  spec_kit: true
+  anthropic_skills_apache: true
+  langgraph_conceitos: true

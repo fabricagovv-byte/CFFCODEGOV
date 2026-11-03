@@ -1,6 +1,6 @@
 # Checklist de 100 controles — OS-TESTE-002
 
-Gerado em 2026-11-03T01:09:11-03:00.
+Gerado em 2026-11-03T06:49:09-03:00.
 
 **Situação da entrega: PENDENTE_VERIFICACAO_HUMANA**
 
@@ -88,8 +88,8 @@ Críticos aguardando verificação humana: C003, C009, C012, C024, C032, C037, C
 
 | ID | Controle | Crítico | Resultado | Evidência | Responsável |
 |---|---|---|---|---|---|
-| C051 | Testes automatizados de backend executados sem falhas | sim | APROVADO | 33 testes, 0 falhas (contratos/TESTE-002/evidencias/OS-TESTE-002/MOD-102/LOGS_TESTES/backend-20261103T010440.xml) | G17 (automático) |
-| C052 | Testes de frontend executados sem falhas | sim | APROVADO | 6 testes, 0 falhas (contratos/TESTE-002/evidencias/OS-TESTE-002/MOD-102/LOGS_TESTES/frontend-20261103T010445.xml) | G17 (automático) |
+| C051 | Testes automatizados de backend executados sem falhas | sim | APROVADO | 33 testes, 0 falhas (contratos/TESTE-002/evidencias/OS-TESTE-002/MOD-102/LOGS_TESTES/backend-20261103T064858.xml) | G17 (automático) |
+| C052 | Testes de frontend executados sem falhas | sim | APROVADO | 6 testes, 0 falhas (contratos/TESTE-002/evidencias/OS-TESTE-002/MOD-102/LOGS_TESTES/frontend-20261103T064904.xml) | G17 (automático) |
 | C053 | Resultados registrados por módulo | sim | APROVADO | TESTES.json em 3/3 módulos | G17 (automático) |
 | C054 | Logs de execução de testes anexados | sim | APROVADO | LOGS_TESTES em 3/3 módulos | G17 (automático) |
 | C055 | Testes de API cobrem casos de erro |  | NAO_VERIFICADO | requer verificação humana |  |
@@ -141,7 +141,7 @@ Críticos aguardando verificação humana: C003, C009, C012, C024, C032, C037, C
 | C086 | Separação previsto / comprovado / aceito | sim | APROVADO | contratos/TESTE-002/medicoes/OS-TESTE-002.json | G17 (automático) |
 | C087 | Nenhuma equivalência UST/PF/horas inventada | sim | NAO_VERIFICADO | requer verificação humana |  |
 | C088 | Capturas reais quando há interface |  | NAO_VERIFICADO | requer verificação humana |  |
-| C089 | Auditoria de evidências executada | sim | APROVADO | evidencias/OS-TESTE-002/AUDITORIA.md (2026-11-03T01:05) | G17 (automático) |
+| C089 | Auditoria de evidências executada | sim | APROVADO | evidencias/OS-TESTE-002/AUDITORIA.md (2026-11-03T06:49) | G17 (automático) |
 | C090 | Participação humana com origem registrada | sim | NAO_VERIFICADO | requer verificação humana |  |
 
 ## Documentação e homologação

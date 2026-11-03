@@ -2,7 +2,7 @@
 
 Gerado por `fabrica.py agentes gerar` a partir de `fabrica/agentes/registry.yaml`.
 
-## Fábrica Governamental (G01–G20)
+## Fábrica Governamental (G01–G24)
 
 | ID | Agente | Função | Ferramentas | Equivale |
 |---|---|---|---|---|
@@ -26,6 +26,10 @@ Gerado por `fabrica.py agentes gerar` a partir de `fabrica/agentes/registry.yaml
 | G18 | Gestor de Profissionais Reais | Cadastra a equipe humana e registra orientações, revisões, correções e aprovações reais. | documentacao |  |
 | G19 | Gerador de Relatórios | Gera relatórios diário, semanal, mensal, por módulo, profissional, OS, medição e final. | documentacao |  |
 | G20 | Homologador Técnico | Verifica critérios de aceite e prepara o checklist de homologação para aprovação humana. | analise |  |
+| G21 | Analista de Habilitação | Levanta todos os documentos de habilitação exigidos (jurídica, fiscal, trabalhista, técnica, econômico-financeira) com cláusula e validade. | documentacao |  |
+| G22 | Analista de Custos e Precificação | Estima custos, mensalidades e valores por perfil, serviço e projeto a partir do catálogo e da tabela do contrato (sempre como estimativa). | documentacao |  |
+| G23 | Analista de SLA e Glosas | Extrai níveis de serviço, indicadores, metas, fórmulas de glosa e penalidades, e define como serão monitorados. | documentacao |  |
+| G24 | Planejador de Cronograma e Capacidade | Monta o cronograma diário e mensal a partir do plano do responsável e confronta com capacidade da equipe, saldo e prazos do edital. | documentacao |  |
 
 ## Engenharia de Software (E01–E20)
 

@@ -30,3 +30,17 @@ tecnologias_exigidas: []            # ex.: [{nome: "Java", origem: "TR 4.2"}, {n
 certificacoes_empresa_exigidas: []  # ex.: [{nome: "ISO 27001", origem: "Edital 9.4"}, {nome: "atestado de capacidade técnica"}]
 documentos_exigidos: []             # outros entregáveis nomeados no edital, ex.: [{nome: "Plano de Comunicação", origem: "TR 10.1"}]
 prazos: []                          # ex.: [{evento: "entrega do PPJ", prazo: "10 dias após a OS", origem: "TR 6.1"}]
+
+servicos: []                        # explicação técnica de cada serviço do catálogo (G02)
+#  - {codigo: "SRV-CRUD-M", nome: "Cadastro média complexidade", unidade: UST,
+#     explicacao_tecnica: "Tela de lista/busca + formulário + API REST + tabela com migração + validações + auditoria + testes",
+#     origem: "TR item 5.2, p. 14"}
+
+habilitacao: []                     # documentos exigidos (G21)
+#  - {grupo: "Qualificação técnica", documento: "Atestado de capacidade técnica", exigencia: "mín. 30% do objeto", origem: "Edital 9.3.1, p. 22", situacao: "a verificar"}
+
+slas: []                            # níveis de serviço e glosas (G23)
+#  - {indicador: "Prazo de entrega da OS", meta: "≤ prazo da OS", medicao: "data do aceite − data da OS", glosa: "1% por dia de atraso, até 10%", origem: "TR 11.2, p. 31"}
+
+pagamento:
+  regra: ""                         # ex.: "mensal, após aceite definitivo, em até 30 dias" (origem)

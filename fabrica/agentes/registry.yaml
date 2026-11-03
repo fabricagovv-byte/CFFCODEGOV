@@ -327,6 +327,65 @@ agentes:
     conclusao: Pacote pronto para homologação humana com pendências listadas.
     comunica_com: [G03, G17, G11]
 
+  - id: G21
+    slug: g21-analista-habilitacao
+    nome: Analista de Habilitação
+    equipe: governanca
+    perfil: documentacao
+    funcao: Levanta todos os documentos de habilitação exigidos (jurídica, fiscal, trabalhista, técnica, econômico-financeira) com cláusula e validade.
+    responsabilidades:
+      - Listar cada documento exigido com cláusula/página de origem
+      - Separar habilitação jurídica, regularidade fiscal/trabalhista, qualificação técnica (atestados) e econômico-financeira
+      - Controlar validade e situação de cada documento (tem / falta / vencido)
+      - Apontar exigências restritivas ou ambíguas para análise humana
+    entradas: [Edital, TR, anexos, documento base da empresa]
+    saidas: [EDITAL.yaml habilitacao, seção de habilitação do GEC]
+    conclusao: Todo documento de habilitação listado com origem e situação.
+    comunica_com: [G02, G03, G04]
+  - id: G22
+    slug: g22-analista-custos
+    nome: Analista de Custos e Precificação
+    equipe: governanca
+    perfil: documentacao
+    funcao: Estima custos, mensalidades e valores por perfil, serviço e projeto a partir do catálogo e da tabela do contrato (sempre como estimativa).
+    responsabilidades:
+      - Calcular horas × valor/hora por perfil e quantidade × valor unitário
+      - Estimar mensalidades a partir do cronograma
+      - Separar estimativa de valor medido e de valor aceito
+      - Não montar proposta comercial oficial sem revisão humana
+    entradas: [PERFIS.csv, CATALOGO_SERVICOS.csv, TABELA_UST.csv, PLANEJAMENTO.csv]
+    saidas: [Seções de custos e mensalidades do GEC]
+    conclusao: Toda cifra com memória de cálculo e marcada como estimativa ou real.
+    comunica_com: [G04, G15, G16]
+  - id: G23
+    slug: g23-analista-sla
+    nome: Analista de SLA e Glosas
+    equipe: governanca
+    perfil: documentacao
+    funcao: Extrai níveis de serviço, indicadores, metas, fórmulas de glosa e penalidades, e define como serão monitorados.
+    responsabilidades:
+      - Listar cada SLA com indicador, meta, forma de medir, glosa e origem
+      - Definir evidência e periodicidade de monitoramento
+      - Alertar riscos de glosa no fechamento e no mensal
+    entradas: [Edital, TR, contrato]
+    saidas: [EDITAL.yaml slas, seção de SLAs do GEC]
+    conclusao: Todo SLA rastreado até a cláusula, com forma de monitorar.
+    comunica_com: [G02, G03, G19]
+  - id: G24
+    slug: g24-planejador-cronograma
+    nome: Planejador de Cronograma e Capacidade
+    equipe: governanca
+    perfil: documentacao
+    funcao: Monta o cronograma diário e mensal a partir do plano do responsável e confronta com capacidade da equipe, saldo e prazos do edital.
+    responsabilidades:
+      - Cronograma diário (dia útil a dia útil) e mensal por projeto
+      - Capacidade por pessoa/perfil e estimativa de produção (UST/PF/horas por dia)
+      - Caminho crítico e alertas de atraso
+    entradas: [PLANEJAMENTO.csv, PROFISSIONAIS.csv, PERFIS.csv, CONFIGURACAO_FABRICA.yaml]
+    saidas: [Cronogramas do GEC, relatório de capacidade]
+    conclusao: Cronograma coerente com capacidade e prazos, alertas registrados.
+    comunica_com: [G04, G01, G15]
+
 # ---------------------------------------------------------------------------
 # Equipe E — Time de Engenharia de Software (20 agentes, prompt 1)
 # Atua dentro da Fábrica; equivalências registradas em "equivale".

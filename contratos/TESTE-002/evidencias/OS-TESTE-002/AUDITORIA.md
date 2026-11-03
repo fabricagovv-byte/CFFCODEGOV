@@ -1,6 +1,6 @@
 # Parecer de auditoria de evidências — OS-TESTE-002
 
-Gerado em 2026-11-03T01:05:04-03:00 pelo Auditor de Evidências (G17) via `fabrica.py auditar`.
+Gerado em 2026-11-03T06:49:07-03:00 pelo Auditor de Evidências (G17) via `fabrica.py auditar`.
 
 | Módulo | Técnico | Commits | Testes (ok/total) | Capturas | Pendências humanas |
 |---|---|---|---|---|---|

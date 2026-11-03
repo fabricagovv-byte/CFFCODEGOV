@@ -1,0 +1,54 @@
+{
+  "contrato": "TESTE-002",
+  "os": "OS-TESTE-002",
+  "criado_em": "2026-11-03T06:47:15-03:00",
+  "nos": {
+    "autorizacao": {
+      "status": "CONCLUIDO",
+      "inicio": "2026-11-03T06:47:15-03:00",
+      "fim": "2026-11-03T06:47:15-03:00",
+      "resultado": "autorização registrada"
+    },
+    "testes": {
+      "status": "CONCLUIDO",
+      "inicio": "2026-11-03T06:48:23-03:00",
+      "fim": "2026-11-03T06:49:07-03:00",
+      "resultado": "140 verificações aprovadas"
+    },
+    "commits": {
+      "status": "CONCLUIDO",
+      "inicio": "2026-11-03T06:49:07-03:00",
+      "fim": "2026-11-03T06:49:07-03:00",
+      "resultado": "5 commits"
+    },
+    "auditoria": {
+      "status": "CONCLUIDO",
+      "inicio": "2026-11-03T06:49:07-03:00",
+      "fim": "2026-11-03T06:49:07-03:00",
+      "resultado": "3 módulos aprovados"
+    },
+    "medicao": {
+      "status": "CONCLUIDO",
+      "inicio": "2026-11-03T06:49:07-03:00",
+      "fim": "2026-11-03T06:49:08-03:00",
+      "resultado": "previsto 80.4 · comprovado 80.4 · aceito 0"
+    },
+    "relatorios": {
+      "status": "CONCLUIDO",
+      "inicio": "2026-11-03T06:49:08-03:00",
+      "fim": "2026-11-03T06:49:08-03:00",
+      "resultado": "relatório diário e fechamento gerados"
+    },
+    "checklist": {
+      "status": "PAUSA",
+      "inicio": "2026-11-03T06:49:08-03:00",
+      "fim": "2026-11-03T06:49:09-03:00",
+      "resultado": "16 controle(s) crítico(s) aguardam verificação humana — verifique e rode de novo com --aprovado-por \"Nome (cargo)\""
+    },
+    "entrega": {
+      "status": "PENDENTE"
+    }
+  },
+  "situacao": "PAUSADO em checklist (aguardando humano): 16 controle(s) crítico(s) aguardam verificação humana — verifique e rode de novo com --aprovado-por \"Nome (cargo)\"",
+  "atualizado_em": "2026-11-03T06:49:09-03:00"
+}

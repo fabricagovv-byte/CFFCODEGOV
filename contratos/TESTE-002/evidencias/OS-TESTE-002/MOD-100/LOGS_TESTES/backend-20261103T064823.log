@@ -1,0 +1,18 @@
+$ (cd projetos/gestao-documental/backend && python3 -m pytest tests/test_mod100_base_modular.py -v --junitxml=/home/user/CFFCODEGOV/contratos/TESTE-002/evidencias/OS-TESTE-002/MOD-100/LOGS_TESTES/backend-20261103T064823.xml)
+# início: 2026-11-03T06:48:23.595071-03:00
+# fim: 2026-11-03T06:48:26.984099-03:00
+# código de saída: 0
+# TEST_DATABASE_URL=postgresql+psycopg2://gd_teste:***@localhost:5432/gd_teste
+
+============================= test session starts ==============================
+platform linux -- Python 3.13.18, pytest-9.2.0, pluggy-1.7.0
+rootdir: /home/user/CFFCODEGOV/projetos/gestao-documental/backend
+configfile: pytest.ini
+plugins: anyio-4.15.1
+collected 4 items
+
+tests/test_mod100_base_modular.py ....                                   [100%]
+
+- generated xml file: /home/user/CFFCODEGOV/contratos/TESTE-002/evidencias/OS-TESTE-002/MOD-100/LOGS_TESTES/backend-20261103T064823.xml -
+============================== 4 passed in 1.74s ===============================
+

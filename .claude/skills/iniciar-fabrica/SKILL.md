@@ -1,6 +1,6 @@
 ---
 name: iniciar-fabrica
-description: INICIAR FÁBRICA / INICIAR EQUIPE — carrega a configuração, verifica os 40 agentes, skills, quadro de comunicação e ferramentas do ambiente. Use no começo de cada sessão.
+description: INICIAR FÁBRICA / INICIAR EQUIPE — carrega a configuração, verifica os 44 agentes, skills, quadro de comunicação e ferramentas do ambiente. Use no começo de cada sessão.
 ---
 # INICIAR FÁBRICA
 
