@@ -17,7 +17,11 @@ python3 fabrica/ferramentas/fabrica.py repositorio novo ../pmx-001-sgd \
 
 **Opção D — GitHub "Template repository":** suba o modelo uma vez, marque *Settings → Template repository* e use *Use this template* para cada sistema novo.
 
-## 2. Abrir a sessão
+## 2. Preparar o gerador de Word (uma vez por máquina/repositório)
+
+`npm install --prefix fabrica/ferramentas` (precisa de Node.js). Sem isso, tudo funciona em Markdown, mas não sai o `.docx`.
+
+## 2b. Abrir a sessão
 
 - **Claude Code no celular/web (claude.ai/code):** nova sessão → escolha o repositório → escreva os comandos abaixo.
 - **Claude Code no computador:** `cd pmx-001-sgd && claude`.

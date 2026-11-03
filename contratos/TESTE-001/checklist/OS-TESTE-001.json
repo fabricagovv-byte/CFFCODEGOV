@@ -1,7 +1,7 @@
 {
   "contrato": "TESTE-001",
   "os": "OS-TESTE-001",
-  "gerado_em": "2026-11-02T23:12:07-03:00",
+  "gerado_em": "2026-11-03T00:43:16-03:00",
   "situacao_entrega": "PENDENTE_VERIFICACAO_HUMANA",
   "criticos_reprovados": [],
   "criticos_nao_verificados": [
@@ -31,7 +31,7 @@
       "resultado": "APROVADO",
       "evidencia": "contratos/TESTE-001/contrato.yaml",
       "responsavel": "G17 (automático)",
-      "data": "2026-11-02"
+      "data": "2026-11-03"
     },
     {
       "id": "C002",
@@ -42,7 +42,7 @@
       "resultado": "APROVADO",
       "evidencia": "contratos/TESTE-001/MATRIZ_RASTREABILIDADE.md",
       "responsavel": "G17 (automático)",
-      "data": "2026-11-02"
+      "data": "2026-11-03"
     },
     {
       "id": "C003",
@@ -53,7 +53,7 @@
       "resultado": "NAO_VERIFICADO",
       "evidencia": "requer verificação humana",
       "responsavel": "",
-      "data": "2026-11-02"
+      "data": "2026-11-03"
     },
     {
       "id": "C004",
@@ -64,7 +64,7 @@
       "resultado": "APROVADO",
       "evidencia": "ESCOPO.md em 7/7 módulos",
       "responsavel": "G17 (automático)",
-      "data": "2026-11-02"
+      "data": "2026-11-03"
     },
     {
       "id": "C005",
@@ -75,7 +75,7 @@
       "resultado": "APROVADO",
       "evidencia": "REQUISITOS.md em 7/7 módulos",
       "responsavel": "G17 (automático)",
-      "data": "2026-11-02"
+      "data": "2026-11-03"
     },
     {
       "id": "C006",
@@ -86,7 +86,7 @@
       "resultado": "APROVADO",
       "evidencia": "contratos/TESTE-001/GEC.md",
       "responsavel": "G17 (automático)",
-      "data": "2026-11-02"
+      "data": "2026-11-03"
     },
     {
       "id": "C007",
@@ -97,7 +97,7 @@
       "resultado": "NAO_VERIFICADO",
       "evidencia": "requer verificação humana",
       "responsavel": "",
-      "data": "2026-11-02"
+      "data": "2026-11-03"
     },
     {
       "id": "C008",
@@ -108,7 +108,7 @@
       "resultado": "NAO_VERIFICADO",
       "evidencia": "requer verificação humana",
       "responsavel": "",
-      "data": "2026-11-02"
+      "data": "2026-11-03"
     },
     {
       "id": "C009",
@@ -119,7 +119,7 @@
       "resultado": "NAO_VERIFICADO",
       "evidencia": "requer verificação humana",
       "responsavel": "",
-      "data": "2026-11-02"
+      "data": "2026-11-03"
     },
     {
       "id": "C010",
@@ -130,7 +130,7 @@
       "resultado": "NAO_VERIFICADO",
       "evidencia": "requer verificação humana",
       "responsavel": "",
-      "data": "2026-11-02"
+      "data": "2026-11-03"
     },
     {
       "id": "C011",
@@ -141,7 +141,7 @@
       "resultado": "APROVADO",
       "evidencia": "ARQUITETURA.md em 7/7 módulos",
       "responsavel": "G17 (automático)",
-      "data": "2026-11-02"
+      "data": "2026-11-03"
     },
     {
       "id": "C012",
@@ -152,7 +152,7 @@
       "resultado": "NAO_VERIFICADO",
       "evidencia": "requer verificação humana",
       "responsavel": "",
-      "data": "2026-11-02"
+      "data": "2026-11-03"
     },
     {
       "id": "C013",
@@ -163,7 +163,7 @@
       "resultado": "APROVADO",
       "evidencia": "projetos/gestao-documental/backend/app/main.py",
       "responsavel": "G17 (automático)",
-      "data": "2026-11-02"
+      "data": "2026-11-03"
     },
     {
       "id": "C014",
@@ -174,7 +174,7 @@
       "resultado": "NAO_VERIFICADO",
       "evidencia": "requer verificação humana",
       "responsavel": "",
-      "data": "2026-11-02"
+      "data": "2026-11-03"
     },
     {
       "id": "C015",
@@ -185,7 +185,7 @@
       "resultado": "NAO_VERIFICADO",
       "evidencia": "requer verificação humana",
       "responsavel": "",
-      "data": "2026-11-02"
+      "data": "2026-11-03"
     },
     {
       "id": "C016",
@@ -196,7 +196,7 @@
       "resultado": "NAO_VERIFICADO",
       "evidencia": "requer verificação humana",
       "responsavel": "",
-      "data": "2026-11-02"
+      "data": "2026-11-03"
     },
     {
       "id": "C017",
@@ -207,7 +207,7 @@
       "resultado": "NAO_VERIFICADO",
       "evidencia": "requer verificação humana",
       "responsavel": "",
-      "data": "2026-11-02"
+      "data": "2026-11-03"
     },
     {
       "id": "C018",
@@ -218,7 +218,7 @@
       "resultado": "APROVADO",
       "evidencia": "projetos/gestao-documental/.env.example",
       "responsavel": "G17 (automático)",
-      "data": "2026-11-02"
+      "data": "2026-11-03"
     },
     {
       "id": "C019",
@@ -229,7 +229,7 @@
       "resultado": "APROVADO",
       "evidencia": "projetos/gestao-documental/backend/requirements.txt",
       "responsavel": "G17 (automático)",
-      "data": "2026-11-02"
+      "data": "2026-11-03"
     },
     {
       "id": "C020",
@@ -240,7 +240,7 @@
       "resultado": "NAO_VERIFICADO",
       "evidencia": "requer verificação humana",
       "responsavel": "",
-      "data": "2026-11-02"
+      "data": "2026-11-03"
     },
     {
       "id": "C021",
@@ -251,7 +251,7 @@
       "resultado": "APROVADO",
       "evidencia": "projetos/gestao-documental/backend/app",
       "responsavel": "G17 (automático)",
-      "data": "2026-11-02"
+      "data": "2026-11-03"
     },
     {
       "id": "C022",
@@ -262,7 +262,7 @@
       "resultado": "APROVADO",
       "evidencia": "todos os módulos com commits reais",
       "responsavel": "G17 (automático)",
-      "data": "2026-11-02"
+      "data": "2026-11-03"
     },
     {
       "id": "C023",
@@ -273,7 +273,7 @@
       "resultado": "NAO_VERIFICADO",
       "evidencia": "requer verificação humana",
       "responsavel": "",
-      "data": "2026-11-02"
+      "data": "2026-11-03"
     },
     {
       "id": "C024",
@@ -284,7 +284,7 @@
       "resultado": "APROVADO",
       "evidencia": "MOD-002/TESTES.json: 1 caso(s) 'test_validacao_de_campos' (2026-11-02T23:10)",
       "responsavel": "G17 (automático)",
-      "data": "2026-11-02"
+      "data": "2026-11-03"
     },
     {
       "id": "C025",
@@ -295,7 +295,7 @@
       "resultado": "NAO_VERIFICADO",
       "evidencia": "requer verificação humana",
       "responsavel": "",
-      "data": "2026-11-02"
+      "data": "2026-11-03"
     },
     {
       "id": "C026",
@@ -306,7 +306,7 @@
       "resultado": "APROVADO",
       "evidencia": "projetos/gestao-documental/frontend/tsconfig.json",
       "responsavel": "G17 (automático)",
-      "data": "2026-11-02"
+      "data": "2026-11-03"
     },
     {
       "id": "C027",
@@ -317,7 +317,7 @@
       "resultado": "NAO_VERIFICADO",
       "evidencia": "requer verificação humana",
       "responsavel": "",
-      "data": "2026-11-02"
+      "data": "2026-11-03"
     },
     {
       "id": "C028",
@@ -328,7 +328,7 @@
       "resultado": "APROVADO",
       "evidencia": "REVISOES.md em 7/7 módulos",
       "responsavel": "G17 (automático)",
-      "data": "2026-11-02"
+      "data": "2026-11-03"
     },
     {
       "id": "C029",
@@ -339,7 +339,7 @@
       "resultado": "NAO_VERIFICADO",
       "evidencia": "requer verificação humana",
       "responsavel": "",
-      "data": "2026-11-02"
+      "data": "2026-11-03"
     },
     {
       "id": "C030",
@@ -350,7 +350,7 @@
       "resultado": "NAO_VERIFICADO",
       "evidencia": "requer verificação humana",
       "responsavel": "",
-      "data": "2026-11-02"
+      "data": "2026-11-03"
     },
     {
       "id": "C031",
@@ -361,7 +361,7 @@
       "resultado": "APROVADO",
       "evidencia": "projetos/gestao-documental/backend/migrations/versions",
       "responsavel": "G17 (automático)",
-      "data": "2026-11-02"
+      "data": "2026-11-03"
     },
     {
       "id": "C032",
@@ -372,7 +372,7 @@
       "resultado": "APROVADO",
       "evidencia": "MOD-007/TESTES.json: 1 caso(s) 'verificar_ambiente' (2026-11-02T23:10)",
       "responsavel": "G17 (automático)",
-      "data": "2026-11-02"
+      "data": "2026-11-03"
     },
     {
       "id": "C033",
@@ -383,7 +383,7 @@
       "resultado": "NAO_VERIFICADO",
       "evidencia": "requer verificação humana",
       "responsavel": "",
-      "data": "2026-11-02"
+      "data": "2026-11-03"
     },
     {
       "id": "C034",
@@ -394,7 +394,7 @@
       "resultado": "NAO_VERIFICADO",
       "evidencia": "requer verificação humana",
       "responsavel": "",
-      "data": "2026-11-02"
+      "data": "2026-11-03"
     },
     {
       "id": "C035",
@@ -405,7 +405,7 @@
       "resultado": "NAO_VERIFICADO",
       "evidencia": "requer verificação humana",
       "responsavel": "",
-      "data": "2026-11-02"
+      "data": "2026-11-03"
     },
     {
       "id": "C036",
@@ -416,7 +416,7 @@
       "resultado": "APROVADO",
       "evidencia": "projetos/gestao-documental/infra/scripts/backup.sh",
       "responsavel": "G17 (automático)",
-      "data": "2026-11-02"
+      "data": "2026-11-03"
     },
     {
       "id": "C037",
@@ -427,7 +427,7 @@
       "resultado": "APROVADO",
       "evidencia": "MOD-007/TESTES.json: 1 caso(s) 'verificar_ambiente' (2026-11-02T23:10)",
       "responsavel": "G17 (automático)",
-      "data": "2026-11-02"
+      "data": "2026-11-03"
     },
     {
       "id": "C038",
@@ -438,7 +438,7 @@
       "resultado": "NAO_VERIFICADO",
       "evidencia": "requer verificação humana",
       "responsavel": "",
-      "data": "2026-11-02"
+      "data": "2026-11-03"
     },
     {
       "id": "C039",
@@ -449,7 +449,7 @@
       "resultado": "NAO_VERIFICADO",
       "evidencia": "requer verificação humana",
       "responsavel": "",
-      "data": "2026-11-02"
+      "data": "2026-11-03"
     },
     {
       "id": "C040",
@@ -460,7 +460,7 @@
       "resultado": "NAO_VERIFICADO",
       "evidencia": "requer verificação humana",
       "responsavel": "",
-      "data": "2026-11-02"
+      "data": "2026-11-03"
     },
     {
       "id": "C041",
@@ -471,7 +471,7 @@
       "resultado": "APROVADO",
       "evidencia": "MOD-001/TESTES.json: 1 caso(s) 'test_login_sucesso' (2026-11-02T23:10)",
       "responsavel": "G17 (automático)",
-      "data": "2026-11-02"
+      "data": "2026-11-03"
     },
     {
       "id": "C042",
@@ -482,7 +482,7 @@
       "resultado": "APROVADO",
       "evidencia": "MOD-002/TESTES.json: 1 caso(s) 'test_visibilidade_por_classificacao' (2026-11-02T23:10)",
       "responsavel": "G17 (automático)",
-      "data": "2026-11-02"
+      "data": "2026-11-03"
     },
     {
       "id": "C043",
@@ -493,7 +493,7 @@
       "resultado": "NAO_VERIFICADO",
       "evidencia": "requer verificação humana",
       "responsavel": "",
-      "data": "2026-11-02"
+      "data": "2026-11-03"
     },
     {
       "id": "C044",
@@ -504,7 +504,7 @@
       "resultado": "APROVADO",
       "evidencia": "nenhum padrão encontrado",
       "responsavel": "G17 (automático)",
-      "data": "2026-11-02"
+      "data": "2026-11-03"
     },
     {
       "id": "C045",
@@ -515,7 +515,7 @@
       "resultado": "APROVADO",
       "evidencia": "MOD-006/TESTES.json: 1 caso(s) 'test_acoes_sensiveis_sao_auditadas' (2026-11-02T23:10)",
       "responsavel": "G17 (automático)",
-      "data": "2026-11-02"
+      "data": "2026-11-03"
     },
     {
       "id": "C046",
@@ -526,7 +526,7 @@
       "resultado": "APROVADO",
       "evidencia": "SEGURANCA.md em 7/7 módulos",
       "responsavel": "G17 (automático)",
-      "data": "2026-11-02"
+      "data": "2026-11-03"
     },
     {
       "id": "C047",
@@ -537,7 +537,7 @@
       "resultado": "NAO_VERIFICADO",
       "evidencia": "requer verificação humana",
       "responsavel": "",
-      "data": "2026-11-02"
+      "data": "2026-11-03"
     },
     {
       "id": "C048",
@@ -548,7 +548,7 @@
       "resultado": "APROVADO",
       "evidencia": "MOD-001/TESTES.json: 1 caso(s) 'test_cabecalhos_de_seguranca' (2026-11-02T23:10)",
       "responsavel": "G17 (automático)",
-      "data": "2026-11-02"
+      "data": "2026-11-03"
     },
     {
       "id": "C049",
@@ -559,7 +559,7 @@
       "resultado": "APROVADO",
       "evidencia": "MOD-001/TESTES.json: 1 caso(s) 'test_bloqueio_por_forca_bruta' (2026-11-02T23:10)",
       "responsavel": "G17 (automático)",
-      "data": "2026-11-02"
+      "data": "2026-11-03"
     },
     {
       "id": "C050",
@@ -570,7 +570,7 @@
       "resultado": "NAO_VERIFICADO",
       "evidencia": "requer verificação humana",
       "responsavel": "",
-      "data": "2026-11-02"
+      "data": "2026-11-03"
     },
     {
       "id": "C051",
@@ -581,7 +581,7 @@
       "resultado": "APROVADO",
       "evidencia": "66 testes, 0 falhas (contratos/TESTE-001/evidencias/OS-TESTE-001/MOD-007/LOGS_TESTES/backend-20261102T231026.xml)",
       "responsavel": "G17 (automático)",
-      "data": "2026-11-02"
+      "data": "2026-11-03"
     },
     {
       "id": "C052",
@@ -592,7 +592,7 @@
       "resultado": "APROVADO",
       "evidencia": "18 testes, 0 falhas (contratos/TESTE-001/evidencias/OS-TESTE-001/MOD-007/LOGS_TESTES/frontend-20261102T231028.xml)",
       "responsavel": "G17 (automático)",
-      "data": "2026-11-02"
+      "data": "2026-11-03"
     },
     {
       "id": "C053",
@@ -603,7 +603,7 @@
       "resultado": "APROVADO",
       "evidencia": "TESTES.json em 7/7 módulos",
       "responsavel": "G17 (automático)",
-      "data": "2026-11-02"
+      "data": "2026-11-03"
     },
     {
       "id": "C054",
@@ -614,7 +614,7 @@
       "resultado": "APROVADO",
       "evidencia": "LOGS_TESTES em 7/7 módulos",
       "responsavel": "G17 (automático)",
-      "data": "2026-11-02"
+      "data": "2026-11-03"
     },
     {
       "id": "C055",
@@ -625,7 +625,7 @@
       "resultado": "NAO_VERIFICADO",
       "evidencia": "requer verificação humana",
       "responsavel": "",
-      "data": "2026-11-02"
+      "data": "2026-11-03"
     },
     {
       "id": "C056",
@@ -636,7 +636,7 @@
       "resultado": "APROVADO",
       "evidencia": ".github/workflows/ci.yml",
       "responsavel": "G17 (automático)",
-      "data": "2026-11-02"
+      "data": "2026-11-03"
     },
     {
       "id": "C057",
@@ -647,7 +647,7 @@
       "resultado": "APROVADO",
       "evidencia": "MOD-006/TESTES.json: 1 caso(s) 'test_trigger_impede' (2026-11-02T23:10)",
       "responsavel": "G17 (automático)",
-      "data": "2026-11-02"
+      "data": "2026-11-03"
     },
     {
       "id": "C058",
@@ -658,7 +658,7 @@
       "resultado": "NAO_VERIFICADO",
       "evidencia": "requer verificação humana",
       "responsavel": "",
-      "data": "2026-11-02"
+      "data": "2026-11-03"
     },
     {
       "id": "C059",
@@ -669,7 +669,7 @@
       "resultado": "NAO_VERIFICADO",
       "evidencia": "requer verificação humana",
       "responsavel": "",
-      "data": "2026-11-02"
+      "data": "2026-11-03"
     },
     {
       "id": "C060",
@@ -680,7 +680,7 @@
       "resultado": "APROVADO",
       "evidencia": "12 testes, 0 falhas (contratos/TESTE-001/checklist/fabrica-20261103T021113.xml)",
       "responsavel": "G17 (automático)",
-      "data": "2026-11-02"
+      "data": "2026-11-03"
     },
     {
       "id": "C061",
@@ -691,7 +691,7 @@
       "resultado": "NAO_VERIFICADO",
       "evidencia": "requer verificação humana",
       "responsavel": "",
-      "data": "2026-11-02"
+      "data": "2026-11-03"
     },
     {
       "id": "C062",
@@ -702,7 +702,7 @@
       "resultado": "APROVADO",
       "evidencia": "MOD-003/TESTES.json: 1 caso(s) 'test_rejeita_arquivo_acima_do_limite' (2026-11-02T23:10)",
       "responsavel": "G17 (automático)",
-      "data": "2026-11-02"
+      "data": "2026-11-03"
     },
     {
       "id": "C063",
@@ -713,7 +713,7 @@
       "resultado": "NAO_VERIFICADO",
       "evidencia": "requer verificação humana",
       "responsavel": "",
-      "data": "2026-11-02"
+      "data": "2026-11-03"
     },
     {
       "id": "C064",
@@ -724,7 +724,7 @@
       "resultado": "NAO_VERIFICADO",
       "evidencia": "requer verificação humana",
       "responsavel": "",
-      "data": "2026-11-02"
+      "data": "2026-11-03"
     },
     {
       "id": "C065",
@@ -735,7 +735,7 @@
       "resultado": "APROVADO",
       "evidencia": "MOD-007/TESTES.json: 1 caso(s) 'npm run build' (2026-11-02T23:10)",
       "responsavel": "G17 (automático)",
-      "data": "2026-11-02"
+      "data": "2026-11-03"
     },
     {
       "id": "C066",
@@ -746,7 +746,7 @@
       "resultado": "NAO_VERIFICADO",
       "evidencia": "requer verificação humana",
       "responsavel": "",
-      "data": "2026-11-02"
+      "data": "2026-11-03"
     },
     {
       "id": "C067",
@@ -757,7 +757,7 @@
       "resultado": "NAO_VERIFICADO",
       "evidencia": "requer verificação humana",
       "responsavel": "",
-      "data": "2026-11-02"
+      "data": "2026-11-03"
     },
     {
       "id": "C068",
@@ -768,7 +768,7 @@
       "resultado": "NAO_VERIFICADO",
       "evidencia": "requer verificação humana",
       "responsavel": "",
-      "data": "2026-11-02"
+      "data": "2026-11-03"
     },
     {
       "id": "C069",
@@ -779,7 +779,7 @@
       "resultado": "NAO_VERIFICADO",
       "evidencia": "requer verificação humana",
       "responsavel": "",
-      "data": "2026-11-02"
+      "data": "2026-11-03"
     },
     {
       "id": "C070",
@@ -790,7 +790,7 @@
       "resultado": "NAO_VERIFICADO",
       "evidencia": "requer verificação humana",
       "responsavel": "",
-      "data": "2026-11-02"
+      "data": "2026-11-03"
     },
     {
       "id": "C071",
@@ -801,7 +801,7 @@
       "resultado": "APROVADO",
       "evidencia": "projetos/gestao-documental/backend/Dockerfile",
       "responsavel": "G17 (automático)",
-      "data": "2026-11-02"
+      "data": "2026-11-03"
     },
     {
       "id": "C072",
@@ -812,7 +812,7 @@
       "resultado": "APROVADO",
       "evidencia": "projetos/gestao-documental/docker-compose.yml",
       "responsavel": "G17 (automático)",
-      "data": "2026-11-02"
+      "data": "2026-11-03"
     },
     {
       "id": "C073",
@@ -823,7 +823,7 @@
       "resultado": "APROVADO",
       "evidencia": ".github/workflows/ci.yml",
       "responsavel": "G17 (automático)",
-      "data": "2026-11-02"
+      "data": "2026-11-03"
     },
     {
       "id": "C074",
@@ -834,7 +834,7 @@
       "resultado": "NAO_VERIFICADO",
       "evidencia": "requer verificação humana",
       "responsavel": "",
-      "data": "2026-11-02"
+      "data": "2026-11-03"
     },
     {
       "id": "C075",
@@ -845,7 +845,7 @@
       "resultado": "APROVADO",
       "evidencia": "projetos/gestao-documental/infra/nginx",
       "responsavel": "G17 (automático)",
-      "data": "2026-11-02"
+      "data": "2026-11-03"
     },
     {
       "id": "C076",
@@ -856,7 +856,7 @@
       "resultado": "APROVADO",
       "evidencia": "MOD-007/TESTES.json: 1 caso(s) 'test_health_e_banco' (2026-11-02T23:10)",
       "responsavel": "G17 (automático)",
-      "data": "2026-11-02"
+      "data": "2026-11-03"
     },
     {
       "id": "C077",
@@ -867,7 +867,7 @@
       "resultado": "NAO_VERIFICADO",
       "evidencia": "requer verificação humana",
       "responsavel": "",
-      "data": "2026-11-02"
+      "data": "2026-11-03"
     },
     {
       "id": "C078",
@@ -878,7 +878,7 @@
       "resultado": "APROVADO",
       "evidencia": "projetos/gestao-documental/docs/MANUAL_PUBLICACAO.md",
       "responsavel": "G17 (automático)",
-      "data": "2026-11-02"
+      "data": "2026-11-03"
     },
     {
       "id": "C079",
@@ -889,7 +889,7 @@
       "resultado": "APROVADO",
       "evidencia": "projetos/gestao-documental/docs/PLANO_CONTINUIDADE.md",
       "responsavel": "G17 (automático)",
-      "data": "2026-11-02"
+      "data": "2026-11-03"
     },
     {
       "id": "C080",
@@ -900,7 +900,7 @@
       "resultado": "APROVADO",
       "evidencia": "MOD-007/TESTES.json: 1 caso(s) 'verificar_ambiente' (2026-11-02T23:10)",
       "responsavel": "G17 (automático)",
-      "data": "2026-11-02"
+      "data": "2026-11-03"
     },
     {
       "id": "C081",
@@ -911,7 +911,7 @@
       "resultado": "APROVADO",
       "evidencia": "ESCOPO.md em 7/7 módulos",
       "responsavel": "G17 (automático)",
-      "data": "2026-11-02"
+      "data": "2026-11-03"
     },
     {
       "id": "C082",
@@ -922,7 +922,7 @@
       "resultado": "APROVADO",
       "evidencia": "CODIGO_ALTERADO.md em 7/7 módulos",
       "responsavel": "G17 (automático)",
-      "data": "2026-11-02"
+      "data": "2026-11-03"
     },
     {
       "id": "C083",
@@ -933,7 +933,7 @@
       "resultado": "APROVADO",
       "evidencia": "COMMITS.json em 7/7 módulos",
       "responsavel": "G17 (automático)",
-      "data": "2026-11-02"
+      "data": "2026-11-03"
     },
     {
       "id": "C084",
@@ -944,7 +944,7 @@
       "resultado": "APROVADO",
       "evidencia": "RESPONSAVEIS.md em 7/7 módulos",
       "responsavel": "G17 (automático)",
-      "data": "2026-11-02"
+      "data": "2026-11-03"
     },
     {
       "id": "C085",
@@ -955,7 +955,7 @@
       "resultado": "APROVADO",
       "evidencia": "contratos/TESTE-001/medicoes/OS-TESTE-001.json",
       "responsavel": "G17 (automático)",
-      "data": "2026-11-02"
+      "data": "2026-11-03"
     },
     {
       "id": "C086",
@@ -966,7 +966,7 @@
       "resultado": "APROVADO",
       "evidencia": "contratos/TESTE-001/medicoes/OS-TESTE-001.json",
       "responsavel": "G17 (automático)",
-      "data": "2026-11-02"
+      "data": "2026-11-03"
     },
     {
       "id": "C087",
@@ -977,7 +977,7 @@
       "resultado": "NAO_VERIFICADO",
       "evidencia": "requer verificação humana",
       "responsavel": "",
-      "data": "2026-11-02"
+      "data": "2026-11-03"
     },
     {
       "id": "C088",
@@ -988,7 +988,7 @@
       "resultado": "NAO_VERIFICADO",
       "evidencia": "requer verificação humana",
       "responsavel": "",
-      "data": "2026-11-02"
+      "data": "2026-11-03"
     },
     {
       "id": "C089",
@@ -997,9 +997,9 @@
       "metodo": "fabrica.py auditar",
       "critico": true,
       "resultado": "APROVADO",
-      "evidencia": "evidencias/OS-TESTE-001/AUDITORIA.md (2026-11-02T23:10)",
+      "evidencia": "evidencias/OS-TESTE-001/AUDITORIA.md (2026-11-03T00:43)",
       "responsavel": "G17 (automático)",
-      "data": "2026-11-02"
+      "data": "2026-11-03"
     },
     {
       "id": "C090",
@@ -1010,7 +1010,7 @@
       "resultado": "NAO_VERIFICADO",
       "evidencia": "requer verificação humana",
       "responsavel": "",
-      "data": "2026-11-02"
+      "data": "2026-11-03"
     },
     {
       "id": "C091",
@@ -1021,7 +1021,7 @@
       "resultado": "APROVADO",
       "evidencia": "projetos/gestao-documental/README.md",
       "responsavel": "G17 (automático)",
-      "data": "2026-11-02"
+      "data": "2026-11-03"
     },
     {
       "id": "C092",
@@ -1032,7 +1032,7 @@
       "resultado": "APROVADO",
       "evidencia": "projetos/gestao-documental/docs/MANUAL_PUBLICACAO.md",
       "responsavel": "G17 (automático)",
-      "data": "2026-11-02"
+      "data": "2026-11-03"
     },
     {
       "id": "C093",
@@ -1043,7 +1043,7 @@
       "resultado": "APROVADO",
       "evidencia": "projetos/gestao-documental/docs/MANUAL_OPERACAO.md",
       "responsavel": "G17 (automático)",
-      "data": "2026-11-02"
+      "data": "2026-11-03"
     },
     {
       "id": "C094",
@@ -1054,7 +1054,7 @@
       "resultado": "APROVADO",
       "evidencia": "MOD-007/TESTES.json: 1 caso(s) 'test_openapi_publicado' (2026-11-02T23:10)",
       "responsavel": "G17 (automático)",
-      "data": "2026-11-02"
+      "data": "2026-11-03"
     },
     {
       "id": "C095",
@@ -1065,7 +1065,7 @@
       "resultado": "APROVADO",
       "evidencia": "PREVIEW.md em 7/7 módulos",
       "responsavel": "G17 (automático)",
-      "data": "2026-11-02"
+      "data": "2026-11-03"
     },
     {
       "id": "C096",
@@ -1076,7 +1076,7 @@
       "resultado": "APROVADO",
       "evidencia": "IMPLANTACAO.md em 7/7 módulos",
       "responsavel": "G17 (automático)",
-      "data": "2026-11-02"
+      "data": "2026-11-03"
     },
     {
       "id": "C097",
@@ -1087,7 +1087,7 @@
       "resultado": "APROVADO",
       "evidencia": "ACEITE.md em 7/7 módulos",
       "responsavel": "G17 (automático)",
-      "data": "2026-11-02"
+      "data": "2026-11-03"
     },
     {
       "id": "C098",
@@ -1098,7 +1098,7 @@
       "resultado": "NAO_VERIFICADO",
       "evidencia": "requer verificação humana",
       "responsavel": "",
-      "data": "2026-11-02"
+      "data": "2026-11-03"
     },
     {
       "id": "C099",
@@ -1109,7 +1109,7 @@
       "resultado": "NAO_VERIFICADO",
       "evidencia": "requer verificação humana",
       "responsavel": "",
-      "data": "2026-11-02"
+      "data": "2026-11-03"
     },
     {
       "id": "C100",
@@ -1120,7 +1120,7 @@
       "resultado": "NAO_VERIFICADO",
       "evidencia": "requer verificação humana",
       "responsavel": "",
-      "data": "2026-11-02"
+      "data": "2026-11-03"
     }
   ]
 }

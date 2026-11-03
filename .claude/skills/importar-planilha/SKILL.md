@@ -9,4 +9,5 @@ description: IMPORTAR PLANILHA / IMPORTAR DOCUMENTO BASE — importa o DOCUMENTO
 3. Mostre ao usuário: quantos profissionais (novos/total), erros (CPF inválido, senioridade inválida), linhas por aba. **Nunca mostre CPF completo** — só o mascarado.
 4. `python3 fabrica/ferramentas/fabrica.py contrato faltantes <ID>` e pergunte só o que faltar.
 5. Se a aba PROJETOS tiver linhas, ofereça criar os repositórios (skill novo-repositorio).
-6. Se precisar da lista oficial com CPF para o órgão: `python3 fabrica/ferramentas/fabrica.py profissionais oficial <ID>` (gera em privado/, não versionado).
+6. Equipe só com Nome, CPF e Cargo: modelo Word `python3 fabrica/ferramentas/fabrica.py profissionais modelo EQUIPE.docx`; o usuário devolve preenchido e você roda `profissionais importar <ID> EQUIPE.docx`.
+7. Se precisar da lista oficial com CPF para o órgão: `python3 fabrica/ferramentas/fabrica.py profissionais oficial <ID>` (gera em privado/, não versionado).

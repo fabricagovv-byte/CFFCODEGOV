@@ -1,6 +1,6 @@
 # Confronto edital × documento base — TESTE-001
 
-Gerado em 2026-11-03T00:28:39-03:00 (G02 Analista de Editais + G18 Gestor de Profissionais).
+Gerado em 2026-11-03T00:43:14-03:00 (G02 Analista de Editais + G18 Gestor de Profissionais).
 
 Resumo: **10 atende · 0 ajustar · 6 falta**
 

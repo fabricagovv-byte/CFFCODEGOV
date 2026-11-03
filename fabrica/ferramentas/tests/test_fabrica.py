@@ -5,6 +5,7 @@ import importlib
 import json
 import shutil
 import subprocess
+import zipfile
 import sys
 from pathlib import Path
 
@@ -28,6 +29,7 @@ def fab(tmp_path, monkeypatch):
     subprocess.run(["git", "config", "user.email", "t@t"], cwd=raiz, check=True)
     subprocess.run(["git", "config", "user.name", "Teste"], cwd=raiz, check=True)
     monkeypatch.setenv("FABRICA_RAIZ", str(raiz))
+    monkeypatch.setenv("FABRICA_WORD", "0")  # Word só nos testes específicos (mais rápido)
     sys.path.insert(0, str(ORIGEM / "fabrica/ferramentas"))
     mod = importlib.reload(importlib.import_module("fabrica"))
     yield mod
@@ -336,3 +338,34 @@ def test_documento_base_importa_empresa_e_capacidades(fab, tmp_path):
     base = yaml.safe_load((fab.CONTRATOS / "C5/BASE.yaml").read_text())
     assert base["empresa"]["razao_social"] == "Empresa Exemplo Ltda" and base["capacidades"][0]["item"] == "Java / Spring Boot"
     assert r["profissionais"]["novos"] == 1
+
+
+# ----------------------------------------------------------------------------- Word
+
+def _tem_word():
+    r = subprocess.run(["node", "-e", "require('docx')"], capture_output=True)
+    return r.returncode == 0
+
+
+@pytest.mark.skipif(not _tem_word(), reason="Node.js com a biblioteca docx não disponível")
+def test_word_relatorio_e_equipe_simplificada(fab, tmp_path, monkeypatch):
+    monkeypatch.setenv("FABRICA_WORD", "1")
+    fab.novo_contrato("C1")
+    # 1) modelo em branco Nome | CPF | Cargo
+    modelo = fab.equipe_modelo(tmp_path / "modelo.docx")
+    assert zipfile.ZipFile(modelo).read("word/document.xml").count(b"<w:tr") >= 26
+    # 2) "preenchido" pelo usuário (gerado aqui com a mesma ferramenta) e importado de volta
+    md = tmp_path / "preenchido.md"
+    md.write_text(f"# Equipe\n\n| Nome | CPF | Cargo |\n|---|---|---|\n| Ana Souza | {CPF_OK} | Gerente de Projeto |\n| Beto Lima |  | Desenvolvedor |\n|  |  |  |\n")
+    preenchido = fab.exportar_word(md, saida=tmp_path / "preenchido.docx", capa=False)
+    r = fab.importar_profissionais("C1", preenchido)
+    assert r["novos"] == 2 and not r["erros"]
+    assert [p["funcao"] for p in fab.carregar_profissionais("C1")] == ["Gerente de Projeto", "Desenvolvedor"]
+    # 3) documento oficial simplificado (privado, 600, com CPF formatado)
+    of = fab.equipe_oficial("C1")
+    assert of.suffix == ".docx" and "privado" in str(of) and oct(of.stat().st_mode)[-3:] == "600"
+    xml = zipfile.ZipFile(of).read("word/document.xml").decode()
+    assert "529.982.247-25" in xml and "Gerente de Projeto" in xml and "RESTRITO" in zipfile.ZipFile(of).read("word/footer1.xml").decode()
+    # 4) relatório com capa e versão Word
+    rel = fab.relatorio("C1", "mensal", "2026-11-01")
+    assert rel.with_suffix(".docx").exists()

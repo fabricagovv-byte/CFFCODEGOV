@@ -1,6 +1,6 @@
 # Memória de cálculo — OS-TESTE-001
 
-Gerado em 2026-11-02T23:10:59-03:00 pelo Medidor de UST (G15).
+Gerado em 2026-11-03T00:43:14-03:00 pelo Medidor de UST (G15).
 
 > **UST FICTÍCIAS — demonstração da fábrica, sem valor para faturamento.**
 

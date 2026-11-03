@@ -1,6 +1,6 @@
 # Checklist de 100 controles — OS-TESTE-001
 
-Gerado em 2026-11-02T23:12:07-03:00.
+Gerado em 2026-11-03T00:43:16-03:00.
 
 **Situação da entrega: PENDENTE_VERIFICACAO_HUMANA**
 
@@ -141,7 +141,7 @@ Críticos aguardando verificação humana: C003, C009, C012, C039, C043, C047, C
 | C086 | Separação previsto / comprovado / aceito | sim | APROVADO | contratos/TESTE-001/medicoes/OS-TESTE-001.json | G17 (automático) |
 | C087 | Nenhuma equivalência UST/PF/horas inventada | sim | NAO_VERIFICADO | requer verificação humana |  |
 | C088 | Capturas reais quando há interface |  | NAO_VERIFICADO | requer verificação humana |  |
-| C089 | Auditoria de evidências executada | sim | APROVADO | evidencias/OS-TESTE-001/AUDITORIA.md (2026-11-02T23:10) | G17 (automático) |
+| C089 | Auditoria de evidências executada | sim | APROVADO | evidencias/OS-TESTE-001/AUDITORIA.md (2026-11-03T00:43) | G17 (automático) |
 | C090 | Participação humana com origem registrada | sim | NAO_VERIFICADO | requer verificação humana |  |
 
 ## Documentação e homologação

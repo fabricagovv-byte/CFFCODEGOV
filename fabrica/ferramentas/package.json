@@ -1,0 +1,6 @@
+{
+  "name": "fabrica-ferramentas",
+  "private": true,
+  "description": "Dependência do gerador de documentos Word da fábrica (word.cjs)",
+  "dependencies": { "docx": "9.7.1" }
+}

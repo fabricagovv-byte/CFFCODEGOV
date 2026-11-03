@@ -6,6 +6,15 @@
 A fábrica lê o edital, cruza com o documento base e responde: **o que já atende, o que precisa ajustar e o que falta**
 (`CONFRONTAR EDITAL <ID>`). O mínimo é a aba PROFISSIONAIS com **nome e função** de cada pessoa.
 
+## Só a equipe? Use o Word
+
+`EQUIPE_NOME_CPF_CARGO.docx`: uma tabela com **Nome, CPF e Cargo**. Preencha e devolva dizendo "IMPORTAR EQUIPE <ID>".
+O documento oficial da equipe (para o órgão) sai no mesmo formato, em Word, e fica guardado fora do repositório.
+
+## Relatórios em Word
+
+Todos os relatórios (diário, semanal, mensal, por profissional, fechamento do dia, PPJ, medição, confronto com o edital) são entregues também em **Word**, com capa, indicadores e tabelas.
+
 ## O jeito mais fácil (celular)
 
 Abra **`DOCUMENTO_BASE.xlsx`** no Excel ou Google Planilhas, preencha as abas e me envie.
