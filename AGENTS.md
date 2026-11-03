@@ -20,7 +20,10 @@ humanos reais, contratos, ordens de serviço (OS), evidências, medição (UST/P
 | `fabrica/docs/` | Guias: passo a passo, o que enviar, medição UST, linguagens |
 | `fabrica/legislacao/REFERENCIAS.md` | Leis e normas de referência e como verificar aplicabilidade |
 | `contratos/<ID>/` | Um contrato: formulário, matriz, GEC, OS, evidências, medições, relatórios, checklist, entregas |
-| `projetos/<nome>/` | Código-fonte dos sistemas (ex.: `projetos/gestao-documental`, OS TESTE-001) |
+| `projetos/<nome>/` | Código-fonte dos sistemas |
+| `PROJETO.yaml` | Identidade do repositório: um repositório = um sistema; componentes e stacks |
+| `fabrica/stacks/` | Perfis e esqueletos por linguagem (Python, TypeScript/React/Node, Java, C#, PHP, Go, Rust) + `VERIFICACAO.md` |
+| `fabrica/modelos_repositorio/` | README, CI, .gitignore e PROJETO.yaml usados ao criar repositórios novos |
 | `.claude/agents/`, `.claude/skills/` | Agentes e comandos no formato do Claude Code (gerados/definidos aqui) |
 
 ## Regras inegociáveis
@@ -33,6 +36,11 @@ humanos reais, contratos, ordens de serviço (OS), evidências, medição (UST/P
 6. **Segurança desde a concepção:** sem segredos no git (`.env` fora do versionamento), menor privilégio, auditoria, dados fictícios em demonstrações, LGPD.
 7. **Documentos contratuais primeiro:** leia edital/TR/contrato antes de planejar; cite cláusula/página; conflitos vão para análise humana.
 8. **Legislação:** verifique o ente, o regime e a data antes de afirmar aplicabilidade (ver `fabrica/legislacao/REFERENCIAS.md`). Não declare certificação/conformidade integral sem evidência.
+9. **Dados pessoais da equipe (CPF):** CPF completo só em `contratos/<ID>/privado/` (no `.gitignore`, permissão 600), importado por `fabrica.py profissionais importar`. Em arquivos versionados, relatórios e mensagens use apenas `cpf_mascarado`. Nunca imprima, faça commit ou envie CPF completo.
+10. **Rateio é interno:** dividir o total de UST do período entre profissionais (`fabrica.py rateio`) só considera quem tem participação registrada no período; mostre sempre a regra, a base do total e o documento. Rateio não altera medição nem aceite.
+11. **Sem assinatura:** aceite pode vir de qualquer documento do órgão (termo, ofício, e-mail do fiscal). Sem documento do órgão, a quantidade fica COMPROVADA, nunca ACEITA. Participação humana sem assinatura usa a prova disponível (commit, PR, ata, "registro do gestor em data") — e o relatório mostra qual foi.
+12. **Um repositório por sistema:** todo repositório novo nasce do modelo (`fabrica.py repositorio novo` ou `CONFIGURACAO_FABRICA.zip`), com `PROJETO.yaml`, stack declarada e CI. Veja `fabrica/docs/PADRAO_REPOSITORIOS.md`.
+13. **Linguagem nova:** antes de usar uma stack sem perfil, crie `fabrica/stacks/<id>.yaml` + esqueleto com teste e rode `fabrica.py stacks verificar <id>`. Stack não verificada é declarada como tal.
 
 ## Como os agentes trabalham juntos
 
@@ -70,6 +78,9 @@ Cada comando tem uma skill em `.claude/skills/<nome>/SKILL.md` (Codex: leia o ar
 | PREPARAR ENTREGA | `preparar-entrega` | `checklist`, `entrega` |
 | PREPARAR PUBLICAÇÃO | `preparar-publicacao` | — (manual de publicação do projeto) |
 | PUBLICAR PRODUÇÃO | `publicar-producao` | exige autorização humana |
+| IMPORTAR PLANILHA | `importar-planilha` | `planilha importar`, `profissionais importar` |
+| RATEIO (diário/semanal/mensal) | `rateio-ust` | `rateio`, `relatorio ... --total-ust` |
+| NOVO REPOSITÓRIO / NOVO SISTEMA | `novo-repositorio` | `repositorio novo|lote`, `stacks listar`, `projeto verificar` |
 | Produção diária automática | `producao-diaria` | todas as anteriores, sem publicar |
 
 ## Verificações antes de concluir qualquer trabalho
@@ -77,8 +88,7 @@ Cada comando tem uma skill em `.claude/skills/<nome>/SKILL.md` (Codex: leia o ar
 ```bash
 python3 fabrica/ferramentas/fabrica.py iniciar
 python3 -m pytest fabrica/ferramentas/tests -q
-(cd projetos/gestao-documental/backend && python3 -m pytest -q)
-(cd projetos/gestao-documental/frontend && npm ci && npm test && npm run build)
+python3 fabrica/ferramentas/fabrica.py projeto verificar --instalar   # testa todos os componentes do PROJETO.yaml
 python3 fabrica/ferramentas/fabrica.py tarefas validar
 ```
 

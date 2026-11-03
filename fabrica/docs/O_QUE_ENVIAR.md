@@ -14,11 +14,16 @@ Envie o que tiver. O Analista de Editais (G02) lê tudo e depois pergunta **só 
 | 6 | Documentos técnicos do órgão (padrões, arquitetura, manuais) | se houver | seguir o padrão do órgão |
 | 7 | Acesso ao repositório existente | se houver | manutenção/evolução |
 
-## 2. Planilhas para preencher (modelos em `fabrica/templates/`)
+## 2. Planilhas para preencher
+
+**Mais fácil:** `PLANILHA_PREENCHIMENTO.xlsx` (no ZIP de preenchimento) — todas as abas abaixo num arquivo só. Ver `PREENCHIMENTO_LEIA-ME.md`.
+
+Modelos CSV equivalentes em `fabrica/templates/`:
 
 | Arquivo | O que preencher | Exemplo de linha |
 |---|---|---|
-| `PROFISSIONAIS.csv` | equipe real designada | `P01,Maria Souza,Gerente de Projeto,PMP + 8 anos,PMP 123,Planejamento,TODOS,maria@empresa.com.br,2026-01-01,` |
+| `PROFISSIONAIS_ENTRADA.csv` | equipe real: nome, função, CPF, área, senioridade (CPF fica fora do git) | `Maria Souza,Gerente de Projeto,123.456.789-09,GESTAO,SENIOR,PMP + 8 anos,...` |
+| `RATEIO_TOTAIS.csv` | total de UST por semana/mês para dividir entre a equipe | `semanal,2026-11-02,250,aceito,e-mail do fiscal` |
 | `PARTICIPACOES.csv` | o que cada pessoa fez (revisou, corrigiu, aprovou), com prova | `2026-11-03,P02,OS-001,MOD-001,REVISAO,Revisou login,PR #12,` |
 | `TABELA_UST.csv` | itens do catálogo do TR, exatamente como no contrato | `UST-DEV-03,Desenvolvimento alta complexidade,UST,24,ALTA,TR item 5.3,` |
 | `PRODUCAO_HISTORICA.csv` | produção já **aceita** em meses anteriores, por profissional | `P02,2026-09,OS-014,UST-DEV-03,ALTA,24,Termo 014/2026` |

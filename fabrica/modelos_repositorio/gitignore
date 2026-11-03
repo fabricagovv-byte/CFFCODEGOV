@@ -1,0 +1,24 @@
+# Dependências e builds
+node_modules/
+dist/
+target/
+vendor/
+bin/
+obj/
+__pycache__/
+*.pyc
+.pytest_cache/
+*.tsbuildinfo
+# Segredos e dados pessoais (LGPD)
+.env
+*.env.local
+contratos/*/privado/
+backups/
+infra/certs/
+# Bancos locais e uploads
+*.db
+uploads/
+# Pacotes de entrega (gerados sob demanda; versiona-se o MANIFESTO.json)
+contratos/*/entregas/*/ENTREGA_CONTRATO/
+contratos/*/entregas/*/*.zip
+relatorios/verificacao/*/

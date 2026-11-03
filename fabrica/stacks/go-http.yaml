@@ -1,0 +1,8 @@
+id: go-http
+linguagem: Go 1.22+
+framework: net/http (biblioteca padrão) + go test
+requer: [go]
+comandos:
+  instalar: null
+  testar: {tipo: comando, cmd: [go, test, -v, ./...]}
+  build: [go, build, ./...]

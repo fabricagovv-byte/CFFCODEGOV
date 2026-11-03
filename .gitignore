@@ -13,3 +13,4 @@ infra/certs/
 contratos/*/entregas/*/ENTREGA_CONTRATO/
 contratos/*/entregas/*/*.zip
 *.tsbuildinfo
+contratos/*/privado/

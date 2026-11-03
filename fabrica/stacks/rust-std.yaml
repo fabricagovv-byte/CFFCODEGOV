@@ -1,0 +1,8 @@
+id: rust-std
+linguagem: Rust 1.80+
+framework: biblioteca padrão + cargo test (adicione axum/actix se o contrato pedir)
+requer: [cargo]
+comandos:
+  instalar: null
+  testar: {tipo: comando, cmd: [cargo, test, --quiet]}
+  build: [cargo, build, --quiet]

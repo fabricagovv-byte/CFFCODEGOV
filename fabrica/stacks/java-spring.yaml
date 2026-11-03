@@ -1,0 +1,8 @@
+id: java-spring
+linguagem: Java 21
+framework: Spring Boot 3 + Maven + JUnit 5
+requer: [java, mvn]
+comandos:
+  instalar: [mvn, -q, -B, dependency:go-offline]
+  testar: {cmd: [mvn, -q, -B, test], junit_glob: "target/surefire-reports/TEST-*.xml"}
+  build: [mvn, -q, -B, -DskipTests, package]

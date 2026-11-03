@@ -1,2 +1,2 @@
-id,nome,funcao,qualificacao,registro_ou_certificacao,responsabilidades,modulos,email_corporativo,inicio,fim
-#P01,Nome Completo,Gerente de Projeto,PMP + 5 anos em TI pública,PMP 0000000,Planejamento e reporte ao contratante,TODOS,nome@empresa.com.br,2026-01-01,
+id,nome,funcao,area,senioridade,cpf_mascarado,qualificacao,registro_ou_certificacao,responsabilidades,modulos,email_corporativo,inicio,fim
+#P01,Nome Completo,Desenvolvedor Backend,BACKEND,SENIOR,***.456.789-**,Graduação + 8 anos,,APIs e revisão,MOD-001,nome@empresa.com.br,2026-01-01,

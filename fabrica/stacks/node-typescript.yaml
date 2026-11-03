@@ -1,0 +1,8 @@
+id: node-typescript
+linguagem: TypeScript 5 (Node.js 22)
+framework: node:http + node:test (sem framework; troque por NestJS/Express se o contrato pedir)
+requer: [node, npm]
+comandos:
+  instalar: [npm, install, --no-audit, --no-fund]
+  testar: {cmd: [node, --experimental-strip-types, --test, --test-reporter=spec, --test-reporter-destination=stdout, --test-reporter=junit, "--test-reporter-destination={junit}", src/app.test.ts]}
+  build: [npx, tsc, --noEmit]

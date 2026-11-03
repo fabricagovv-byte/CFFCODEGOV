@@ -11,7 +11,7 @@ jobs:
       - uses: actions/checkout@v4
       - uses: actions/setup-python@v5
         with: {python-version: "3.13"}
-      - run: pip install pyyaml pytest
+      - run: pip install pyyaml pytest openpyxl
       - run: python -m pytest fabrica/ferramentas/tests -q
       - run: python fabrica/ferramentas/fabrica.py agentes verificar
       - run: python fabrica/ferramentas/fabrica.py tarefas validar

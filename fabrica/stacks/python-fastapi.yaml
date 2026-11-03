@@ -1,0 +1,9 @@
+id: python-fastapi
+linguagem: Python 3.12+
+framework: "FastAPI + pytest (banco com SQLAlchemy/Alembic - ver referência)"
+requer: [python3]
+comandos:
+  instalar: [python3, -m, pip, install, -q, -r, requirements-dev.txt]
+  testar: {cmd: [python3, -m, pytest, -q, "--junitxml={junit}"]}
+  build: null
+referencia: "projetos/gestao-documental/backend do repositório de origem (implementação completa com auth, auditoria e migrações)"

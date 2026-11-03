@@ -22,6 +22,7 @@ import re
 import shutil
 import subprocess
 import sys
+import unicodedata
 import xml.etree.ElementTree as ET
 import zipfile
 from datetime import date, datetime, timedelta
@@ -125,6 +126,12 @@ def commit_existe(sha: str) -> bool:
 def mascarar(texto: str) -> str:
     """Oculta senha em URLs de conexão (usuario:senha@host)."""
     return re.sub(r"://([^:/@]+):[^@]+@", r"://\1:***@", texto)
+
+
+def slug(texto: str) -> str:
+    """'Gestão Documental' -> 'gestao-documental'."""
+    s = unicodedata.normalize("NFKD", texto).encode("ascii", "ignore").decode().lower()
+    return re.sub(r"[^a-z0-9]+", "-", s).strip("-")
 
 
 def rel(p: Path) -> str:
@@ -388,11 +395,11 @@ def novo_contrato(cid: str) -> Path:
         raise ErroFabrica(f"contrato já existe: {cid}")
     tpl = FAB / "templates"
     (d / "documentos").mkdir(parents=True)
-    for sub in ("os", "evidencias", "relatorios/diarios", "relatorios/mensais", "medicoes", "checklist"):
+    for sub in ("os", "evidencias", "relatorios/diarios", "relatorios/mensais", "medicoes", "checklist", "rateios"):
         (d / sub).mkdir(parents=True, exist_ok=True)
     form = (tpl / "FORMULARIO_CONTRATO.yaml").read_text(encoding="utf-8")
     (d / "contrato.yaml").write_text(form.replace("<ID_CONTRATO>", cid), encoding="utf-8")
-    for nome in ("PROFISSIONAIS.csv", "PARTICIPACOES.csv", "TABELA_UST.csv",
+    for nome in ("PROFISSIONAIS.csv", "PARTICIPACOES.csv", "TABELA_UST.csv", "RATEIO.yaml", "RATEIO_TOTAIS.csv",
                  "MATRIZ_RASTREABILIDADE.md", "GEC_TEMPLATE.md"):
         destino = d / ("GEC.md" if nome == "GEC_TEMPLATE.md" else nome)
         shutil.copy(tpl / nome, destino)
@@ -535,6 +542,69 @@ def ler_junit(p: Path) -> dict:
     return r
 
 
+def rodar_teste(t: dict, cwd: Path, destino: Path) -> dict:
+    """Executa UM comando de teste de verdade e devolve o resultado com caminhos de JUnit e log.
+
+    t: {nome, cmd, [tipo: comando], [junit_glob: padrão relativo ao cwd], [env]}
+    - padrão: o comando grava JUnit em {junit};
+    - junit_glob: o comando grava vários XML (ex.: Maven surefire) e todos são lidos;
+    - tipo comando: vale o código de saída (1 verificação).
+    """
+    destino.mkdir(parents=True, exist_ok=True)
+    carimbo = datetime.now(TZ).strftime("%Y%m%dT%H%M%S")
+    junit = destino / f"{t['nome']}-{carimbo}.xml"
+    log = destino / f"{t['nome']}-{carimbo}.log"
+    cmd = [c.replace("{junit}", str(junit)) for c in t["cmd"]]
+    ini = datetime.now(TZ)
+    env = {**os.environ, **{k: str(v) for k, v in (t.get("env") or {}).items()}}
+    if t.get("junit_glob"):
+        for velho in glob.glob(str(cwd / t["junit_glob"])):
+            Path(velho).unlink()
+    try:
+        r = subprocess.run(cmd, cwd=cwd, capture_output=True, text=True, env=env, timeout=t.get("timeout", 1800))
+        codigo, saida, erro = r.returncode, r.stdout, r.stderr
+    except FileNotFoundError as e:
+        codigo, saida, erro = 127, "", f"ferramenta não encontrada: {e}"
+    except subprocess.TimeoutExpired:
+        codigo, saida, erro = 124, "", "tempo esgotado"
+    fim = datetime.now(TZ)
+    amb = "".join(f"# {k}={mascarar(env[k])}\n" for k in ("TEST_DATABASE_URL",) if env.get(k))
+    log.write_text(f"$ (cd {rel(cwd)} && {' '.join(cmd)})\n# início: {ini.isoformat()}\n"
+                   f"# fim: {fim.isoformat()}\n# código de saída: {codigo}\n{amb}\n{saida}\n{erro}", encoding="utf-8")
+    vazio = {"testes": 0, "falhas": 0, "erros": 1, "ignorados": 0, "casos": []}
+    if t.get("tipo") == "comando":
+        st = "PASSOU" if codigo == 0 else "FALHOU"
+        res = {"testes": 1, "falhas": int(codigo != 0), "erros": 0, "ignorados": 0,
+               "casos": [{"suite": t["nome"], "nome": " ".join(cmd), "tempo_s": (fim - ini).total_seconds(), "status": st}]}
+        junit = log
+    elif t.get("junit_glob"):
+        arqs = sorted(glob.glob(str(cwd / t["junit_glob"])))
+        if arqs:
+            res = {"testes": 0, "falhas": 0, "erros": 0, "ignorados": 0, "casos": []}
+            raiz = ET.Element("testsuites")
+            for a in arqs:
+                parcial = ler_junit(Path(a))
+                for k in ("testes", "falhas", "erros", "ignorados"):
+                    res[k] += parcial[k]
+                res["casos"] += parcial["casos"]
+                raiz.append(ET.parse(a).getroot())
+            ET.ElementTree(raiz).write(junit, encoding="utf-8", xml_declaration=True)
+        else:
+            res = vazio
+    else:
+        res = ler_junit(junit) if junit.exists() else vazio
+    return {"nome": t["nome"], "comando": " ".join(cmd), "cwd": rel(cwd),
+            "inicio": ini.isoformat(timespec="seconds"), "fim": fim.isoformat(timespec="seconds"),
+            "codigo_saida": codigo, "junit": rel(junit), "log": rel(log), **res}
+
+
+def resumir_execucoes(execucoes: list[dict]) -> tuple[dict, str]:
+    total = {k: sum(e[k] for e in execucoes) for k in ("testes", "falhas", "erros", "ignorados")}
+    ok = execucoes and total["testes"] > 0 and total["falhas"] == 0 and total["erros"] == 0 \
+        and all(e["codigo_saida"] == 0 for e in execucoes)
+    return total, ("APROVADO" if ok else "REPROVADO")
+
+
 def executar_testes(cid: str, osid: str, somente: str | None = None) -> dict[str, dict]:
     """Executa de fato os comandos de teste de cada módulo e grava resultados reais."""
     o = carregar_os(cid, osid)
@@ -544,38 +614,10 @@ def executar_testes(cid: str, osid: str, somente: str | None = None) -> dict[str
         if somente and m["id"] != somente:
             continue
         d = dir_mod(cid, osid, m["id"])
-        (d / "LOGS_TESTES").mkdir(parents=True, exist_ok=True)
-        execucoes = []
-        for t in m.get("testes", []):
-            carimbo = datetime.now(TZ).strftime("%Y%m%dT%H%M%S")
-            junit = d / "LOGS_TESTES" / f"{t['nome']}-{carimbo}.xml"
-            log = d / "LOGS_TESTES" / f"{t['nome']}-{carimbo}.log"
-            cmd = [c.replace("{junit}", str(junit)) for c in t["cmd"]]
-            cwd = o["_dir_projeto"] / t.get("cwd", ".")
-            ini = datetime.now(TZ)
-            env = {**os.environ, **{k: str(v) for k, v in (t.get("env") or {}).items()}}
-            r = subprocess.run(cmd, cwd=cwd, capture_output=True, text=True, env=env)
-            fim = datetime.now(TZ)
-            amb = "".join(f"# {k}={mascarar(env[k])}\n" for k in ("TEST_DATABASE_URL",) if env.get(k))
-            log.write_text(f"$ (cd {rel(cwd)} && {' '.join(cmd)})\n# início: {ini.isoformat()}\n"
-                           f"# fim: {fim.isoformat()}\n# código de saída: {r.returncode}\n{amb}\n"
-                           f"{r.stdout}\n{r.stderr}", encoding="utf-8")
-            if t.get("tipo") == "comando":  # verificação sem JUnit: vale o código de saída
-                st = "PASSOU" if r.returncode == 0 else "FALHOU"
-                res = {"testes": 1, "falhas": int(r.returncode != 0), "erros": 0, "ignorados": 0,
-                       "casos": [{"suite": t["nome"], "nome": " ".join(cmd), "tempo_s": (fim - ini).total_seconds(), "status": st}]}
-                junit = log
-            else:
-                res = ler_junit(junit) if junit.exists() else {"testes": 0, "falhas": 0, "erros": 1, "ignorados": 0, "casos": []}
-            execucoes.append({"nome": t["nome"], "comando": " ".join(cmd), "cwd": rel(cwd),
-                              "inicio": ini.isoformat(timespec="seconds"),
-                              "fim": fim.isoformat(timespec="seconds"),
-                              "codigo_saida": r.returncode, "junit": rel(junit), "log": rel(log), **res})
-        total = {k: sum(e[k] for e in execucoes) for k in ("testes", "falhas", "erros", "ignorados")}
+        execucoes = [rodar_teste(t, o["_dir_projeto"] / t.get("cwd", "."), d / "LOGS_TESTES") for t in m.get("testes", [])]
+        total, situacao = resumir_execucoes(execucoes)
         dados = {"fonte": "execução real via fabrica.py testes executar", "modulo": m["id"],
-                 "executado_em": agora(), "resumo": total,
-                 "situacao": "APROVADO" if execucoes and total["testes"] > 0 and total["falhas"] == 0 and total["erros"] == 0 and all(e["codigo_saida"] == 0 for e in execucoes) else "REPROVADO",
-                 "execucoes": execucoes}
+                 "executado_em": agora(), "resumo": total, "situacao": situacao, "execucoes": execucoes}
         gravar_json(d / "TESTES.json", dados)
         resultados[m["id"]] = dados
     return resultados
@@ -892,7 +934,8 @@ def _git_periodo(inicio: str, fim: str, caminho: str) -> list[dict]:
     return commits
 
 
-def relatorio(cid: str, tipo: str, ref: str | None = None, profissional: str | None = None) -> Path:
+def relatorio(cid: str, tipo: str, ref: str | None = None, profissional: str | None = None,
+              total_ust: float | None = None) -> Path:
     cdir = dir_contrato(cid)
     contrato = ler_yaml(cdir / "contrato.yaml")
     ref = ref or hoje()
@@ -965,6 +1008,9 @@ def relatorio(cid: str, tipo: str, ref: str | None = None, profissional: str | N
         L.append("Sem registro.")
     if erros_p:
         L += ["", "Registros rejeitados (corrigir):", *[f"- {e}" for e in erros_p]]
+    L += ["", "## Participação e rateio interno por profissional", ""]
+    rt = rateio(cid, "mensal" if tipo == "profissional" else tipo, ref, total_ust)
+    L += tabela_rateio_md(rt, profissional)
     L += ["", "## Agentes e atividades (quadro de tarefas)", ""]
     if mov:
         L += ["| Momento | Tarefa | Agente | De → Para | Por | Nota |", "|---|---|---|---|---|---|"]
@@ -1105,6 +1151,613 @@ def preparar_entrega(cid: str, osid: str) -> Path:
     return z
 
 
+# ------------------------------------------------------- equipe real (CPF / LGPD)
+
+SENIORIDADES = ["JUNIOR", "PLENO", "SENIOR", "ESPECIALISTA"]
+CAMPOS_PROF = ["id", "nome", "funcao", "area", "senioridade", "cpf_mascarado", "qualificacao",
+               "registro_ou_certificacao", "responsabilidades", "modulos", "email_corporativo", "inicio", "fim"]
+
+
+def so_digitos(texto: str) -> str:
+    return re.sub(r"\D", "", texto or "")
+
+
+def validar_cpf(cpf: str) -> bool:
+    c = so_digitos(cpf)
+    if len(c) != 11 or c == c[0] * 11:
+        return False
+    for n in (9, 10):
+        soma = sum(int(c[i]) * (n + 1 - i) for i in range(n))
+        dv = (soma * 10) % 11 % 10
+        if dv != int(c[n]):
+            return False
+    return True
+
+
+def mascarar_cpf(cpf: str) -> str:
+    c = so_digitos(cpf)
+    return f"***.{c[3:6]}.{c[6:9]}-**" if len(c) == 11 else ""
+
+
+def ler_tabela(arquivo: Path, aba: str | None = None) -> list[dict]:
+    """Lê CSV ou uma aba de XLSX como lista de dicionários (cabeçalho na 1ª linha; ignora linhas vazias e '#')."""
+    if arquivo.suffix.lower() in (".xlsx", ".xlsm"):
+        import openpyxl  # opcional: só para planilhas
+        wb = openpyxl.load_workbook(arquivo, data_only=True, read_only=True)
+        if aba not in wb.sheetnames:
+            return []
+        linhas = list(wb[aba].iter_rows(values_only=True))
+        if not linhas:
+            return []
+        cab = [str(c or "").strip() for c in linhas[0]]
+        dados = []
+        for ln in linhas[1:]:
+            reg = {cab[i]: ("" if v is None else str(v).strip()) for i, v in enumerate(ln) if i < len(cab) and cab[i]}
+            if any(reg.values()) and not str(next(iter(reg.values()), "")).startswith("#"):
+                dados.append(reg)
+        return dados
+    with open(arquivo, encoding="utf-8-sig") as f:
+        return [r for r in csv.DictReader(f) if any((v or "").strip() for v in r.values())
+                and not (next(iter(r.values())) or "").startswith("#")]
+
+
+def gravar_csv(p: Path, campos: list[str], linhas: list[dict]) -> None:
+    p.parent.mkdir(parents=True, exist_ok=True)
+    with open(p, "w", encoding="utf-8", newline="") as f:
+        w = csv.DictWriter(f, fieldnames=campos, extrasaction="ignore")
+        w.writeheader()
+        w.writerows(linhas)
+
+
+def importar_profissionais(cid: str, arquivo: Path) -> dict:
+    """Importa a equipe (nome, função, CPF, área, senioridade...).
+
+    O CPF completo vai SOMENTE para contratos/<ID>/privado/ (fora do git, permissão 600);
+    o arquivo versionado guarda o CPF mascarado.
+    """
+    d = dir_contrato(cid)
+    entrada = ler_tabela(arquivo, "PROFISSIONAIS")
+    atuais = {p["id"]: p for p in carregar_profissionais(cid)}
+    privado_arq = d / "privado" / "PROFISSIONAIS_PRIVADO.csv"
+    privados = {r["id"]: r for r in ler_tabela(privado_arq)} if privado_arq.exists() else {}
+    por_cpf = {so_digitos(v["cpf"]): k for k, v in privados.items() if v.get("cpf")}
+    por_nome = {v["nome"].strip().lower(): k for k, v in atuais.items()}
+    erros, novos = [], 0
+    for n, r in enumerate(entrada, start=2):
+        nome, funcao = (r.get("nome") or "").strip(), (r.get("funcao") or "").strip()
+        if not nome or not funcao:
+            erros.append(f"linha {n}: nome e função são obrigatórios")
+            continue
+        cpf = so_digitos(r.get("cpf", ""))
+        if cpf and not validar_cpf(cpf):
+            erros.append(f"linha {n}: CPF inválido para {nome}")
+            continue
+        sen = (r.get("senioridade") or "").strip().upper()
+        if sen and sen not in SENIORIDADES:
+            erros.append(f"linha {n}: senioridade {sen!r} inválida (use {SENIORIDADES})")
+            continue
+        pid = (r.get("id") or "").strip() or por_cpf.get(cpf) or por_nome.get(nome.lower())
+        if not pid:
+            usados = [int(x[1:]) for x in list(atuais) if re.fullmatch(r"P\d+", x)]
+            pid = f"P{max(usados or [0]) + 1:02d}"
+            novos += 1
+        reg = {k: (r.get(k) or "").strip() for k in CAMPOS_PROF}
+        reg.update(id=pid, nome=nome, funcao=funcao, senioridade=sen, area=(r.get("area") or "").strip().upper(),
+                   cpf_mascarado=mascarar_cpf(cpf))
+        atuais[pid] = {**atuais.get(pid, {}), **{k: v for k, v in reg.items() if v or k in ("id", "nome", "funcao")}}
+        if cpf:
+            privados[pid] = {"id": pid, "nome": nome, "cpf": cpf}
+            por_cpf[cpf] = pid
+        por_nome[nome.lower()] = pid
+    gravar_csv(d / "PROFISSIONAIS.csv", CAMPOS_PROF, sorted(atuais.values(), key=lambda x: x["id"]))
+    if privados:
+        privado_arq.parent.mkdir(parents=True, exist_ok=True)
+        os.chmod(privado_arq.parent, 0o700)
+        gravar_csv(privado_arq, ["id", "nome", "cpf"], sorted(privados.values(), key=lambda x: x["id"]))
+        os.chmod(privado_arq, 0o600)
+        (privado_arq.parent / "LEIA-ME.md").write_text(
+            "Dados pessoais completos (CPF). NÃO versionar, NÃO enviar por canais abertos (LGPD).\n"
+            "Esta pasta está no .gitignore. Faça cópia segura fora do repositório.\n", encoding="utf-8")
+    return {"importados": len(entrada) - len(erros), "novos": novos, "erros": erros, "total_equipe": len(atuais)}
+
+
+def equipe_oficial(cid: str) -> Path:
+    """Gera, na pasta privada, a lista da equipe com CPF completo para envio oficial ao órgão."""
+    d = dir_contrato(cid)
+    privados = {r["id"]: r for r in ler_tabela(d / "privado" / "PROFISSIONAIS_PRIVADO.csv")} \
+        if (d / "privado" / "PROFISSIONAIS_PRIVADO.csv").exists() else {}
+    L = [f"# Equipe designada — contrato {cid}", "", f"Gerado em {agora()}. DOCUMENTO COM DADOS PESSOAIS — uso restrito.", "",
+         "| ID | Nome | CPF | Função | Área | Senioridade | Qualificação |", "|---|---|---|---|---|---|---|"]
+    for p in carregar_profissionais(cid):
+        c = so_digitos(privados.get(p["id"], {}).get("cpf", ""))
+        cpf = f"{c[:3]}.{c[3:6]}.{c[6:9]}-{c[9:]}" if c else "não informado"
+        L.append(f"| {p['id']} | {p['nome']} | {cpf} | {p['funcao']} | {p.get('area', '')} | {p.get('senioridade', '')} | {p.get('qualificacao', '')} |")
+    saida = d / "privado" / "EQUIPE_OFICIAL.md"
+    saida.parent.mkdir(parents=True, exist_ok=True)
+    saida.write_text("\n".join(L) + "\n", encoding="utf-8")
+    os.chmod(saida, 0o600)
+    return saida
+
+
+# ------------------------------------------------------------- rateio interno
+
+RATEIO_PADRAO = {
+    "modo": "proporcional",  # proporcional | senior_da_area
+    "pesos_tipo": {"CONDUCAO": 3, "CORRECAO": 2, "REVISAO": 1, "ORIENTACAO": 1, "APROVACAO": 1},
+    "multiplicador_senioridade": {"ESPECIALISTA": 1.5, "SENIOR": 1.5, "PLENO": 1.0, "JUNIOR": 0.7, "": 1.0},
+    "areas_modulos": {},
+}
+
+
+def periodo(tipo: str, ref: str | None) -> tuple[str, str]:
+    d0 = date.fromisoformat(ref or hoje())
+    if tipo == "diario":
+        ini = fim = d0
+    elif tipo == "semanal":
+        ini = d0 - timedelta(days=d0.weekday()); fim = ini + timedelta(days=6)
+    elif tipo in ("mensal", "profissional"):
+        ini = d0.replace(day=1); fim = (ini + timedelta(days=32)).replace(day=1) - timedelta(days=1)
+    else:
+        raise ErroFabrica(f"período inválido: {tipo}")
+    return ini.isoformat(), fim.isoformat()
+
+
+def total_informado(cid: str, tipo: str, inicio: str) -> dict | None:
+    """Total de UST do período informado pelo usuário em RATEIO_TOTAIS.csv (ex.: 250 UST na semana)."""
+    p = dir_contrato(cid) / "RATEIO_TOTAIS.csv"
+    if not p.exists():
+        return None
+    for r in ler_tabela(p):
+        if r.get("periodo") == tipo and r.get("data_inicio") == inicio and r.get("total_ust"):
+            return {"total": float(str(r["total_ust"]).replace(",", ".")), "base": r.get("base", ""),
+                    "documento": r.get("documento", "")}
+    return None
+
+
+def rateio(cid: str, tipo: str, ref: str | None = None, total: float | None = None) -> dict:
+    """Divide o total do período entre os profissionais COM participação registrada, por área e senioridade.
+
+    É atribuição gerencial interna: não altera a medição contratual nem cria participação.
+    """
+    d = dir_contrato(cid)
+    cfg = {**RATEIO_PADRAO, **((ler_yaml(d / "RATEIO.yaml") or {}) if (d / "RATEIO.yaml").exists() else {})}
+    inicio, fim = periodo(tipo, ref)
+    info = {"total": total, "base": "informado na linha de comando", "documento": ""} if total is not None \
+        else total_informado(cid, tipo, inicio)
+    profs = {p["id"]: p for p in carregar_profissionais(cid)}
+    partic, erros = carregar_participacoes(cid)
+    partic = [p for p in partic if inicio <= p["data"] <= fim]
+    area_mod = dict(cfg.get("areas_modulos") or {})
+    for po in sorted((d / "os").glob("*.yaml")):
+        for m in (ler_yaml(po) or {}).get("modulos", []):
+            if m.get("area"):
+                area_mod.setdefault(m["id"], str(m["area"]).upper())
+    pesos, cont = {}, {}
+    for p in partic:
+        pr = profs[p["profissional_id"]]
+        area = area_mod.get(p["modulo"]) or (pr.get("area") or "GERAL").upper()
+        w = float(cfg["pesos_tipo"].get(p["tipo"], 1)) * float(cfg["multiplicador_senioridade"].get((pr.get("senioridade") or "").upper(), 1))
+        chave = (area, p["profissional_id"])
+        pesos[chave] = pesos.get(chave, 0) + w
+        cont[chave] = cont.get(chave, 0) + 1
+    soma = sum(pesos.values())
+    areas = sorted({a for a, _ in pesos})
+    ordem_sen = {s: i for i, s in enumerate(SENIORIDADES)}
+    linhas = []
+    for a in areas:
+        membros = [(pid, w) for (ar, pid), w in pesos.items() if ar == a]
+        peso_area = sum(w for _, w in membros)
+        senior = max(membros, key=lambda x: (ordem_sen.get((profs[x[0]].get("senioridade") or "").upper(), -1), x[1], -int(re.sub(r"\D", "", x[0]) or 0)))[0]
+        for pid, w in sorted(membros):
+            if cfg["modo"] == "senior_da_area":
+                frac = (peso_area / soma) if pid == senior else 0.0
+            else:
+                frac = w / soma
+            linhas.append({"area": a, "profissional_id": pid, "nome": profs[pid]["nome"], "funcao": profs[pid]["funcao"],
+                           "senioridade": profs[pid].get("senioridade", ""), "participacoes": cont[(a, pid)],
+                           "peso": round(w, 3), "percentual": round(frac * 100, 2),
+                           "ust": round(frac * info["total"], 2) if info else None,
+                           "responsavel_area": pid == senior})
+    r = {"contrato": cid, "periodo": tipo, "inicio": inicio, "fim": fim, "gerado_em": agora(), "modo": cfg["modo"],
+         "total": info["total"] if info else None, "base_total": info["base"] if info else "",
+         "documento_total": info["documento"] if info else "", "participacoes_no_periodo": len(partic),
+         "registros_rejeitados": erros, "linhas": linhas,
+         "nao_atribuido": (info["total"] if info else 0) if not linhas else 0,
+         "aviso": "Rateio interno de atribuição gerencial. Não é medição contratual e não substitui o aceite do órgão. "
+                  "Só entram profissionais com participação registrada (PARTICIPACOES.csv) no período."}
+    nome = f"{tipo}-{inicio}"
+    gravar_json(d / "rateios" / f"{nome}.json", r)
+    (d / "rateios" / f"{nome}.md").write_text("\n".join(tabela_rateio_md(r)) + "\n", encoding="utf-8")
+    return r
+
+
+def tabela_rateio_md(r: dict, profissional: str | None = None) -> list[str]:
+    L = [f"Período {r['inicio']} a {r['fim']} · modo **{r['modo']}** · participações registradas: {r['participacoes_no_periodo']}"]
+    if r["total"] is not None:
+        L.append(f"Total a dividir: **{r['total']:g} UST** (base: {r['base_total'] or 'não informada'}; documento: {r['documento_total'] or 'sem documento/assinatura'})")
+    else:
+        L.append("Total do período não informado (preencha RATEIO_TOTAIS.csv ou use --total): mostrando só percentuais.")
+    L += ["", f"> {r['aviso']}", ""]
+    linhas = [x for x in r["linhas"] if not profissional or x["profissional_id"] == profissional]
+    if not linhas:
+        L.append("Sem participação registrada no período — nada atribuído." + (f" Total não atribuído: {r['nao_atribuido']:g} UST." if r["nao_atribuido"] else ""))
+        return L
+    L += ["| Área | Profissional | Função | Senioridade | Participações | Peso | % | UST | Responsável da área |",
+          "|---|---|---|---|---|---|---|---|---|"]
+    for x in linhas:
+        ust = "—" if x["ust"] is None else f"{x['ust']:g}"
+        L.append(f"| {x['area']} | {x['profissional_id']} {x['nome']} | {x['funcao']} | {x['senioridade'] or '—'} | "
+                 f"{x['participacoes']} | {x['peso']:g} | {x['percentual']:g}% | {ust} | {'sim' if x['responsavel_area'] else ''} |")
+    if r["registros_rejeitados"]:
+        L += ["", "Registros de participação rejeitados (corrigir):", *[f"- {e}" for e in r["registros_rejeitados"]]]
+    return L
+
+
+# ------------------------------------------------------------------ planilha
+
+ABAS_PLANILHA = {
+    "PROFISSIONAIS": ["nome", "funcao", "cpf", "area", "senioridade", "qualificacao", "registro_ou_certificacao",
+                      "responsabilidades", "email_corporativo", "inicio", "fim"],
+    "PARTICIPACOES": ["data", "profissional_id", "os", "modulo", "tipo", "descricao", "evidencia", "horas_declaradas"],
+    "TABELA_UST": ["codigo", "descricao", "unidade", "ust_por_unidade", "complexidade", "referencia_contratual", "observacao"],
+    "RATEIO_TOTAIS": ["periodo", "data_inicio", "total_ust", "base", "documento"],
+    "PRODUCAO_HISTORICA": ["profissional", "mes", "os", "item_tabela", "complexidade", "ust_aceita", "documento_aceite"],
+    "PROJETOS": ["id", "sistema", "orgao", "contrato", "componentes", "repositorio", "responsavel_tecnico", "situacao"],
+}
+LISTAS = {"senioridade": SENIORIDADES, "tipo": TIPOS_PARTICIPACAO,
+          "area": ["BACKEND", "FRONTEND", "DADOS", "INTEGRACOES", "INFRA", "QUALIDADE", "SEGURANCA", "GESTAO", "REQUISITOS", "UX"],
+          "periodo": ["diario", "semanal", "mensal"], "base": ["aceito", "comprovado", "previsto"],
+          "unidade": ["UST", "PF", "HORA", "ENTREGAVEL"], "complexidade": ["BAIXA", "MEDIA", "ALTA", "MUITO_ALTA"]}
+
+
+def _campos_formulario() -> list[tuple[str, str]]:
+    """Campos (caminho.pontuado, comentário) do FORMULARIO_CONTRATO.yaml."""
+    campos, pilha = [], []
+    for linha in (FAB / "templates" / "FORMULARIO_CONTRATO.yaml").read_text(encoding="utf-8").splitlines():
+        if not linha.strip() or linha.lstrip().startswith("#"):
+            continue
+        ind = (len(linha) - len(linha.lstrip())) // 2
+        chave, _, resto = linha.strip().partition(":")
+        pilha = pilha[:ind] + [chave]
+        valor, _, coment = resto.partition("#")
+        if valor.strip() == "" and not coment.strip():
+            continue  # grupo
+        campos.append((".".join(pilha), re.sub(r"^\d+(-\d+)?\s*", "", coment.strip())))
+    return campos
+
+
+def gerar_planilha(destino: Path) -> Path:
+    import openpyxl
+    from openpyxl.styles import Alignment, Font, PatternFill
+    from openpyxl.worksheet.datavalidation import DataValidation
+    wb = openpyxl.Workbook()
+    ws = wb.active
+    ws.title = "LEIA-ME"
+    texto = [
+        "PLANILHA DE PREENCHIMENTO — Fábrica de Software Governamental",
+        "",
+        "1. Preencha as abas. Linhas iniciadas por # são exemplos e são ignoradas.",
+        "2. CONTRATO: só a coluna 'valor' (deixe vazio o que não souber).",
+        "3. PROFISSIONAIS: nome, função e CPF de cada pessoa real; área e senioridade servem para o rateio.",
+        "   O CPF NÃO vai para o git: fica numa pasta privada; nos relatórios aparece mascarado (***.456.789-**).",
+        "4. PARTICIPACOES: o que cada pessoa fez (conduziu, corrigiu, revisou, orientou, aprovou) e a prova",
+        "   (commit, PR, ata, e-mail). Sem assinatura? Escreva 'registro do gestor em AAAA-MM-DD'.",
+        "5. RATEIO_TOTAIS: total de UST do período (ex.: semanal, 2026-11-02, 250) para dividir entre a equipe.",
+        "6. TABELA_UST: copie o catálogo do Termo de Referência sem converter unidades.",
+        "7. PROJETOS: até 30 sistemas — cada linha vira um repositório próprio.",
+        "8. Envie a planilha na conversa e diga: IMPORTAR PLANILHA <ID-do-contrato>.",
+    ]
+    for i, t in enumerate(texto, start=1):
+        ws.cell(row=i, column=1, value=t)
+    ws["A1"].font = Font(bold=True, size=14)
+    ws.column_dimensions["A"].width = 110
+    cab_fill = PatternFill("solid", fgColor="1351B4")
+    wc = wb.create_sheet("CONTRATO")
+    wc.append(["campo", "valor", "ajuda"])
+    for campo, ajuda in _campos_formulario():
+        wc.append([campo, "", ajuda])
+    exemplos = {
+        "PROFISSIONAIS": ["#Maria Exemplo", "Desenvolvedora Backend", "000.000.000-00", "BACKEND", "SENIOR", "Graduação + 8 anos", "", "APIs e revisão", "maria@empresa.com.br", "2026-01-01", ""],
+        "PARTICIPACOES": ["#2026-11-03", "P01", "OS-001", "MOD-001", "REVISAO", "Revisou e corrigiu a API de login", "PR #12", ""],
+        "TABELA_UST": ["#UST-DEV-03", "Desenvolvimento alta complexidade", "UST", "24", "ALTA", "TR item 5.3", ""],
+        "RATEIO_TOTAIS": ["#semanal", "2026-11-02", "250", "aceito", "Termo 12/2026 ou e-mail do fiscal"],
+        "PRODUCAO_HISTORICA": ["#P01", "2026-09", "OS-014", "UST-DEV-03", "ALTA", "24", "Termo 014/2026"],
+        "PROJETOS": ["#PMX-001-SGD", "Gestão Documental", "Prefeitura X", "CT-12/2026", "backend=python-fastapi;frontend=react-vite", "github.com/org/pmx-001-sgd", "P01", "PLANEJADO"],
+    }
+    for aba, cols in ABAS_PLANILHA.items():
+        w = wb.create_sheet(aba)
+        w.append(cols)
+        w.append(exemplos[aba])
+        for i, c in enumerate(cols, start=1):
+            w.column_dimensions[openpyxl.utils.get_column_letter(i)].width = max(14, len(c) + 4)
+            lista = LISTAS.get(c)
+            if lista:
+                dv = DataValidation(type="list", formula1='"' + ",".join(lista) + '"', allow_blank=True)
+                w.add_data_validation(dv)
+                col = openpyxl.utils.get_column_letter(i)
+                dv.add(f"{col}3:{col}500")
+    for w in wb.worksheets[1:]:
+        for c in w[1]:
+            c.font = Font(bold=True, color="FFFFFF"); c.fill = cab_fill; c.alignment = Alignment(wrap_text=True)
+        w.freeze_panes = "A2"
+    wc.column_dimensions["A"].width = 40; wc.column_dimensions["B"].width = 50; wc.column_dimensions["C"].width = 70
+    destino.parent.mkdir(parents=True, exist_ok=True)
+    wb.save(destino)
+    return destino
+
+
+def _definir(obj: dict, caminho: str, valor: Any) -> None:
+    partes = caminho.split(".")
+    for p in partes[:-1]:
+        obj = obj.setdefault(p, {})
+    atual = obj.get(partes[-1])
+    if isinstance(atual, bool) or str(valor).lower() in ("true", "false", "sim", "não", "nao"):
+        valor = str(valor).lower() in ("true", "sim")
+    elif isinstance(atual, list):
+        valor = [v.strip() for v in str(valor).split(";") if v.strip()]
+    obj[partes[-1]] = valor
+
+
+def importar_planilha(cid: str, arquivo: Path) -> dict:
+    """Importa a planilha preenchida para o contrato (cria o contrato se não existir)."""
+    if not (CONTRATOS / cid).exists():
+        novo_contrato(cid)
+    d = dir_contrato(cid)
+    res = {}
+    contrato = ler_yaml(d / "contrato.yaml") or {}
+    n = 0
+    for r in ler_tabela(arquivo, "CONTRATO"):
+        if r.get("campo") and r.get("valor"):
+            _definir(contrato, r["campo"], r["valor"]); n += 1
+    if n:
+        (d / "contrato.yaml").write_text("# Atualizado por fabrica.py planilha importar\n" +
+                                         yaml.safe_dump(contrato, allow_unicode=True, sort_keys=False), encoding="utf-8")
+    res["contrato_campos"] = n
+    if ler_tabela(arquivo, "PROFISSIONAIS"):
+        res["profissionais"] = importar_profissionais(cid, arquivo)
+    for aba, nome in (("PARTICIPACOES", "PARTICIPACOES.csv"), ("TABELA_UST", "TABELA_UST.csv"),
+                      ("RATEIO_TOTAIS", "RATEIO_TOTAIS.csv"), ("PRODUCAO_HISTORICA", "PRODUCAO_HISTORICA.csv"),
+                      ("PROJETOS", "PROJETOS.csv")):
+        linhas = ler_tabela(arquivo, aba)
+        if linhas:
+            gravar_csv(d / nome, ABAS_PLANILHA[aba], linhas)
+            res[aba.lower()] = len(linhas)
+    return res
+
+
+# -------------------------------------------------------- stacks multi-linguagem
+
+STACKS = FAB / "stacks"
+
+
+def carregar_stack(sid: str) -> dict:
+    p = STACKS / f"{sid}.yaml"
+    if not p.exists():
+        raise ErroFabrica(f"stack inexistente: {sid} (disponíveis: {', '.join(listar_stacks())})")
+    return ler_yaml(p)
+
+
+def listar_stacks() -> list[str]:
+    return sorted(p.stem for p in STACKS.glob("*.yaml"))
+
+
+def criar_componente(stack: str, destino: Path, nome: str) -> Path:
+    """Copia o esqueleto (scaffold) da stack para o destino, trocando {{NOME}}."""
+    st = carregar_stack(stack)
+    origem = STACKS / stack
+    if destino.exists() and any(destino.iterdir()):
+        raise ErroFabrica(f"destino não está vazio: {destino}")
+    shutil.copytree(origem, destino, dirs_exist_ok=True)
+    sl = slug(nome) or "app"
+    for p in destino.rglob("*"):
+        if p.is_file():
+            try:
+                t = p.read_text(encoding="utf-8")
+            except UnicodeDecodeError:
+                continue
+            if "{{" in t:
+                p.write_text(t.replace("{{NOME}}", nome).replace("{{SLUG_RUST}}", sl.replace("-", "_")).replace("{{SLUG}}", sl), encoding="utf-8")
+    return destino
+
+
+def verificar_componente(stack: str, caminho: Path, destino_logs: Path, instalar: bool = True) -> dict:
+    st = carregar_stack(stack)
+    execs = []
+    if instalar and st["comandos"].get("instalar"):
+        execs.append(rodar_teste({"nome": f"{stack}-instalar", "tipo": "comando", "cmd": st["comandos"]["instalar"],
+                                  "timeout": 1800}, caminho, destino_logs))
+        if execs[-1]["codigo_saida"] != 0:
+            total, sit = resumir_execucoes(execs)
+            return {"stack": stack, "situacao": sit, "resumo": total, "execucoes": execs}
+    teste = {**st["comandos"]["testar"], "nome": f"{stack}-testes"}
+    execs.append(rodar_teste(teste, caminho, destino_logs))
+    if st["comandos"].get("build"):
+        execs.append(rodar_teste({"nome": f"{stack}-build", "tipo": "comando", "cmd": st["comandos"]["build"]}, caminho, destino_logs))
+    total, sit = resumir_execucoes(execs)
+    return {"stack": stack, "situacao": sit, "resumo": total, "execucoes": execs}
+
+
+def verificar_stacks(somente: list[str] | None = None) -> Path:
+    """Cria cada esqueleto num diretório temporário, instala, testa e registra o resultado REAL."""
+    import tempfile
+    linhas = ["# Verificação das stacks", "", f"Executado em {agora()} por `fabrica.py stacks verificar` (instala dependências e roda os testes de cada esqueleto).", "",
+              "| Stack | Linguagem | Situação | Testes | Detalhe |", "|---|---|---|---|---|"]
+    resultados = {}
+    logs = FAB / "stacks" / "_verificacao"
+    for sid in somente or listar_stacks():
+        st = carregar_stack(sid)
+        faltam = [f for f in st.get("requer", []) if not shutil.which(f)]
+        if faltam:
+            resultados[sid] = {"situacao": "NAO_VERIFICADO", "detalhe": f"ferramenta ausente: {', '.join(faltam)}"}
+        else:
+            with tempfile.TemporaryDirectory(prefix=f"stack-{sid}-") as tmp:
+                comp = criar_componente(sid, Path(tmp) / "app", "Verificacao")
+                r = verificar_componente(sid, comp, logs / sid)
+                det = "; ".join(f"{e['nome']}: saída {e['codigo_saida']}" for e in r["execucoes"])
+                resultados[sid] = {"situacao": r["situacao"], "detalhe": det, "resumo": r["resumo"]}
+        res = resultados[sid]
+        tot = res.get("resumo", {})
+        linhas.append(f"| {sid} | {st['linguagem']} | {res['situacao']} | {tot.get('testes', '—')} ({tot.get('falhas', 0) + tot.get('erros', 0) if tot else '—'} falhas) | {res['detalhe']} |")
+    linhas += ["", "NAO_VERIFICADO = a ferramenta da linguagem não estava instalada nesta máquina; o esqueleto existe mas não foi executado aqui.",
+               "Logs: `fabrica/stacks/_verificacao/<stack>/`.", ""]
+    saida = FAB / "stacks" / "VERIFICACAO.md"
+    saida.write_text("\n".join(linhas), encoding="utf-8")
+    gravar_json(FAB / "stacks" / "_verificacao" / "resultado.json", {"executado_em": agora(), "resultados": resultados})
+    return saida
+
+
+def verificar_projeto(raiz: Path = RAIZ, instalar: bool = False) -> dict:
+    """Roda os testes de todos os componentes declarados no PROJETO.yaml."""
+    pj = ler_yaml(raiz / "PROJETO.yaml")
+    destino = raiz / "relatorios" / "verificacao"
+    saida = {"projeto": pj["projeto"]["id"], "executado_em": agora(), "componentes": {}}
+    for c in pj.get("componentes", []):
+        saida["componentes"][c["nome"]] = verificar_componente(c["stack"], raiz / c["caminho"], destino / c["nome"], instalar)
+    gravar_json(destino / "ULTIMA_VERIFICACAO.json", saida)
+    return saida
+
+
+# --------------------------------------------- modelo de repositório / portfólio
+
+ITENS_MODELO = ["AGENTS.md", "CLAUDE.md", ".claude/settings.json", ".claude/skills", ".codex", "fabrica"]
+
+
+def exportar_modelo(destino: Path) -> Path:
+    """Copia a configuração da fábrica (sem dados de contratos/projetos) para um novo repositório."""
+    if destino.exists() and any(destino.iterdir()):
+        raise ErroFabrica(f"destino não está vazio: {destino}")
+    destino.mkdir(parents=True, exist_ok=True)
+    ign = shutil.ignore_patterns("__pycache__", "*.pyc", ".pytest_cache", "_verificacao", "node_modules", "target", "vendor")
+    for item in ITENS_MODELO:
+        o = RAIZ / item
+        if o.is_dir():
+            shutil.copytree(o, destino / item, ignore=ign)
+        else:
+            (destino / item).parent.mkdir(parents=True, exist_ok=True)
+            shutil.copy2(o, destino / item)
+    # comunicação começa vazia
+    com = destino / "fabrica" / "comunicacao"
+    shutil.rmtree(com, ignore_errors=True)
+    com.mkdir(parents=True)
+    (com / "AGENT_TASKS.json").write_text('{"versao": 1, "tarefas": []}\n', encoding="utf-8")
+    (com / "AGENT_MESSAGES.jsonl").write_text("", encoding="utf-8")
+    for nome, titulo in (("AGENT_DECISIONS.md", "Decisões registradas"), ("AGENT_HANDOFFS.md", "Transferências de trabalho (handoffs)"),
+                         ("AGENT_BLOCKERS.md", "Bloqueios")):
+        (com / nome).write_text(f"# {titulo}\n\nRegistro gerado pela CLI. Não edite entradas antigas.\n", encoding="utf-8")
+    mr = FAB / "modelos_repositorio"
+    for nome, alvo in (("README.md", "README.md"), ("gitignore", ".gitignore"), ("ci.yml", ".github/workflows/ci.yml"),
+                       ("PROJETO.yaml", "PROJETO.yaml")):
+        (destino / alvo).parent.mkdir(parents=True, exist_ok=True)
+        shutil.copy2(mr / nome, destino / alvo)
+    for pasta in ("contratos", "projetos", "relatorios"):
+        (destino / pasta).mkdir(exist_ok=True)
+        (destino / pasta / ".gitkeep").write_text("", encoding="utf-8")
+    try:
+        origem = git("rev-parse", "--short", "HEAD").strip()
+    except ErroFabrica:
+        origem = "sem commit"
+    (destino / "fabrica" / "VERSAO_MODELO").write_text(f"exportado em {agora()} de {origem}\n", encoding="utf-8")
+    return destino
+
+
+def novo_repositorio(destino: Path, pid: str, sistema: str, orgao: str = "", contrato: str = "",
+                     componentes: list[str] | None = None, git_init: bool = True) -> Path:
+    """Cria um repositório completo para UM sistema: configuração da fábrica + esqueletos + PROJETO.yaml."""
+    if not re.fullmatch(r"[A-Za-z0-9][A-Za-z0-9._-]{1,60}", pid):
+        raise ErroFabrica("id do projeto inválido (use letras, números, ponto, hífen; ex.: PMX-001-SGD)")
+    exportar_modelo(destino)
+    comps = []
+    for c in componentes or []:
+        nome, _, stack = c.partition("=")
+        if not stack:
+            raise ErroFabrica(f"componente inválido {c!r}: use nome=stack (ex.: backend=python-fastapi)")
+        carregar_stack(stack)
+        caminho = f"projetos/{slug(sistema) or slug(pid)}/{nome}"
+        criar_componente(stack, destino / caminho, sistema)
+        comps.append({"nome": nome, "stack": stack, "caminho": caminho})
+    pj = {"projeto": {"id": pid, "sistema": sistema, "orgao": orgao, "contrato": contrato,
+                      "repositorio": "", "responsavel_tecnico": "", "criado_em": hoje()},
+          "componentes": comps}
+    (destino / "PROJETO.yaml").write_text(
+        "# Identidade deste repositório (um repositório por sistema). Editado por fabrica.py repositorio novo.\n"
+        + yaml.safe_dump(pj, allow_unicode=True, sort_keys=False), encoding="utf-8")
+    if contrato:
+        subprocess.run([sys.executable, str(destino / "fabrica/ferramentas/fabrica.py"), "contrato", "novo", contrato],
+                       check=True, capture_output=True, env={k: v for k, v in os.environ.items() if k != "FABRICA_RAIZ"})
+    subprocess.run([sys.executable, str(destino / "fabrica/ferramentas/fabrica.py"), "agentes", "gerar"],
+                   check=True, capture_output=True, env={k: v for k, v in os.environ.items() if k != "FABRICA_RAIZ"})
+    if git_init:
+        subprocess.run(["git", "init", "-q", "-b", "main"], cwd=destino, check=True)
+    return destino
+
+
+def repositorios_em_lote(planilha: Path, base: Path) -> list[Path]:
+    """Cria um repositório por linha da aba/CSV PROJETOS (até 30 ou mais)."""
+    aba = "PROJETOS"
+    criados = []
+    for r in ler_tabela(planilha, aba):
+        comps = [c.strip() for c in (r.get("componentes") or "").split(";") if c.strip()]
+        criados.append(novo_repositorio(base / r["id"].lower(), r["id"], r.get("sistema") or r["id"],
+                                        r.get("orgao", ""), r.get("contrato", ""), comps))
+    return criados
+
+
+def consolidar_portfolio(repos: list[Path], saida: Path) -> Path:
+    """Soma medições e rateios de vários repositórios (portfólio de projetos)."""
+    L = ["# Portfólio — consolidado de repositórios", "", f"Gerado em {agora()}.", "",
+         "| Repositório | Projeto | Contrato/OS | Previsto | Comprovado | Aceito |", "|---|---|---|---|---|---|"]
+    por_prof: dict[str, float] = {}
+    tot = {"previsto": 0.0, "comprovado": 0.0, "aceito": 0.0}
+    for r in repos:
+        pj = (ler_yaml(r / "PROJETO.yaml") or {}).get("projeto", {}) if (r / "PROJETO.yaml").exists() else {}
+        for m in sorted(r.glob("contratos/*/medicoes/*.json")):
+            med = json.loads(m.read_text(encoding="utf-8"))
+            t = med["totais"]
+            for k in tot:
+                tot[k] += t[k]
+            L.append(f"| {r.name} | {pj.get('id', '—')} | {med['contrato']}/{med['os']} | {t['previsto']:g} | {t['comprovado']:g} | {t['aceito']:g} |")
+        for rf in r.glob("contratos/*/rateios/*.json"):
+            for ln in json.loads(rf.read_text(encoding="utf-8"))["linhas"]:
+                if ln.get("ust") is not None:
+                    chave = f"{ln['nome']} ({ln['funcao']})"
+                    por_prof[chave] = por_prof.get(chave, 0) + ln["ust"]
+    L.append(f"| **Total** | | | **{tot['previsto']:g}** | **{tot['comprovado']:g}** | **{tot['aceito']:g}** |")
+    L += ["", "## Rateio interno somado por profissional (todos os repositórios)", ""]
+    L += ["| Profissional | UST atribuída |", "|---|---|", *[f"| {k} | {v:g} |" for k, v in sorted(por_prof.items())]] if por_prof else ["Sem rateios com total informado."]
+    saida.parent.mkdir(parents=True, exist_ok=True)
+    saida.write_text("\n".join(L) + "\n", encoding="utf-8")
+    return saida
+
+
+def gerar_pacotes(destino: Path) -> dict[str, Path]:
+    """Gera os dois ZIPs: CONFIGURACAO (modelo de repositório) e PREENCHIMENTO (planilha + modelos + guias)."""
+    import tempfile
+    destino.mkdir(parents=True, exist_ok=True)
+    saida = {}
+    with tempfile.TemporaryDirectory() as tmp:
+        modelo = exportar_modelo(Path(tmp) / "fabrica-modelo")
+        z = destino / "CONFIGURACAO_FABRICA.zip"
+        with zipfile.ZipFile(z, "w", zipfile.ZIP_DEFLATED) as zf:
+            for f in sorted(modelo.rglob("*")):
+                if f.is_file():
+                    zf.write(f, Path("fabrica-modelo") / f.relative_to(modelo))
+        saida["configuracao"] = z
+        pre = Path(tmp) / "PREENCHIMENTO"
+        pre.mkdir()
+        gerar_planilha(pre / "PLANILHA_PREENCHIMENTO.xlsx")
+        shutil.copytree(FAB / "templates", pre / "modelos_csv_yaml", ignore=shutil.ignore_patterns("evidencias", "PROFISSIONAIS.csv"))
+        shutil.copytree(FAB / "templates" / "evidencias", pre / "modelos_evidencia")
+        for doc in ("PREENCHIMENTO_LEIA-ME.md", "O_QUE_ENVIAR.md", "COMO_INICIAR.md", "MEDICAO_UST.md"):
+            shutil.copy2(FAB / "docs" / doc, pre / doc)
+        z = destino / "PREENCHIMENTO.zip"
+        with zipfile.ZipFile(z, "w", zipfile.ZIP_DEFLATED) as zf:
+            for f in sorted(pre.rglob("*")):
+                if f.is_file():
+                    zf.write(f, Path("PREENCHIMENTO") / f.relative_to(pre))
+        saida["preenchimento"] = z
+    return saida
+
+
 # ----------------------------------------------------------------- painel / iniciar
 
 def painel() -> str:
@@ -1202,7 +1855,29 @@ def main(argv: list[str] | None = None) -> int:
 
     x = sp.add_parser("relatorio", help="RELATÓRIO DIÁRIO/SEMANAL/MENSAL/PROFISSIONAL")
     x.add_argument("tipo", choices=["diario", "semanal", "mensal", "profissional"]); x.add_argument("contrato")
-    x.add_argument("--data"); x.add_argument("--profissional")
+    x.add_argument("--data"); x.add_argument("--profissional"); x.add_argument("--total-ust", type=float)
+
+    pf = sp.add_parser("profissionais", help="Equipe real (nome, função, CPF protegido)").add_subparsers(dest="sub", required=True)
+    x = pf.add_parser("importar", help="Importa CSV/XLSX (aba PROFISSIONAIS)"); x.add_argument("contrato"); x.add_argument("arquivo")
+    x = pf.add_parser("oficial", help="Lista da equipe com CPF completo (pasta privada)"); x.add_argument("contrato")
+    x = sp.add_parser("rateio", help="Divide o total de UST do período entre a equipe que trabalhou")
+    x.add_argument("tipo", choices=["diario", "semanal", "mensal"]); x.add_argument("contrato")
+    x.add_argument("--data"); x.add_argument("--total", type=float)
+    pl = sp.add_parser("planilha", help="Planilha de preenchimento").add_subparsers(dest="sub", required=True)
+    x = pl.add_parser("gerar"); x.add_argument("destino")
+    x = pl.add_parser("importar"); x.add_argument("contrato"); x.add_argument("arquivo")
+    stx = sp.add_parser("stacks", help="Stacks multi-linguagem").add_subparsers(dest="sub", required=True)
+    stx.add_parser("listar")
+    x = stx.add_parser("verificar"); x.add_argument("ids", nargs="*")
+    x = sp.add_parser("componente", help="Cria esqueleto de uma stack"); x.add_argument("stack"); x.add_argument("destino"); x.add_argument("--nome", default="Sistema")
+    x = sp.add_parser("projeto", help="Testa os componentes do PROJETO.yaml"); x.add_argument("sub", choices=["verificar"]); x.add_argument("--instalar", action="store_true")
+    x = sp.add_parser("modelo", help="Exporta a configuração da fábrica para um repositório novo"); x.add_argument("sub", choices=["exportar"]); x.add_argument("destino")
+    rp = sp.add_parser("repositorio", help="Cria repositório(s) de sistema").add_subparsers(dest="sub", required=True)
+    x = rp.add_parser("novo"); x.add_argument("destino"); x.add_argument("--id", required=True); x.add_argument("--sistema", required=True)
+    x.add_argument("--orgao", default=""); x.add_argument("--contrato", default=""); x.add_argument("--componente", action="append", default=[])
+    x = rp.add_parser("lote", help="Um repositório por linha da aba PROJETOS"); x.add_argument("planilha"); x.add_argument("base")
+    x = sp.add_parser("portfolio", help="Consolida vários repositórios"); x.add_argument("repos", nargs="+"); x.add_argument("--saida", default="relatorios/PORTFOLIO.md")
+    x = sp.add_parser("pacotes", help="Gera os ZIPs de configuração e de preenchimento"); x.add_argument("destino")
 
     pr = sp.add_parser("producao").add_subparsers(dest="sub", required=True)
     x = pr.add_parser("estatisticas", help="Média de UST aceita por profissional/complexidade"); x.add_argument("arquivo")
@@ -1275,7 +1950,45 @@ def main(argv: list[str] | None = None) -> int:
         elif a.cmd == "relatorio":
             if a.tipo == "profissional" and not a.profissional:
                 raise ErroFabrica("relatório por profissional exige --profissional")
-            print(rel(relatorio(a.contrato, a.tipo, a.data, a.profissional)))
+            print(rel(relatorio(a.contrato, a.tipo, a.data, a.profissional, a.total_ust)))
+        elif a.cmd == "profissionais":
+            if a.sub == "importar":
+                print(json.dumps(importar_profissionais(a.contrato, Path(a.arquivo)), ensure_ascii=False, indent=2))
+            else:
+                print(rel(equipe_oficial(a.contrato)))
+        elif a.cmd == "rateio":
+            r = rateio(a.contrato, a.tipo, a.data, a.total)
+            print("\n".join(tabela_rateio_md(r)))
+        elif a.cmd == "planilha":
+            if a.sub == "gerar":
+                print(gerar_planilha(Path(a.destino)))
+            else:
+                print(json.dumps(importar_planilha(a.contrato, Path(a.arquivo)), ensure_ascii=False, indent=2))
+        elif a.cmd == "stacks":
+            if a.sub == "listar":
+                for s in listar_stacks():
+                    st = carregar_stack(s); print(f"{s:20} {st['linguagem']:28} {st.get('framework', '')}")
+            else:
+                print(rel(verificar_stacks(a.ids or None)))
+        elif a.cmd == "componente":
+            print(criar_componente(a.stack, Path(a.destino), a.nome))
+        elif a.cmd == "projeto":
+            r = verificar_projeto(RAIZ, a.instalar)
+            for nome, c in r["componentes"].items():
+                print(f"{nome} ({c['stack']}): {c['situacao']} {c['resumo']}")
+        elif a.cmd == "modelo":
+            print(exportar_modelo(Path(a.destino)))
+        elif a.cmd == "repositorio":
+            if a.sub == "novo":
+                print(novo_repositorio(Path(a.destino), a.id, a.sistema, a.orgao, a.contrato, a.componente))
+            else:
+                for r in repositorios_em_lote(Path(a.planilha), Path(a.base)):
+                    print(r)
+        elif a.cmd == "portfolio":
+            print(consolidar_portfolio([Path(r) for r in a.repos], Path(a.saida)))
+        elif a.cmd == "pacotes":
+            for k, v in gerar_pacotes(Path(a.destino)).items():
+                print(f"{k}: {v}")
         elif a.cmd == "producao":
             print(json.dumps(estatisticas_producao(Path(a.arquivo)), ensure_ascii=False, indent=2))
     except ErroFabrica as e:

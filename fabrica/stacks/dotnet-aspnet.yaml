@@ -1,0 +1,9 @@
+id: dotnet-aspnet
+linguagem: C# (.NET 8)
+framework: ASP.NET Core Minimal API + xUnit
+requer: [dotnet]
+comandos:
+  instalar: [dotnet, restore, tests/Testes.csproj]
+  testar: {cmd: [dotnet, test, tests/Testes.csproj, --no-restore, --logger, "junit;LogFilePath={junit}"]}
+  build: [dotnet, build, src/Api.csproj]
+notas: "O logger JUnit exige o pacote JunitXml.TestLogger (já referenciado no projeto de testes)."

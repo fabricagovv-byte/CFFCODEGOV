@@ -1,0 +1,21 @@
+# Modelo de Ordem de Serviço. Copie para contratos/<ID>/os/<OS>.yaml.
+os: OS-001
+contrato: <ID_CONTRATO>
+titulo: ""
+projeto: projetos/<sistema>          # pasta do código neste repositório
+aviso_medicao: ""
+autorizacao:
+  autorizado: false                  # true SOMENTE com OS assinada/autorizada
+  autorizado_por: ""
+  data: ""
+  documento: ""
+modulos:
+  - id: MOD-001
+    nome: ""
+    area: BACKEND                    # BACKEND | FRONTEND | DADOS | INTEGRACOES | INFRA | QUALIDADE | SEGURANCA | GESTAO
+    item_tabela: ""                  # código da TABELA_UST.csv
+    ust_previsto: 0
+    tem_interface: false
+    caminhos: []                     # arquivos/pastas do módulo (relativos a "projeto"), para ligar commits
+    testes:                          # comandos reais; {junit} = arquivo JUnit gerado
+      - {nome: backend, cwd: backend, cmd: [python3, -m, pytest, tests/test_mod001_x.py, "--junitxml={junit}"]}

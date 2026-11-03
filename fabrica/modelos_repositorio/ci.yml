@@ -1,0 +1,28 @@
+# CI padrão de um repositório da fábrica. Testa a própria fábrica e todos os componentes do PROJETO.yaml.
+name: CI
+on: [push, pull_request]
+permissions:
+  contents: read
+jobs:
+  verificar:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with: {python-version: "3.13"}
+      - uses: actions/setup-node@v4
+        with: {node-version: "22"}
+      # Descomente o que o PROJETO.yaml usar:
+      # - uses: actions/setup-java@v4
+      #   with: {distribution: temurin, java-version: "21"}
+      # - uses: actions/setup-go@v5
+      #   with: {go-version: "1.23"}
+      # - uses: shivammathur/setup-php@v2
+      #   with: {php-version: "8.3", tools: composer}
+      # - uses: actions/setup-dotnet@v4
+      #   with: {dotnet-version: "8.0.x"}
+      - run: pip install pyyaml pytest openpyxl
+      - run: python fabrica/ferramentas/fabrica.py agentes verificar
+      - run: python fabrica/ferramentas/fabrica.py tarefas validar
+      - run: python -m pytest fabrica/ferramentas/tests -q
+      - run: python fabrica/ferramentas/fabrica.py projeto verificar --instalar

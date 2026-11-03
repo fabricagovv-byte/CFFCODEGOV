@@ -38,6 +38,15 @@ Isso sai dos **seus dados históricos**, não de uma tabela inventada:
 
 Use essas médias **para planejar** (capacidade da equipe, prazo). Para faturar, vale só a medição da OS.
 
+## Rateio por período (ex.: 250 UST na semana divididas entre a equipe)
+
+1. Registre o total do período em `RATEIO_TOTAIS.csv` (`semanal,2026-11-02,250,aceito,<documento>`) — ou passe `--total 250`.
+2. Registre em `PARTICIPACOES.csv` quem fez o quê naquele período (com prova).
+3. `fabrica.py rateio semanal <C> --data 2026-11-02` (ou o relatório semanal, que já traz a seção de rateio).
+4. Regra em `RATEIO.yaml`: pesos por tipo de participação × senioridade, separado por área; modo `senior_da_area` atribui a parte da área ao mais sênior que participou.
+5. Só entra quem tem participação registrada no período. Sem participação: nada é atribuído (aparece "não atribuído").
+6. É divisão gerencial interna. Não altera a memória de cálculo contratual.
+
 ## Por profissional no mês
 
 - O responsável técnico de cada módulo fica em `RESPONSAVEIS.md` (`responsavel_tecnico: P02`).

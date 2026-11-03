@@ -1,0 +1,9 @@
+id: react-vite
+linguagem: TypeScript 5 (React 19)
+framework: React + Vite + Vitest + Testing Library
+requer: [node, npm]
+comandos:
+  instalar: [npm, install, --no-audit, --no-fund]
+  testar: {cmd: [npx, vitest, run, --reporter=default, --reporter=junit, "--outputFile.junit={junit}"]}
+  build: [npm, run, build]
+referencia: "projetos/gestao-documental/frontend do repositório de origem"

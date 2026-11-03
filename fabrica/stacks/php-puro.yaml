@@ -1,0 +1,8 @@
+id: php-puro
+linguagem: PHP 8.2+
+framework: PHP puro (PSR-4) + PHPUnit 11 via Composer (troque por Laravel/Symfony se o contrato pedir)
+requer: [php, composer]
+comandos:
+  instalar: [composer, install, --no-interaction, --no-progress]
+  testar: {cmd: [vendor/bin/phpunit, --log-junit, "{junit}", tests]}
+  build: null

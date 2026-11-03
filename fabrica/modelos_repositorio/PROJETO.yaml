@@ -1,0 +1,11 @@
+# Identidade deste repositório: UM repositório por sistema.
+# Preenchido por `fabrica.py repositorio novo`; ajuste se criar à mão.
+projeto:
+  id: ""                  # padrão: <ORGAO>-<NNN>-<SIGLA>, ex.: PMX-001-SGD
+  sistema: ""
+  orgao: ""
+  contrato: ""
+  repositorio: ""
+  responsavel_tecnico: "" # ID do profissional (P01...)
+  criado_em: ""
+componentes: []           # ex.: [{nome: backend, stack: python-fastapi, caminho: projetos/sgd/backend}]
