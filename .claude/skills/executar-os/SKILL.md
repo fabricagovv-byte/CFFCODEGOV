@@ -8,7 +8,7 @@ Pré-condição: `autorizacao.autorizado: true`, `autorizado_por` e `data` no YA
 
 Para cada módulo, na ordem das dependências:
 1. Analisar requisitos (matriz) → 2. Definir arquitetura (G05) → 3. Criar/ajustar tarefas → 4. Distribuir agentes (mova a tarefa para IN_PROGRESS; a CLI recusa conflito de arquivos).
-5. Implementar (G06/G07/G08/G09 ou E04–E13). Use worktree/branch separada se dois agentes tocarem o mesmo arquivo.
+5. Implementar (G06/G07/G08/G09 ou E04–E13). Cadastros: use a skill gerar-crud (código completo + testes) e depois ajuste as regras do edital. Use worktree/branch separada se dois agentes tocarem o mesmo arquivo.
 6. Integrar → 7. Executar testes: `python3 fabrica/ferramentas/fabrica.py testes executar <CONTRATO> <OS> --modulo <MOD>` → 8. Corrigir defeitos.
 9. Revisar código (G13/E18; use a skill /code-review quando disponível) → 10. Segurança (G10/E14; /security-review quando disponível).
 11. Commit com mensagem clara referenciando OS e módulo → 12. Documentar (preencher ESCOPO, REQUISITOS, ARQUITETURA, SEGURANCA, PREVIEW, IMPLANTACAO do módulo).

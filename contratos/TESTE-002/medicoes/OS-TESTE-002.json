@@ -1,0 +1,84 @@
+{
+  "contrato": "TESTE-002",
+  "os": "OS-TESTE-002",
+  "medido_em": "2026-11-03T01:05:04-03:00",
+  "agente": "G15",
+  "aviso": "UST FICTÍCIAS — catálogo, perfis e valores de demonstração; sem valor para faturamento.",
+  "itens": [
+    {
+      "modulo": "MOD-100",
+      "nome": "Base modular para cadastros",
+      "item": "SRV-BASE",
+      "descricao_item": "SRV-BASE × 1 (Estrutura base de módulos (FICTÍCIO); Catálogo fictício item 1)",
+      "unidade": "UST",
+      "referencia_contratual": "CATALOGO_SERVICOS.csv / PERFIS.csv",
+      "previsto": 12.2,
+      "comprovado": 12.2,
+      "aceito": 0.0,
+      "evidencias": "contratos/TESTE-002/evidencias/OS-TESTE-002/MOD-100",
+      "memoria": "previsto=12.2 UST (OS OS-TESTE-002, item SRV-BASE) [fórmula HORAS_X_FATOR: 10 h = DESENVOLVEDOR_SENIOR 8 h, ANALISTA_TESTES 2 h; valor R$ 1.210,00]; comprovado=12.2 pois auditoria técnica=APROVADO; aceito=0 (sem aceite registrado)",
+      "horas": 10.0,
+      "horas_por_perfil": {
+        "DESENVOLVEDOR_SENIOR": 8.0,
+        "ANALISTA_TESTES": 2.0
+      },
+      "valor_previsto": 1210.0,
+      "responsavel": "A CADASTRAR"
+    },
+    {
+      "modulo": "MOD-101",
+      "nome": "Cadastro de interessados",
+      "item": "SRV-CRUD-M",
+      "descricao_item": "SRV-CRUD-M × 1 (Cadastro completo média complexidade (FICTÍCIO); Catálogo fictício item 2)",
+      "unidade": "UST",
+      "referencia_contratual": "CATALOGO_SERVICOS.csv / PERFIS.csv",
+      "previsto": 24.4,
+      "comprovado": 24.4,
+      "aceito": 0.0,
+      "evidencias": "contratos/TESTE-002/evidencias/OS-TESTE-002/MOD-101",
+      "memoria": "previsto=24.4 UST (OS OS-TESTE-002, item SRV-CRUD-M) [fórmula HORAS_X_FATOR: 24 h = ANALISTA_REQUISITOS 4 h, DESENVOLVEDOR_PLENO 16 h, ANALISTA_TESTES 4 h; valor R$ 2.300,00]; comprovado=24.4 pois auditoria técnica=APROVADO; aceito=0 (sem aceite registrado)",
+      "horas": 24.0,
+      "horas_por_perfil": {
+        "ANALISTA_REQUISITOS": 4.0,
+        "DESENVOLVEDOR_PLENO": 16.0,
+        "ANALISTA_TESTES": 4.0
+      },
+      "valor_previsto": 2300.0,
+      "responsavel": "A CADASTRAR"
+    },
+    {
+      "modulo": "MOD-102",
+      "nome": "Cadastro de protocolos",
+      "item": "SRV-CRUD-A",
+      "descricao_item": "SRV-CRUD-A × 1 (Cadastro completo alta complexidade com relacionamentos (FICTÍCIO); Catálogo fictício item 3)",
+      "unidade": "UST",
+      "referencia_contratual": "CATALOGO_SERVICOS.csv / PERFIS.csv",
+      "previsto": 43.8,
+      "comprovado": 43.8,
+      "aceito": 0.0,
+      "evidencias": "contratos/TESTE-002/evidencias/OS-TESTE-002/MOD-102",
+      "memoria": "previsto=43.8 UST (OS OS-TESTE-002, item SRV-CRUD-A) [fórmula HORAS_X_FATOR: 36 h = ANALISTA_REQUISITOS 6 h, DESENVOLVEDOR_SENIOR 24 h, ANALISTA_TESTES 6 h; valor R$ 4.290,00]; comprovado=43.8 pois auditoria técnica=APROVADO; aceito=0 (sem aceite registrado)",
+      "horas": 36.0,
+      "horas_por_perfil": {
+        "ANALISTA_REQUISITOS": 6.0,
+        "DESENVOLVEDOR_SENIOR": 24.0,
+        "ANALISTA_TESTES": 6.0
+      },
+      "valor_previsto": 4290.0,
+      "responsavel": "A CADASTRAR"
+    }
+  ],
+  "totais": {
+    "previsto": 80.4,
+    "comprovado": 80.4,
+    "aceito": 0.0,
+    "horas": 70.0,
+    "valor_previsto": 7800.0,
+    "horas_por_perfil": {
+      "DESENVOLVEDOR_SENIOR": 32.0,
+      "ANALISTA_TESTES": 12.0,
+      "ANALISTA_REQUISITOS": 10.0,
+      "DESENVOLVEDOR_PLENO": 16.0
+    }
+  }
+}

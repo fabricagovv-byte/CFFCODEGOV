@@ -1,0 +1,42 @@
+{
+  "fonte": "git log (gerado por fabrica.py evidencias commits)",
+  "gerado_em": "2026-11-03T01:04:47-03:00",
+  "caminhos": [
+    "projetos/gestao-documental/backend/app/modulos/protocolos",
+    "projetos/gestao-documental/backend/migrations/versions/0004_protocolos.py",
+    "projetos/gestao-documental/backend/tests/test_mod102_protocolos.py",
+    "projetos/gestao-documental/frontend/src/modulos/protocolos",
+    "projetos/gestao-documental/especificacoes/protocolos.yaml"
+  ],
+  "commits": [
+    {
+      "sha": "6e7928a29d2a6cc0772fe55cc74e242d7fa6cc16",
+      "autor": "Claude",
+      "email_autor": "noreply@anthropic.com",
+      "data": "2026-11-03T04:03:43+00:00",
+      "mensagem": "MOD-102: lista mostra o nome do interessado; mensagens de validação sem prefixo técnico (gerador corrigido)",
+      "arquivos": [
+        "M\tprojetos/gestao-documental/frontend/src/modulos/protocolos/ProtocoloPagina.tsx"
+      ]
+    },
+    {
+      "sha": "731324822571aa09443b7cb3ff65ceed11f522b8",
+      "autor": "Claude",
+      "email_autor": "noreply@anthropic.com",
+      "data": "2026-11-03T04:00:29+00:00",
+      "mensagem": "MOD-102: cadastro de protocolos com relacionamento a interessados (gerado da especificação)",
+      "arquivos": [
+        "A\tprojetos/gestao-documental/backend/app/modulos/protocolos/__init__.py",
+        "A\tprojetos/gestao-documental/backend/app/modulos/protocolos/models.py",
+        "A\tprojetos/gestao-documental/backend/app/modulos/protocolos/router.py",
+        "A\tprojetos/gestao-documental/backend/app/modulos/protocolos/schemas.py",
+        "A\tprojetos/gestao-documental/backend/migrations/versions/0004_protocolos.py",
+        "A\tprojetos/gestao-documental/backend/tests/test_mod102_protocolos.py",
+        "A\tprojetos/gestao-documental/especificacoes/protocolos.yaml",
+        "A\tprojetos/gestao-documental/frontend/src/modulos/protocolos/ProtocoloPagina.test.tsx",
+        "A\tprojetos/gestao-documental/frontend/src/modulos/protocolos/ProtocoloPagina.tsx",
+        "A\tprojetos/gestao-documental/frontend/src/modulos/protocolos/api.ts"
+      ]
+    }
+  ]
+}

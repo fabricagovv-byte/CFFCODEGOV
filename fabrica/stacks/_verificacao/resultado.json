@@ -1,5 +1,5 @@
 {
-  "executado_em": "2026-11-02T23:42:54-03:00",
+  "executado_em": "2026-11-03T01:08:28-03:00",
   "resultados": {
     "dotnet-aspnet": {
       "situacao": "NAO_VERIFICADO",
@@ -37,7 +37,7 @@
     },
     "php-puro": {
       "situacao": "NAO_VERIFICADO",
-      "detalhe": "não executado nesta máquina: o proxy deste ambiente bloqueia downloads do GitHub (HTTP 403) e o Composer não baixou o PHPUnit a tempo"
+      "detalhe": "não executado nesta máquina: o proxy deste ambiente bloqueia downloads do GitHub (HTTP 403)"
     },
     "python-fastapi": {
       "situacao": "APROVADO",
@@ -67,6 +67,16 @@
         "falhas": 0,
         "erros": 0,
         "ignorados": 0
+      }
+    },
+    "sistema-gov": {
+      "situacao": "APROVADO",
+      "detalhe": "sistema-gov-instalar: saída 0; sistema-gov-testes: saída 0; sistema-gov-build: saída 0",
+      "resumo": {
+        "testes": 70,
+        "falhas": 0,
+        "erros": 0,
+        "ignorados": 1
       }
     }
   }

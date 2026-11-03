@@ -6,7 +6,8 @@ description: MEDIR PRODUÇÃO — calcula UST/PF conforme a tabela contratual, c
 
 1. Garanta auditoria atualizada (skill auditar-evidencias).
 2. `python3 fabrica/ferramentas/fabrica.py medir <C> <OS>` → `contratos/<C>/medicoes/<OS>.md` e MEDICAO.md por módulo.
-3. Regras: previsto = OS; comprovado = só com auditoria técnica APROVADO; aceito = só com ACEITE.md assinado pelo contratante (status ACEITO + aceito_por + documento).
+3. Medição por catálogo de serviços × perfis × horas (quando o edital mede assim): o módulo da OS lista `servicos: [{codigo, quantidade}]`; a CLI usa `CATALOGO_SERVICOS.csv`, `PERFIS.csv` (valor/hora, fator UST) e `contrato.yaml medicao.formula` (UST_POR_SERVICO | HORAS_X_FATOR | HORAS). Sem fórmula do contrato a CLI recusa.
+4. Regras: previsto = OS; comprovado = só com auditoria técnica APROVADO; aceito = só com ACEITE.md assinado pelo contratante (status ACEITO + aceito_por + documento).
 4. Pontos de função: contagem manual pela metodologia do contrato (IFPUG/NESMA/SISP), com memória (fronteira, ALI/AIE, EE/SE/CE, complexidade) — revisão por profissional certificado quando o contrato exigir.
 5. Médias por profissional (ex.: "UST média em trabalho difícil"): o usuário envia `PRODUCAO_HISTORICA.csv` (modelo em fabrica/templates). Rode `python3 fabrica/ferramentas/fabrica.py producao estatisticas <arquivo>`. As médias valem só para planejamento interno, não para faturar.
 6. Para aumentar a produção de forma legítima: `python3 fabrica/ferramentas/fabrica.py oportunidades <C> <OS>` lista trabalho comprovado que pode corresponder a itens do catálogo ainda não medidos. Cada item depende de enquadramento no contrato e confirmação humana; nunca some sem trabalho real nem conte duas vezes.

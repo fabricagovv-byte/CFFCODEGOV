@@ -1,0 +1,47 @@
+{
+  "fonte": "git log (gerado por fabrica.py evidencias commits)",
+  "gerado_em": "2026-11-03T01:04:47-03:00",
+  "caminhos": [
+    "projetos/gestao-documental/backend/app/modulos/__init__.py",
+    "projetos/gestao-documental/backend/app/modulos/validadores.py",
+    "projetos/gestao-documental/backend/app/main.py",
+    "projetos/gestao-documental/backend/app/deps.py",
+    "projetos/gestao-documental/backend/migrations/env.py",
+    "projetos/gestao-documental/backend/tests/conftest.py",
+    "projetos/gestao-documental/backend/tests/test_mod100_base_modular.py",
+    "projetos/gestao-documental/frontend/src/App.tsx"
+  ],
+  "commits": [
+    {
+      "sha": "ea7f8f482e08cf628cb89cfa9c823b1cc9a83de6",
+      "autor": "Claude",
+      "email_autor": "noreply@anthropic.com",
+      "data": "2026-11-03T04:00:29+00:00",
+      "mensagem": "MOD-100: base modular — descoberta automática de módulos, validadores CPF/CNPJ e permissão por perfil",
+      "arquivos": [
+        "M\tprojetos/gestao-documental/backend/app/deps.py",
+        "M\tprojetos/gestao-documental/backend/app/main.py",
+        "A\tprojetos/gestao-documental/backend/app/modulos/__init__.py",
+        "A\tprojetos/gestao-documental/backend/app/modulos/validadores.py",
+        "M\tprojetos/gestao-documental/backend/migrations/env.py",
+        "M\tprojetos/gestao-documental/backend/tests/conftest.py",
+        "A\tprojetos/gestao-documental/backend/tests/test_mod100_base_modular.py",
+        "M\tprojetos/gestao-documental/frontend/src/App.tsx"
+      ]
+    },
+    {
+      "sha": "e4e16a3cf28736e9a39503c28dcdbf4de7fd2e4f",
+      "autor": "Claude",
+      "email_autor": "noreply@anthropic.com",
+      "data": "2026-11-03T02:08:20+00:00",
+      "mensagem": "MOD-007: infraestrutura (Docker Compose, Nginx/TLS, backup/restauração), base da API, migrações e documentação",
+      "arquivos": [
+        "A\tprojetos/gestao-documental/backend/app/deps.py",
+        "A\tprojetos/gestao-documental/backend/app/main.py",
+        "A\tprojetos/gestao-documental/backend/migrations/env.py",
+        "A\tprojetos/gestao-documental/backend/tests/conftest.py",
+        "A\tprojetos/gestao-documental/frontend/src/App.tsx"
+      ]
+    }
+  ]
+}

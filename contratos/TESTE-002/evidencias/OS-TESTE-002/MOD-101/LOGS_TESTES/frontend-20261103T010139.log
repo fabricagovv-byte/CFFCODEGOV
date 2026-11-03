@@ -1,0 +1,18 @@
+$ (cd projetos/gestao-documental/frontend && npx vitest run src/modulos/interessados/InteressadoPagina.test.tsx --reporter=default --reporter=junit --outputFile.junit=/home/user/CFFCODEGOV/contratos/TESTE-002/evidencias/OS-TESTE-002/MOD-101/LOGS_TESTES/frontend-20261103T010139.xml)
+# início: 2026-11-03T01:01:39.151666-03:00
+# fim: 2026-11-03T01:01:41.196571-03:00
+# código de saída: 0
+# TEST_DATABASE_URL=postgresql+psycopg2://gd_teste:***@localhost:5432/gd_teste
+
+
+ RUN  v3.2.7 /home/user/CFFCODEGOV/projetos/gestao-documental/frontend
+
+ ✓ src/modulos/interessados/InteressadoPagina.test.tsx (3 tests) 183ms
+
+ Test Files  1 passed (1)
+      Tests  3 passed (3)
+   Start at  04:01:39
+   Duration  1.23s (transform 185ms, setup 0ms, collect 351ms, tests 183ms, environment 418ms, prepare 80ms)
+
+JUNIT report written to /home/user/CFFCODEGOV/contratos/TESTE-002/evidencias/OS-TESTE-002/MOD-101/LOGS_TESTES/frontend-20261103T010139.xml
+

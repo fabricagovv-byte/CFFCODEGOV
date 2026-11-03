@@ -825,7 +825,7 @@ def medir(cid: str, osid: str) -> dict:
                       "horas": calc["horas"] if calc else None, "horas_por_perfil": calc["horas_por_perfil"] if calc else {},
                       "valor_previsto": calc["valor"] if calc else None,
                       "responsavel": frontmatter(dir_mod(cid, osid, m["id"]) / "RESPONSAVEIS.md").get("responsavel_tecnico", "")})
-    tot = {k: sum(i[k] for i in itens) for k in ("previsto", "comprovado", "aceito")}
+    tot = {k: round(sum(i[k] for i in itens), 2) for k in ("previsto", "comprovado", "aceito")}
     if any(i["horas"] is not None for i in itens):
         tot["horas"] = round(sum(i["horas"] or 0 for i in itens), 2)
         tot["valor_previsto"] = round(sum(i["valor_previsto"] or 0 for i in itens), 2)
@@ -1622,6 +1622,9 @@ ABAS_PLANILHA = {
     "PROFISSIONAIS": ["nome", "funcao", "cpf", "area", "senioridade", "formacao", "anos_experiencia", "certificacoes",
                       "qualificacao", "responsabilidades", "email_corporativo", "inicio", "fim"],
     "CAPACIDADES": ["tipo", "item", "detalhe", "evidencia"],
+    "PERFIS": ["perfil", "descricao", "valor_hora", "fator_ust_por_hora", "referencia"],
+    "CATALOGO_SERVICOS": ["codigo", "servico", "complexidade", "perfil", "horas", "ust", "referencia"],
+    "PLANEJAMENTO": ["projeto", "modulo", "nome", "area", "servico", "quantidade", "inicio", "fim", "responsavel", "prioridade", "observacao"],
     "PARTICIPACOES": ["data", "profissional_id", "os", "modulo", "tipo", "descricao", "evidencia", "horas_declaradas"],
     "TABELA_UST": ["codigo", "descricao", "unidade", "ust_por_unidade", "complexidade", "referencia_contratual", "observacao"],
     "RATEIO_TOTAIS": ["periodo", "data_inicio", "total_ust", "base", "documento"],
@@ -1680,6 +1683,8 @@ def gerar_planilha(destino: Path) -> Path:
         "5. RATEIO_TOTAIS: total de UST do período (ex.: semanal, 2026-11-02, 250) para dividir entre a equipe.",
         "6. TABELA_UST: copie o catálogo do Termo de Referência sem converter unidades.",
         "7. PROJETOS: até 30 sistemas — cada linha vira um repositório próprio.",
+        "   PERFIS e CATALOGO_SERVICOS: perfis do órgão (valor/hora, fator UST) e horas de cada serviço por perfil, como no edital.",
+        "   PLANEJAMENTO: o SEU plano — projeto, módulo, serviço, quantidade, início, fim, responsável. A fábrica calcula UST, horas, valor e capacidade.",
         "8. Envie este arquivo com o edital e diga: IMPORTAR DOCUMENTO BASE <ID-do-contrato> e depois CONFRONTAR EDITAL <ID>.",
     ]
     for i, t in enumerate(texto, start=1):
@@ -1699,6 +1704,9 @@ def gerar_planilha(destino: Path) -> Path:
     exemplos = {
         "PROFISSIONAIS": ["#Maria Exemplo", "Desenvolvedora Backend", "000.000.000-00", "BACKEND", "SENIOR", "Ciência da Computação", "8", "Java OCP; Scrum", "", "APIs e revisão", "maria@empresa.com.br", "2026-01-01", ""],
         "CAPACIDADES": ["#TECNOLOGIA", "Java / Spring Boot", "5 sistemas em produção desde 2019", "atestado 03/2024"],
+        "PERFIS": ["#DESENVOLVEDOR_PLENO", "Desenvolvedor pleno", "95.00", "1.0", "TR Anexo II tabela 3"],
+        "CATALOGO_SERVICOS": ["#SRV-CRUD-M", "Cadastro média complexidade", "MEDIA", "DESENVOLVEDOR_PLENO", "16", "", "TR item 5.2"],
+        "PLANEJAMENTO": ["#SGD", "MOD-101", "Cadastro de interessados", "BACKEND", "SRV-CRUD-M", "1", "2026-11-03", "2026-11-05", "P01", "ALTA", ""],
         "PARTICIPACOES": ["#2026-11-03", "P01", "OS-001", "MOD-001", "REVISAO", "Revisou e corrigiu a API de login", "PR #12", ""],
         "TABELA_UST": ["#UST-DEV-03", "Desenvolvimento alta complexidade", "UST", "24", "ALTA", "TR item 5.3", ""],
         "RATEIO_TOTAIS": ["#semanal", "2026-11-02", "250", "aceito", "Termo 12/2026 ou e-mail do fiscal"],
@@ -1768,6 +1776,7 @@ def importar_planilha(cid: str, arquivo: Path) -> dict:
         res["profissionais"] = importar_profissionais(cid, arquivo)
     for aba, nome in (("PARTICIPACOES", "PARTICIPACOES.csv"), ("TABELA_UST", "TABELA_UST.csv"),
                       ("RATEIO_TOTAIS", "RATEIO_TOTAIS.csv"), ("PRODUCAO_HISTORICA", "PRODUCAO_HISTORICA.csv"),
+                      ("PERFIS", "PERFIS.csv"), ("CATALOGO_SERVICOS", "CATALOGO_SERVICOS.csv"), ("PLANEJAMENTO", "PLANEJAMENTO.csv"),
                       ("PROJETOS", "PROJETOS.csv")):
         linhas = ler_tabela(arquivo, aba)
         if linhas:
@@ -2318,6 +2327,12 @@ def fechamento(cid: str, ref: str | None = None) -> Path:
           f"- Testes executados: {dados['testes']} ({dados['falhas']} falhas)",
           "- Produção informada do dia: " + (f"{informada['total']:g} {un} (base {informada['base'] or 'não informada'}; {informada['documento'] or 'sem documento'})"
                                               if informada else "não informada (RATEIO_TOTAIS.csv, período diario)")]
+    medidas = [json.loads(m.read_text(encoding="utf-8")) for m in sorted((d / "medicoes").glob("*.json"))]
+    medidas = [m for m in medidas if "totais" in m and str(m.get("medido_em", ""))[:10] == dia]
+    for m in medidas:
+        tt = m["totais"]
+        extra = f" · {tt['horas']:g} h · {brl(tt.get('valor_previsto'))}" if tt.get("horas") is not None else ""
+        L.append(f"- Medição registrada hoje ({m['os']}): comprovado {tt['comprovado']:g} {un}{extra} · aceito {tt['aceito']:g}")
     for p in partic:
         L.append(f"  - {profs[p['profissional_id']]['nome']}: {p['tipo']} {p['os']}/{p['modulo']} — {p['descricao']} (prova: {p['evidencia']})")
     L += ["", "## Divisão do dia por profissional", "", *tabela_rateio_md(rt)]

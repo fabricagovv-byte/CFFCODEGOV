@@ -1,0 +1,708 @@
+{
+  "fonte": "execução real via fabrica.py testes executar",
+  "modulo": "MOD-100",
+  "executado_em": "2026-11-03T01:04:34-03:00",
+  "resumo": {
+    "testes": 105,
+    "falhas": 0,
+    "erros": 0,
+    "ignorados": 0
+  },
+  "situacao": "APROVADO",
+  "execucoes": [
+    {
+      "nome": "backend",
+      "comando": "python3 -m pytest tests/test_mod100_base_modular.py -v --junitxml=/home/user/CFFCODEGOV/contratos/TESTE-002/evidencias/OS-TESTE-002/MOD-100/LOGS_TESTES/backend-20261103T010412.xml",
+      "cwd": "projetos/gestao-documental/backend",
+      "inicio": "2026-11-03T01:04:12-03:00",
+      "fim": "2026-11-03T01:04:14-03:00",
+      "codigo_saida": 0,
+      "junit": "contratos/TESTE-002/evidencias/OS-TESTE-002/MOD-100/LOGS_TESTES/backend-20261103T010412.xml",
+      "log": "contratos/TESTE-002/evidencias/OS-TESTE-002/MOD-100/LOGS_TESTES/backend-20261103T010412.log",
+      "testes": 4,
+      "falhas": 0,
+      "erros": 0,
+      "ignorados": 0,
+      "casos": [
+        {
+          "suite": "tests.test_mod100_base_modular",
+          "nome": "test_modulos_descobertos_e_registrados",
+          "tempo_s": 1.141,
+          "status": "PASSOU"
+        },
+        {
+          "suite": "tests.test_mod100_base_modular",
+          "nome": "test_validadores_cpf_cnpj",
+          "tempo_s": 0.036,
+          "status": "PASSOU"
+        },
+        {
+          "suite": "tests.test_mod100_base_modular",
+          "nome": "test_exigir_perfil_bloqueia_quem_nao_pode",
+          "tempo_s": 0.147,
+          "status": "PASSOU"
+        },
+        {
+          "suite": "tests.test_mod100_base_modular",
+          "nome": "test_tabelas_dos_modulos_no_metadata",
+          "tempo_s": 0.036,
+          "status": "PASSOU"
+        }
+      ]
+    },
+    {
+      "nome": "migracoes-sincronizadas",
+      "comando": "sh -c rm -f .check.db && DATABASE_URL=sqlite:///./.check.db python3 -m alembic upgrade head && DATABASE_URL=sqlite:///./.check.db python3 -m alembic check; s=$?; rm -f .check.db; exit $s",
+      "cwd": "projetos/gestao-documental/backend",
+      "inicio": "2026-11-03T01:04:14-03:00",
+      "fim": "2026-11-03T01:04:16-03:00",
+      "codigo_saida": 0,
+      "junit": "contratos/TESTE-002/evidencias/OS-TESTE-002/MOD-100/LOGS_TESTES/migracoes-sincronizadas-20261103T010414.log",
+      "log": "contratos/TESTE-002/evidencias/OS-TESTE-002/MOD-100/LOGS_TESTES/migracoes-sincronizadas-20261103T010414.log",
+      "testes": 1,
+      "falhas": 0,
+      "erros": 0,
+      "ignorados": 0,
+      "casos": [
+        {
+          "suite": "migracoes-sincronizadas",
+          "nome": "sh -c rm -f .check.db && DATABASE_URL=sqlite:///./.check.db python3 -m alembic upgrade head && DATABASE_URL=sqlite:///./.check.db python3 -m alembic check; s=$?; rm -f .check.db; exit $s",
+          "tempo_s": 1.850645,
+          "status": "PASSOU"
+        }
+      ]
+    },
+    {
+      "nome": "typecheck-build",
+      "comando": "npm run build",
+      "cwd": "projetos/gestao-documental/frontend",
+      "inicio": "2026-11-03T01:04:16-03:00",
+      "fim": "2026-11-03T01:04:22-03:00",
+      "codigo_saida": 0,
+      "junit": "contratos/TESTE-002/evidencias/OS-TESTE-002/MOD-100/LOGS_TESTES/typecheck-build-20261103T010416.log",
+      "log": "contratos/TESTE-002/evidencias/OS-TESTE-002/MOD-100/LOGS_TESTES/typecheck-build-20261103T010416.log",
+      "testes": 1,
+      "falhas": 0,
+      "erros": 0,
+      "ignorados": 0,
+      "casos": [
+        {
+          "suite": "typecheck-build",
+          "nome": "npm run build",
+          "tempo_s": 5.273773,
+          "status": "PASSOU"
+        }
+      ]
+    },
+    {
+      "nome": "regressao-backend-completa",
+      "comando": "python3 -m pytest -q --junitxml=/home/user/CFFCODEGOV/contratos/TESTE-002/evidencias/OS-TESTE-002/MOD-100/LOGS_TESTES/regressao-backend-completa-20261103T010422.xml",
+      "cwd": "projetos/gestao-documental/backend",
+      "inicio": "2026-11-03T01:04:22-03:00",
+      "fim": "2026-11-03T01:04:34-03:00",
+      "codigo_saida": 0,
+      "junit": "contratos/TESTE-002/evidencias/OS-TESTE-002/MOD-100/LOGS_TESTES/regressao-backend-completa-20261103T010422.xml",
+      "log": "contratos/TESTE-002/evidencias/OS-TESTE-002/MOD-100/LOGS_TESTES/regressao-backend-completa-20261103T010422.log",
+      "testes": 99,
+      "falhas": 0,
+      "erros": 0,
+      "ignorados": 0,
+      "casos": [
+        {
+          "suite": "tests.test_mod001_auth",
+          "nome": "test_login_sucesso_retorna_token_e_usuario",
+          "tempo_s": 1.054,
+          "status": "PASSOU"
+        },
+        {
+          "suite": "tests.test_mod001_auth",
+          "nome": "test_login_senha_errada_e_email_inexistente_tem_mesma_mensagem",
+          "tempo_s": 0.065,
+          "status": "PASSOU"
+        },
+        {
+          "suite": "tests.test_mod001_auth",
+          "nome": "test_usuario_inativo_nao_entra",
+          "tempo_s": 0.052,
+          "status": "PASSOU"
+        },
+        {
+          "suite": "tests.test_mod001_auth",
+          "nome": "test_bloqueio_por_forca_bruta",
+          "tempo_s": 0.095,
+          "status": "PASSOU"
+        },
+        {
+          "suite": "tests.test_mod001_auth",
+          "nome": "test_rota_protegida_sem_token_e_token_invalido",
+          "tempo_s": 0.037,
+          "status": "PASSOU"
+        },
+        {
+          "suite": "tests.test_mod001_auth",
+          "nome": "test_logout_revoga_token",
+          "tempo_s": 0.082,
+          "status": "PASSOU"
+        },
+        {
+          "suite": "tests.test_mod001_auth",
+          "nome": "test_recuperacao_e_redefinicao_de_senha",
+          "tempo_s": 0.089,
+          "status": "PASSOU"
+        },
+        {
+          "suite": "tests.test_mod001_auth",
+          "nome": "test_recuperacao_nao_revela_email_inexistente",
+          "tempo_s": 0.034,
+          "status": "PASSOU"
+        },
+        {
+          "suite": "tests.test_mod001_auth",
+          "nome": "test_somente_admin_gerencia_usuarios",
+          "tempo_s": 0.123,
+          "status": "PASSOU"
+        },
+        {
+          "suite": "tests.test_mod001_auth",
+          "nome": "test_admin_cria_usuario_com_politica_de_senha_e_email_unico",
+          "tempo_s": 0.111,
+          "status": "PASSOU"
+        },
+        {
+          "suite": "tests.test_mod001_auth",
+          "nome": "test_admin_nao_remove_o_proprio_acesso",
+          "tempo_s": 0.094,
+          "status": "PASSOU"
+        },
+        {
+          "suite": "tests.test_mod001_auth",
+          "nome": "test_desativar_usuario_invalida_sessao",
+          "tempo_s": 0.111,
+          "status": "PASSOU"
+        },
+        {
+          "suite": "tests.test_mod001_auth",
+          "nome": "test_cabecalhos_de_seguranca",
+          "tempo_s": 0.06,
+          "status": "PASSOU"
+        },
+        {
+          "suite": "tests.test_mod001_auth",
+          "nome": "test_redefinir_senha_encerra_sessoes_abertas",
+          "tempo_s": 0.088,
+          "status": "PASSOU"
+        },
+        {
+          "suite": "tests.test_mod001_auth",
+          "nome": "test_email_muito_longo_retorna_401_e_e_auditado",
+          "tempo_s": 0.087,
+          "status": "PASSOU"
+        },
+        {
+          "suite": "tests.test_mod001_auth",
+          "nome": "test_x_forwarded_for_do_cliente_nao_e_gravado",
+          "tempo_s": 0.105,
+          "status": "PASSOU"
+        },
+        {
+          "suite": "tests.test_mod001_auth",
+          "nome": "test_request_id_invalido_e_substituido",
+          "tempo_s": 0.033,
+          "status": "PASSOU"
+        },
+        {
+          "suite": "tests.test_mod002_documentos",
+          "nome": "test_criar_documento_gera_numero_unico",
+          "tempo_s": 0.106,
+          "status": "PASSOU"
+        },
+        {
+          "suite": "tests.test_mod002_documentos",
+          "nome": "test_validacao_de_campos",
+          "tempo_s": 0.093,
+          "status": "PASSOU"
+        },
+        {
+          "suite": "tests.test_mod002_documentos",
+          "nome": "test_consulta_nao_cria",
+          "tempo_s": 0.083,
+          "status": "PASSOU"
+        },
+        {
+          "suite": "tests.test_mod002_documentos",
+          "nome": "test_operador_nao_cria_sigiloso",
+          "tempo_s": 0.088,
+          "status": "PASSOU"
+        },
+        {
+          "suite": "tests.test_mod002_documentos",
+          "nome": "test_visibilidade_por_classificacao",
+          "tempo_s": 0.179,
+          "status": "PASSOU"
+        },
+        {
+          "suite": "tests.test_mod002_documentos",
+          "nome": "test_editar_e_arquivar",
+          "tempo_s": 0.157,
+          "status": "PASSOU"
+        },
+        {
+          "suite": "tests.test_mod002_documentos",
+          "nome": "test_paginacao",
+          "tempo_s": 0.187,
+          "status": "PASSOU"
+        },
+        {
+          "suite": "tests.test_mod002_documentos",
+          "nome": "test_documento_inexistente",
+          "tempo_s": 0.096,
+          "status": "PASSOU"
+        },
+        {
+          "suite": "tests.test_mod002_documentos",
+          "nome": "test_operador_nao_desarquiva_nem_reclassifica",
+          "tempo_s": 0.132,
+          "status": "PASSOU"
+        },
+        {
+          "suite": "tests.test_mod002_documentos",
+          "nome": "test_patch_com_null_e_espacos",
+          "tempo_s": 0.127,
+          "status": "PASSOU"
+        },
+        {
+          "suite": "tests.test_mod003_upload",
+          "nome": "test_upload_pdf_valido_e_download_integro",
+          "tempo_s": 0.139,
+          "status": "PASSOU"
+        },
+        {
+          "suite": "tests.test_mod003_upload",
+          "nome": "test_rejeita_extensao_e_conteudo_falso",
+          "tempo_s": 0.152,
+          "status": "PASSOU"
+        },
+        {
+          "suite": "tests.test_mod003_upload",
+          "nome": "test_rejeita_arquivo_acima_do_limite",
+          "tempo_s": 0.133,
+          "status": "PASSOU"
+        },
+        {
+          "suite": "tests.test_mod003_upload",
+          "nome": "test_nome_com_caminho_e_sanitizado",
+          "tempo_s": 0.112,
+          "status": "PASSOU"
+        },
+        {
+          "suite": "tests.test_mod003_upload",
+          "nome": "test_consulta_nao_envia_e_restrito_nao_baixa",
+          "tempo_s": 0.133,
+          "status": "PASSOU"
+        },
+        {
+          "suite": "tests.test_mod003_upload",
+          "nome": "test_documento_arquivado_nao_recebe_anexo",
+          "tempo_s": 0.115,
+          "status": "PASSOU"
+        },
+        {
+          "suite": "tests.test_mod004_pesquisa",
+          "nome": "test_pesquisa_por_titulo_assunto_interessado_e_numero",
+          "tempo_s": 0.195,
+          "status": "PASSOU"
+        },
+        {
+          "suite": "tests.test_mod004_pesquisa",
+          "nome": "test_varios_termos_combinam_com_e",
+          "tempo_s": 0.132,
+          "status": "PASSOU"
+        },
+        {
+          "suite": "tests.test_mod004_pesquisa",
+          "nome": "test_pesquisa_por_nome_do_arquivo",
+          "tempo_s": 0.18,
+          "status": "PASSOU"
+        },
+        {
+          "suite": "tests.test_mod004_pesquisa",
+          "nome": "test_filtros_tipo_status_e_curingas_escapados",
+          "tempo_s": 0.14,
+          "status": "PASSOU"
+        },
+        {
+          "suite": "tests.test_mod004_pesquisa",
+          "nome": "test_pesquisa_respeita_classificacao",
+          "tempo_s": 0.122,
+          "status": "PASSOU"
+        },
+        {
+          "suite": "tests.test_mod004_pesquisa",
+          "nome": "test_filtro_por_data_e_tipos",
+          "tempo_s": 0.136,
+          "status": "PASSOU"
+        },
+        {
+          "suite": "tests.test_mod005_painel",
+          "nome": "test_painel_indicadores",
+          "tempo_s": 0.136,
+          "status": "PASSOU"
+        },
+        {
+          "suite": "tests.test_mod005_painel",
+          "nome": "test_painel_restrito_a_admin_e_gestor",
+          "tempo_s": 0.1,
+          "status": "PASSOU"
+        },
+        {
+          "suite": "tests.test_mod006_auditoria",
+          "nome": "test_acoes_sensiveis_sao_auditadas",
+          "tempo_s": 0.178,
+          "status": "PASSOU"
+        },
+        {
+          "suite": "tests.test_mod006_auditoria",
+          "nome": "test_registro_tem_ip_usuario_e_detalhes",
+          "tempo_s": 0.107,
+          "status": "PASSOU"
+        },
+        {
+          "suite": "tests.test_mod006_auditoria",
+          "nome": "test_auditoria_somente_admin_e_gestor",
+          "tempo_s": 0.11,
+          "status": "PASSOU"
+        },
+        {
+          "suite": "tests.test_mod006_auditoria",
+          "nome": "test_nao_existe_rota_para_alterar_auditoria",
+          "tempo_s": 0.087,
+          "status": "PASSOU"
+        },
+        {
+          "suite": "tests.test_mod006_auditoria",
+          "nome": "test_upload_rejeitado_e_auditado",
+          "tempo_s": 0.13,
+          "status": "PASSOU"
+        },
+        {
+          "suite": "tests.test_mod006_auditoria",
+          "nome": "test_trigger_impede_update_e_delete_no_postgres",
+          "tempo_s": 0.107,
+          "status": "PASSOU"
+        },
+        {
+          "suite": "tests.test_mod007_infra",
+          "nome": "test_health_e_banco",
+          "tempo_s": 0.05,
+          "status": "PASSOU"
+        },
+        {
+          "suite": "tests.test_mod007_infra",
+          "nome": "test_openapi_publicado",
+          "tempo_s": 0.142,
+          "status": "PASSOU"
+        },
+        {
+          "suite": "tests.test_mod007_infra",
+          "nome": "test_producao_exige_segredo_forte",
+          "tempo_s": 0.028,
+          "status": "PASSOU"
+        },
+        {
+          "suite": "tests.test_mod007_infra",
+          "nome": "test_artefatos_de_infra_e_documentacao_existem[docker-compose.yml]",
+          "tempo_s": 0.025,
+          "status": "PASSOU"
+        },
+        {
+          "suite": "tests.test_mod007_infra",
+          "nome": "test_artefatos_de_infra_e_documentacao_existem[docker-compose.prod.yml]",
+          "tempo_s": 0.026,
+          "status": "PASSOU"
+        },
+        {
+          "suite": "tests.test_mod007_infra",
+          "nome": "test_artefatos_de_infra_e_documentacao_existem[.env.example]",
+          "tempo_s": 0.028,
+          "status": "PASSOU"
+        },
+        {
+          "suite": "tests.test_mod007_infra",
+          "nome": "test_artefatos_de_infra_e_documentacao_existem[backend/Dockerfile]",
+          "tempo_s": 0.032,
+          "status": "PASSOU"
+        },
+        {
+          "suite": "tests.test_mod007_infra",
+          "nome": "test_artefatos_de_infra_e_documentacao_existem[frontend/Dockerfile]",
+          "tempo_s": 0.035,
+          "status": "PASSOU"
+        },
+        {
+          "suite": "tests.test_mod007_infra",
+          "nome": "test_artefatos_de_infra_e_documentacao_existem[infra/nginx/default.conf]",
+          "tempo_s": 0.034,
+          "status": "PASSOU"
+        },
+        {
+          "suite": "tests.test_mod007_infra",
+          "nome": "test_artefatos_de_infra_e_documentacao_existem[infra/nginx/prod-tls.conf]",
+          "tempo_s": 0.033,
+          "status": "PASSOU"
+        },
+        {
+          "suite": "tests.test_mod007_infra",
+          "nome": "test_artefatos_de_infra_e_documentacao_existem[infra/scripts/backup.sh]",
+          "tempo_s": 0.03,
+          "status": "PASSOU"
+        },
+        {
+          "suite": "tests.test_mod007_infra",
+          "nome": "test_artefatos_de_infra_e_documentacao_existem[infra/scripts/restore.sh]",
+          "tempo_s": 0.028,
+          "status": "PASSOU"
+        },
+        {
+          "suite": "tests.test_mod007_infra",
+          "nome": "test_artefatos_de_infra_e_documentacao_existem[docs/MANUAL_PUBLICACAO.md]",
+          "tempo_s": 0.038,
+          "status": "PASSOU"
+        },
+        {
+          "suite": "tests.test_mod007_infra",
+          "nome": "test_artefatos_de_infra_e_documentacao_existem[docs/MANUAL_OPERACAO.md]",
+          "tempo_s": 0.025,
+          "status": "PASSOU"
+        },
+        {
+          "suite": "tests.test_mod007_infra",
+          "nome": "test_artefatos_de_infra_e_documentacao_existem[docs/PLANO_CONTINUIDADE.md]",
+          "tempo_s": 0.026,
+          "status": "PASSOU"
+        },
+        {
+          "suite": "tests.test_mod007_infra",
+          "nome": "test_artefatos_de_infra_e_documentacao_existem[docs/SEGURANCA_LGPD.md]",
+          "tempo_s": 0.043,
+          "status": "PASSOU"
+        },
+        {
+          "suite": "tests.test_mod007_infra",
+          "nome": "test_artefatos_de_infra_e_documentacao_existem[docs/ARQUITETURA.md]",
+          "tempo_s": 0.043,
+          "status": "PASSOU"
+        },
+        {
+          "suite": "tests.test_mod007_infra",
+          "nome": "test_artefatos_de_infra_e_documentacao_existem[README.md]",
+          "tempo_s": 0.033,
+          "status": "PASSOU"
+        },
+        {
+          "suite": "tests.test_mod007_infra",
+          "nome": "test_env_example_sem_segredos_reais",
+          "tempo_s": 0.038,
+          "status": "PASSOU"
+        },
+        {
+          "suite": "tests.test_mod100_base_modular",
+          "nome": "test_modulos_descobertos_e_registrados",
+          "tempo_s": 0.054,
+          "status": "PASSOU"
+        },
+        {
+          "suite": "tests.test_mod100_base_modular",
+          "nome": "test_validadores_cpf_cnpj",
+          "tempo_s": 0.029,
+          "status": "PASSOU"
+        },
+        {
+          "suite": "tests.test_mod100_base_modular",
+          "nome": "test_exigir_perfil_bloqueia_quem_nao_pode",
+          "tempo_s": 0.113,
+          "status": "PASSOU"
+        },
+        {
+          "suite": "tests.test_mod100_base_modular",
+          "nome": "test_tabelas_dos_modulos_no_metadata",
+          "tempo_s": 0.031,
+          "status": "PASSOU"
+        },
+        {
+          "suite": "tests.test_mod101_interessados",
+          "nome": "test_criar_e_detalhar",
+          "tempo_s": 0.123,
+          "status": "PASSOU"
+        },
+        {
+          "suite": "tests.test_mod101_interessados",
+          "nome": "test_listar_paginado",
+          "tempo_s": 0.158,
+          "status": "PASSOU"
+        },
+        {
+          "suite": "tests.test_mod101_interessados",
+          "nome": "test_busca_por_texto",
+          "tempo_s": 0.149,
+          "status": "PASSOU"
+        },
+        {
+          "suite": "tests.test_mod101_interessados",
+          "nome": "test_alterar",
+          "tempo_s": 0.118,
+          "status": "PASSOU"
+        },
+        {
+          "suite": "tests.test_mod101_interessados",
+          "nome": "test_excluir_logicamente",
+          "tempo_s": 0.151,
+          "status": "PASSOU"
+        },
+        {
+          "suite": "tests.test_mod101_interessados",
+          "nome": "test_obrigatorios",
+          "tempo_s": 0.098,
+          "status": "PASSOU"
+        },
+        {
+          "suite": "tests.test_mod101_interessados",
+          "nome": "test_inexistente",
+          "tempo_s": 0.107,
+          "status": "PASSOU"
+        },
+        {
+          "suite": "tests.test_mod101_interessados",
+          "nome": "test_auditoria_registrada",
+          "tempo_s": 0.136,
+          "status": "PASSOU"
+        },
+        {
+          "suite": "tests.test_mod101_interessados",
+          "nome": "test_permissao_de_escrita",
+          "tempo_s": 0.089,
+          "status": "PASSOU"
+        },
+        {
+          "suite": "tests.test_mod101_interessados",
+          "nome": "test_tamanho_maximo_nome",
+          "tempo_s": 0.1,
+          "status": "PASSOU"
+        },
+        {
+          "suite": "tests.test_mod101_interessados",
+          "nome": "test_cpf_cnpj_invalido_documento",
+          "tempo_s": 0.142,
+          "status": "PASSOU"
+        },
+        {
+          "suite": "tests.test_mod101_interessados",
+          "nome": "test_unico_documento",
+          "tempo_s": 0.103,
+          "status": "PASSOU"
+        },
+        {
+          "suite": "tests.test_mod101_interessados",
+          "nome": "test_enum_invalido_tipo_pessoa",
+          "tempo_s": 0.105,
+          "status": "PASSOU"
+        },
+        {
+          "suite": "tests.test_mod101_interessados",
+          "nome": "test_tamanho_maximo_telefone",
+          "tempo_s": 0.089,
+          "status": "PASSOU"
+        },
+        {
+          "suite": "tests.test_mod102_protocolos",
+          "nome": "test_criar_e_detalhar",
+          "tempo_s": 0.151,
+          "status": "PASSOU"
+        },
+        {
+          "suite": "tests.test_mod102_protocolos",
+          "nome": "test_listar_paginado",
+          "tempo_s": 0.197,
+          "status": "PASSOU"
+        },
+        {
+          "suite": "tests.test_mod102_protocolos",
+          "nome": "test_busca_por_texto",
+          "tempo_s": 0.177,
+          "status": "PASSOU"
+        },
+        {
+          "suite": "tests.test_mod102_protocolos",
+          "nome": "test_alterar",
+          "tempo_s": 0.137,
+          "status": "PASSOU"
+        },
+        {
+          "suite": "tests.test_mod102_protocolos",
+          "nome": "test_excluir_logicamente",
+          "tempo_s": 0.165,
+          "status": "PASSOU"
+        },
+        {
+          "suite": "tests.test_mod102_protocolos",
+          "nome": "test_obrigatorios",
+          "tempo_s": 0.106,
+          "status": "PASSOU"
+        },
+        {
+          "suite": "tests.test_mod102_protocolos",
+          "nome": "test_inexistente",
+          "tempo_s": 0.109,
+          "status": "PASSOU"
+        },
+        {
+          "suite": "tests.test_mod102_protocolos",
+          "nome": "test_auditoria_registrada",
+          "tempo_s": 0.128,
+          "status": "PASSOU"
+        },
+        {
+          "suite": "tests.test_mod102_protocolos",
+          "nome": "test_permissao_de_escrita",
+          "tempo_s": 0.098,
+          "status": "PASSOU"
+        },
+        {
+          "suite": "tests.test_mod102_protocolos",
+          "nome": "test_tamanho_maximo_numero",
+          "tempo_s": 0.125,
+          "status": "PASSOU"
+        },
+        {
+          "suite": "tests.test_mod102_protocolos",
+          "nome": "test_unico_numero",
+          "tempo_s": 0.134,
+          "status": "PASSOU"
+        },
+        {
+          "suite": "tests.test_mod102_protocolos",
+          "nome": "test_tamanho_maximo_assunto",
+          "tempo_s": 0.107,
+          "status": "PASSOU"
+        },
+        {
+          "suite": "tests.test_mod102_protocolos",
+          "nome": "test_referencia_inexistente_interessado_id",
+          "tempo_s": 0.117,
+          "status": "PASSOU"
+        },
+        {
+          "suite": "tests.test_mod102_protocolos",
+          "nome": "test_enum_invalido_canal",
+          "tempo_s": 0.113,
+          "status": "PASSOU"
+        },
+        {
+          "suite": "tests.test_mod102_protocolos",
+          "nome": "test_enum_invalido_prioridade",
+          "tempo_s": 0.109,
+          "status": "PASSOU"
+        }
+      ]
+    }
+  ]
+}

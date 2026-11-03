@@ -1,14 +1,14 @@
 # Plano de projetos — TESTE-002
 
-Gerado em 2026-11-03T00:58:53-03:00 pelo Planejador GEC (G04) a partir do PLANEJAMENTO.csv preenchido pelo responsável.
+Gerado em 2026-11-03T01:05:11-03:00 pelo Planejador GEC (G04) a partir do PLANEJAMENTO.csv preenchido pelo responsável.
 
 ## Resumo por projeto
 
 | Projeto | Módulos | UST | Horas | Valor previsto | Início | Fim | Dias úteis |
 |---|---|---|---|---|---|---|---|
-| ATENDIMENTO | 3 | 80.4 | 70 | R$ 7,800.00 | 2026-11-03 | 2026-11-06 | 4 |
-| RELATORIOS | 2 | 29.4 | 30 | R$ 2,790.00 | 2026-11-09 | 2026-11-12 | 4 |
-| **Total** | **5** | **109.8** | **100** | **R$ 10,590.00** | | | |
+| ATENDIMENTO | 3 | 80.4 | 70 | R$ 7.800,00 | 2026-11-03 | 2026-11-06 | 4 |
+| RELATORIOS | 2 | 29.4 | 30 | R$ 2.790,00 | 2026-11-09 | 2026-11-12 | 4 |
+| **Total** | **5** | **109.8** | **100** | **R$ 10.590,00** | | | |
 
 ## Projeto ATENDIMENTO
 
@@ -39,7 +39,7 @@ Janela 2026-11-03 a 2026-11-12 (8 dias úteis, 8 h/dia por pessoa).
 ## Saldo do contrato × plano
 
 - Contratado: 300.0 UST · Aceito: 0 · Saldo oficial: 300.0
-- Planejado neste plano: 109.8 UST (100 h, R$ 10,590.00)
+- Planejado neste plano: 109.8 UST (100 h, R$ 10.590,00)
 
 ## Alertas
 

@@ -4,7 +4,7 @@ description: Workflow de produção automática diária — lê tarefas pendente
 ---
 # PRODUÇÃO DIÁRIA
 
-1. `python3 fabrica/ferramentas/fabrica.py iniciar` e `python3 fabrica/ferramentas/fabrica.py painel`.
+1. `python3 fabrica/ferramentas/fabrica.py iniciar`, `painel` e **ABERTURA DO DIA** (`abertura <C>`).
 2. `python3 fabrica/ferramentas/fabrica.py tarefas listar --status READY` e `--status BLOCKED`. Para cada OS com tarefas, verifique a autorização no YAML; OS sem autorização: só planejamento, nada de código.
 3. Execute as tarefas READY autorizadas (skill executar-os), respeitando dependências e reservas de arquivos.
 4. `python3 fabrica/ferramentas/fabrica.py testes executar` → `python3 fabrica/ferramentas/fabrica.py evidencias commits` → `python3 fabrica/ferramentas/fabrica.py auditar` → `python3 fabrica/ferramentas/fabrica.py medir` para cada OS trabalhada.

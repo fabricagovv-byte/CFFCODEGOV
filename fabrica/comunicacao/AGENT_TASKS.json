@@ -1088,6 +1088,631 @@
           "nota": "Sem servidor/DNS/TLS de homologação informados (contrato.yaml tecnico.ambiente_homologacao vazio)"
         }
       ]
+    },
+    {
+      "id": "T-0019",
+      "contrato": "TESTE-002",
+      "os": "OS-TESTE-002",
+      "modulo": "",
+      "agente": "G04",
+      "profissional": "",
+      "descricao": "Consolidar planejamento por projeto (ATENDIMENTO e RELATORIOS)",
+      "prioridade": "ALTA",
+      "dependencias": [],
+      "arquivos": [],
+      "prazo": "",
+      "status": "DONE",
+      "resultado": "2 projetos, 5 módulos, 109,8 UST, 100 h planejadas",
+      "evidencias": [
+        "contratos/TESTE-002/PLANO_PROJETOS.md"
+      ],
+      "pendencias": [],
+      "historico": [
+        {
+          "em": "2026-11-03T01:00:45-03:00",
+          "de": null,
+          "para": "BACKLOG",
+          "por": "G14",
+          "nota": "criada"
+        },
+        {
+          "em": "2026-11-03T01:00:45-03:00",
+          "de": "BACKLOG",
+          "para": "READY",
+          "por": "G04",
+          "nota": ""
+        },
+        {
+          "em": "2026-11-03T01:00:45-03:00",
+          "de": "READY",
+          "para": "IN_PROGRESS",
+          "por": "G04",
+          "nota": "registro do trabalho executado nesta sessão (gerador de CRUD + testes)"
+        },
+        {
+          "em": "2026-11-03T01:00:45-03:00",
+          "de": "IN_PROGRESS",
+          "para": "IN_REVIEW",
+          "por": "G04",
+          "nota": ""
+        },
+        {
+          "em": "2026-11-03T01:00:45-03:00",
+          "de": "IN_REVIEW",
+          "para": "TESTING",
+          "por": "G04",
+          "nota": ""
+        },
+        {
+          "em": "2026-11-03T01:00:45-03:00",
+          "de": "TESTING",
+          "para": "DONE",
+          "por": "G04",
+          "nota": ""
+        }
+      ]
+    },
+    {
+      "id": "T-0020",
+      "contrato": "TESTE-002",
+      "os": "OS-TESTE-002",
+      "modulo": "MOD-100",
+      "agente": "G05",
+      "profissional": "",
+      "descricao": "MOD-100 base modular",
+      "prioridade": "ALTA",
+      "dependencias": [
+        "T-0019"
+      ],
+      "arquivos": [],
+      "prazo": "",
+      "status": "DONE",
+      "resultado": "descoberta automática de módulos + validadores",
+      "evidencias": [
+        "ea7f8f482e08cf628cb89cfa9c823b1cc9a83de6"
+      ],
+      "pendencias": [],
+      "historico": [
+        {
+          "em": "2026-11-03T01:00:45-03:00",
+          "de": null,
+          "para": "BACKLOG",
+          "por": "G14",
+          "nota": "criada"
+        },
+        {
+          "em": "2026-11-03T01:00:45-03:00",
+          "de": "BACKLOG",
+          "para": "READY",
+          "por": "G05",
+          "nota": ""
+        },
+        {
+          "em": "2026-11-03T01:00:45-03:00",
+          "de": "READY",
+          "para": "IN_PROGRESS",
+          "por": "G05",
+          "nota": "registro do trabalho executado nesta sessão (gerador de CRUD + testes)"
+        },
+        {
+          "em": "2026-11-03T01:00:45-03:00",
+          "de": "IN_PROGRESS",
+          "para": "IN_REVIEW",
+          "por": "G05",
+          "nota": ""
+        },
+        {
+          "em": "2026-11-03T01:00:45-03:00",
+          "de": "IN_REVIEW",
+          "para": "TESTING",
+          "por": "G05",
+          "nota": ""
+        },
+        {
+          "em": "2026-11-03T01:00:45-03:00",
+          "de": "TESTING",
+          "para": "DONE",
+          "por": "G05",
+          "nota": ""
+        }
+      ]
+    },
+    {
+      "id": "T-0021",
+      "contrato": "TESTE-002",
+      "os": "OS-TESTE-002",
+      "modulo": "MOD-101",
+      "agente": "E05",
+      "profissional": "",
+      "descricao": "MOD-101 cadastro de interessados (gerado da especificação)",
+      "prioridade": "ALTA",
+      "dependencias": [
+        "T-0020"
+      ],
+      "arquivos": [],
+      "prazo": "",
+      "status": "DONE",
+      "resultado": "CRUD completo gerado e testado",
+      "evidencias": [
+        "83e797866abbf68fbbbd339bb8680f7f42c29466"
+      ],
+      "pendencias": [],
+      "historico": [
+        {
+          "em": "2026-11-03T01:00:45-03:00",
+          "de": null,
+          "para": "BACKLOG",
+          "por": "G14",
+          "nota": "criada"
+        },
+        {
+          "em": "2026-11-03T01:00:45-03:00",
+          "de": "BACKLOG",
+          "para": "READY",
+          "por": "E05",
+          "nota": ""
+        },
+        {
+          "em": "2026-11-03T01:00:45-03:00",
+          "de": "READY",
+          "para": "IN_PROGRESS",
+          "por": "E05",
+          "nota": "registro do trabalho executado nesta sessão (gerador de CRUD + testes)"
+        },
+        {
+          "em": "2026-11-03T01:00:45-03:00",
+          "de": "IN_PROGRESS",
+          "para": "IN_REVIEW",
+          "por": "E05",
+          "nota": ""
+        },
+        {
+          "em": "2026-11-03T01:00:45-03:00",
+          "de": "IN_REVIEW",
+          "para": "TESTING",
+          "por": "E05",
+          "nota": ""
+        },
+        {
+          "em": "2026-11-03T01:00:45-03:00",
+          "de": "TESTING",
+          "para": "DONE",
+          "por": "E05",
+          "nota": ""
+        }
+      ]
+    },
+    {
+      "id": "T-0022",
+      "contrato": "TESTE-002",
+      "os": "OS-TESTE-002",
+      "modulo": "MOD-102",
+      "agente": "E06",
+      "profissional": "",
+      "descricao": "MOD-102 cadastro de protocolos (gerado da especificação)",
+      "prioridade": "ALTA",
+      "dependencias": [
+        "T-0021"
+      ],
+      "arquivos": [],
+      "prazo": "",
+      "status": "DONE",
+      "resultado": "CRUD com relacionamento gerado e testado",
+      "evidencias": [
+        "731324822571aa09443b7cb3ff65ceed11f522b8"
+      ],
+      "pendencias": [],
+      "historico": [
+        {
+          "em": "2026-11-03T01:00:45-03:00",
+          "de": null,
+          "para": "BACKLOG",
+          "por": "G14",
+          "nota": "criada"
+        },
+        {
+          "em": "2026-11-03T01:00:45-03:00",
+          "de": "BACKLOG",
+          "para": "READY",
+          "por": "E06",
+          "nota": ""
+        },
+        {
+          "em": "2026-11-03T01:00:45-03:00",
+          "de": "READY",
+          "para": "IN_PROGRESS",
+          "por": "E06",
+          "nota": "registro do trabalho executado nesta sessão (gerador de CRUD + testes)"
+        },
+        {
+          "em": "2026-11-03T01:00:45-03:00",
+          "de": "IN_PROGRESS",
+          "para": "IN_REVIEW",
+          "por": "E06",
+          "nota": ""
+        },
+        {
+          "em": "2026-11-03T01:00:45-03:00",
+          "de": "IN_REVIEW",
+          "para": "TESTING",
+          "por": "E06",
+          "nota": ""
+        },
+        {
+          "em": "2026-11-03T01:00:45-03:00",
+          "de": "TESTING",
+          "para": "DONE",
+          "por": "E06",
+          "nota": ""
+        }
+      ]
+    },
+    {
+      "id": "T-0023",
+      "contrato": "TESTE-002",
+      "os": "OS-TESTE-002",
+      "modulo": "",
+      "agente": "G12",
+      "profissional": "",
+      "descricao": "Executar testes da OS-TESTE-002 (PostgreSQL)",
+      "prioridade": "ALTA",
+      "dependencias": [
+        "T-0022"
+      ],
+      "arquivos": [],
+      "prazo": "",
+      "status": "DONE",
+      "resultado": "140 verificações reais (PostgreSQL), 0 falhas",
+      "evidencias": [
+        "contratos/TESTE-002/evidencias/OS-TESTE-002/MOD-100/TESTES.json",
+        "contratos/TESTE-002/evidencias/OS-TESTE-002/MOD-101/TESTES.json",
+        "contratos/TESTE-002/evidencias/OS-TESTE-002/MOD-102/TESTES.json"
+      ],
+      "pendencias": [],
+      "historico": [
+        {
+          "em": "2026-11-03T01:00:45-03:00",
+          "de": null,
+          "para": "BACKLOG",
+          "por": "G14",
+          "nota": "criada"
+        },
+        {
+          "em": "2026-11-03T01:01:10-03:00",
+          "de": "BACKLOG",
+          "para": "READY",
+          "por": "G14",
+          "nota": ""
+        },
+        {
+          "em": "2026-11-03T01:01:10-03:00",
+          "de": "READY",
+          "para": "IN_PROGRESS",
+          "por": "G12",
+          "nota": ""
+        },
+        {
+          "em": "2026-11-03T01:05:05-03:00",
+          "de": "IN_PROGRESS",
+          "para": "IN_REVIEW",
+          "por": "G12",
+          "nota": ""
+        },
+        {
+          "em": "2026-11-03T01:05:05-03:00",
+          "de": "IN_REVIEW",
+          "para": "TESTING",
+          "por": "G12",
+          "nota": ""
+        },
+        {
+          "em": "2026-11-03T01:05:05-03:00",
+          "de": "TESTING",
+          "para": "DONE",
+          "por": "G12",
+          "nota": ""
+        }
+      ]
+    },
+    {
+      "id": "T-0024",
+      "contrato": "TESTE-002",
+      "os": "OS-TESTE-002",
+      "modulo": "",
+      "agente": "G07",
+      "profissional": "",
+      "descricao": "Capturas reais das telas novas",
+      "prioridade": "ALTA",
+      "dependencias": [
+        "T-0022"
+      ],
+      "arquivos": [],
+      "prazo": "",
+      "status": "DONE",
+      "resultado": "5 capturas reais criando registros pela tela",
+      "evidencias": [
+        "contratos/TESTE-002/evidencias/OS-TESTE-002/CAPTURAS.json"
+      ],
+      "pendencias": [],
+      "historico": [
+        {
+          "em": "2026-11-03T01:00:45-03:00",
+          "de": null,
+          "para": "BACKLOG",
+          "por": "G14",
+          "nota": "criada"
+        },
+        {
+          "em": "2026-11-03T01:05:05-03:00",
+          "de": "BACKLOG",
+          "para": "READY",
+          "por": "G07",
+          "nota": ""
+        },
+        {
+          "em": "2026-11-03T01:05:05-03:00",
+          "de": "READY",
+          "para": "IN_PROGRESS",
+          "por": "G07",
+          "nota": ""
+        },
+        {
+          "em": "2026-11-03T01:05:05-03:00",
+          "de": "IN_PROGRESS",
+          "para": "IN_REVIEW",
+          "por": "G07",
+          "nota": ""
+        },
+        {
+          "em": "2026-11-03T01:05:05-03:00",
+          "de": "IN_REVIEW",
+          "para": "TESTING",
+          "por": "G07",
+          "nota": ""
+        },
+        {
+          "em": "2026-11-03T01:05:05-03:00",
+          "de": "TESTING",
+          "para": "DONE",
+          "por": "G07",
+          "nota": ""
+        }
+      ]
+    },
+    {
+      "id": "T-0025",
+      "contrato": "TESTE-002",
+      "os": "OS-TESTE-002",
+      "modulo": "",
+      "agente": "G17",
+      "profissional": "",
+      "descricao": "Auditar evidências OS-TESTE-002",
+      "prioridade": "ALTA",
+      "dependencias": [
+        "T-0022"
+      ],
+      "arquivos": [],
+      "prazo": "",
+      "status": "DONE",
+      "resultado": "3 módulos com auditoria técnica APROVADO",
+      "evidencias": [
+        "contratos/TESTE-002/evidencias/OS-TESTE-002/AUDITORIA.md"
+      ],
+      "pendencias": [],
+      "historico": [
+        {
+          "em": "2026-11-03T01:00:45-03:00",
+          "de": null,
+          "para": "BACKLOG",
+          "por": "G14",
+          "nota": "criada"
+        },
+        {
+          "em": "2026-11-03T01:05:06-03:00",
+          "de": "BACKLOG",
+          "para": "READY",
+          "por": "G17",
+          "nota": ""
+        },
+        {
+          "em": "2026-11-03T01:05:06-03:00",
+          "de": "READY",
+          "para": "IN_PROGRESS",
+          "por": "G17",
+          "nota": ""
+        },
+        {
+          "em": "2026-11-03T01:05:06-03:00",
+          "de": "IN_PROGRESS",
+          "para": "IN_REVIEW",
+          "por": "G17",
+          "nota": ""
+        },
+        {
+          "em": "2026-11-03T01:05:06-03:00",
+          "de": "IN_REVIEW",
+          "para": "TESTING",
+          "por": "G17",
+          "nota": ""
+        },
+        {
+          "em": "2026-11-03T01:05:06-03:00",
+          "de": "TESTING",
+          "para": "DONE",
+          "por": "G17",
+          "nota": ""
+        }
+      ]
+    },
+    {
+      "id": "T-0026",
+      "contrato": "TESTE-002",
+      "os": "OS-TESTE-002",
+      "modulo": "",
+      "agente": "G15",
+      "profissional": "",
+      "descricao": "Medir OS-TESTE-002 por horas × perfil",
+      "prioridade": "ALTA",
+      "dependencias": [
+        "T-0022"
+      ],
+      "arquivos": [],
+      "prazo": "",
+      "status": "DONE",
+      "resultado": "80,4 UST comprovadas; 70 h; R$ 7.800,00 (fictícios); aceito 0",
+      "evidencias": [
+        "contratos/TESTE-002/medicoes/OS-TESTE-002.md"
+      ],
+      "pendencias": [],
+      "historico": [
+        {
+          "em": "2026-11-03T01:00:45-03:00",
+          "de": null,
+          "para": "BACKLOG",
+          "por": "G14",
+          "nota": "criada"
+        },
+        {
+          "em": "2026-11-03T01:05:06-03:00",
+          "de": "BACKLOG",
+          "para": "READY",
+          "por": "G15",
+          "nota": ""
+        },
+        {
+          "em": "2026-11-03T01:05:06-03:00",
+          "de": "READY",
+          "para": "IN_PROGRESS",
+          "por": "G15",
+          "nota": ""
+        },
+        {
+          "em": "2026-11-03T01:05:07-03:00",
+          "de": "IN_PROGRESS",
+          "para": "IN_REVIEW",
+          "por": "G15",
+          "nota": ""
+        },
+        {
+          "em": "2026-11-03T01:05:07-03:00",
+          "de": "IN_REVIEW",
+          "para": "TESTING",
+          "por": "G15",
+          "nota": ""
+        },
+        {
+          "em": "2026-11-03T01:05:07-03:00",
+          "de": "TESTING",
+          "para": "DONE",
+          "por": "G15",
+          "nota": ""
+        }
+      ]
+    },
+    {
+      "id": "T-0027",
+      "contrato": "TESTE-002",
+      "os": "OS-TESTE-002",
+      "modulo": "",
+      "agente": "G19",
+      "profissional": "",
+      "descricao": "Abertura, relatório diário e fechamento em Word",
+      "prioridade": "ALTA",
+      "dependencias": [
+        "T-0022"
+      ],
+      "arquivos": [],
+      "prazo": "",
+      "status": "DONE",
+      "resultado": "abertura, diário e fechamento em Word",
+      "evidencias": [
+        "contratos/TESTE-002/relatorios/fechamentos/2026-11-03.md"
+      ],
+      "pendencias": [],
+      "historico": [
+        {
+          "em": "2026-11-03T01:00:45-03:00",
+          "de": null,
+          "para": "BACKLOG",
+          "por": "G14",
+          "nota": "criada"
+        },
+        {
+          "em": "2026-11-03T01:05:08-03:00",
+          "de": "BACKLOG",
+          "para": "READY",
+          "por": "G19",
+          "nota": ""
+        },
+        {
+          "em": "2026-11-03T01:05:08-03:00",
+          "de": "READY",
+          "para": "IN_PROGRESS",
+          "por": "G19",
+          "nota": ""
+        },
+        {
+          "em": "2026-11-03T01:05:08-03:00",
+          "de": "IN_PROGRESS",
+          "para": "IN_REVIEW",
+          "por": "G19",
+          "nota": ""
+        },
+        {
+          "em": "2026-11-03T01:05:08-03:00",
+          "de": "IN_REVIEW",
+          "para": "TESTING",
+          "por": "G19",
+          "nota": ""
+        },
+        {
+          "em": "2026-11-03T01:05:09-03:00",
+          "de": "TESTING",
+          "para": "DONE",
+          "por": "G19",
+          "nota": ""
+        }
+      ]
+    },
+    {
+      "id": "T-0028",
+      "contrato": "TESTE-002",
+      "os": "OS-TESTE-002",
+      "modulo": "",
+      "agente": "G18",
+      "profissional": "",
+      "descricao": "Cadastrar equipe real (perfis do catálogo) para capacidade e responsáveis",
+      "prioridade": "CRITICA",
+      "dependencias": [],
+      "arquivos": [],
+      "prazo": "",
+      "status": "BLOCKED",
+      "resultado": "",
+      "evidencias": [],
+      "pendencias": [],
+      "historico": [
+        {
+          "em": "2026-11-03T01:00:45-03:00",
+          "de": null,
+          "para": "BACKLOG",
+          "por": "G14",
+          "nota": "criada"
+        },
+        {
+          "em": "2026-11-03T01:00:45-03:00",
+          "de": "BACKLOG",
+          "para": "READY",
+          "por": "G14",
+          "nota": ""
+        },
+        {
+          "em": "2026-11-03T01:00:45-03:00",
+          "de": "READY",
+          "para": "BLOCKED",
+          "por": "G18",
+          "nota": "Nenhum profissional informado: capacidade por perfil = 0 e responsáveis 'a cadastrar'"
+        }
+      ]
     }
   ]
 }

@@ -30,7 +30,7 @@ humanos reais, contratos, ordens de serviço (OS), evidências, medição (UST/P
 
 1. **Nada inventado.** Commits vêm do `git`; testes, de execuções reais (JUnit/log); participação humana, horas, revisões, aprovações e aceites, somente de registros preenchidos por pessoas. Sem registro = "sem registro".
 2. **Diferencie** PLANEJADO, INICIADO, EXECUTADO, VERIFICADO e ACEITO. Aprovação técnica automatizada **não** é aceite do contratante.
-3. **UST ≠ PF ≠ horas.** Não converta sem fórmula escrita no contrato. Linhas de código não comprovam quantidade faturável.
+3. **UST ≠ PF ≠ horas.** Não converta sem fórmula escrita no contrato (`medicao.formula` + `PERFIS.csv` + `CATALOGO_SERVICOS.csv`). Linhas de código não comprovam quantidade faturável.
 4. **Autorização:** não execute OS sem `autorizacao.autorizado: true` + `autorizado_por` + `data` no YAML da OS. Não publique em produção sem `pode_publicar_producao: true` e confirmação humana na conversa.
 5. **Skills externas** são fornecidas pelo usuário. Não pesquise nem instale skills externas por conta própria.
 6. **Segurança desde a concepção:** sem segredos no git (`.env` fora do versionamento), menor privilégio, auditoria, dados fictícios em demonstrações, LGPD.
@@ -45,6 +45,9 @@ humanos reais, contratos, ordens de serviço (OS), evidências, medição (UST/P
 15. **Cadastro mínimo da equipe:** basta nome e função (`fabrica.py profissionais adicionar` ou aba PROFISSIONAIS do documento base). Os demais campos melhoram o confronto com o edital e o rateio.
 16. **Documentos em Word:** todo relatório, fechamento, PPJ, confronto, medição, checklist, auditoria e oportunidades sai em `.md` e `.docx` (capa, cabeçalho, rodapé com páginas, tabelas formatadas) via `fabrica/ferramentas/word.cjs`. Requer Node.js + `npm install --prefix fabrica/ferramentas`. Para converter qualquer `.md`: `fabrica.py word <arquivo>`.
 17. **Aumentar a produção só com trabalho real:** para "gerar mais UST", use `fabrica.py oportunidades` (trabalho comprovado que pode corresponder a itens do catálogo ainda não medidos), mais capacidade e menos retrabalho. Nunca aumente quantidades sem trabalho executado, sem enquadramento no catálogo ou com dupla contagem.
+18. **O planejamento é do responsável:** o usuário define projetos, módulos, serviços, datas e responsáveis (PLANEJAMENTO.csv / aba PLANEJAMENTO). A fábrica calcula, alerta (capacidade, saldo, prazos do edital) e gera as OS; sempre releia o edital ao planejar.
+19. **Três relatórios por dia:** abertura (`fabrica.py abertura`), relatório diário (`relatorio diario`) e fechamento (`fechamento`), todos em Word.
+20. **Código real e completo:** cadastro = tabela + migração + API validada + auditoria + permissão + tela + testes de API e de tela, separado por módulo (`fabrica.py crud gerar`), provado com testes no PostgreSQL, `alembic check` e build. Sem teste executado, não há entrega.
 
 ## Como os agentes trabalham juntos
 
@@ -90,6 +93,9 @@ Cada comando tem uma skill em `.claude/skills/<nome>/SKILL.md` (Codex: leia o ar
 | PPJ (Planejamento de Projeto Sustentável) | `ppj` | `ppj` |
 | IMPORTAR EQUIPE / DOCUMENTO DA EQUIPE (Nome, CPF, Cargo) | `importar-planilha` | `profissionais modelo|importar|oficial` |
 | OPORTUNIDADES DE MEDIÇÃO | `medir-producao` | `oportunidades` |
+| ABERTURA DO DIA | `abertura-dia` | `abertura` |
+| PLANEJAMENTO (por projeto) | `planejamento-projetos` | `planejamento consolidar|gerar-os` |
+| GERAR CRUD / CADASTRO | `gerar-crud` | `crud gerar` |
 | Produção diária automática | `producao-diaria` | todas as anteriores, sem publicar |
 
 ## Verificações antes de concluir qualquer trabalho

@@ -1,0 +1,119 @@
+{
+  "contrato": "TESTE-002",
+  "os": "OS-TESTE-002",
+  "auditado_em": "2026-11-03T01:05:04-03:00",
+  "agente": "G17",
+  "modulos": [
+    {
+      "modulo": "MOD-100",
+      "nome": "Base modular para cadastros",
+      "tecnico": "APROVADO",
+      "pendencias_humanas": [
+        {
+          "severidade": "PENDENCIA_HUMANA",
+          "item": "RESPONSAVEIS.md",
+          "texto": "profissional humano responsável não cadastrado"
+        },
+        {
+          "severidade": "PENDENCIA_HUMANA",
+          "item": "REVISOES.md",
+          "texto": "revisão humana não registrada"
+        }
+      ],
+      "achados": [
+        {
+          "severidade": "PENDENCIA_HUMANA",
+          "item": "RESPONSAVEIS.md",
+          "texto": "profissional humano responsável não cadastrado"
+        },
+        {
+          "severidade": "PENDENCIA_HUMANA",
+          "item": "REVISOES.md",
+          "texto": "revisão humana não registrada"
+        }
+      ],
+      "commits": 2,
+      "testes": {
+        "testes": 105,
+        "falhas": 0,
+        "erros": 0,
+        "ignorados": 0
+      },
+      "capturas": 0
+    },
+    {
+      "modulo": "MOD-101",
+      "nome": "Cadastro de interessados",
+      "tecnico": "APROVADO",
+      "pendencias_humanas": [
+        {
+          "severidade": "PENDENCIA_HUMANA",
+          "item": "RESPONSAVEIS.md",
+          "texto": "profissional humano responsável não cadastrado"
+        },
+        {
+          "severidade": "PENDENCIA_HUMANA",
+          "item": "REVISOES.md",
+          "texto": "revisão humana não registrada"
+        }
+      ],
+      "achados": [
+        {
+          "severidade": "PENDENCIA_HUMANA",
+          "item": "RESPONSAVEIS.md",
+          "texto": "profissional humano responsável não cadastrado"
+        },
+        {
+          "severidade": "PENDENCIA_HUMANA",
+          "item": "REVISOES.md",
+          "texto": "revisão humana não registrada"
+        }
+      ],
+      "commits": 1,
+      "testes": {
+        "testes": 17,
+        "falhas": 0,
+        "erros": 0,
+        "ignorados": 0
+      },
+      "capturas": 2
+    },
+    {
+      "modulo": "MOD-102",
+      "nome": "Cadastro de protocolos",
+      "tecnico": "APROVADO",
+      "pendencias_humanas": [
+        {
+          "severidade": "PENDENCIA_HUMANA",
+          "item": "RESPONSAVEIS.md",
+          "texto": "profissional humano responsável não cadastrado"
+        },
+        {
+          "severidade": "PENDENCIA_HUMANA",
+          "item": "REVISOES.md",
+          "texto": "revisão humana não registrada"
+        }
+      ],
+      "achados": [
+        {
+          "severidade": "PENDENCIA_HUMANA",
+          "item": "RESPONSAVEIS.md",
+          "texto": "profissional humano responsável não cadastrado"
+        },
+        {
+          "severidade": "PENDENCIA_HUMANA",
+          "item": "REVISOES.md",
+          "texto": "revisão humana não registrada"
+        }
+      ],
+      "commits": 2,
+      "testes": {
+        "testes": 18,
+        "falhas": 0,
+        "erros": 0,
+        "ignorados": 0
+      },
+      "capturas": 3
+    }
+  ]
+}

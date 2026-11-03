@@ -1,0 +1,40 @@
+{
+  "contrato": "TESTE-002",
+  "gerado_em": "2026-11-03T01:05:12-03:00",
+  "atende": [
+    "Tecnologia — React: esqueleto verificado (react-vite) [demonstração]",
+    "Tecnologia — FastAPI: esqueleto verificado (python-fastapi) [demonstração]",
+    "Tecnologia — PostgreSQL: usada e testada na fábrica (TESTE-001: suíte de testes em PostgreSQL 16, migrações Alembic e trigger de auditoria (contratos/TESTE-001/evidencias)) [demonstração]",
+    "Relatório abertura: gerado pela fábrica",
+    "Relatório diario: gerado pela fábrica",
+    "Relatório fechamento: gerado pela fábrica",
+    "Relatório semanal: gerado pela fábrica",
+    "Relatório mensal: gerado pela fábrica",
+    "Relatório planejamento: gerado pela fábrica",
+    "Medição em UST: suportada"
+  ],
+  "ajustar": [],
+  "falta": [
+    "Empresa — razao social não informado no documento base",
+    "Empresa — cnpj não informado no documento base",
+    "Empresa — responsavel legal não informado no documento base",
+    "Empresa — preposto não informado no documento base",
+    "Equipe — nenhum profissional cadastrado (basta informar nome e função)"
+  ],
+  "adaptacoes_aplicadas": {
+    "ppj": "Planejamento de Projeto Sustentável (PPJ)",
+    "fechamento": "Fechamento diário",
+    "abertura": "Abertura do dia",
+    "relatorio_diario": "Relatório diário",
+    "relatorio_semanal": "Relatório semanal",
+    "relatorio_mensal": "Relatório mensal"
+  },
+  "relatorios_exigidos": [
+    "abertura",
+    "diario",
+    "fechamento",
+    "semanal",
+    "mensal",
+    "planejamento"
+  ]
+}

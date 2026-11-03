@@ -1,0 +1,16 @@
+{
+  "contrato": "TESTE-002",
+  "periodo": "diario",
+  "inicio": "2026-11-03",
+  "fim": "2026-11-03",
+  "gerado_em": "2026-11-03T01:05:46-03:00",
+  "modo": "proporcional",
+  "total": null,
+  "base_total": "",
+  "documento_total": "",
+  "participacoes_no_periodo": 0,
+  "registros_rejeitados": [],
+  "linhas": [],
+  "nao_atribuido": 0,
+  "aviso": "Rateio interno de atribuição gerencial. Não é medição contratual e não substitui o aceite do órgão. Só entram profissionais com participação registrada (PARTICIPACOES.csv) no período."
+}

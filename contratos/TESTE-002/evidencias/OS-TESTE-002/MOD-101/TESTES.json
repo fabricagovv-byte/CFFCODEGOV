@@ -1,0 +1,148 @@
+{
+  "fonte": "execução real via fabrica.py testes executar",
+  "modulo": "MOD-101",
+  "executado_em": "2026-11-03T01:04:40-03:00",
+  "resumo": {
+    "testes": 17,
+    "falhas": 0,
+    "erros": 0,
+    "ignorados": 0
+  },
+  "situacao": "APROVADO",
+  "execucoes": [
+    {
+      "nome": "backend",
+      "comando": "python3 -m pytest tests/test_mod101_interessados.py -v --junitxml=/home/user/CFFCODEGOV/contratos/TESTE-002/evidencias/OS-TESTE-002/MOD-101/LOGS_TESTES/backend-20261103T010434.xml",
+      "cwd": "projetos/gestao-documental/backend",
+      "inicio": "2026-11-03T01:04:34-03:00",
+      "fim": "2026-11-03T01:04:38-03:00",
+      "codigo_saida": 0,
+      "junit": "contratos/TESTE-002/evidencias/OS-TESTE-002/MOD-101/LOGS_TESTES/backend-20261103T010434.xml",
+      "log": "contratos/TESTE-002/evidencias/OS-TESTE-002/MOD-101/LOGS_TESTES/backend-20261103T010434.log",
+      "testes": 14,
+      "falhas": 0,
+      "erros": 0,
+      "ignorados": 0,
+      "casos": [
+        {
+          "suite": "tests.test_mod101_interessados",
+          "nome": "test_criar_e_detalhar",
+          "tempo_s": 1.25,
+          "status": "PASSOU"
+        },
+        {
+          "suite": "tests.test_mod101_interessados",
+          "nome": "test_listar_paginado",
+          "tempo_s": 0.163,
+          "status": "PASSOU"
+        },
+        {
+          "suite": "tests.test_mod101_interessados",
+          "nome": "test_busca_por_texto",
+          "tempo_s": 0.163,
+          "status": "PASSOU"
+        },
+        {
+          "suite": "tests.test_mod101_interessados",
+          "nome": "test_alterar",
+          "tempo_s": 0.125,
+          "status": "PASSOU"
+        },
+        {
+          "suite": "tests.test_mod101_interessados",
+          "nome": "test_excluir_logicamente",
+          "tempo_s": 0.167,
+          "status": "PASSOU"
+        },
+        {
+          "suite": "tests.test_mod101_interessados",
+          "nome": "test_obrigatorios",
+          "tempo_s": 0.11,
+          "status": "PASSOU"
+        },
+        {
+          "suite": "tests.test_mod101_interessados",
+          "nome": "test_inexistente",
+          "tempo_s": 0.111,
+          "status": "PASSOU"
+        },
+        {
+          "suite": "tests.test_mod101_interessados",
+          "nome": "test_auditoria_registrada",
+          "tempo_s": 0.124,
+          "status": "PASSOU"
+        },
+        {
+          "suite": "tests.test_mod101_interessados",
+          "nome": "test_permissao_de_escrita",
+          "tempo_s": 0.102,
+          "status": "PASSOU"
+        },
+        {
+          "suite": "tests.test_mod101_interessados",
+          "nome": "test_tamanho_maximo_nome",
+          "tempo_s": 0.109,
+          "status": "PASSOU"
+        },
+        {
+          "suite": "tests.test_mod101_interessados",
+          "nome": "test_cpf_cnpj_invalido_documento",
+          "tempo_s": 0.111,
+          "status": "PASSOU"
+        },
+        {
+          "suite": "tests.test_mod101_interessados",
+          "nome": "test_unico_documento",
+          "tempo_s": 0.135,
+          "status": "PASSOU"
+        },
+        {
+          "suite": "tests.test_mod101_interessados",
+          "nome": "test_enum_invalido_tipo_pessoa",
+          "tempo_s": 0.118,
+          "status": "PASSOU"
+        },
+        {
+          "suite": "tests.test_mod101_interessados",
+          "nome": "test_tamanho_maximo_telefone",
+          "tempo_s": 0.114,
+          "status": "PASSOU"
+        }
+      ]
+    },
+    {
+      "nome": "frontend",
+      "comando": "npx vitest run src/modulos/interessados/InteressadoPagina.test.tsx --reporter=default --reporter=junit --outputFile.junit=/home/user/CFFCODEGOV/contratos/TESTE-002/evidencias/OS-TESTE-002/MOD-101/LOGS_TESTES/frontend-20261103T010438.xml",
+      "cwd": "projetos/gestao-documental/frontend",
+      "inicio": "2026-11-03T01:04:38-03:00",
+      "fim": "2026-11-03T01:04:40-03:00",
+      "codigo_saida": 0,
+      "junit": "contratos/TESTE-002/evidencias/OS-TESTE-002/MOD-101/LOGS_TESTES/frontend-20261103T010438.xml",
+      "log": "contratos/TESTE-002/evidencias/OS-TESTE-002/MOD-101/LOGS_TESTES/frontend-20261103T010438.log",
+      "testes": 3,
+      "falhas": 0,
+      "erros": 0,
+      "ignorados": 0,
+      "casos": [
+        {
+          "suite": "src/modulos/interessados/InteressadoPagina.test.tsx",
+          "nome": "lista os registros vindos da API",
+          "tempo_s": 0.117342964,
+          "status": "PASSOU"
+        },
+        {
+          "suite": "src/modulos/interessados/InteressadoPagina.test.tsx",
+          "nome": "pesquisa envia o termo para a API",
+          "tempo_s": 0.068719884,
+          "status": "PASSOU"
+        },
+        {
+          "suite": "src/modulos/interessados/InteressadoPagina.test.tsx",
+          "nome": "valida campo obrigatório",
+          "tempo_s": 0.000590984,
+          "status": "PASSOU"
+        }
+      ]
+    }
+  ]
+}

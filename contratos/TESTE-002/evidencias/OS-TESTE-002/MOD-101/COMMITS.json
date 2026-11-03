@@ -1,0 +1,32 @@
+{
+  "fonte": "git log (gerado por fabrica.py evidencias commits)",
+  "gerado_em": "2026-11-03T01:04:47-03:00",
+  "caminhos": [
+    "projetos/gestao-documental/backend/app/modulos/interessados",
+    "projetos/gestao-documental/backend/migrations/versions/0003_interessados.py",
+    "projetos/gestao-documental/backend/tests/test_mod101_interessados.py",
+    "projetos/gestao-documental/frontend/src/modulos/interessados",
+    "projetos/gestao-documental/especificacoes/interessados.yaml"
+  ],
+  "commits": [
+    {
+      "sha": "83e797866abbf68fbbbd339bb8680f7f42c29466",
+      "autor": "Claude",
+      "email_autor": "noreply@anthropic.com",
+      "data": "2026-11-03T04:00:29+00:00",
+      "mensagem": "MOD-101: cadastro de interessados (gerado da especificação: modelo, migração, API, auditoria, tela e testes)",
+      "arquivos": [
+        "A\tprojetos/gestao-documental/backend/app/modulos/interessados/__init__.py",
+        "A\tprojetos/gestao-documental/backend/app/modulos/interessados/models.py",
+        "A\tprojetos/gestao-documental/backend/app/modulos/interessados/router.py",
+        "A\tprojetos/gestao-documental/backend/app/modulos/interessados/schemas.py",
+        "A\tprojetos/gestao-documental/backend/migrations/versions/0003_interessados.py",
+        "A\tprojetos/gestao-documental/backend/tests/test_mod101_interessados.py",
+        "A\tprojetos/gestao-documental/especificacoes/interessados.yaml",
+        "A\tprojetos/gestao-documental/frontend/src/modulos/interessados/InteressadoPagina.test.tsx",
+        "A\tprojetos/gestao-documental/frontend/src/modulos/interessados/InteressadoPagina.tsx",
+        "A\tprojetos/gestao-documental/frontend/src/modulos/interessados/api.ts"
+      ]
+    }
+  ]
+}

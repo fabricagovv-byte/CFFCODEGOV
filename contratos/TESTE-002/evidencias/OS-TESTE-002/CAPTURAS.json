@@ -1,0 +1,36 @@
+{
+  "fonte": "Playwright/Chromium",
+  "url": "http://localhost:8080",
+  "capturas": [
+    {
+      "modulo": "MOD-101",
+      "arquivo": "contratos/TESTE-002/evidencias/OS-TESTE-002/MOD-101/SCREENSHOTS/01-validacao-cpf-invalido.png",
+      "descricao": "CPF inválido recusado pelo servidor",
+      "em": "2026-11-03T04:04:01.718Z"
+    },
+    {
+      "modulo": "MOD-101",
+      "arquivo": "contratos/TESTE-002/evidencias/OS-TESTE-002/MOD-101/SCREENSHOTS/02-interessados-lista.png",
+      "descricao": "Dois interessados cadastrados pela tela",
+      "em": "2026-11-03T04:04:02.014Z"
+    },
+    {
+      "modulo": "MOD-102",
+      "arquivo": "contratos/TESTE-002/evidencias/OS-TESTE-002/MOD-102/SCREENSHOTS/01-protocolo-formulario.png",
+      "descricao": "Formulário de protocolo com relacionamento ao interessado",
+      "em": "2026-11-03T04:04:02.248Z"
+    },
+    {
+      "modulo": "MOD-102",
+      "arquivo": "contratos/TESTE-002/evidencias/OS-TESTE-002/MOD-102/SCREENSHOTS/02-protocolos-busca.png",
+      "descricao": "Busca por 'alvará' na lista de protocolos",
+      "em": "2026-11-03T04:04:02.982Z"
+    },
+    {
+      "modulo": "MOD-102",
+      "arquivo": "contratos/TESTE-002/evidencias/OS-TESTE-002/MOD-102/SCREENSHOTS/03-auditoria-modulos.png",
+      "descricao": "Auditoria registrando INTERESSADOS_CRIADO e PROTOCOLOS_CRIADO",
+      "em": "2026-11-03T04:04:03.222Z"
+    }
+  ]
+}

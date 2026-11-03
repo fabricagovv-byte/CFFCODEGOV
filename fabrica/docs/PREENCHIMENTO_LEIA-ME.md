@@ -30,6 +30,9 @@ Abra **`DOCUMENTO_BASE.xlsx`** no Excel ou Google Planilhas, preencha as abas e 
 | TABELA_UST | catálogo de serviços do TR | sim, para medir |
 | PRODUCAO_HISTORICA | produção já aceita em meses anteriores | para médias por profissional |
 | PROJETOS | um sistema por linha (até 30 ou mais) | para criar os repositórios |
+| PERFIS | perfis do órgão: valor/hora e fator UST (como no edital) | se o edital mede por hora/perfil |
+| CATALOGO_SERVICOS | horas de cada perfil por serviço | idem |
+| PLANEJAMENTO | **seu plano**: projeto, módulo, serviço, quantidade, início, fim, responsável | sim, para planejar |
 
 ## Sobre CPF e assinaturas
 

@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<testsuites name="vitest tests" tests="3" failures="0" errors="0" time="0.195779606">
+    <testsuite name="src/modulos/protocolos/ProtocoloPagina.test.tsx" timestamp="2026-11-03T04:01:47.941Z" hostname="vm" tests="3" failures="0" errors="0" skipped="0" time="0.195779606">
+        <testcase classname="src/modulos/protocolos/ProtocoloPagina.test.tsx" name="lista os registros vindos da API" time="0.112449438">
+        </testcase>
+        <testcase classname="src/modulos/protocolos/ProtocoloPagina.test.tsx" name="pesquisa envia o termo para a API" time="0.08133789">
+        </testcase>
+        <testcase classname="src/modulos/protocolos/ProtocoloPagina.test.tsx" name="valida campo obrigatório" time="0.000557432">
+        </testcase>
+    </testsuite>
+</testsuites>

@@ -1,0 +1,33 @@
+{
+  "contrato": "TESTE-002",
+  "data": "2026-11-03",
+  "gerado_em": "2026-11-03T01:05:46-03:00",
+  "trabalharam": [],
+  "participacoes": [],
+  "commits": 4,
+  "tarefas_concluidas": [
+    "T-0019",
+    "T-0020",
+    "T-0021",
+    "T-0022",
+    "T-0023",
+    "T-0024",
+    "T-0025",
+    "T-0026",
+    "T-0027"
+  ],
+  "testes": 140,
+  "falhas": 0,
+  "producao_informada": null,
+  "rateio": [],
+  "saldo": {
+    "contratado": 300.0,
+    "previsto": 80.4,
+    "comprovado": 80.4,
+    "aceito": 0.0,
+    "saldo_oficial": 300.0,
+    "saldo_projetado": 219.6,
+    "consumo_aceito_pct": 0.0,
+    "unidade": "UST"
+  }
+}

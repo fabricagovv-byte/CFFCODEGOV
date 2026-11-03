@@ -1,0 +1,8 @@
+id: sistema-gov
+linguagem: Python 3.12+ e TypeScript (sistema completo)
+framework: "FastAPI + PostgreSQL + React — base pronta (login, perfis, auditoria, documentos, Docker) para gerar cadastros com crud gerar"
+requer: [python3, node, npm]
+comandos:
+  instalar: [sh, -c, "python3 -m pip install -q -r backend/requirements-dev.txt && cd frontend && npm install --no-audit --no-fund"]
+  testar: {cmd: [sh, -c, "cd backend && python3 -m pytest -q --junitxml={junit}"]}
+  build: [sh, -c, "cd frontend && npm run build"]

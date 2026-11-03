@@ -1,0 +1,9 @@
+$ (cd projetos/gestao-documental/backend && python3 -m pytest -q --junitxml=/home/user/CFFCODEGOV/contratos/TESTE-002/evidencias/OS-TESTE-002/MOD-100/LOGS_TESTES/regressao-backend-completa-20261103T010422.xml)
+# início: 2026-11-03T01:04:22.018368-03:00
+# fim: 2026-11-03T01:04:34.581172-03:00
+# código de saída: 0
+# TEST_DATABASE_URL=postgresql+psycopg2://gd_teste:***@localhost:5432/gd_teste
+
+........................................................................ [ 72%]
+...........................                                              [100%]
+

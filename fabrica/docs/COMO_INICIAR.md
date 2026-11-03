@@ -33,9 +33,10 @@ python3 fabrica/ferramentas/fabrica.py repositorio novo ../pmx-001-sgd \
 2. Anexe a planilha preenchida e os PDFs → `IMPORTAR PLANILHA CT-12-2026` e depois `NOVO CONTRATO CT-12-2026`
 3. `CONFRONTAR EDITAL CT-12-2026` → você recebe: ✔ atende · ⚠ ajustar · ✘ falta. Responda ao que faltar.
    Se o edital exigir outro nome/seções de documentos, a fábrica ajusta sozinha (EDITAL.yaml).
-4. `PLANEJAR CONTRATO CT-12-2026` e `PPJ CT-12-2026` (Planejamento de Projeto Sustentável)
+4. Preencha a aba PLANEJAMENTO (seu plano: projetos, módulos, serviços, datas) → `PLANEJAMENTO CT-12-2026` (UST, horas, valor, capacidade por projeto) → `PPJ CT-12-2026`
+   Cadastros: `GERAR CRUD <entidade>` gera tabela, API, tela e testes reais
 5. Aprove o plano e escreva no YAML da OS (ou na conversa) quem autorizou e quando → `EXECUTAR OS OS-001`
-6. Todo dia: `FECHAMENTO DO DIA CT-12-2026` (nomes, produção, saldo) — informe a produção do dia se tiver (ex.: "hoje fechou 40 UST")
+6. Todo dia, 3 relatórios: `ABERTURA DO DIA CT-12-2026` (manhã: contratado, saldo, plano do dia) → trabalho → `RELATÓRIO DIÁRIO` → `FECHAMENTO DO DIA CT-12-2026` (nomes, produção, saldo) — informe a produção do dia se tiver (ex.: "hoje fechou 40 UST")
    Vários projetos: `FECHAMENTO DE TODOS OS PROJETOS` (portfólio)
 7. Toda semana: informe o total (ex.: "a semana de 02/11 fechou 250 UST") → `RATEIO SEMANAL CT-12-2026`
 8. Todo mês: `MEDIR PRODUÇÃO` → `GERAR RELATÓRIO mensal` → `PREPARAR ENTREGA`

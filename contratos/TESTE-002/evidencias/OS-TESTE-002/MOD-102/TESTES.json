@@ -1,0 +1,154 @@
+{
+  "fonte": "execução real via fabrica.py testes executar",
+  "modulo": "MOD-102",
+  "executado_em": "2026-11-03T01:04:47-03:00",
+  "resumo": {
+    "testes": 18,
+    "falhas": 0,
+    "erros": 0,
+    "ignorados": 0
+  },
+  "situacao": "APROVADO",
+  "execucoes": [
+    {
+      "nome": "backend",
+      "comando": "python3 -m pytest tests/test_mod102_protocolos.py -v --junitxml=/home/user/CFFCODEGOV/contratos/TESTE-002/evidencias/OS-TESTE-002/MOD-102/LOGS_TESTES/backend-20261103T010440.xml",
+      "cwd": "projetos/gestao-documental/backend",
+      "inicio": "2026-11-03T01:04:40-03:00",
+      "fim": "2026-11-03T01:04:45-03:00",
+      "codigo_saida": 0,
+      "junit": "contratos/TESTE-002/evidencias/OS-TESTE-002/MOD-102/LOGS_TESTES/backend-20261103T010440.xml",
+      "log": "contratos/TESTE-002/evidencias/OS-TESTE-002/MOD-102/LOGS_TESTES/backend-20261103T010440.log",
+      "testes": 15,
+      "falhas": 0,
+      "erros": 0,
+      "ignorados": 0,
+      "casos": [
+        {
+          "suite": "tests.test_mod102_protocolos",
+          "nome": "test_criar_e_detalhar",
+          "tempo_s": 1.116,
+          "status": "PASSOU"
+        },
+        {
+          "suite": "tests.test_mod102_protocolos",
+          "nome": "test_listar_paginado",
+          "tempo_s": 0.167,
+          "status": "PASSOU"
+        },
+        {
+          "suite": "tests.test_mod102_protocolos",
+          "nome": "test_busca_por_texto",
+          "tempo_s": 0.193,
+          "status": "PASSOU"
+        },
+        {
+          "suite": "tests.test_mod102_protocolos",
+          "nome": "test_alterar",
+          "tempo_s": 0.135,
+          "status": "PASSOU"
+        },
+        {
+          "suite": "tests.test_mod102_protocolos",
+          "nome": "test_excluir_logicamente",
+          "tempo_s": 0.161,
+          "status": "PASSOU"
+        },
+        {
+          "suite": "tests.test_mod102_protocolos",
+          "nome": "test_obrigatorios",
+          "tempo_s": 0.09,
+          "status": "PASSOU"
+        },
+        {
+          "suite": "tests.test_mod102_protocolos",
+          "nome": "test_inexistente",
+          "tempo_s": 0.102,
+          "status": "PASSOU"
+        },
+        {
+          "suite": "tests.test_mod102_protocolos",
+          "nome": "test_auditoria_registrada",
+          "tempo_s": 0.148,
+          "status": "PASSOU"
+        },
+        {
+          "suite": "tests.test_mod102_protocolos",
+          "nome": "test_permissao_de_escrita",
+          "tempo_s": 0.12,
+          "status": "PASSOU"
+        },
+        {
+          "suite": "tests.test_mod102_protocolos",
+          "nome": "test_tamanho_maximo_numero",
+          "tempo_s": 0.118,
+          "status": "PASSOU"
+        },
+        {
+          "suite": "tests.test_mod102_protocolos",
+          "nome": "test_unico_numero",
+          "tempo_s": 0.14,
+          "status": "PASSOU"
+        },
+        {
+          "suite": "tests.test_mod102_protocolos",
+          "nome": "test_tamanho_maximo_assunto",
+          "tempo_s": 0.122,
+          "status": "PASSOU"
+        },
+        {
+          "suite": "tests.test_mod102_protocolos",
+          "nome": "test_referencia_inexistente_interessado_id",
+          "tempo_s": 0.13,
+          "status": "PASSOU"
+        },
+        {
+          "suite": "tests.test_mod102_protocolos",
+          "nome": "test_enum_invalido_canal",
+          "tempo_s": 0.131,
+          "status": "PASSOU"
+        },
+        {
+          "suite": "tests.test_mod102_protocolos",
+          "nome": "test_enum_invalido_prioridade",
+          "tempo_s": 0.116,
+          "status": "PASSOU"
+        }
+      ]
+    },
+    {
+      "nome": "frontend",
+      "comando": "npx vitest run src/modulos/protocolos/ProtocoloPagina.test.tsx --reporter=default --reporter=junit --outputFile.junit=/home/user/CFFCODEGOV/contratos/TESTE-002/evidencias/OS-TESTE-002/MOD-102/LOGS_TESTES/frontend-20261103T010445.xml",
+      "cwd": "projetos/gestao-documental/frontend",
+      "inicio": "2026-11-03T01:04:45-03:00",
+      "fim": "2026-11-03T01:04:47-03:00",
+      "codigo_saida": 0,
+      "junit": "contratos/TESTE-002/evidencias/OS-TESTE-002/MOD-102/LOGS_TESTES/frontend-20261103T010445.xml",
+      "log": "contratos/TESTE-002/evidencias/OS-TESTE-002/MOD-102/LOGS_TESTES/frontend-20261103T010445.log",
+      "testes": 3,
+      "falhas": 0,
+      "erros": 0,
+      "ignorados": 0,
+      "casos": [
+        {
+          "suite": "src/modulos/protocolos/ProtocoloPagina.test.tsx",
+          "nome": "lista os registros vindos da API",
+          "tempo_s": 0.126709744,
+          "status": "PASSOU"
+        },
+        {
+          "suite": "src/modulos/protocolos/ProtocoloPagina.test.tsx",
+          "nome": "pesquisa envia o termo para a API",
+          "tempo_s": 0.07880275,
+          "status": "PASSOU"
+        },
+        {
+          "suite": "src/modulos/protocolos/ProtocoloPagina.test.tsx",
+          "nome": "valida campo obrigatório",
+          "tempo_s": 0.000492076,
+          "status": "PASSOU"
+        }
+      ]
+    }
+  ]
+}

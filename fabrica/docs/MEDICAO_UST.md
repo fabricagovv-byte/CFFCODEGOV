@@ -23,6 +23,16 @@ A fábrica separa sempre três números:
 - O G16 monta a memória: fronteira, funções de dados (ALI/AIE), transacionais (EE/SE/CE), complexidade, total.
 - Se o contrato exigir contador certificado (CFPS/CFPP), a contagem precisa da revisão dele.
 
+## Medição por catálogo de serviços, perfis e horas
+
+Quando o edital define perfis (valor/hora, fator UST) e horas por serviço:
+
+1. `PERFIS.csv`: perfil, valor_hora, fator_ust_por_hora, referência (cláusula).
+2. `CATALOGO_SERVICOS.csv`: serviço → horas de cada perfil (e UST por serviço, se o edital der).
+3. `contrato.yaml` → `medicao.formula`: `UST_POR_SERVICO` (soma a UST do catálogo), `HORAS_X_FATOR` (horas × fator de cada perfil) ou `HORAS`.
+4. Na OS, cada módulo lista `servicos: [{codigo, quantidade}]`. A medição mostra horas por perfil, quantidade e valor (R$).
+5. Sem fórmula declarada, a fábrica não converte nada.
+
 ## Horas
 
 Só quando o contrato medir por horas, e só com registro de horas **declarado pelo próprio profissional**.
