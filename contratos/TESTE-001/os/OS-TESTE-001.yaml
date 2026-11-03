@@ -1,0 +1,97 @@
+# OS FICTÍCIA DE TESTE (Parte 17 do prompt mestre). UST sem valor contratual.
+os: OS-TESTE-001
+contrato: TESTE-001
+titulo: Gestão Documental Pública
+projeto: projetos/gestao-documental
+aviso_medicao: "UST FICTÍCIAS — demonstração da fábrica, sem valor para faturamento."
+autorizacao:
+  autorizado: true
+  autorizado_por: "solicitante da sessão Claude Code (instrução 'Executar TESTE-001')"
+  data: "2026-11-03"
+  documento: "Prompt mestre — Partes 17 e 19"
+
+# Variável opcional: TEST_DATABASE_URL (PostgreSQL real). Sem ela, os testes usam SQLite.
+modulos:
+  - id: MOD-001
+    nome: Autenticação e controle de acesso
+    item_tabela: UST-TESTE-MOD
+    ust_previsto: 2
+    tem_interface: true
+    caminhos: [backend/app/security.py, backend/app/permissions.py, backend/app/mail.py, backend/app/routers/auth.py,
+               backend/app/routers/usuarios.py, backend/tests/test_mod001_auth.py, frontend/src/auth.tsx,
+               frontend/src/pages/Login.tsx, frontend/src/pages/Login.test.tsx, frontend/src/pages/EsqueciSenha.tsx,
+               frontend/src/pages/RedefinirSenha.tsx]
+    testes:
+      - {nome: backend, cwd: backend, cmd: [python3, -m, pytest, tests/test_mod001_auth.py, -v, "--junitxml={junit}"]}
+      - {nome: frontend, cwd: frontend, cmd: [npx, vitest, run, src/pages/Login.test.tsx, --reporter=default, --reporter=junit, "--outputFile.junit={junit}"]}
+  - id: MOD-002
+    nome: Cadastro documental
+    item_tabela: UST-TESTE-MOD
+    ust_previsto: 2
+    tem_interface: true
+    caminhos: [backend/app/routers/documentos.py, backend/tests/test_mod002_documentos.py, frontend/src/pages/Documentos.tsx,
+               frontend/src/pages/FormDocumento.tsx, frontend/src/pages/DocumentoDetalhe.tsx, frontend/src/pages/Documentos.test.tsx]
+    testes:
+      - {nome: backend, cwd: backend, cmd: [python3, -m, pytest, tests/test_mod002_documentos.py, -v, "--junitxml={junit}"]}
+      - {nome: frontend, cwd: frontend, cmd: [npx, vitest, run, src/pages/Documentos.test.tsx, --reporter=default, --reporter=junit, "--outputFile.junit={junit}"]}
+  - id: MOD-003
+    nome: Upload de PDF
+    item_tabela: UST-TESTE-MOD
+    ust_previsto: 2
+    tem_interface: true
+    caminhos: [backend/app/storage.py, backend/app/routers/arquivos.py, backend/tests/test_mod003_upload.py,
+               frontend/src/components/UploadPdf.tsx, frontend/src/components/UploadPdf.test.tsx]
+    testes:
+      - {nome: backend, cwd: backend, cmd: [python3, -m, pytest, tests/test_mod003_upload.py, -v, "--junitxml={junit}"]}
+      - {nome: frontend, cwd: frontend, cmd: [npx, vitest, run, src/components/UploadPdf.test.tsx, --reporter=default, --reporter=junit, "--outputFile.junit={junit}"]}
+  - id: MOD-004
+    nome: Pesquisa
+    item_tabela: UST-TESTE-MOD
+    ust_previsto: 1
+    tem_interface: true
+    caminhos: [backend/app/routers/pesquisa.py, backend/tests/test_mod004_pesquisa.py, frontend/src/pages/Pesquisa.tsx,
+               frontend/src/pages/Pesquisa.test.tsx]
+    testes:
+      - {nome: backend, cwd: backend, cmd: [python3, -m, pytest, tests/test_mod004_pesquisa.py, -v, "--junitxml={junit}"]}
+      - {nome: frontend, cwd: frontend, cmd: [npx, vitest, run, src/pages/Pesquisa.test.tsx, --reporter=default, --reporter=junit, "--outputFile.junit={junit}"]}
+  - id: MOD-005
+    nome: Painel administrativo
+    item_tabela: UST-TESTE-MOD
+    ust_previsto: 1
+    tem_interface: true
+    caminhos: [backend/app/routers/painel.py, backend/tests/test_mod005_painel.py, frontend/src/pages/Painel.tsx,
+               frontend/src/pages/Painel.test.tsx]
+    testes:
+      - {nome: backend, cwd: backend, cmd: [python3, -m, pytest, tests/test_mod005_painel.py, -v, "--junitxml={junit}"]}
+      - {nome: frontend, cwd: frontend, cmd: [npx, vitest, run, src/pages/Painel.test.tsx, --reporter=default, --reporter=junit, "--outputFile.junit={junit}"]}
+  - id: MOD-006
+    nome: Auditoria
+    item_tabela: UST-TESTE-MOD
+    ust_previsto: 1
+    tem_interface: true
+    caminhos: [backend/app/audit.py, backend/app/routers/auditoria.py, backend/tests/test_mod006_auditoria.py,
+               frontend/src/pages/Auditoria.tsx, frontend/src/pages/Auditoria.test.tsx]
+    testes:
+      - {nome: backend, cwd: backend, cmd: [python3, -m, pytest, tests/test_mod006_auditoria.py, -v, "--junitxml={junit}"]}
+      - {nome: frontend, cwd: frontend, cmd: [npx, vitest, run, src/pages/Auditoria.test.tsx, --reporter=default, --reporter=junit, "--outputFile.junit={junit}"]}
+  - id: MOD-007
+    nome: Infraestrutura e documentação
+    item_tabela: UST-TESTE-INFRA
+    ust_previsto: 1
+    tem_interface: false
+    caminhos: [README.md, .env.example, .gitignore, docker-compose.yml, docker-compose.prod.yml, backend/Dockerfile,
+               backend/.dockerignore, backend/requirements.txt, backend/requirements-dev.txt, backend/alembic.ini,
+               backend/pytest.ini, backend/migrations, backend/app/__init__.py, backend/app/main.py, backend/app/config.py,
+               backend/app/db.py, backend/app/models.py, backend/app/schemas.py, backend/app/deps.py, backend/app/seed.py,
+               backend/app/routers/__init__.py, backend/tests/__init__.py, backend/tests/conftest.py,
+               backend/tests/test_mod007_infra.py, frontend/Dockerfile, frontend/.dockerignore, frontend/nginx.conf,
+               frontend/package.json, frontend/package-lock.json, frontend/tsconfig.json, frontend/vite.config.ts,
+               frontend/index.html, frontend/src/main.tsx, frontend/src/App.tsx, frontend/src/styles.css,
+               frontend/src/api, frontend/src/components/Alerta.tsx, frontend/src/components/Paginacao.tsx,
+               frontend/src/components/TabelaDocumentos.tsx, infra, docs]
+    testes:
+      - {nome: backend, cwd: backend, cmd: [python3, -m, pytest, tests/test_mod007_infra.py, -v, "--junitxml={junit}"]}
+      - {nome: frontend, cwd: frontend, cmd: [npx, vitest, run, src/api/client.test.ts, --reporter=default, --reporter=junit, "--outputFile.junit={junit}"]}
+      - {nome: typecheck-build, tipo: comando, cwd: frontend, cmd: [npm, run, build]}
+      - {nome: migracao-sincronizada, tipo: comando, cwd: backend, cmd: [sh, -c, "rm -f .check.db && DATABASE_URL=sqlite:///./.check.db python3 -m alembic upgrade head && DATABASE_URL=sqlite:///./.check.db python3 -m alembic check; s=$?; rm -f .check.db; exit $s"]}
+      - {nome: docker-e2e, tipo: comando, cwd: ., cmd: [infra/scripts/verificar_ambiente.sh]}

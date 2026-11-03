@@ -1,0 +1,3 @@
+codigo,descricao,unidade,ust_por_unidade,complexidade,referencia_contratual,observacao
+UST-TESTE-MOD,Desenvolvimento de módulo funcional (FICTÍCIO),UST,1,MEDIA,Prompt mestre Parte 17,Quantidade por módulo definida na OS; sem valor real
+UST-TESTE-INFRA,Infraestrutura e documentação (FICTÍCIO),UST,1,BAIXA,Prompt mestre Parte 17,Sem valor real

@@ -12,3 +12,4 @@ infra/certs/
 # Pacotes de entrega são gerados sob demanda (fabrica.py entrega); versiona-se só o MANIFESTO.json
 contratos/*/entregas/*/ENTREGA_CONTRATO/
 contratos/*/entregas/*/*.zip
+*.tsbuildinfo

@@ -1,0 +1,64 @@
+# CONTRATO FICTÍCIO DE TESTE — não corresponde a nenhum órgão ou contratação real.
+# Origem dos dados: PARTE 17 do prompt mestre (OS TESTE-001, 10 UST simuladas).
+id: TESTE-001
+
+contratante:
+  orgao: "Órgão Fictício de Demonstração"
+  esfera: municipal
+  cnpj: "não se aplica (fictício)"
+  gestor_contrato: ""              # A CADASTRAR — exemplo deixado vazio de propósito
+  fiscal_tecnico: ""               # A CADASTRAR
+
+contrato:
+  numero: "TESTE-001"
+  processo: "não se aplica (fictício)"
+  edital: "não se aplica (fictício)"
+  modalidade_licitacao: "não se aplica (fictício)"
+  regime_juridico: "Lei 14.133/2021 (simulação)"
+  objeto: "Desenvolvimento de sistema de Gestão Documental Pública (demonstração da fábrica)"
+  vigencia_inicio: "2026-11-03"
+  vigencia_fim: "2026-12-31"
+  prazo_execucao: "demonstração em sessão única"
+  valor_global: "não se aplica (UST fictícias)"
+  aditivos: [{numero: "nenhum", data: "-", objeto: "-"}]
+
+ordens_servico:
+  - {numero: OS-TESTE-001, data: "2026-11-03", objeto: "Gestão Documental Pública — 7 módulos", autorizado_por: "solicitante da sessão (prompt mestre, Parte 17)", prazo: "2026-11-03"}
+
+medicao:
+  modalidade: UST
+  metodologia: "Tabela fictícia TABELA_UST.csv (sem valor contratual)"
+  valor_unitario: "não se aplica (fictício)"
+  quantidade_contratada: "10 UST fictícias"
+  tabela: TABELA_UST.csv
+  regra_medicao_parcial: "não permitida (regra da fábrica: integral só com evidências completas)"
+  glosas_e_sla: "não se aplica (fictício)"
+
+criterios_aceite:
+  - "Testes automatizados do módulo executados sem falhas (simulação)"
+  - "Evidências completas e auditadas"
+  - "Revisão e aprovação de profissional humano designado"
+
+equipe:
+  profissionais: PROFISSIONAIS.csv
+  exigencias_edital: []            # A CADASTRAR em contrato real
+  preposto: ""                     # A CADASTRAR
+
+tecnico:
+  tecnologias_obrigatorias: [React, FastAPI, PostgreSQL]
+  tecnologias_vedadas: ["nenhuma informada"]
+  repositorio: "github.com/fabricagovv-byte/cffcodegov (branch claude/multiagent-software-engineering-4lvokb)"
+  banco_de_dados: PostgreSQL 16
+  infraestrutura: "Docker Compose (local); servidor do órgão a definir"
+  integracoes: ["nenhuma nesta OS"]
+  ambiente_homologacao: ""         # A CADASTRAR — não há servidor de homologação
+  ambiente_producao: ""            # A CADASTRAR — publicação não autorizada
+  requisitos_seguranca: [LGPD, "OWASP Top 10", "trilha de auditoria"]
+  acessibilidade: "WCAG 2.1 AA (boas práticas)"
+
+autorizacao_execucao:
+  autorizado: true
+  autorizado_por: "solicitante da sessão Claude Code (instrução 'Executar TESTE-001', Parte 19 do prompt mestre)"
+  data: "2026-11-03"
+  documento: "Prompt mestre — Partes 17 e 19 (OS fictícia de teste)"
+  pode_publicar_producao: false
