@@ -2057,6 +2057,15 @@ def _contem(texto: str, termo: str) -> bool:
     return bool(t) and f" {t} " in normalizar(texto)
 
 
+def perfil_casa(funcao: str, perfil: str) -> bool:
+    """Cargo × perfil do catálogo tolerando gênero/plural: 'Desenvolvedora Sênior' casa com DESENVOLVEDOR_SENIOR."""
+    ignorar = {"de", "da", "do", "das", "dos", "e"}
+    tf = [w for w in normalizar(funcao).split() if w not in ignorar]
+    tp = [w for w in normalizar(perfil.replace("_", " ")).split() if w not in ignorar]
+    raiz = lambda w: w[:-1] if len(w) > 4 and w[-1] in "aos" else w  # noqa: E731
+    return bool(tp) and all(any(raiz(a) == raiz(b) or a.startswith(b) or b.startswith(a) for a in tf) for b in tp)
+
+
 def carregar_base(cid: str) -> dict:
     p = CONTRATOS / cid / "BASE.yaml"
     return (ler_yaml(p) or {}) if p.exists() else {}
@@ -2467,8 +2476,7 @@ def planejamento(cid: str, horas_dia: float = 8.0) -> Path:
         L += ["", "## Capacidade da equipe por perfil", "", f"Janela {ini} a {fim} ({du} dias úteis, {horas_dia:g} h/dia por pessoa).", "",
               "| Perfil | Horas planejadas | Pessoas no perfil | Capacidade (h) | Ocupação | Situação |", "|---|---|---|---|---|---|"]
         for k, v in sorted(demanda.items()):
-            pessoas = [p for p in profs if _contem(p["funcao"] + " " + p.get("area", ""), k.replace("_", " ")) or
-                       _contem(k.replace("_", " "), p["funcao"])]
+            pessoas = [p for p in profs if perfil_casa(p["funcao"], k)]
             cap = len(pessoas) * horas_dia * du
             occ = (v / cap * 100) if cap else None
             sit = "SEM PESSOA NO PERFIL" if not pessoas else ("ACIMA DA CAPACIDADE" if v > cap else "ok")
@@ -2578,6 +2586,92 @@ def adicionar_profissional(cid: str, nome: str, funcao: str, area: str = "", sen
     return next(p["id"] for p in carregar_profissionais(cid) if p["nome"].lower() == nome.strip().lower())
 
 
+# ------------------------------------------------------------- próximo passo
+
+def _linhas_reais(p: Path) -> int:
+    return len(ler_tabela(p)) if p.exists() else 0
+
+
+def proximo_passo(cid: str | None = None, dia: str | None = None) -> dict:
+    """Diagnóstico do começo ao fim: o que já está pronto, o que falta e a próxima ação (frase para o chat + comando)."""
+    dia = dia or hoje()
+    etapas: list[dict] = []
+
+    def etapa(n: str, ok: bool, fazer: str, comando: str = "", detalhe: str = "") -> None:
+        etapas.append({"etapa": n, "ok": bool(ok), "fazer": fazer, "comando": comando, "detalhe": detalhe})
+
+    agentes_ok = not verificar_agentes()
+    word_ok = subprocess.run(["node", "-e", "require('docx')"], capture_output=True, cwd=FAB / "ferramentas").returncode == 0 \
+        if shutil.which("node") else False
+    etapa("Fábrica configurada (40 agentes, comandos, regras)", agentes_ok, "Diga: INICIAR FÁBRICA", "fabrica.py agentes gerar && fabrica.py iniciar")
+    etapa("Gerador de Word disponível", word_ok, "Rode uma vez: npm install --prefix fabrica/ferramentas", "npm install --prefix fabrica/ferramentas")
+    contratos = sorted(p.name for p in CONTRATOS.iterdir() if p.is_dir() and (p / "contrato.yaml").exists()) if CONTRATOS.exists() else []
+    if not cid:
+        reais = [c for c in contratos if not c.startswith("TESTE-")]
+        cid = reais[0] if len(reais) == 1 else None
+    if not cid:
+        etapa("Contrato criado", False, "Envie o edital/TR/contrato (PDF) e diga: NOVO CONTRATO <ID> (ex.: CT-12-2026)",
+              "fabrica.py contrato novo <ID>", f"contratos existentes: {', '.join(contratos) or 'nenhum'}")
+        return {"contrato": None, "etapas": etapas, "proximo": next(e for e in etapas if not e["ok"])}
+    d = dir_contrato(cid)
+    docs = [x for x in (d / "documentos").glob("*") if x.suffix.lower() in (".pdf", ".docx", ".doc", ".odt")] if (d / "documentos").exists() else []
+    etapa("Documentos do edital recebidos", docs or cid.startswith("TESTE-"), "Anexe edital, TR, contrato e OS na conversa (vão para contratos/<ID>/documentos)",
+          detalhe=f"{len(docs)} documento(s)")
+    ed = ler_yaml(d / "EDITAL.yaml") if (d / "EDITAL.yaml").exists() else {}
+    ed_ok = bool(ed and (ed.get("equipe_exigida") or ed.get("tecnologias_exigidas") or ed.get("relatorios_exigidos")))
+    etapa("Exigências do edital extraídas (EDITAL.yaml)", ed_ok, f"Diga: ANALISAR EDITAL {cid}", "skill analisar-edital → EDITAL.yaml")
+    falt = campos_faltantes(cid)
+    etapa("Formulário do contrato completo", len(falt) <= 3, f"Diga: O QUE FALTA NO CONTRATO {cid} — e responda às perguntas",
+          f"fabrica.py contrato faltantes {cid}", f"{len(falt)} campo(s) faltando")
+    profs = carregar_profissionais(cid)
+    etapa("Equipe cadastrada (nome e cargo)", profs, f"Preencha o Word EQUIPE_NOME_CPF_CARGO e diga: IMPORTAR EQUIPE {cid}",
+          f"fabrica.py profissionais importar {cid} EQUIPE.docx", f"{len(profs)} profissional(is)")
+    base = carregar_base(cid)
+    etapa("Documento base (empresa e capacidades)", (base.get("empresa") or {}).get("razao_social"),
+          f"Preencha DOCUMENTO_BASE.xlsx e diga: IMPORTAR DOCUMENTO BASE {cid}", f"fabrica.py planilha importar {cid} DOCUMENTO_BASE.xlsx")
+    etapa("Confronto edital × documento base", (d / "CONFRONTO_EDITAL.json").exists(), f"Diga: CONFRONTAR EDITAL {cid}", f"fabrica.py edital confrontar {cid}")
+    med = (ler_yaml(d / "contrato.yaml") or {}).get("medicao") or {}
+    medicao_ok = (str(med.get("formula") or "").upper() in FORMULAS and _linhas_reais(d / "CATALOGO_SERVICOS.csv")) or _linhas_reais(d / "TABELA_UST.csv")
+    etapa("Regra de medição do contrato (tabela UST ou perfis + catálogo + fórmula)", medicao_ok,
+          f"Copie a tabela do TR para TABELA_UST.csv, ou PERFIS + CATALOGO_SERVICOS + medicao.formula; diga: CONFIGURAR MEDIÇÃO {cid}")
+    plano = _linhas_reais(d / "PLANEJAMENTO.csv")
+    etapa("Seu planejamento preenchido (aba PLANEJAMENTO)", plano, "Preencha a aba PLANEJAMENTO (projeto, módulo, serviço, datas, responsável)",
+          detalhe=f"{plano} linha(s)")
+    etapa("Plano por projeto consolidado", (d / "PLANO_PROJETOS.md").exists(), f"Diga: PLANEJAMENTO {cid}", f"fabrica.py planejamento consolidar {cid}")
+    oss = sorted((d / "os").glob("*.yaml"))
+    etapa("Ordem de serviço criada", oss, f"Diga: GERAR OS DO PROJETO <projeto> {cid}", f"fabrica.py planejamento gerar-os {cid} --projeto <P> --os <OS> --caminho projetos/<sistema>")
+    autorizadas = [o for o in oss if ((ler_yaml(o) or {}).get("autorizacao") or {}).get("autorizado") is True]
+    etapa("OS autorizada por quem pode autorizar", autorizadas, "Informe quem autorizou, a data e o documento (OS assinada) — sem isso nada é executado",
+          detalhe=f"{len(autorizadas)} de {len(oss)} OS autorizadas")
+    for o in autorizadas:
+        oy = ler_yaml(o)
+        mods = oy.get("modulos", [])
+        tj = [ler_json(dir_mod(cid, oy["os"], m["id"]) / "TESTES.json") or {} for m in mods]
+        etapa(f"{oy['os']}: código feito e testado", mods and all(x.get("situacao") == "APROVADO" for x in tj),
+              f"Diga: EXECUTAR OS {oy['os']}", f"fabrica.py testes executar {cid} {oy['os']}",
+              f"{sum(1 for x in tj if x.get('situacao') == 'APROVADO')} de {len(mods)} módulos aprovados")
+        etapa(f"{oy['os']}: evidências auditadas e medição", (d / "medicoes" / f"{oy['os']}.json").exists(),
+              f"Diga: AUDITAR EVIDÊNCIAS e MEDIR PRODUÇÃO {oy['os']}", f"fabrica.py auditar {cid} {oy['os']} && fabrica.py medir {cid} {oy['os']}")
+    rel_ = d / "relatorios"
+    etapa(f"Abertura do dia {dia}", (rel_ / "aberturas" / f"{dia}.md").exists(), f"Diga: ABERTURA DO DIA {cid}", f"fabrica.py abertura {cid}")
+    etapa(f"Relatório diário {dia}", (rel_ / "diarios" / f"{dia}.md").exists(), f"Diga: RELATÓRIO DIÁRIO {cid}", f"fabrica.py relatorio diario {cid}")
+    etapa(f"Fechamento do dia {dia}", (rel_ / "fechamentos" / f"{dia}.md").exists(), f"Diga: FECHAMENTO DO DIA {cid}", f"fabrica.py fechamento {cid}")
+    pend = next((e for e in etapas if not e["ok"]), None)
+    return {"contrato": cid, "dia": dia, "etapas": etapas, "proximo": pend}
+
+
+def texto_proximo_passo(r: dict) -> str:
+    L = [f"# Próximo passo — {r['contrato'] or 'sem contrato'}", ""]
+    if r["proximo"]:
+        L += [f"**Agora:** {r['proximo']['fazer']}", ""]
+    else:
+        L += ["**Tudo em dia.** Continue a rotina: abertura → execução → relatório diário → fechamento.", ""]
+    L += ["| | Etapa | Situação | O que fazer |", "|---|---|---|---|"]
+    for i, e in enumerate(r["etapas"], start=1):
+        L.append(f"| {i} | {e['etapa']} | {'✔ pronto' if e['ok'] else '✘ falta'}{' — ' + e['detalhe'] if e['detalhe'] else ''} | {'' if e['ok'] else e['fazer']} |")
+    return "\n".join(L) + "\n"
+
+
 def gerar_pacotes(destino: Path) -> dict[str, Path]:
     """Gera os dois ZIPs: CONFIGURACAO (modelo de repositório) e PREENCHIMENTO (planilha + modelos + guias)."""
     import tempfile
@@ -2597,7 +2691,7 @@ def gerar_pacotes(destino: Path) -> dict[str, Path]:
         shutil.copytree(FAB / "templates", pre / "modelos_csv_yaml", ignore=shutil.ignore_patterns("evidencias", "PROFISSIONAIS.csv"))
         shutil.copytree(FAB / "templates" / "evidencias", pre / "modelos_evidencia")
         equipe_modelo(pre / "EQUIPE_NOME_CPF_CARGO.docx")
-        for doc in ("PREENCHIMENTO_LEIA-ME.md", "O_QUE_ENVIAR.md", "COMO_INICIAR.md", "MEDICAO_UST.md"):
+        for doc in ("TREINAMENTO.md", "PROMPT_INICIAL.md", "PREENCHIMENTO_LEIA-ME.md", "O_QUE_ENVIAR.md", "COMO_INICIAR.md", "MEDICAO_UST.md"):
             shutil.copy2(FAB / "docs" / doc, pre / doc)
             exportar_word(pre / doc, subtitulo="Guia da Fábrica de Software Governamental")
         z = destino / "PREENCHIMENTO.zip"
@@ -2739,6 +2833,7 @@ def main(argv: list[str] | None = None) -> int:
     x = sp.add_parser("ppj", help="Planejamento de Projeto Sustentável"); x.add_argument("contrato")
     x = sp.add_parser("oportunidades", help="Trabalho comprovado × catálogo (sugestões de medição)"); x.add_argument("contrato"); x.add_argument("os")
     x = sp.add_parser("word", help="Converte um documento .md da fábrica para Word"); x.add_argument("arquivo"); x.add_argument("--contrato")
+    x = sp.add_parser("proximo-passo", help="O que falta e o que fazer agora (do começo ao fim)"); x.add_argument("contrato", nargs="?"); x.add_argument("--data")
     x = sp.add_parser("abertura", help="Abertura do dia (contratado, saldo, equipe, plano do dia)"); x.add_argument("contrato"); x.add_argument("--data")
     pj = sp.add_parser("planejamento", help="Plano por projeto (UST, horas, perfis, prazos, capacidade)").add_subparsers(dest="sub", required=True)
     x = pj.add_parser("consolidar"); x.add_argument("contrato"); x.add_argument("--horas-dia", type=float, default=8.0)
@@ -2873,6 +2968,8 @@ def main(argv: list[str] | None = None) -> int:
             print(rel(ppj(a.contrato)))
         elif a.cmd == "oportunidades":
             print(rel(oportunidades_medicao(a.contrato, a.os)))
+        elif a.cmd == "proximo-passo":
+            print(texto_proximo_passo(proximo_passo(a.contrato, a.data)))
         elif a.cmd == "abertura":
             print(rel(abertura(a.contrato, a.data)))
         elif a.cmd == "planejamento":

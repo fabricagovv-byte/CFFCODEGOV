@@ -48,6 +48,7 @@ humanos reais, contratos, ordens de serviço (OS), evidências, medição (UST/P
 18. **O planejamento é do responsável:** o usuário define projetos, módulos, serviços, datas e responsáveis (PLANEJAMENTO.csv / aba PLANEJAMENTO). A fábrica calcula, alerta (capacidade, saldo, prazos do edital) e gera as OS; sempre releia o edital ao planejar.
 19. **Três relatórios por dia:** abertura (`fabrica.py abertura`), relatório diário (`relatorio diario`) e fechamento (`fechamento`), todos em Word.
 20. **Código real e completo:** cadastro = tabela + migração + API validada + auditoria + permissão + tela + testes de API e de tela, separado por módulo (`fabrica.py crud gerar`), provado com testes no PostgreSQL, `alembic check` e build. Sem teste executado, não há entrega.
+21. **Sessão nova:** todo chat novo começa rodando `fabrica.py iniciar` e `fabrica.py proximo-passo` e diz ao usuário o que falta e a próxima ação (skill `proximo-passo`). Manual: `fabrica/docs/TREINAMENTO.md`; prompt para colar: `fabrica/docs/PROMPT_INICIAL.md`.
 
 ## Como os agentes trabalham juntos
 
@@ -73,6 +74,7 @@ Cada comando tem uma skill em `.claude/skills/<nome>/SKILL.md` (Codex: leia o ar
 
 | Comando | Skill | Principais chamadas da CLI |
 |---|---|---|
+| PRÓXIMO PASSO / COMEÇAR / ONDE PAREI | `proximo-passo` | `proximo-passo` |
 | INICIAR FÁBRICA / INICIAR EQUIPE | `iniciar-fabrica` | `agentes gerar`, `iniciar`, `painel` |
 | NOVO CONTRATO | `novo-contrato` (+ `analisar-edital`) | `contrato novo`, `contrato faltantes` |
 | PLANEJAR CONTRATO / PLANEJAR PROJETO | `planejar-contrato` | `tarefas criar`, `tarefas validar` |

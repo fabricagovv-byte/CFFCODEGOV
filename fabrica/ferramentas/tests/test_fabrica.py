@@ -458,3 +458,26 @@ def test_gerador_crud_gera_codigo_separado_por_modulo(fab, tmp_path):
     c.write_text("entidade: x\ntabela: X\nrotulo: X\nmodulo: M\ncampos: [{nome: a, tipo: texto}]\n")
     with pytest.raises(g.ErroGerador):
         g.gerar_crud(c, proj)
+
+
+# ------------------------------------------------------------------- próximo passo
+
+def test_perfil_casa_com_genero_e_plural(fab):
+    assert fab.perfil_casa("Desenvolvedora Sênior", "DESENVOLVEDOR_SENIOR")
+    assert fab.perfil_casa("Analista de Testes", "ANALISTA_TESTES")
+    assert not fab.perfil_casa("Desenvolvedor Pleno", "DESENVOLVEDOR_SENIOR")
+
+
+def test_proximo_passo_guia_do_comeco_ao_fim(fab):
+    fab.gerar_agentes()
+    r = fab.proximo_passo()
+    assert r["contrato"] is None and "NOVO CONTRATO" in r["proximo"]["fazer"]
+    fab.novo_contrato("CT-1")
+    r = fab.proximo_passo("CT-1", "2026-11-03")
+    nomes = [e["etapa"] for e in r["etapas"]]
+    assert "Equipe cadastrada (nome e cargo)" in nomes and "Fechamento do dia 2026-11-03" in nomes
+    assert r["proximo"]["etapa"] in ("Gerador de Word disponível", "Documentos do edital recebidos")
+    fab.adicionar_profissional("CT-1", "Ana", "Dev")
+    r = fab.proximo_passo("CT-1", "2026-11-03")
+    assert next(e for e in r["etapas"] if e["etapa"].startswith("Equipe"))["ok"]
+    assert "Próximo passo — CT-1" in fab.texto_proximo_passo(r)

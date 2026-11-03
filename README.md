@@ -7,6 +7,8 @@ Estrutura para executar contratos públicos de software com **40 agentes de IA**
 
 | Quero… | Abra |
 |---|---|
+| **Treinamento completo (do começo ao fim)** | [fabrica/docs/TREINAMENTO.md](fabrica/docs/TREINAMENTO.md) |
+| Prompt para colar em qualquer chat novo | [fabrica/docs/PROMPT_INICIAL.md](fabrica/docs/PROMPT_INICIAL.md) |
 | **Começar um sistema novo (repositório próprio)** | [fabrica/docs/COMO_INICIAR.md](fabrica/docs/COMO_INICIAR.md) |
 | Padrão para muitos projetos (ex.: 30) | [fabrica/docs/PADRAO_REPOSITORIOS.md](fabrica/docs/PADRAO_REPOSITORIOS.md) |
 | Preencher a planilha (equipe, CPF, rateio, projetos) | [fabrica/docs/PREENCHIMENTO_LEIA-ME.md](fabrica/docs/PREENCHIMENTO_LEIA-ME.md) |
