@@ -1,0 +1,21 @@
+# Sobreposição para PRODUÇÃO (exige autorização registrada antes do uso):
+#   docker compose -f docker-compose.yml -f docker-compose.prod.yml up -d --build
+services:
+  backend:
+    environment:
+      APP_ENV: prod
+      WORKERS: ${WORKERS:-4}
+    logging: {driver: json-file, options: {max-size: "20m", max-file: "10"}}
+  frontend:
+    ports: !reset []
+  proxy:
+    image: nginx:1.27-alpine
+    ports: ["80:80", "443:443"]
+    environment: {DOMINIO: "${DOMINIO:?defina DOMINIO}"}
+    volumes:
+      - ./infra/nginx/prod-tls.conf:/etc/nginx/templates/default.conf.template:ro
+      - ${CERTS_DIR:-./infra/certs}:/etc/nginx/certs:ro
+    depends_on: [frontend]
+    restart: unless-stopped
+  db:
+    logging: {driver: json-file, options: {max-size: "20m", max-file: "10"}}
