@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<testsuites name="vitest tests" tests="1" failures="0" errors="0" time="0.24762304">
+    <testsuite name="src/pages/Pesquisa.test.tsx" timestamp="2026-11-03T02:10:16.869Z" hostname="vm" tests="1" failures="0" errors="0" skipped="0" time="0.24762304">
+        <testcase classname="src/pages/Pesquisa.test.tsx" name="monta a consulta com termos e mostra o total" time="0.246255519">
+        </testcase>
+    </testsuite>
+</testsuites>

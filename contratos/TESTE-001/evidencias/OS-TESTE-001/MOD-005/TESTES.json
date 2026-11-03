@@ -1,0 +1,64 @@
+{
+  "fonte": "execução real via fabrica.py testes executar",
+  "modulo": "MOD-005",
+  "executado_em": "2026-11-02T23:10:21-03:00",
+  "resumo": {
+    "testes": 3,
+    "falhas": 0,
+    "erros": 0,
+    "ignorados": 0
+  },
+  "situacao": "APROVADO",
+  "execucoes": [
+    {
+      "nome": "backend",
+      "comando": "python3 -m pytest tests/test_mod005_painel.py -v --junitxml=/home/user/CFFCODEGOV/contratos/TESTE-001/evidencias/OS-TESTE-001/MOD-005/LOGS_TESTES/backend-20261102T231017.xml",
+      "cwd": "projetos/gestao-documental/backend",
+      "inicio": "2026-11-02T23:10:17-03:00",
+      "fim": "2026-11-02T23:10:19-03:00",
+      "codigo_saida": 0,
+      "junit": "contratos/TESTE-001/evidencias/OS-TESTE-001/MOD-005/LOGS_TESTES/backend-20261102T231017.xml",
+      "log": "contratos/TESTE-001/evidencias/OS-TESTE-001/MOD-005/LOGS_TESTES/backend-20261102T231017.log",
+      "testes": 2,
+      "falhas": 0,
+      "erros": 0,
+      "ignorados": 0,
+      "casos": [
+        {
+          "suite": "tests.test_mod005_painel",
+          "nome": "test_painel_indicadores",
+          "tempo_s": 0.856,
+          "status": "PASSOU"
+        },
+        {
+          "suite": "tests.test_mod005_painel",
+          "nome": "test_painel_restrito_a_admin_e_gestor",
+          "tempo_s": 0.121,
+          "status": "PASSOU"
+        }
+      ]
+    },
+    {
+      "nome": "frontend",
+      "comando": "npx vitest run src/pages/Painel.test.tsx --reporter=default --reporter=junit --outputFile.junit=/home/user/CFFCODEGOV/contratos/TESTE-001/evidencias/OS-TESTE-001/MOD-005/LOGS_TESTES/frontend-20261102T231019.xml",
+      "cwd": "projetos/gestao-documental/frontend",
+      "inicio": "2026-11-02T23:10:19-03:00",
+      "fim": "2026-11-02T23:10:21-03:00",
+      "codigo_saida": 0,
+      "junit": "contratos/TESTE-001/evidencias/OS-TESTE-001/MOD-005/LOGS_TESTES/frontend-20261102T231019.xml",
+      "log": "contratos/TESTE-001/evidencias/OS-TESTE-001/MOD-005/LOGS_TESTES/frontend-20261102T231019.log",
+      "testes": 1,
+      "falhas": 0,
+      "erros": 0,
+      "ignorados": 0,
+      "casos": [
+        {
+          "suite": "src/pages/Painel.test.tsx",
+          "nome": "mostra totais e barras",
+          "tempo_s": 0.08242739,
+          "status": "PASSOU"
+        }
+      ]
+    }
+  ]
+}

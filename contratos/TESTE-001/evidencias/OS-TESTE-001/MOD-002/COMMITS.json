@@ -1,0 +1,29 @@
+{
+  "fonte": "git log (gerado por fabrica.py evidencias commits)",
+  "gerado_em": "2026-11-02T23:10:46-03:00",
+  "caminhos": [
+    "projetos/gestao-documental/backend/app/routers/documentos.py",
+    "projetos/gestao-documental/backend/tests/test_mod002_documentos.py",
+    "projetos/gestao-documental/frontend/src/pages/Documentos.tsx",
+    "projetos/gestao-documental/frontend/src/pages/FormDocumento.tsx",
+    "projetos/gestao-documental/frontend/src/pages/DocumentoDetalhe.tsx",
+    "projetos/gestao-documental/frontend/src/pages/Documentos.test.tsx"
+  ],
+  "commits": [
+    {
+      "sha": "e419dae939660a0afcf022551bd7ad72d3a77cf0",
+      "autor": "Claude",
+      "email_autor": "noreply@anthropic.com",
+      "data": "2026-11-03T02:08:20+00:00",
+      "mensagem": "MOD-002: cadastro documental com classificação LAI e arquivamento lógico",
+      "arquivos": [
+        "A\tprojetos/gestao-documental/backend/app/routers/documentos.py",
+        "A\tprojetos/gestao-documental/backend/tests/test_mod002_documentos.py",
+        "A\tprojetos/gestao-documental/frontend/src/pages/DocumentoDetalhe.tsx",
+        "A\tprojetos/gestao-documental/frontend/src/pages/Documentos.test.tsx",
+        "A\tprojetos/gestao-documental/frontend/src/pages/Documentos.tsx",
+        "A\tprojetos/gestao-documental/frontend/src/pages/FormDocumento.tsx"
+      ]
+    }
+  ]
+}

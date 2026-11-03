@@ -31,7 +31,7 @@ from zoneinfo import ZoneInfo
 
 import yaml
 
-TZ = ZoneInfo("America/Sao_Paulo")
+TZ = ZoneInfo(os.environ.get("FABRICA_TZ", "America/Sao_Paulo"))
 RAIZ = Path(os.environ.get("FABRICA_RAIZ", Path(__file__).resolve().parents[2]))
 FAB = RAIZ / "fabrica"
 COM = FAB / "comunicacao"
@@ -587,6 +587,8 @@ def auditar_modulo(cid: str, osid: str, m: dict) -> dict:
     d = dir_mod(cid, osid, m["id"])
     achados = []
     for e in EVIDENCIAS_OBRIGATORIAS:
+        if e == "MEDICAO.md":  # é produzido pela medição (que depende desta auditoria); cobrado no checklist C081-C086
+            continue
         if not (d / e).exists():
             achados.append({"severidade": "BLOQUEANTE", "item": e, "texto": "evidência obrigatória ausente"})
     commits = (ler_json(d / "COMMITS.json", {}) or {}).get("commits", [])
@@ -756,6 +758,21 @@ def checklist(cid: str, osid: str) -> dict:
                         if not cs or not all(commit_existe(x["sha"]) for x in cs):
                             ruins.append(d.name)
                     res, evid = ("APROVADO" if not ruins else "REPROVADO"), (f"sem commits válidos: {ruins}" if ruins else "todos os módulos com commits reais")
+                elif "caso" in a:
+                    tj = ler_json(dir_mod(cid, osid, a["caso"]["modulo"]) / "TESTES.json") or {}
+                    casos = [c for e in tj.get("execucoes", []) for c in e["casos"] if a["caso"]["contem"] in c["nome"]]
+                    if not casos:
+                        res, evid = "NAO_VERIFICADO", f"caso '{a['caso']['contem']}' não executado"
+                    else:
+                        res = "APROVADO" if all(c["status"] == "PASSOU" for c in casos) else "REPROVADO"
+                        evid = f"{a['caso']['modulo']}/TESTES.json: {len(casos)} caso(s) '{a['caso']['contem']}' ({tj.get('executado_em', '')[:16]})"
+                elif "auditoria" in a:
+                    au = ler_json(cdir / "evidencias" / osid / "AUDITORIA.json")
+                    if not au:
+                        res, evid = "NAO_VERIFICADO", "auditoria não executada"
+                    else:
+                        res = "APROVADO" if all(m["tecnico"] == "APROVADO" for m in au["modulos"]) else "REPROVADO"
+                        evid = f"evidencias/{osid}/AUDITORIA.md ({au['auditado_em'][:16]})"
                 elif "medicao" in a:
                     if not med:
                         res, evid = "REPROVADO", "medição não gerada"
@@ -799,24 +816,21 @@ def checklist(cid: str, osid: str) -> dict:
 
 
 def varrer_segredos(base: Path) -> list[str]:
+    """Procura segredos nos arquivos VERSIONADOS (git ls-files) sob a pasta."""
     achados = []
-    ignorar = {"node_modules", ".git", "dist", ".venv", "__pycache__", ".pytest_cache"}
-    for raiz, dirs, arqs in os.walk(base):
-        dirs[:] = [d for d in dirs if d not in ignorar]
-        for a in arqs:
-            p = Path(raiz) / a
-            if p.suffix.lower() in (".png", ".jpg", ".pdf", ".zip", ".ico", ".woff", ".woff2"):
-                continue
-            try:
-                t = p.read_text(encoding="utf-8")
-            except (UnicodeDecodeError, OSError):
-                continue
-            for pad in PADROES_SEGREDO:
-                if pad.search(t):
-                    achados.append(rel(p))
-                    break
-            if a == ".env":
-                achados.append(rel(p) + " (arquivo .env no projeto)")
+    for nome in git("ls-files", "--", rel(base)).splitlines():
+        p = RAIZ / nome
+        if p.name == ".env" or p.name.endswith(".env") and not p.name.endswith(".example"):
+            achados.append(f"{nome} (arquivo .env versionado)")
+            continue
+        if p.suffix.lower() in (".png", ".jpg", ".pdf", ".zip", ".ico", ".woff", ".woff2") or not p.is_file():
+            continue
+        try:
+            texto = p.read_text(encoding="utf-8")
+        except (UnicodeDecodeError, OSError):
+            continue
+        if any(pad.search(texto) for pad in PADROES_SEGREDO):
+            achados.append(nome)
     return achados
 
 
@@ -867,7 +881,9 @@ def estatisticas_producao(arquivo: Path) -> dict:
 
 def _git_periodo(inicio: str, fim: str, caminho: str) -> list[dict]:
     fmt = "%H%x1f%an%x1f%aI%x1f%s"
-    out = git("log", f"--since={inicio}T00:00:00", f"--until={fim}T23:59:59", f"--pretty=format:{fmt}", "--", caminho)
+    off = datetime.now(TZ).strftime("%z")
+    off = f"{off[:3]}:{off[3:]}"
+    out = git("log", f"--since={inicio}T00:00:00{off}", f"--until={fim}T23:59:59{off}", f"--pretty=format:{fmt}", "--", caminho)
     commits = []
     for linha in filter(None, out.splitlines()):
         sha, an, dt, s = linha.split("\x1f")

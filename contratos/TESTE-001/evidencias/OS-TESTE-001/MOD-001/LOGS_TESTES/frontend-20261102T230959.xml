@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<testsuites name="vitest tests" tests="3" failures="0" errors="0" time="0.3072205">
+    <testsuite name="src/pages/Login.test.tsx" timestamp="2026-11-03T02:10:01.036Z" hostname="vm" tests="3" failures="0" errors="0" skipped="0" time="0.3072205">
+        <testcase classname="src/pages/Login.test.tsx" name="tem campos rotulados e acessíveis" time="0.114319992">
+        </testcase>
+        <testcase classname="src/pages/Login.test.tsx" name="valida campos vazios sem chamar a API" time="0.071910424">
+        </testcase>
+        <testcase classname="src/pages/Login.test.tsx" name="exibe a mensagem de erro do servidor" time="0.11932937">
+        </testcase>
+    </testsuite>
+</testsuites>

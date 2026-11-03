@@ -1,0 +1,41 @@
+$ (cd projetos/gestao-documental && infra/scripts/verificar_ambiente.sh)
+# início: 2026-11-02T23:10:36.587941-03:00
+# fim: 2026-11-02T23:10:41.440437-03:00
+# código de saída: 0
+# TEST_DATABASE_URL=postgresql+psycopg2://gd_teste:***@localhost:5432/gd_teste
+
+
+== Contêineres (2026-11-03T02:10:36+00:00)
+backend running healthy
+db running healthy
+frontend running healthy
+
+== Saúde da API (2026-11-03T02:10:36+00:00)
+{"status":"ok","ambiente":"dev","versao":"0.1.0"}
+{"status":"ok","banco":"postgresql"}
+
+== Migração aplicada (2026-11-03T02:10:36+00:00)
+0002_versao_sessao (head)
+
+== Carga fictícia (2026-11-03T02:10:38+00:00)
+dados fictícios de demonstração carregados
+
+== Login pelo proxy do frontend (2026-11-03T02:10:39+00:00)
+token obtido (228 caracteres)
+documentos antes do backup: 6
+
+== Trigger de auditoria imutável (2026-11-03T02:10:39+00:00)
+bloqueado: somente inserção (operação DELETE bloqueada)
+
+== Backup (2026-11-03T02:10:39+00:00)
+backup concluído: ./backups (*-20261103T021039)
+
+== Simulando perda: criando documento extra após o backup (2026-11-03T02:10:40+00:00)
+documentos após inclusão: 7
+
+== Restauração do backup 20261103T021039 (2026-11-03T02:10:40+00:00)
+uploads-20261103T021039.tar.gz: OK
+restauração concluída a partir de 20261103T021039
+documentos após restauração: 6 (esperado: 6)
+RESULTADO: APROVADO
+

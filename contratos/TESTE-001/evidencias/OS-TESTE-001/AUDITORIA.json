@@ -1,0 +1,267 @@
+{
+  "contrato": "TESTE-001",
+  "os": "OS-TESTE-001",
+  "auditado_em": "2026-11-02T23:10:59-03:00",
+  "agente": "G17",
+  "modulos": [
+    {
+      "modulo": "MOD-001",
+      "nome": "Autenticação e controle de acesso",
+      "tecnico": "APROVADO",
+      "pendencias_humanas": [
+        {
+          "severidade": "PENDENCIA_HUMANA",
+          "item": "RESPONSAVEIS.md",
+          "texto": "profissional humano responsável não cadastrado"
+        },
+        {
+          "severidade": "PENDENCIA_HUMANA",
+          "item": "REVISOES.md",
+          "texto": "revisão humana não registrada"
+        }
+      ],
+      "achados": [
+        {
+          "severidade": "PENDENCIA_HUMANA",
+          "item": "RESPONSAVEIS.md",
+          "texto": "profissional humano responsável não cadastrado"
+        },
+        {
+          "severidade": "PENDENCIA_HUMANA",
+          "item": "REVISOES.md",
+          "texto": "revisão humana não registrada"
+        }
+      ],
+      "commits": 1,
+      "testes": {
+        "testes": 20,
+        "falhas": 0,
+        "erros": 0,
+        "ignorados": 0
+      },
+      "capturas": 3
+    },
+    {
+      "modulo": "MOD-002",
+      "nome": "Cadastro documental",
+      "tecnico": "APROVADO",
+      "pendencias_humanas": [
+        {
+          "severidade": "PENDENCIA_HUMANA",
+          "item": "RESPONSAVEIS.md",
+          "texto": "profissional humano responsável não cadastrado"
+        },
+        {
+          "severidade": "PENDENCIA_HUMANA",
+          "item": "REVISOES.md",
+          "texto": "revisão humana não registrada"
+        }
+      ],
+      "achados": [
+        {
+          "severidade": "PENDENCIA_HUMANA",
+          "item": "RESPONSAVEIS.md",
+          "texto": "profissional humano responsável não cadastrado"
+        },
+        {
+          "severidade": "PENDENCIA_HUMANA",
+          "item": "REVISOES.md",
+          "texto": "revisão humana não registrada"
+        }
+      ],
+      "commits": 1,
+      "testes": {
+        "testes": 11,
+        "falhas": 0,
+        "erros": 0,
+        "ignorados": 0
+      },
+      "capturas": 4
+    },
+    {
+      "modulo": "MOD-003",
+      "nome": "Upload de PDF",
+      "tecnico": "APROVADO",
+      "pendencias_humanas": [
+        {
+          "severidade": "PENDENCIA_HUMANA",
+          "item": "RESPONSAVEIS.md",
+          "texto": "profissional humano responsável não cadastrado"
+        },
+        {
+          "severidade": "PENDENCIA_HUMANA",
+          "item": "REVISOES.md",
+          "texto": "revisão humana não registrada"
+        }
+      ],
+      "achados": [
+        {
+          "severidade": "PENDENCIA_HUMANA",
+          "item": "RESPONSAVEIS.md",
+          "texto": "profissional humano responsável não cadastrado"
+        },
+        {
+          "severidade": "PENDENCIA_HUMANA",
+          "item": "REVISOES.md",
+          "texto": "revisão humana não registrada"
+        }
+      ],
+      "commits": 1,
+      "testes": {
+        "testes": 11,
+        "falhas": 0,
+        "erros": 0,
+        "ignorados": 0
+      },
+      "capturas": 2
+    },
+    {
+      "modulo": "MOD-004",
+      "nome": "Pesquisa",
+      "tecnico": "APROVADO",
+      "pendencias_humanas": [
+        {
+          "severidade": "PENDENCIA_HUMANA",
+          "item": "RESPONSAVEIS.md",
+          "texto": "profissional humano responsável não cadastrado"
+        },
+        {
+          "severidade": "PENDENCIA_HUMANA",
+          "item": "REVISOES.md",
+          "texto": "revisão humana não registrada"
+        }
+      ],
+      "achados": [
+        {
+          "severidade": "PENDENCIA_HUMANA",
+          "item": "RESPONSAVEIS.md",
+          "texto": "profissional humano responsável não cadastrado"
+        },
+        {
+          "severidade": "PENDENCIA_HUMANA",
+          "item": "REVISOES.md",
+          "texto": "revisão humana não registrada"
+        }
+      ],
+      "commits": 1,
+      "testes": {
+        "testes": 7,
+        "falhas": 0,
+        "erros": 0,
+        "ignorados": 0
+      },
+      "capturas": 1
+    },
+    {
+      "modulo": "MOD-005",
+      "nome": "Painel administrativo",
+      "tecnico": "APROVADO",
+      "pendencias_humanas": [
+        {
+          "severidade": "PENDENCIA_HUMANA",
+          "item": "RESPONSAVEIS.md",
+          "texto": "profissional humano responsável não cadastrado"
+        },
+        {
+          "severidade": "PENDENCIA_HUMANA",
+          "item": "REVISOES.md",
+          "texto": "revisão humana não registrada"
+        }
+      ],
+      "achados": [
+        {
+          "severidade": "PENDENCIA_HUMANA",
+          "item": "RESPONSAVEIS.md",
+          "texto": "profissional humano responsável não cadastrado"
+        },
+        {
+          "severidade": "PENDENCIA_HUMANA",
+          "item": "REVISOES.md",
+          "texto": "revisão humana não registrada"
+        }
+      ],
+      "commits": 1,
+      "testes": {
+        "testes": 3,
+        "falhas": 0,
+        "erros": 0,
+        "ignorados": 0
+      },
+      "capturas": 1
+    },
+    {
+      "modulo": "MOD-006",
+      "nome": "Auditoria",
+      "tecnico": "APROVADO",
+      "pendencias_humanas": [
+        {
+          "severidade": "PENDENCIA_HUMANA",
+          "item": "RESPONSAVEIS.md",
+          "texto": "profissional humano responsável não cadastrado"
+        },
+        {
+          "severidade": "PENDENCIA_HUMANA",
+          "item": "REVISOES.md",
+          "texto": "revisão humana não registrada"
+        }
+      ],
+      "achados": [
+        {
+          "severidade": "PENDENCIA_HUMANA",
+          "item": "RESPONSAVEIS.md",
+          "texto": "profissional humano responsável não cadastrado"
+        },
+        {
+          "severidade": "PENDENCIA_HUMANA",
+          "item": "REVISOES.md",
+          "texto": "revisão humana não registrada"
+        }
+      ],
+      "commits": 1,
+      "testes": {
+        "testes": 7,
+        "falhas": 0,
+        "erros": 0,
+        "ignorados": 0
+      },
+      "capturas": 1
+    },
+    {
+      "modulo": "MOD-007",
+      "nome": "Infraestrutura e documentação",
+      "tecnico": "APROVADO",
+      "pendencias_humanas": [
+        {
+          "severidade": "PENDENCIA_HUMANA",
+          "item": "RESPONSAVEIS.md",
+          "texto": "profissional humano responsável não cadastrado"
+        },
+        {
+          "severidade": "PENDENCIA_HUMANA",
+          "item": "REVISOES.md",
+          "texto": "revisão humana não registrada"
+        }
+      ],
+      "achados": [
+        {
+          "severidade": "PENDENCIA_HUMANA",
+          "item": "RESPONSAVEIS.md",
+          "texto": "profissional humano responsável não cadastrado"
+        },
+        {
+          "severidade": "PENDENCIA_HUMANA",
+          "item": "REVISOES.md",
+          "texto": "revisão humana não registrada"
+        }
+      ],
+      "commits": 1,
+      "testes": {
+        "testes": 28,
+        "falhas": 0,
+        "erros": 0,
+        "ignorados": 0
+      },
+      "capturas": 0
+    }
+  ]
+}

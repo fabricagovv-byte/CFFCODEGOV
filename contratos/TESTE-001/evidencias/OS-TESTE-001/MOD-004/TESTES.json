@@ -1,0 +1,88 @@
+{
+  "fonte": "execução real via fabrica.py testes executar",
+  "modulo": "MOD-004",
+  "executado_em": "2026-11-02T23:10:17-03:00",
+  "resumo": {
+    "testes": 7,
+    "falhas": 0,
+    "erros": 0,
+    "ignorados": 0
+  },
+  "situacao": "APROVADO",
+  "execucoes": [
+    {
+      "nome": "backend",
+      "comando": "python3 -m pytest tests/test_mod004_pesquisa.py -v --junitxml=/home/user/CFFCODEGOV/contratos/TESTE-001/evidencias/OS-TESTE-001/MOD-004/LOGS_TESTES/backend-20261102T231011.xml",
+      "cwd": "projetos/gestao-documental/backend",
+      "inicio": "2026-11-02T23:10:11-03:00",
+      "fim": "2026-11-02T23:10:14-03:00",
+      "codigo_saida": 0,
+      "junit": "contratos/TESTE-001/evidencias/OS-TESTE-001/MOD-004/LOGS_TESTES/backend-20261102T231011.xml",
+      "log": "contratos/TESTE-001/evidencias/OS-TESTE-001/MOD-004/LOGS_TESTES/backend-20261102T231011.log",
+      "testes": 6,
+      "falhas": 0,
+      "erros": 0,
+      "ignorados": 0,
+      "casos": [
+        {
+          "suite": "tests.test_mod004_pesquisa",
+          "nome": "test_pesquisa_por_titulo_assunto_interessado_e_numero",
+          "tempo_s": 0.936,
+          "status": "PASSOU"
+        },
+        {
+          "suite": "tests.test_mod004_pesquisa",
+          "nome": "test_varios_termos_combinam_com_e",
+          "tempo_s": 0.133,
+          "status": "PASSOU"
+        },
+        {
+          "suite": "tests.test_mod004_pesquisa",
+          "nome": "test_pesquisa_por_nome_do_arquivo",
+          "tempo_s": 0.141,
+          "status": "PASSOU"
+        },
+        {
+          "suite": "tests.test_mod004_pesquisa",
+          "nome": "test_filtros_tipo_status_e_curingas_escapados",
+          "tempo_s": 0.184,
+          "status": "PASSOU"
+        },
+        {
+          "suite": "tests.test_mod004_pesquisa",
+          "nome": "test_pesquisa_respeita_classificacao",
+          "tempo_s": 0.137,
+          "status": "PASSOU"
+        },
+        {
+          "suite": "tests.test_mod004_pesquisa",
+          "nome": "test_filtro_por_data_e_tipos",
+          "tempo_s": 0.149,
+          "status": "PASSOU"
+        }
+      ]
+    },
+    {
+      "nome": "frontend",
+      "comando": "npx vitest run src/pages/Pesquisa.test.tsx --reporter=default --reporter=junit --outputFile.junit=/home/user/CFFCODEGOV/contratos/TESTE-001/evidencias/OS-TESTE-001/MOD-004/LOGS_TESTES/frontend-20261102T231014.xml",
+      "cwd": "projetos/gestao-documental/frontend",
+      "inicio": "2026-11-02T23:10:14-03:00",
+      "fim": "2026-11-02T23:10:17-03:00",
+      "codigo_saida": 0,
+      "junit": "contratos/TESTE-001/evidencias/OS-TESTE-001/MOD-004/LOGS_TESTES/frontend-20261102T231014.xml",
+      "log": "contratos/TESTE-001/evidencias/OS-TESTE-001/MOD-004/LOGS_TESTES/frontend-20261102T231014.log",
+      "testes": 1,
+      "falhas": 0,
+      "erros": 0,
+      "ignorados": 0,
+      "casos": [
+        {
+          "suite": "src/pages/Pesquisa.test.tsx",
+          "nome": "monta a consulta com termos e mostra o total",
+          "tempo_s": 0.246255519,
+          "status": "PASSOU"
+        }
+      ]
+    }
+  ]
+}

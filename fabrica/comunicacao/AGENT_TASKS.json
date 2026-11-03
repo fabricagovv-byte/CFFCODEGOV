@@ -1,1 +1,1093 @@
-{"versao": 1, "tarefas": []}
+{
+  "versao": 1,
+  "tarefas": [
+    {
+      "id": "T-0001",
+      "contrato": "TESTE-001",
+      "os": "OS-TESTE-001",
+      "modulo": "",
+      "agente": "G02",
+      "profissional": "",
+      "descricao": "Matriz de rastreabilidade TESTE-001",
+      "prioridade": "ALTA",
+      "dependencias": [],
+      "arquivos": [],
+      "prazo": "2026-11-03",
+      "status": "DONE",
+      "resultado": "13 exigências rastreadas",
+      "evidencias": [
+        "contratos/TESTE-001/MATRIZ_RASTREABILIDADE.md"
+      ],
+      "pendencias": [],
+      "historico": [
+        {
+          "em": "2026-11-02T23:09:45-03:00",
+          "de": null,
+          "para": "BACKLOG",
+          "por": "G14",
+          "nota": "criada"
+        },
+        {
+          "em": "2026-11-02T23:09:45-03:00",
+          "de": "BACKLOG",
+          "para": "READY",
+          "por": "G02",
+          "nota": ""
+        },
+        {
+          "em": "2026-11-02T23:09:45-03:00",
+          "de": "READY",
+          "para": "IN_PROGRESS",
+          "por": "G02",
+          "nota": "registro do trabalho executado nesta sessão em 2026-11-03 (01:30–02:15 UTC)"
+        },
+        {
+          "em": "2026-11-02T23:09:45-03:00",
+          "de": "IN_PROGRESS",
+          "para": "IN_REVIEW",
+          "por": "G02",
+          "nota": ""
+        },
+        {
+          "em": "2026-11-02T23:09:45-03:00",
+          "de": "IN_REVIEW",
+          "para": "TESTING",
+          "por": "G02",
+          "nota": ""
+        },
+        {
+          "em": "2026-11-02T23:09:45-03:00",
+          "de": "TESTING",
+          "para": "DONE",
+          "por": "G02",
+          "nota": ""
+        }
+      ]
+    },
+    {
+      "id": "T-0002",
+      "contrato": "TESTE-001",
+      "os": "OS-TESTE-001",
+      "modulo": "",
+      "agente": "G04",
+      "profissional": "",
+      "descricao": "Plano GEC TESTE-001",
+      "prioridade": "ALTA",
+      "dependencias": [
+        "T-0001"
+      ],
+      "arquivos": [],
+      "prazo": "2026-11-03",
+      "status": "DONE",
+      "resultado": "GEC gerado; aprovação humana pendente",
+      "evidencias": [
+        "contratos/TESTE-001/GEC.md"
+      ],
+      "pendencias": [],
+      "historico": [
+        {
+          "em": "2026-11-02T23:09:45-03:00",
+          "de": null,
+          "para": "BACKLOG",
+          "por": "G14",
+          "nota": "criada"
+        },
+        {
+          "em": "2026-11-02T23:09:45-03:00",
+          "de": "BACKLOG",
+          "para": "READY",
+          "por": "G04",
+          "nota": ""
+        },
+        {
+          "em": "2026-11-02T23:09:45-03:00",
+          "de": "READY",
+          "para": "IN_PROGRESS",
+          "por": "G04",
+          "nota": "registro do trabalho executado nesta sessão em 2026-11-03 (01:30–02:15 UTC)"
+        },
+        {
+          "em": "2026-11-02T23:09:45-03:00",
+          "de": "IN_PROGRESS",
+          "para": "IN_REVIEW",
+          "por": "G04",
+          "nota": ""
+        },
+        {
+          "em": "2026-11-02T23:09:45-03:00",
+          "de": "IN_REVIEW",
+          "para": "TESTING",
+          "por": "G04",
+          "nota": ""
+        },
+        {
+          "em": "2026-11-02T23:09:45-03:00",
+          "de": "TESTING",
+          "para": "DONE",
+          "por": "G04",
+          "nota": ""
+        }
+      ]
+    },
+    {
+      "id": "T-0003",
+      "contrato": "TESTE-001",
+      "os": "OS-TESTE-001",
+      "modulo": "",
+      "agente": "G05",
+      "profissional": "",
+      "descricao": "Arquitetura e decisões técnicas",
+      "prioridade": "ALTA",
+      "dependencias": [
+        "T-0002"
+      ],
+      "arquivos": [
+        "projetos/gestao-documental/docs/ARQUITETURA.md"
+      ],
+      "prazo": "2026-11-03",
+      "status": "DONE",
+      "resultado": "Arquitetura documentada (5 ADRs resumidas)",
+      "evidencias": [
+        "projetos/gestao-documental/docs/ARQUITETURA.md"
+      ],
+      "pendencias": [],
+      "historico": [
+        {
+          "em": "2026-11-02T23:09:45-03:00",
+          "de": null,
+          "para": "BACKLOG",
+          "por": "G14",
+          "nota": "criada"
+        },
+        {
+          "em": "2026-11-02T23:09:45-03:00",
+          "de": "BACKLOG",
+          "para": "READY",
+          "por": "G05",
+          "nota": ""
+        },
+        {
+          "em": "2026-11-02T23:09:45-03:00",
+          "de": "READY",
+          "para": "IN_PROGRESS",
+          "por": "G05",
+          "nota": "registro do trabalho executado nesta sessão em 2026-11-03 (01:30–02:15 UTC)"
+        },
+        {
+          "em": "2026-11-02T23:09:45-03:00",
+          "de": "IN_PROGRESS",
+          "para": "IN_REVIEW",
+          "por": "G05",
+          "nota": ""
+        },
+        {
+          "em": "2026-11-02T23:09:45-03:00",
+          "de": "IN_REVIEW",
+          "para": "TESTING",
+          "por": "G05",
+          "nota": ""
+        },
+        {
+          "em": "2026-11-02T23:09:45-03:00",
+          "de": "TESTING",
+          "para": "DONE",
+          "por": "G05",
+          "nota": ""
+        }
+      ]
+    },
+    {
+      "id": "T-0004",
+      "contrato": "TESTE-001",
+      "os": "OS-TESTE-001",
+      "modulo": "MOD-007",
+      "agente": "G11",
+      "profissional": "",
+      "descricao": "Desenvolver MOD-007 Infraestrutura e documentação (backend, frontend, testes)",
+      "prioridade": "ALTA",
+      "dependencias": [
+        "T-0003"
+      ],
+      "arquivos": [],
+      "prazo": "2026-11-03",
+      "status": "DONE",
+      "resultado": "MOD-007 implementado com testes; commit e4e16a3cf2",
+      "evidencias": [
+        "e4e16a3cf28736e9a39503c28dcdbf4de7fd2e4f"
+      ],
+      "pendencias": [],
+      "historico": [
+        {
+          "em": "2026-11-02T23:09:45-03:00",
+          "de": null,
+          "para": "BACKLOG",
+          "por": "G14",
+          "nota": "criada"
+        },
+        {
+          "em": "2026-11-02T23:09:45-03:00",
+          "de": "BACKLOG",
+          "para": "READY",
+          "por": "G11",
+          "nota": ""
+        },
+        {
+          "em": "2026-11-02T23:09:45-03:00",
+          "de": "READY",
+          "para": "IN_PROGRESS",
+          "por": "G11",
+          "nota": "registro do trabalho executado nesta sessão em 2026-11-03 (01:30–02:15 UTC)"
+        },
+        {
+          "em": "2026-11-02T23:09:45-03:00",
+          "de": "IN_PROGRESS",
+          "para": "IN_REVIEW",
+          "por": "G11",
+          "nota": ""
+        },
+        {
+          "em": "2026-11-02T23:09:45-03:00",
+          "de": "IN_REVIEW",
+          "para": "TESTING",
+          "por": "G11",
+          "nota": ""
+        },
+        {
+          "em": "2026-11-02T23:09:45-03:00",
+          "de": "TESTING",
+          "para": "DONE",
+          "por": "G11",
+          "nota": ""
+        }
+      ]
+    },
+    {
+      "id": "T-0005",
+      "contrato": "TESTE-001",
+      "os": "OS-TESTE-001",
+      "modulo": "MOD-001",
+      "agente": "G06",
+      "profissional": "",
+      "descricao": "Desenvolver MOD-001 Autenticação e controle de acesso (backend, frontend, testes)",
+      "prioridade": "ALTA",
+      "dependencias": [
+        "T-0004"
+      ],
+      "arquivos": [],
+      "prazo": "2026-11-03",
+      "status": "DONE",
+      "resultado": "MOD-001 implementado com testes; commit 0c1c851e84",
+      "evidencias": [
+        "0c1c851e84ed47437a2f3e7eec088396ac156ea5"
+      ],
+      "pendencias": [],
+      "historico": [
+        {
+          "em": "2026-11-02T23:09:45-03:00",
+          "de": null,
+          "para": "BACKLOG",
+          "por": "G14",
+          "nota": "criada"
+        },
+        {
+          "em": "2026-11-02T23:09:45-03:00",
+          "de": "BACKLOG",
+          "para": "READY",
+          "por": "G06",
+          "nota": ""
+        },
+        {
+          "em": "2026-11-02T23:09:45-03:00",
+          "de": "READY",
+          "para": "IN_PROGRESS",
+          "por": "G06",
+          "nota": "registro do trabalho executado nesta sessão em 2026-11-03 (01:30–02:15 UTC)"
+        },
+        {
+          "em": "2026-11-02T23:09:45-03:00",
+          "de": "IN_PROGRESS",
+          "para": "IN_REVIEW",
+          "por": "G06",
+          "nota": ""
+        },
+        {
+          "em": "2026-11-02T23:09:45-03:00",
+          "de": "IN_REVIEW",
+          "para": "TESTING",
+          "por": "G06",
+          "nota": ""
+        },
+        {
+          "em": "2026-11-02T23:09:45-03:00",
+          "de": "TESTING",
+          "para": "DONE",
+          "por": "G06",
+          "nota": ""
+        }
+      ]
+    },
+    {
+      "id": "T-0006",
+      "contrato": "TESTE-001",
+      "os": "OS-TESTE-001",
+      "modulo": "MOD-002",
+      "agente": "G06",
+      "profissional": "",
+      "descricao": "Desenvolver MOD-002 Cadastro documental (backend, frontend, testes)",
+      "prioridade": "ALTA",
+      "dependencias": [
+        "T-0004"
+      ],
+      "arquivos": [],
+      "prazo": "2026-11-03",
+      "status": "DONE",
+      "resultado": "MOD-002 implementado com testes; commit e419dae939",
+      "evidencias": [
+        "e419dae939660a0afcf022551bd7ad72d3a77cf0"
+      ],
+      "pendencias": [],
+      "historico": [
+        {
+          "em": "2026-11-02T23:09:45-03:00",
+          "de": null,
+          "para": "BACKLOG",
+          "por": "G14",
+          "nota": "criada"
+        },
+        {
+          "em": "2026-11-02T23:09:45-03:00",
+          "de": "BACKLOG",
+          "para": "READY",
+          "por": "G06",
+          "nota": ""
+        },
+        {
+          "em": "2026-11-02T23:09:45-03:00",
+          "de": "READY",
+          "para": "IN_PROGRESS",
+          "por": "G06",
+          "nota": "registro do trabalho executado nesta sessão em 2026-11-03 (01:30–02:15 UTC)"
+        },
+        {
+          "em": "2026-11-02T23:09:45-03:00",
+          "de": "IN_PROGRESS",
+          "para": "IN_REVIEW",
+          "por": "G06",
+          "nota": ""
+        },
+        {
+          "em": "2026-11-02T23:09:45-03:00",
+          "de": "IN_REVIEW",
+          "para": "TESTING",
+          "por": "G06",
+          "nota": ""
+        },
+        {
+          "em": "2026-11-02T23:09:45-03:00",
+          "de": "TESTING",
+          "para": "DONE",
+          "por": "G06",
+          "nota": ""
+        }
+      ]
+    },
+    {
+      "id": "T-0007",
+      "contrato": "TESTE-001",
+      "os": "OS-TESTE-001",
+      "modulo": "MOD-003",
+      "agente": "G06",
+      "profissional": "",
+      "descricao": "Desenvolver MOD-003 Upload de PDF (backend, frontend, testes)",
+      "prioridade": "ALTA",
+      "dependencias": [
+        "T-0004"
+      ],
+      "arquivos": [],
+      "prazo": "2026-11-03",
+      "status": "DONE",
+      "resultado": "MOD-003 implementado com testes; commit 348ec80fb6",
+      "evidencias": [
+        "348ec80fb646989fc09d308ac465f7b8b4c4b016"
+      ],
+      "pendencias": [],
+      "historico": [
+        {
+          "em": "2026-11-02T23:09:45-03:00",
+          "de": null,
+          "para": "BACKLOG",
+          "por": "G14",
+          "nota": "criada"
+        },
+        {
+          "em": "2026-11-02T23:09:45-03:00",
+          "de": "BACKLOG",
+          "para": "READY",
+          "por": "G06",
+          "nota": ""
+        },
+        {
+          "em": "2026-11-02T23:09:45-03:00",
+          "de": "READY",
+          "para": "IN_PROGRESS",
+          "por": "G06",
+          "nota": "registro do trabalho executado nesta sessão em 2026-11-03 (01:30–02:15 UTC)"
+        },
+        {
+          "em": "2026-11-02T23:09:45-03:00",
+          "de": "IN_PROGRESS",
+          "para": "IN_REVIEW",
+          "por": "G06",
+          "nota": ""
+        },
+        {
+          "em": "2026-11-02T23:09:45-03:00",
+          "de": "IN_REVIEW",
+          "para": "TESTING",
+          "por": "G06",
+          "nota": ""
+        },
+        {
+          "em": "2026-11-02T23:09:45-03:00",
+          "de": "TESTING",
+          "para": "DONE",
+          "por": "G06",
+          "nota": ""
+        }
+      ]
+    },
+    {
+      "id": "T-0008",
+      "contrato": "TESTE-001",
+      "os": "OS-TESTE-001",
+      "modulo": "MOD-004",
+      "agente": "G06",
+      "profissional": "",
+      "descricao": "Desenvolver MOD-004 Pesquisa (backend, frontend, testes)",
+      "prioridade": "ALTA",
+      "dependencias": [
+        "T-0004"
+      ],
+      "arquivos": [],
+      "prazo": "2026-11-03",
+      "status": "DONE",
+      "resultado": "MOD-004 implementado com testes; commit 0ca859ef07",
+      "evidencias": [
+        "0ca859ef0740690a3e108bbbb19514ac00e891c3"
+      ],
+      "pendencias": [],
+      "historico": [
+        {
+          "em": "2026-11-02T23:09:45-03:00",
+          "de": null,
+          "para": "BACKLOG",
+          "por": "G14",
+          "nota": "criada"
+        },
+        {
+          "em": "2026-11-02T23:09:45-03:00",
+          "de": "BACKLOG",
+          "para": "READY",
+          "por": "G06",
+          "nota": ""
+        },
+        {
+          "em": "2026-11-02T23:09:45-03:00",
+          "de": "READY",
+          "para": "IN_PROGRESS",
+          "por": "G06",
+          "nota": "registro do trabalho executado nesta sessão em 2026-11-03 (01:30–02:15 UTC)"
+        },
+        {
+          "em": "2026-11-02T23:09:45-03:00",
+          "de": "IN_PROGRESS",
+          "para": "IN_REVIEW",
+          "por": "G06",
+          "nota": ""
+        },
+        {
+          "em": "2026-11-02T23:09:45-03:00",
+          "de": "IN_REVIEW",
+          "para": "TESTING",
+          "por": "G06",
+          "nota": ""
+        },
+        {
+          "em": "2026-11-02T23:09:45-03:00",
+          "de": "TESTING",
+          "para": "DONE",
+          "por": "G06",
+          "nota": ""
+        }
+      ]
+    },
+    {
+      "id": "T-0009",
+      "contrato": "TESTE-001",
+      "os": "OS-TESTE-001",
+      "modulo": "MOD-005",
+      "agente": "G07",
+      "profissional": "",
+      "descricao": "Desenvolver MOD-005 Painel administrativo (backend, frontend, testes)",
+      "prioridade": "ALTA",
+      "dependencias": [
+        "T-0004"
+      ],
+      "arquivos": [],
+      "prazo": "2026-11-03",
+      "status": "DONE",
+      "resultado": "MOD-005 implementado com testes; commit 3cbdf1942f",
+      "evidencias": [
+        "3cbdf1942f069007100df5346b88863631a4e25c"
+      ],
+      "pendencias": [],
+      "historico": [
+        {
+          "em": "2026-11-02T23:09:46-03:00",
+          "de": null,
+          "para": "BACKLOG",
+          "por": "G14",
+          "nota": "criada"
+        },
+        {
+          "em": "2026-11-02T23:09:46-03:00",
+          "de": "BACKLOG",
+          "para": "READY",
+          "por": "G07",
+          "nota": ""
+        },
+        {
+          "em": "2026-11-02T23:09:46-03:00",
+          "de": "READY",
+          "para": "IN_PROGRESS",
+          "por": "G07",
+          "nota": "registro do trabalho executado nesta sessão em 2026-11-03 (01:30–02:15 UTC)"
+        },
+        {
+          "em": "2026-11-02T23:09:46-03:00",
+          "de": "IN_PROGRESS",
+          "para": "IN_REVIEW",
+          "por": "G07",
+          "nota": ""
+        },
+        {
+          "em": "2026-11-02T23:09:46-03:00",
+          "de": "IN_REVIEW",
+          "para": "TESTING",
+          "por": "G07",
+          "nota": ""
+        },
+        {
+          "em": "2026-11-02T23:09:46-03:00",
+          "de": "TESTING",
+          "para": "DONE",
+          "por": "G07",
+          "nota": ""
+        }
+      ]
+    },
+    {
+      "id": "T-0010",
+      "contrato": "TESTE-001",
+      "os": "OS-TESTE-001",
+      "modulo": "MOD-006",
+      "agente": "G08",
+      "profissional": "",
+      "descricao": "Desenvolver MOD-006 Auditoria (backend, frontend, testes)",
+      "prioridade": "ALTA",
+      "dependencias": [
+        "T-0004"
+      ],
+      "arquivos": [],
+      "prazo": "2026-11-03",
+      "status": "DONE",
+      "resultado": "MOD-006 implementado com testes; commit e10e719ce3",
+      "evidencias": [
+        "e10e719ce3e373932e99576f9be708e5c922c705"
+      ],
+      "pendencias": [],
+      "historico": [
+        {
+          "em": "2026-11-02T23:09:46-03:00",
+          "de": null,
+          "para": "BACKLOG",
+          "por": "G14",
+          "nota": "criada"
+        },
+        {
+          "em": "2026-11-02T23:09:46-03:00",
+          "de": "BACKLOG",
+          "para": "READY",
+          "por": "G08",
+          "nota": ""
+        },
+        {
+          "em": "2026-11-02T23:09:46-03:00",
+          "de": "READY",
+          "para": "IN_PROGRESS",
+          "por": "G08",
+          "nota": "registro do trabalho executado nesta sessão em 2026-11-03 (01:30–02:15 UTC)"
+        },
+        {
+          "em": "2026-11-02T23:09:46-03:00",
+          "de": "IN_PROGRESS",
+          "para": "IN_REVIEW",
+          "por": "G08",
+          "nota": ""
+        },
+        {
+          "em": "2026-11-02T23:09:46-03:00",
+          "de": "IN_REVIEW",
+          "para": "TESTING",
+          "por": "G08",
+          "nota": ""
+        },
+        {
+          "em": "2026-11-02T23:09:46-03:00",
+          "de": "TESTING",
+          "para": "DONE",
+          "por": "G08",
+          "nota": ""
+        }
+      ]
+    },
+    {
+      "id": "T-0011",
+      "contrato": "TESTE-001",
+      "os": "OS-TESTE-001",
+      "modulo": "",
+      "agente": "G13",
+      "profissional": "",
+      "descricao": "Revisão independente de código e segurança (com G10)",
+      "prioridade": "ALTA",
+      "dependencias": [
+        "T-0004",
+        "T-0005",
+        "T-0006",
+        "T-0007",
+        "T-0008",
+        "T-0009",
+        "T-0010"
+      ],
+      "arquivos": [],
+      "prazo": "2026-11-03",
+      "status": "DONE",
+      "resultado": "0 crítico; 1 alto + 5 médios corrigidos",
+      "evidencias": [
+        "projetos/gestao-documental/docs/SEGURANCA_LGPD.md"
+      ],
+      "pendencias": [],
+      "historico": [
+        {
+          "em": "2026-11-02T23:09:46-03:00",
+          "de": null,
+          "para": "BACKLOG",
+          "por": "G14",
+          "nota": "criada"
+        },
+        {
+          "em": "2026-11-02T23:09:46-03:00",
+          "de": "BACKLOG",
+          "para": "READY",
+          "por": "G13",
+          "nota": ""
+        },
+        {
+          "em": "2026-11-02T23:09:46-03:00",
+          "de": "READY",
+          "para": "IN_PROGRESS",
+          "por": "G13",
+          "nota": "registro do trabalho executado nesta sessão em 2026-11-03 (01:30–02:15 UTC)"
+        },
+        {
+          "em": "2026-11-02T23:09:46-03:00",
+          "de": "IN_PROGRESS",
+          "para": "IN_REVIEW",
+          "por": "G13",
+          "nota": ""
+        },
+        {
+          "em": "2026-11-02T23:09:46-03:00",
+          "de": "IN_REVIEW",
+          "para": "TESTING",
+          "por": "G13",
+          "nota": ""
+        },
+        {
+          "em": "2026-11-02T23:09:46-03:00",
+          "de": "TESTING",
+          "para": "DONE",
+          "por": "G13",
+          "nota": ""
+        }
+      ]
+    },
+    {
+      "id": "T-0012",
+      "contrato": "TESTE-001",
+      "os": "OS-TESTE-001",
+      "modulo": "",
+      "agente": "G12",
+      "profissional": "",
+      "descricao": "Executar testes de todos os módulos e registrar evidências",
+      "prioridade": "ALTA",
+      "dependencias": [
+        "T-0011"
+      ],
+      "arquivos": [],
+      "prazo": "2026-11-03",
+      "status": "DONE",
+      "resultado": "87 testes reais em 7 módulos, 0 falhas (PostgreSQL + Docker e2e)",
+      "evidencias": [
+        "contratos/TESTE-001/evidencias/OS-TESTE-001/MOD-001/TESTES.json",
+        "contratos/TESTE-001/evidencias/OS-TESTE-001/MOD-002/TESTES.json",
+        "contratos/TESTE-001/evidencias/OS-TESTE-001/MOD-003/TESTES.json",
+        "contratos/TESTE-001/evidencias/OS-TESTE-001/MOD-004/TESTES.json",
+        "contratos/TESTE-001/evidencias/OS-TESTE-001/MOD-005/TESTES.json",
+        "contratos/TESTE-001/evidencias/OS-TESTE-001/MOD-006/TESTES.json",
+        "contratos/TESTE-001/evidencias/OS-TESTE-001/MOD-007/TESTES.json"
+      ],
+      "pendencias": [],
+      "historico": [
+        {
+          "em": "2026-11-02T23:09:46-03:00",
+          "de": null,
+          "para": "BACKLOG",
+          "por": "G14",
+          "nota": "criada"
+        },
+        {
+          "em": "2026-11-02T23:09:55-03:00",
+          "de": "BACKLOG",
+          "para": "READY",
+          "por": "G14",
+          "nota": ""
+        },
+        {
+          "em": "2026-11-02T23:09:55-03:00",
+          "de": "READY",
+          "para": "IN_PROGRESS",
+          "por": "G12",
+          "nota": ""
+        },
+        {
+          "em": "2026-11-02T23:11:12-03:00",
+          "de": "IN_PROGRESS",
+          "para": "IN_REVIEW",
+          "por": "G12",
+          "nota": ""
+        },
+        {
+          "em": "2026-11-02T23:11:12-03:00",
+          "de": "IN_REVIEW",
+          "para": "TESTING",
+          "por": "G12",
+          "nota": ""
+        },
+        {
+          "em": "2026-11-02T23:11:12-03:00",
+          "de": "TESTING",
+          "para": "DONE",
+          "por": "G12",
+          "nota": ""
+        }
+      ]
+    },
+    {
+      "id": "T-0013",
+      "contrato": "TESTE-001",
+      "os": "OS-TESTE-001",
+      "modulo": "",
+      "agente": "G17",
+      "profissional": "",
+      "descricao": "Auditar evidências OS-TESTE-001",
+      "prioridade": "ALTA",
+      "dependencias": [
+        "T-0012"
+      ],
+      "arquivos": [],
+      "prazo": "2026-11-03",
+      "status": "DONE",
+      "resultado": "7 módulos com auditoria técnica APROVADO; 14 pendências humanas",
+      "evidencias": [
+        "contratos/TESTE-001/evidencias/OS-TESTE-001/AUDITORIA.md"
+      ],
+      "pendencias": [],
+      "historico": [
+        {
+          "em": "2026-11-02T23:09:46-03:00",
+          "de": null,
+          "para": "BACKLOG",
+          "por": "G14",
+          "nota": "criada"
+        },
+        {
+          "em": "2026-11-02T23:11:12-03:00",
+          "de": "BACKLOG",
+          "para": "READY",
+          "por": "G17",
+          "nota": ""
+        },
+        {
+          "em": "2026-11-02T23:11:12-03:00",
+          "de": "READY",
+          "para": "IN_PROGRESS",
+          "por": "G17",
+          "nota": ""
+        },
+        {
+          "em": "2026-11-02T23:11:12-03:00",
+          "de": "IN_PROGRESS",
+          "para": "IN_REVIEW",
+          "por": "G17",
+          "nota": ""
+        },
+        {
+          "em": "2026-11-02T23:11:12-03:00",
+          "de": "IN_REVIEW",
+          "para": "TESTING",
+          "por": "G17",
+          "nota": ""
+        },
+        {
+          "em": "2026-11-02T23:11:12-03:00",
+          "de": "TESTING",
+          "para": "DONE",
+          "por": "G17",
+          "nota": ""
+        }
+      ]
+    },
+    {
+      "id": "T-0014",
+      "contrato": "TESTE-001",
+      "os": "OS-TESTE-001",
+      "modulo": "",
+      "agente": "G15",
+      "profissional": "",
+      "descricao": "Medição OS-TESTE-001 (UST fictícias)",
+      "prioridade": "MEDIA",
+      "dependencias": [
+        "T-0013"
+      ],
+      "arquivos": [],
+      "prazo": "2026-11-03",
+      "status": "DONE",
+      "resultado": "previsto 10, comprovado 10, aceito 0 (UST fictícias)",
+      "evidencias": [
+        "contratos/TESTE-001/medicoes/OS-TESTE-001.md"
+      ],
+      "pendencias": [],
+      "historico": [
+        {
+          "em": "2026-11-02T23:09:46-03:00",
+          "de": null,
+          "para": "BACKLOG",
+          "por": "G14",
+          "nota": "criada"
+        },
+        {
+          "em": "2026-11-02T23:11:13-03:00",
+          "de": "BACKLOG",
+          "para": "READY",
+          "por": "G15",
+          "nota": ""
+        },
+        {
+          "em": "2026-11-02T23:11:13-03:00",
+          "de": "READY",
+          "para": "IN_PROGRESS",
+          "por": "G15",
+          "nota": ""
+        },
+        {
+          "em": "2026-11-02T23:11:13-03:00",
+          "de": "IN_PROGRESS",
+          "para": "IN_REVIEW",
+          "por": "G15",
+          "nota": ""
+        },
+        {
+          "em": "2026-11-02T23:11:13-03:00",
+          "de": "IN_REVIEW",
+          "para": "TESTING",
+          "por": "G15",
+          "nota": ""
+        },
+        {
+          "em": "2026-11-02T23:11:13-03:00",
+          "de": "TESTING",
+          "para": "DONE",
+          "por": "G15",
+          "nota": ""
+        }
+      ]
+    },
+    {
+      "id": "T-0015",
+      "contrato": "TESTE-001",
+      "os": "OS-TESTE-001",
+      "modulo": "",
+      "agente": "G19",
+      "profissional": "",
+      "descricao": "Relatório diário 2026-11-03",
+      "prioridade": "MEDIA",
+      "dependencias": [
+        "T-0014"
+      ],
+      "arquivos": [],
+      "prazo": "2026-11-03",
+      "status": "DONE",
+      "resultado": "Relatório diário e mensal gerados a partir do git, quadro e evidências",
+      "evidencias": [
+        "contratos/TESTE-001/relatorios/diarios/2026-11-02.md"
+      ],
+      "pendencias": [],
+      "historico": [
+        {
+          "em": "2026-11-02T23:09:46-03:00",
+          "de": null,
+          "para": "BACKLOG",
+          "por": "G14",
+          "nota": "criada"
+        },
+        {
+          "em": "2026-11-02T23:12:06-03:00",
+          "de": "BACKLOG",
+          "para": "READY",
+          "por": "G19",
+          "nota": ""
+        },
+        {
+          "em": "2026-11-02T23:12:06-03:00",
+          "de": "READY",
+          "para": "IN_PROGRESS",
+          "por": "G19",
+          "nota": ""
+        },
+        {
+          "em": "2026-11-02T23:12:07-03:00",
+          "de": "IN_PROGRESS",
+          "para": "IN_REVIEW",
+          "por": "G19",
+          "nota": ""
+        },
+        {
+          "em": "2026-11-02T23:12:07-03:00",
+          "de": "IN_REVIEW",
+          "para": "TESTING",
+          "por": "G19",
+          "nota": ""
+        },
+        {
+          "em": "2026-11-02T23:12:07-03:00",
+          "de": "TESTING",
+          "para": "DONE",
+          "por": "G19",
+          "nota": ""
+        }
+      ]
+    },
+    {
+      "id": "T-0016",
+      "contrato": "TESTE-001",
+      "os": "OS-TESTE-001",
+      "modulo": "",
+      "agente": "G18",
+      "profissional": "",
+      "descricao": "Cadastrar profissionais reais e responsáveis por módulo",
+      "prioridade": "CRITICA",
+      "dependencias": [],
+      "arquivos": [],
+      "prazo": "2026-11-10",
+      "status": "READY",
+      "resultado": "",
+      "evidencias": [],
+      "pendencias": [],
+      "historico": [
+        {
+          "em": "2026-11-02T23:09:46-03:00",
+          "de": null,
+          "para": "BACKLOG",
+          "por": "G14",
+          "nota": "criada"
+        },
+        {
+          "em": "2026-11-02T23:09:46-03:00",
+          "de": "BACKLOG",
+          "para": "READY",
+          "por": "G14",
+          "nota": ""
+        }
+      ]
+    },
+    {
+      "id": "T-0017",
+      "contrato": "TESTE-001",
+      "os": "OS-TESTE-001",
+      "modulo": "",
+      "agente": "G20",
+      "profissional": "",
+      "descricao": "Homologação técnica e encaminhamento para aprovação humana",
+      "prioridade": "ALTA",
+      "dependencias": [
+        "T-0016"
+      ],
+      "arquivos": [],
+      "prazo": "",
+      "status": "BACKLOG",
+      "resultado": "",
+      "evidencias": [],
+      "pendencias": [],
+      "historico": [
+        {
+          "em": "2026-11-02T23:09:46-03:00",
+          "de": null,
+          "para": "BACKLOG",
+          "por": "G14",
+          "nota": "criada"
+        }
+      ]
+    },
+    {
+      "id": "T-0018",
+      "contrato": "TESTE-001",
+      "os": "OS-TESTE-001",
+      "modulo": "",
+      "agente": "G11",
+      "profissional": "",
+      "descricao": "Publicar em ambiente de homologação do órgão",
+      "prioridade": "MEDIA",
+      "dependencias": [],
+      "arquivos": [],
+      "prazo": "",
+      "status": "BLOCKED",
+      "resultado": "",
+      "evidencias": [],
+      "pendencias": [],
+      "historico": [
+        {
+          "em": "2026-11-02T23:09:46-03:00",
+          "de": null,
+          "para": "BACKLOG",
+          "por": "G14",
+          "nota": "criada"
+        },
+        {
+          "em": "2026-11-02T23:09:46-03:00",
+          "de": "BACKLOG",
+          "para": "READY",
+          "por": "G14",
+          "nota": ""
+        },
+        {
+          "em": "2026-11-02T23:09:46-03:00",
+          "de": "READY",
+          "para": "BLOCKED",
+          "por": "G11",
+          "nota": "Sem servidor/DNS/TLS de homologação informados (contrato.yaml tecnico.ambiente_homologacao vazio)"
+        }
+      ]
+    }
+  ]
+}

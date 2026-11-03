@@ -1,0 +1,90 @@
+{
+  "fonte": "Playwright/Chromium — capturar_telas.cjs",
+  "url": "http://localhost:8080",
+  "capturas": [
+    {
+      "modulo": "MOD-001",
+      "arquivo": "contratos/TESTE-001/evidencias/OS-TESTE-001/MOD-001/SCREENSHOTS/01-login.png",
+      "descricao": "Tela de login",
+      "url": "http://localhost:8080/login",
+      "em": "2026-11-03T02:02:44.219Z"
+    },
+    {
+      "modulo": "MOD-001",
+      "arquivo": "contratos/TESTE-001/evidencias/OS-TESTE-001/MOD-001/SCREENSHOTS/02-login-erro.png",
+      "descricao": "Mensagem de erro com senha incorreta",
+      "url": "http://localhost:8080/login",
+      "em": "2026-11-03T02:02:44.690Z"
+    },
+    {
+      "modulo": "MOD-001",
+      "arquivo": "contratos/TESTE-001/evidencias/OS-TESTE-001/MOD-001/SCREENSHOTS/03-recuperar-senha.png",
+      "descricao": "Tela de recuperação de senha",
+      "url": "http://localhost:8080/esqueci-senha",
+      "em": "2026-11-03T02:02:44.792Z"
+    },
+    {
+      "modulo": "MOD-002",
+      "arquivo": "contratos/TESTE-001/evidencias/OS-TESTE-001/MOD-002/SCREENSHOTS/04-documentos-lista.png",
+      "descricao": "Lista de documentos (dados fictícios)",
+      "url": "http://localhost:8080/documentos",
+      "em": "2026-11-03T02:02:45.793Z"
+    },
+    {
+      "modulo": "MOD-002",
+      "arquivo": "contratos/TESTE-001/evidencias/OS-TESTE-001/MOD-002/SCREENSHOTS/05-documento-cadastro.png",
+      "descricao": "Formulário de cadastro preenchido",
+      "url": "http://localhost:8080/documentos",
+      "em": "2026-11-03T02:02:46.006Z"
+    },
+    {
+      "modulo": "MOD-002",
+      "arquivo": "contratos/TESTE-001/evidencias/OS-TESTE-001/MOD-002/SCREENSHOTS/06-documento-detalhe.png",
+      "descricao": "Documento criado — detalhe e edição",
+      "url": "http://localhost:8080/documentos/6",
+      "em": "2026-11-03T02:02:46.267Z"
+    },
+    {
+      "modulo": "MOD-003",
+      "arquivo": "contratos/TESTE-001/evidencias/OS-TESTE-001/MOD-003/SCREENSHOTS/07-upload-pdf.png",
+      "descricao": "PDF anexado com SHA-256 e tamanho",
+      "url": "http://localhost:8080/documentos/6",
+      "em": "2026-11-03T02:02:46.466Z"
+    },
+    {
+      "modulo": "MOD-003",
+      "arquivo": "contratos/TESTE-001/evidencias/OS-TESTE-001/MOD-003/SCREENSHOTS/08-upload-rejeitado.png",
+      "descricao": "Arquivo não-PDF rejeitado",
+      "url": "http://localhost:8080/documentos/6",
+      "em": "2026-11-03T02:02:46.619Z"
+    },
+    {
+      "modulo": "MOD-004",
+      "arquivo": "contratos/TESTE-001/evidencias/OS-TESTE-001/MOD-004/SCREENSHOTS/09-pesquisa.png",
+      "descricao": "Pesquisa por 'ofício'",
+      "url": "http://localhost:8080/pesquisa",
+      "em": "2026-11-03T02:02:46.852Z"
+    },
+    {
+      "modulo": "MOD-005",
+      "arquivo": "contratos/TESTE-001/evidencias/OS-TESTE-001/MOD-005/SCREENSHOTS/10-painel.png",
+      "descricao": "Painel com indicadores e usuários",
+      "url": "http://localhost:8080/painel",
+      "em": "2026-11-03T02:02:47.058Z"
+    },
+    {
+      "modulo": "MOD-006",
+      "arquivo": "contratos/TESTE-001/evidencias/OS-TESTE-001/MOD-006/SCREENSHOTS/11-auditoria.png",
+      "descricao": "Trilha de auditoria",
+      "url": "http://localhost:8080/auditoria",
+      "em": "2026-11-03T02:02:47.280Z"
+    },
+    {
+      "modulo": "MOD-002",
+      "arquivo": "contratos/TESTE-001/evidencias/OS-TESTE-001/MOD-002/SCREENSHOTS/12-documentos-celular.png",
+      "descricao": "Lista em tela de celular (390px)",
+      "url": "http://localhost:8080/documentos",
+      "em": "2026-11-03T02:02:47.477Z"
+    }
+  ]
+}

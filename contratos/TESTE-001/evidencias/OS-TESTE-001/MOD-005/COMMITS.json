@@ -1,0 +1,25 @@
+{
+  "fonte": "git log (gerado por fabrica.py evidencias commits)",
+  "gerado_em": "2026-11-02T23:10:46-03:00",
+  "caminhos": [
+    "projetos/gestao-documental/backend/app/routers/painel.py",
+    "projetos/gestao-documental/backend/tests/test_mod005_painel.py",
+    "projetos/gestao-documental/frontend/src/pages/Painel.tsx",
+    "projetos/gestao-documental/frontend/src/pages/Painel.test.tsx"
+  ],
+  "commits": [
+    {
+      "sha": "3cbdf1942f069007100df5346b88863631a4e25c",
+      "autor": "Claude",
+      "email_autor": "noreply@anthropic.com",
+      "data": "2026-11-03T02:08:20+00:00",
+      "mensagem": "MOD-005: painel administrativo com indicadores e gestão de usuários",
+      "arquivos": [
+        "A\tprojetos/gestao-documental/backend/app/routers/painel.py",
+        "A\tprojetos/gestao-documental/backend/tests/test_mod005_painel.py",
+        "A\tprojetos/gestao-documental/frontend/src/pages/Painel.test.tsx",
+        "A\tprojetos/gestao-documental/frontend/src/pages/Painel.tsx"
+      ]
+    }
+  ]
+}

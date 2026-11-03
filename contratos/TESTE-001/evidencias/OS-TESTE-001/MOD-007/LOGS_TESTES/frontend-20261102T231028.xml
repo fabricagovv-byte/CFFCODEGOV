@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<testsuites name="vitest tests" tests="6" failures="0" errors="0" time="0.01485561">
+    <testsuite name="src/api/client.test.ts" timestamp="2026-11-03T02:10:30.208Z" hostname="vm" tests="6" failures="0" errors="0" skipped="0" time="0.01485561">
+        <testcase classname="src/api/client.test.ts" name="api &gt; envia o token e retorna JSON" time="0.007796139">
+        </testcase>
+        <testcase classname="src/api/client.test.ts" name="api &gt; converte detail do FastAPI em mensagem" time="0.002074641">
+        </testcase>
+        <testcase classname="src/api/client.test.ts" name="api &gt; limpa a sessão em 401" time="0.001414078">
+        </testcase>
+        <testcase classname="src/api/client.test.ts" name="api &gt; informa falta de conexão" time="0.000583206">
+        </testcase>
+        <testcase classname="src/api/client.test.ts" name="utilitários &gt; qs ignora vazios" time="0.001326486">
+        </testcase>
+        <testcase classname="src/api/client.test.ts" name="utilitários &gt; formata bytes" time="0.000263596">
+        </testcase>
+    </testsuite>
+</testsuites>

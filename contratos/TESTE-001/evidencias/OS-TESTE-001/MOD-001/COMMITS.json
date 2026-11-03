@@ -1,0 +1,39 @@
+{
+  "fonte": "git log (gerado por fabrica.py evidencias commits)",
+  "gerado_em": "2026-11-02T23:10:46-03:00",
+  "caminhos": [
+    "projetos/gestao-documental/backend/app/security.py",
+    "projetos/gestao-documental/backend/app/permissions.py",
+    "projetos/gestao-documental/backend/app/mail.py",
+    "projetos/gestao-documental/backend/app/routers/auth.py",
+    "projetos/gestao-documental/backend/app/routers/usuarios.py",
+    "projetos/gestao-documental/backend/tests/test_mod001_auth.py",
+    "projetos/gestao-documental/frontend/src/auth.tsx",
+    "projetos/gestao-documental/frontend/src/pages/Login.tsx",
+    "projetos/gestao-documental/frontend/src/pages/Login.test.tsx",
+    "projetos/gestao-documental/frontend/src/pages/EsqueciSenha.tsx",
+    "projetos/gestao-documental/frontend/src/pages/RedefinirSenha.tsx"
+  ],
+  "commits": [
+    {
+      "sha": "0c1c851e84ed47437a2f3e7eec088396ac156ea5",
+      "autor": "Claude",
+      "email_autor": "noreply@anthropic.com",
+      "data": "2026-11-03T02:08:20+00:00",
+      "mensagem": "MOD-001: autenticação, logout, recuperação de senha, perfis e permissões",
+      "arquivos": [
+        "A\tprojetos/gestao-documental/backend/app/mail.py",
+        "A\tprojetos/gestao-documental/backend/app/permissions.py",
+        "A\tprojetos/gestao-documental/backend/app/routers/auth.py",
+        "A\tprojetos/gestao-documental/backend/app/routers/usuarios.py",
+        "A\tprojetos/gestao-documental/backend/app/security.py",
+        "A\tprojetos/gestao-documental/backend/tests/test_mod001_auth.py",
+        "A\tprojetos/gestao-documental/frontend/src/auth.tsx",
+        "A\tprojetos/gestao-documental/frontend/src/pages/EsqueciSenha.tsx",
+        "A\tprojetos/gestao-documental/frontend/src/pages/Login.test.tsx",
+        "A\tprojetos/gestao-documental/frontend/src/pages/Login.tsx",
+        "A\tprojetos/gestao-documental/frontend/src/pages/RedefinirSenha.tsx"
+      ]
+    }
+  ]
+}

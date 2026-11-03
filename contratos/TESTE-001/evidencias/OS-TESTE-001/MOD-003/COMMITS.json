@@ -1,0 +1,27 @@
+{
+  "fonte": "git log (gerado por fabrica.py evidencias commits)",
+  "gerado_em": "2026-11-02T23:10:46-03:00",
+  "caminhos": [
+    "projetos/gestao-documental/backend/app/storage.py",
+    "projetos/gestao-documental/backend/app/routers/arquivos.py",
+    "projetos/gestao-documental/backend/tests/test_mod003_upload.py",
+    "projetos/gestao-documental/frontend/src/components/UploadPdf.tsx",
+    "projetos/gestao-documental/frontend/src/components/UploadPdf.test.tsx"
+  ],
+  "commits": [
+    {
+      "sha": "348ec80fb646989fc09d308ac465f7b8b4c4b016",
+      "autor": "Claude",
+      "email_autor": "noreply@anthropic.com",
+      "data": "2026-11-03T02:08:20+00:00",
+      "mensagem": "MOD-003: upload de PDF com validação de assinatura, limite e SHA-256",
+      "arquivos": [
+        "A\tprojetos/gestao-documental/backend/app/routers/arquivos.py",
+        "A\tprojetos/gestao-documental/backend/app/storage.py",
+        "A\tprojetos/gestao-documental/backend/tests/test_mod003_upload.py",
+        "A\tprojetos/gestao-documental/frontend/src/components/UploadPdf.test.tsx",
+        "A\tprojetos/gestao-documental/frontend/src/components/UploadPdf.tsx"
+      ]
+    }
+  ]
+}

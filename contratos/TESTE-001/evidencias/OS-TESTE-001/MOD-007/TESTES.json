@@ -1,0 +1,262 @@
+{
+  "fonte": "execução real via fabrica.py testes executar",
+  "modulo": "MOD-007",
+  "executado_em": "2026-11-02T23:10:41-03:00",
+  "resumo": {
+    "testes": 28,
+    "falhas": 0,
+    "erros": 0,
+    "ignorados": 0
+  },
+  "situacao": "APROVADO",
+  "execucoes": [
+    {
+      "nome": "backend",
+      "comando": "python3 -m pytest tests/test_mod007_infra.py -v --junitxml=/home/user/CFFCODEGOV/contratos/TESTE-001/evidencias/OS-TESTE-001/MOD-007/LOGS_TESTES/backend-20261102T231026.xml",
+      "cwd": "projetos/gestao-documental/backend",
+      "inicio": "2026-11-02T23:10:26-03:00",
+      "fim": "2026-11-02T23:10:28-03:00",
+      "codigo_saida": 0,
+      "junit": "contratos/TESTE-001/evidencias/OS-TESTE-001/MOD-007/LOGS_TESTES/backend-20261102T231026.xml",
+      "log": "contratos/TESTE-001/evidencias/OS-TESTE-001/MOD-007/LOGS_TESTES/backend-20261102T231026.log",
+      "testes": 19,
+      "falhas": 0,
+      "erros": 0,
+      "ignorados": 0,
+      "casos": [
+        {
+          "suite": "tests.test_mod007_infra",
+          "nome": "test_health_e_banco",
+          "tempo_s": 0.739,
+          "status": "PASSOU"
+        },
+        {
+          "suite": "tests.test_mod007_infra",
+          "nome": "test_openapi_publicado",
+          "tempo_s": 0.081,
+          "status": "PASSOU"
+        },
+        {
+          "suite": "tests.test_mod007_infra",
+          "nome": "test_producao_exige_segredo_forte",
+          "tempo_s": 0.031,
+          "status": "PASSOU"
+        },
+        {
+          "suite": "tests.test_mod007_infra",
+          "nome": "test_artefatos_de_infra_e_documentacao_existem[docker-compose.yml]",
+          "tempo_s": 0.024,
+          "status": "PASSOU"
+        },
+        {
+          "suite": "tests.test_mod007_infra",
+          "nome": "test_artefatos_de_infra_e_documentacao_existem[docker-compose.prod.yml]",
+          "tempo_s": 0.023,
+          "status": "PASSOU"
+        },
+        {
+          "suite": "tests.test_mod007_infra",
+          "nome": "test_artefatos_de_infra_e_documentacao_existem[.env.example]",
+          "tempo_s": 0.023,
+          "status": "PASSOU"
+        },
+        {
+          "suite": "tests.test_mod007_infra",
+          "nome": "test_artefatos_de_infra_e_documentacao_existem[backend/Dockerfile]",
+          "tempo_s": 0.027,
+          "status": "PASSOU"
+        },
+        {
+          "suite": "tests.test_mod007_infra",
+          "nome": "test_artefatos_de_infra_e_documentacao_existem[frontend/Dockerfile]",
+          "tempo_s": 0.028,
+          "status": "PASSOU"
+        },
+        {
+          "suite": "tests.test_mod007_infra",
+          "nome": "test_artefatos_de_infra_e_documentacao_existem[infra/nginx/default.conf]",
+          "tempo_s": 0.03,
+          "status": "PASSOU"
+        },
+        {
+          "suite": "tests.test_mod007_infra",
+          "nome": "test_artefatos_de_infra_e_documentacao_existem[infra/nginx/prod-tls.conf]",
+          "tempo_s": 0.03,
+          "status": "PASSOU"
+        },
+        {
+          "suite": "tests.test_mod007_infra",
+          "nome": "test_artefatos_de_infra_e_documentacao_existem[infra/scripts/backup.sh]",
+          "tempo_s": 0.029,
+          "status": "PASSOU"
+        },
+        {
+          "suite": "tests.test_mod007_infra",
+          "nome": "test_artefatos_de_infra_e_documentacao_existem[infra/scripts/restore.sh]",
+          "tempo_s": 0.028,
+          "status": "PASSOU"
+        },
+        {
+          "suite": "tests.test_mod007_infra",
+          "nome": "test_artefatos_de_infra_e_documentacao_existem[docs/MANUAL_PUBLICACAO.md]",
+          "tempo_s": 0.028,
+          "status": "PASSOU"
+        },
+        {
+          "suite": "tests.test_mod007_infra",
+          "nome": "test_artefatos_de_infra_e_documentacao_existem[docs/MANUAL_OPERACAO.md]",
+          "tempo_s": 0.028,
+          "status": "PASSOU"
+        },
+        {
+          "suite": "tests.test_mod007_infra",
+          "nome": "test_artefatos_de_infra_e_documentacao_existem[docs/PLANO_CONTINUIDADE.md]",
+          "tempo_s": 0.034,
+          "status": "PASSOU"
+        },
+        {
+          "suite": "tests.test_mod007_infra",
+          "nome": "test_artefatos_de_infra_e_documentacao_existem[docs/SEGURANCA_LGPD.md]",
+          "tempo_s": 0.032,
+          "status": "PASSOU"
+        },
+        {
+          "suite": "tests.test_mod007_infra",
+          "nome": "test_artefatos_de_infra_e_documentacao_existem[docs/ARQUITETURA.md]",
+          "tempo_s": 0.031,
+          "status": "PASSOU"
+        },
+        {
+          "suite": "tests.test_mod007_infra",
+          "nome": "test_artefatos_de_infra_e_documentacao_existem[README.md]",
+          "tempo_s": 0.04,
+          "status": "PASSOU"
+        },
+        {
+          "suite": "tests.test_mod007_infra",
+          "nome": "test_env_example_sem_segredos_reais",
+          "tempo_s": 0.032,
+          "status": "PASSOU"
+        }
+      ]
+    },
+    {
+      "nome": "frontend",
+      "comando": "npx vitest run src/api/client.test.ts --reporter=default --reporter=junit --outputFile.junit=/home/user/CFFCODEGOV/contratos/TESTE-001/evidencias/OS-TESTE-001/MOD-007/LOGS_TESTES/frontend-20261102T231028.xml",
+      "cwd": "projetos/gestao-documental/frontend",
+      "inicio": "2026-11-02T23:10:28-03:00",
+      "fim": "2026-11-02T23:10:30-03:00",
+      "codigo_saida": 0,
+      "junit": "contratos/TESTE-001/evidencias/OS-TESTE-001/MOD-007/LOGS_TESTES/frontend-20261102T231028.xml",
+      "log": "contratos/TESTE-001/evidencias/OS-TESTE-001/MOD-007/LOGS_TESTES/frontend-20261102T231028.log",
+      "testes": 6,
+      "falhas": 0,
+      "erros": 0,
+      "ignorados": 0,
+      "casos": [
+        {
+          "suite": "src/api/client.test.ts",
+          "nome": "api > envia o token e retorna JSON",
+          "tempo_s": 0.007796139,
+          "status": "PASSOU"
+        },
+        {
+          "suite": "src/api/client.test.ts",
+          "nome": "api > converte detail do FastAPI em mensagem",
+          "tempo_s": 0.002074641,
+          "status": "PASSOU"
+        },
+        {
+          "suite": "src/api/client.test.ts",
+          "nome": "api > limpa a sessão em 401",
+          "tempo_s": 0.001414078,
+          "status": "PASSOU"
+        },
+        {
+          "suite": "src/api/client.test.ts",
+          "nome": "api > informa falta de conexão",
+          "tempo_s": 0.000583206,
+          "status": "PASSOU"
+        },
+        {
+          "suite": "src/api/client.test.ts",
+          "nome": "utilitários > qs ignora vazios",
+          "tempo_s": 0.001326486,
+          "status": "PASSOU"
+        },
+        {
+          "suite": "src/api/client.test.ts",
+          "nome": "utilitários > formata bytes",
+          "tempo_s": 0.000263596,
+          "status": "PASSOU"
+        }
+      ]
+    },
+    {
+      "nome": "typecheck-build",
+      "comando": "npm run build",
+      "cwd": "projetos/gestao-documental/frontend",
+      "inicio": "2026-11-02T23:10:30-03:00",
+      "fim": "2026-11-02T23:10:35-03:00",
+      "codigo_saida": 0,
+      "junit": "contratos/TESTE-001/evidencias/OS-TESTE-001/MOD-007/LOGS_TESTES/typecheck-build-20261102T231030.log",
+      "log": "contratos/TESTE-001/evidencias/OS-TESTE-001/MOD-007/LOGS_TESTES/typecheck-build-20261102T231030.log",
+      "testes": 1,
+      "falhas": 0,
+      "erros": 0,
+      "ignorados": 0,
+      "casos": [
+        {
+          "suite": "typecheck-build",
+          "nome": "npm run build",
+          "tempo_s": 5.057985,
+          "status": "PASSOU"
+        }
+      ]
+    },
+    {
+      "nome": "migracao-sincronizada",
+      "comando": "sh -c rm -f .check.db && DATABASE_URL=sqlite:///./.check.db python3 -m alembic upgrade head && DATABASE_URL=sqlite:///./.check.db python3 -m alembic check; s=$?; rm -f .check.db; exit $s",
+      "cwd": "projetos/gestao-documental/backend",
+      "inicio": "2026-11-02T23:10:35-03:00",
+      "fim": "2026-11-02T23:10:36-03:00",
+      "codigo_saida": 0,
+      "junit": "contratos/TESTE-001/evidencias/OS-TESTE-001/MOD-007/LOGS_TESTES/migracao-sincronizada-20261102T231035.log",
+      "log": "contratos/TESTE-001/evidencias/OS-TESTE-001/MOD-007/LOGS_TESTES/migracao-sincronizada-20261102T231035.log",
+      "testes": 1,
+      "falhas": 0,
+      "erros": 0,
+      "ignorados": 0,
+      "casos": [
+        {
+          "suite": "migracao-sincronizada",
+          "nome": "sh -c rm -f .check.db && DATABASE_URL=sqlite:///./.check.db python3 -m alembic upgrade head && DATABASE_URL=sqlite:///./.check.db python3 -m alembic check; s=$?; rm -f .check.db; exit $s",
+          "tempo_s": 1.182106,
+          "status": "PASSOU"
+        }
+      ]
+    },
+    {
+      "nome": "docker-e2e",
+      "comando": "infra/scripts/verificar_ambiente.sh",
+      "cwd": "projetos/gestao-documental",
+      "inicio": "2026-11-02T23:10:36-03:00",
+      "fim": "2026-11-02T23:10:41-03:00",
+      "codigo_saida": 0,
+      "junit": "contratos/TESTE-001/evidencias/OS-TESTE-001/MOD-007/LOGS_TESTES/docker-e2e-20261102T231036.log",
+      "log": "contratos/TESTE-001/evidencias/OS-TESTE-001/MOD-007/LOGS_TESTES/docker-e2e-20261102T231036.log",
+      "testes": 1,
+      "falhas": 0,
+      "erros": 0,
+      "ignorados": 0,
+      "casos": [
+        {
+          "suite": "docker-e2e",
+          "nome": "infra/scripts/verificar_ambiente.sh",
+          "tempo_s": 4.852496,
+          "status": "PASSOU"
+        }
+      ]
+    }
+  ]
+}

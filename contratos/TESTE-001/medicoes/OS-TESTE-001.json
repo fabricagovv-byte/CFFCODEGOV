@@ -1,0 +1,112 @@
+{
+  "contrato": "TESTE-001",
+  "os": "OS-TESTE-001",
+  "medido_em": "2026-11-02T23:10:59-03:00",
+  "agente": "G15",
+  "aviso": "UST FICTÍCIAS — demonstração da fábrica, sem valor para faturamento.",
+  "itens": [
+    {
+      "modulo": "MOD-001",
+      "nome": "Autenticação e controle de acesso",
+      "item": "UST-TESTE-MOD",
+      "descricao_item": "Desenvolvimento de módulo funcional (FICTÍCIO)",
+      "unidade": "UST",
+      "referencia_contratual": "Prompt mestre Parte 17",
+      "previsto": 2.0,
+      "comprovado": 2.0,
+      "aceito": 0.0,
+      "evidencias": "contratos/TESTE-001/evidencias/OS-TESTE-001/MOD-001",
+      "memoria": "previsto=2 UST (OS OS-TESTE-001, item UST-TESTE-MOD); comprovado=2 pois auditoria técnica=APROVADO; aceito=0 (sem aceite registrado)",
+      "responsavel": "A CADASTRAR"
+    },
+    {
+      "modulo": "MOD-002",
+      "nome": "Cadastro documental",
+      "item": "UST-TESTE-MOD",
+      "descricao_item": "Desenvolvimento de módulo funcional (FICTÍCIO)",
+      "unidade": "UST",
+      "referencia_contratual": "Prompt mestre Parte 17",
+      "previsto": 2.0,
+      "comprovado": 2.0,
+      "aceito": 0.0,
+      "evidencias": "contratos/TESTE-001/evidencias/OS-TESTE-001/MOD-002",
+      "memoria": "previsto=2 UST (OS OS-TESTE-001, item UST-TESTE-MOD); comprovado=2 pois auditoria técnica=APROVADO; aceito=0 (sem aceite registrado)",
+      "responsavel": "A CADASTRAR"
+    },
+    {
+      "modulo": "MOD-003",
+      "nome": "Upload de PDF",
+      "item": "UST-TESTE-MOD",
+      "descricao_item": "Desenvolvimento de módulo funcional (FICTÍCIO)",
+      "unidade": "UST",
+      "referencia_contratual": "Prompt mestre Parte 17",
+      "previsto": 2.0,
+      "comprovado": 2.0,
+      "aceito": 0.0,
+      "evidencias": "contratos/TESTE-001/evidencias/OS-TESTE-001/MOD-003",
+      "memoria": "previsto=2 UST (OS OS-TESTE-001, item UST-TESTE-MOD); comprovado=2 pois auditoria técnica=APROVADO; aceito=0 (sem aceite registrado)",
+      "responsavel": "A CADASTRAR"
+    },
+    {
+      "modulo": "MOD-004",
+      "nome": "Pesquisa",
+      "item": "UST-TESTE-MOD",
+      "descricao_item": "Desenvolvimento de módulo funcional (FICTÍCIO)",
+      "unidade": "UST",
+      "referencia_contratual": "Prompt mestre Parte 17",
+      "previsto": 1.0,
+      "comprovado": 1.0,
+      "aceito": 0.0,
+      "evidencias": "contratos/TESTE-001/evidencias/OS-TESTE-001/MOD-004",
+      "memoria": "previsto=1 UST (OS OS-TESTE-001, item UST-TESTE-MOD); comprovado=1 pois auditoria técnica=APROVADO; aceito=0 (sem aceite registrado)",
+      "responsavel": "A CADASTRAR"
+    },
+    {
+      "modulo": "MOD-005",
+      "nome": "Painel administrativo",
+      "item": "UST-TESTE-MOD",
+      "descricao_item": "Desenvolvimento de módulo funcional (FICTÍCIO)",
+      "unidade": "UST",
+      "referencia_contratual": "Prompt mestre Parte 17",
+      "previsto": 1.0,
+      "comprovado": 1.0,
+      "aceito": 0.0,
+      "evidencias": "contratos/TESTE-001/evidencias/OS-TESTE-001/MOD-005",
+      "memoria": "previsto=1 UST (OS OS-TESTE-001, item UST-TESTE-MOD); comprovado=1 pois auditoria técnica=APROVADO; aceito=0 (sem aceite registrado)",
+      "responsavel": "A CADASTRAR"
+    },
+    {
+      "modulo": "MOD-006",
+      "nome": "Auditoria",
+      "item": "UST-TESTE-MOD",
+      "descricao_item": "Desenvolvimento de módulo funcional (FICTÍCIO)",
+      "unidade": "UST",
+      "referencia_contratual": "Prompt mestre Parte 17",
+      "previsto": 1.0,
+      "comprovado": 1.0,
+      "aceito": 0.0,
+      "evidencias": "contratos/TESTE-001/evidencias/OS-TESTE-001/MOD-006",
+      "memoria": "previsto=1 UST (OS OS-TESTE-001, item UST-TESTE-MOD); comprovado=1 pois auditoria técnica=APROVADO; aceito=0 (sem aceite registrado)",
+      "responsavel": "A CADASTRAR"
+    },
+    {
+      "modulo": "MOD-007",
+      "nome": "Infraestrutura e documentação",
+      "item": "UST-TESTE-INFRA",
+      "descricao_item": "Infraestrutura e documentação (FICTÍCIO)",
+      "unidade": "UST",
+      "referencia_contratual": "Prompt mestre Parte 17",
+      "previsto": 1.0,
+      "comprovado": 1.0,
+      "aceito": 0.0,
+      "evidencias": "contratos/TESTE-001/evidencias/OS-TESTE-001/MOD-007",
+      "memoria": "previsto=1 UST (OS OS-TESTE-001, item UST-TESTE-INFRA); comprovado=1 pois auditoria técnica=APROVADO; aceito=0 (sem aceite registrado)",
+      "responsavel": "A CADASTRAR"
+    }
+  ],
+  "totais": {
+    "previsto": 10.0,
+    "comprovado": 10.0,
+    "aceito": 0.0
+  }
+}

@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<testsuites name="vitest tests" tests="1" failures="0" errors="0" time="0.311345341">
+    <testsuite name="src/pages/Documentos.test.tsx" timestamp="2026-11-03T02:10:07.042Z" hostname="vm" tests="1" failures="0" errors="0" skipped="0" time="0.311345341">
+        <testcase classname="src/pages/Documentos.test.tsx" name="bloqueia título curto e envia dados válidos" time="0.309960406">
+        </testcase>
+    </testsuite>
+</testsuites>

@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<testsuites name="vitest tests" tests="1" failures="0" errors="0" time="0.083742568">
+    <testsuite name="src/pages/Painel.test.tsx" timestamp="2026-11-03T02:10:21.075Z" hostname="vm" tests="1" failures="0" errors="0" skipped="0" time="0.083742568">
+        <testcase classname="src/pages/Painel.test.tsx" name="mostra totais e barras" time="0.08242739">
+        </testcase>
+    </testsuite>
+</testsuites>

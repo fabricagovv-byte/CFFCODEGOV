@@ -1,0 +1,112 @@
+{
+  "fonte": "execução real via fabrica.py testes executar",
+  "modulo": "MOD-002",
+  "executado_em": "2026-11-02T23:10:07-03:00",
+  "resumo": {
+    "testes": 11,
+    "falhas": 0,
+    "erros": 0,
+    "ignorados": 0
+  },
+  "situacao": "APROVADO",
+  "execucoes": [
+    {
+      "nome": "backend",
+      "comando": "python3 -m pytest tests/test_mod002_documentos.py -v --junitxml=/home/user/CFFCODEGOV/contratos/TESTE-001/evidencias/OS-TESTE-001/MOD-002/LOGS_TESTES/backend-20261102T231001.xml",
+      "cwd": "projetos/gestao-documental/backend",
+      "inicio": "2026-11-02T23:10:01-03:00",
+      "fim": "2026-11-02T23:10:04-03:00",
+      "codigo_saida": 0,
+      "junit": "contratos/TESTE-001/evidencias/OS-TESTE-001/MOD-002/LOGS_TESTES/backend-20261102T231001.xml",
+      "log": "contratos/TESTE-001/evidencias/OS-TESTE-001/MOD-002/LOGS_TESTES/backend-20261102T231001.log",
+      "testes": 10,
+      "falhas": 0,
+      "erros": 0,
+      "ignorados": 0,
+      "casos": [
+        {
+          "suite": "tests.test_mod002_documentos",
+          "nome": "test_criar_documento_gera_numero_unico",
+          "tempo_s": 0.928,
+          "status": "PASSOU"
+        },
+        {
+          "suite": "tests.test_mod002_documentos",
+          "nome": "test_validacao_de_campos",
+          "tempo_s": 0.171,
+          "status": "PASSOU"
+        },
+        {
+          "suite": "tests.test_mod002_documentos",
+          "nome": "test_consulta_nao_cria",
+          "tempo_s": 0.13,
+          "status": "PASSOU"
+        },
+        {
+          "suite": "tests.test_mod002_documentos",
+          "nome": "test_operador_nao_cria_sigiloso",
+          "tempo_s": 0.13,
+          "status": "PASSOU"
+        },
+        {
+          "suite": "tests.test_mod002_documentos",
+          "nome": "test_visibilidade_por_classificacao",
+          "tempo_s": 0.192,
+          "status": "PASSOU"
+        },
+        {
+          "suite": "tests.test_mod002_documentos",
+          "nome": "test_editar_e_arquivar",
+          "tempo_s": 0.182,
+          "status": "PASSOU"
+        },
+        {
+          "suite": "tests.test_mod002_documentos",
+          "nome": "test_paginacao",
+          "tempo_s": 0.202,
+          "status": "PASSOU"
+        },
+        {
+          "suite": "tests.test_mod002_documentos",
+          "nome": "test_documento_inexistente",
+          "tempo_s": 0.109,
+          "status": "PASSOU"
+        },
+        {
+          "suite": "tests.test_mod002_documentos",
+          "nome": "test_operador_nao_desarquiva_nem_reclassifica",
+          "tempo_s": 0.171,
+          "status": "PASSOU"
+        },
+        {
+          "suite": "tests.test_mod002_documentos",
+          "nome": "test_patch_com_null_e_espacos",
+          "tempo_s": 0.148,
+          "status": "PASSOU"
+        }
+      ]
+    },
+    {
+      "nome": "frontend",
+      "comando": "npx vitest run src/pages/Documentos.test.tsx --reporter=default --reporter=junit --outputFile.junit=/home/user/CFFCODEGOV/contratos/TESTE-001/evidencias/OS-TESTE-001/MOD-002/LOGS_TESTES/frontend-20261102T231004.xml",
+      "cwd": "projetos/gestao-documental/frontend",
+      "inicio": "2026-11-02T23:10:04-03:00",
+      "fim": "2026-11-02T23:10:07-03:00",
+      "codigo_saida": 0,
+      "junit": "contratos/TESTE-001/evidencias/OS-TESTE-001/MOD-002/LOGS_TESTES/frontend-20261102T231004.xml",
+      "log": "contratos/TESTE-001/evidencias/OS-TESTE-001/MOD-002/LOGS_TESTES/frontend-20261102T231004.log",
+      "testes": 1,
+      "falhas": 0,
+      "erros": 0,
+      "ignorados": 0,
+      "casos": [
+        {
+          "suite": "src/pages/Documentos.test.tsx",
+          "nome": "bloqueia título curto e envia dados válidos",
+          "tempo_s": 0.309960406,
+          "status": "PASSOU"
+        }
+      ]
+    }
+  ]
+}

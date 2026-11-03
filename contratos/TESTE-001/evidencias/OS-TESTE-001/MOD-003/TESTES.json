@@ -1,0 +1,112 @@
+{
+  "fonte": "execução real via fabrica.py testes executar",
+  "modulo": "MOD-003",
+  "executado_em": "2026-11-02T23:10:11-03:00",
+  "resumo": {
+    "testes": 11,
+    "falhas": 0,
+    "erros": 0,
+    "ignorados": 0
+  },
+  "situacao": "APROVADO",
+  "execucoes": [
+    {
+      "nome": "backend",
+      "comando": "python3 -m pytest tests/test_mod003_upload.py -v --junitxml=/home/user/CFFCODEGOV/contratos/TESTE-001/evidencias/OS-TESTE-001/MOD-003/LOGS_TESTES/backend-20261102T231007.xml",
+      "cwd": "projetos/gestao-documental/backend",
+      "inicio": "2026-11-02T23:10:07-03:00",
+      "fim": "2026-11-02T23:10:10-03:00",
+      "codigo_saida": 0,
+      "junit": "contratos/TESTE-001/evidencias/OS-TESTE-001/MOD-003/LOGS_TESTES/backend-20261102T231007.xml",
+      "log": "contratos/TESTE-001/evidencias/OS-TESTE-001/MOD-003/LOGS_TESTES/backend-20261102T231007.log",
+      "testes": 6,
+      "falhas": 0,
+      "erros": 0,
+      "ignorados": 0,
+      "casos": [
+        {
+          "suite": "tests.test_mod003_upload",
+          "nome": "test_upload_pdf_valido_e_download_integro",
+          "tempo_s": 0.998,
+          "status": "PASSOU"
+        },
+        {
+          "suite": "tests.test_mod003_upload",
+          "nome": "test_rejeita_extensao_e_conteudo_falso",
+          "tempo_s": 0.16,
+          "status": "PASSOU"
+        },
+        {
+          "suite": "tests.test_mod003_upload",
+          "nome": "test_rejeita_arquivo_acima_do_limite",
+          "tempo_s": 0.137,
+          "status": "PASSOU"
+        },
+        {
+          "suite": "tests.test_mod003_upload",
+          "nome": "test_nome_com_caminho_e_sanitizado",
+          "tempo_s": 0.13,
+          "status": "PASSOU"
+        },
+        {
+          "suite": "tests.test_mod003_upload",
+          "nome": "test_consulta_nao_envia_e_restrito_nao_baixa",
+          "tempo_s": 0.154,
+          "status": "PASSOU"
+        },
+        {
+          "suite": "tests.test_mod003_upload",
+          "nome": "test_documento_arquivado_nao_recebe_anexo",
+          "tempo_s": 0.133,
+          "status": "PASSOU"
+        }
+      ]
+    },
+    {
+      "nome": "frontend",
+      "comando": "npx vitest run src/components/UploadPdf.test.tsx --reporter=default --reporter=junit --outputFile.junit=/home/user/CFFCODEGOV/contratos/TESTE-001/evidencias/OS-TESTE-001/MOD-003/LOGS_TESTES/frontend-20261102T231010.xml",
+      "cwd": "projetos/gestao-documental/frontend",
+      "inicio": "2026-11-02T23:10:10-03:00",
+      "fim": "2026-11-02T23:10:11-03:00",
+      "codigo_saida": 0,
+      "junit": "contratos/TESTE-001/evidencias/OS-TESTE-001/MOD-003/LOGS_TESTES/frontend-20261102T231010.xml",
+      "log": "contratos/TESTE-001/evidencias/OS-TESTE-001/MOD-003/LOGS_TESTES/frontend-20261102T231010.log",
+      "testes": 5,
+      "falhas": 0,
+      "erros": 0,
+      "ignorados": 0,
+      "casos": [
+        {
+          "suite": "src/components/UploadPdf.test.tsx",
+          "nome": "validarPdf > aceita PDF dentro do limite",
+          "tempo_s": 0.001913484,
+          "status": "PASSOU"
+        },
+        {
+          "suite": "src/components/UploadPdf.test.tsx",
+          "nome": "validarPdf > exige arquivo",
+          "tempo_s": 0.000260517,
+          "status": "PASSOU"
+        },
+        {
+          "suite": "src/components/UploadPdf.test.tsx",
+          "nome": "validarPdf > rejeita extensão",
+          "tempo_s": 0.000258877,
+          "status": "PASSOU"
+        },
+        {
+          "suite": "src/components/UploadPdf.test.tsx",
+          "nome": "validarPdf > rejeita vazio",
+          "tempo_s": 0.000288174,
+          "status": "PASSOU"
+        },
+        {
+          "suite": "src/components/UploadPdf.test.tsx",
+          "nome": "validarPdf > rejeita acima do limite",
+          "tempo_s": 0.001659698,
+          "status": "PASSOU"
+        }
+      ]
+    }
+  ]
+}

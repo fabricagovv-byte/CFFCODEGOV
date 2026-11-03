@@ -1,0 +1,166 @@
+{
+  "fonte": "execução real via fabrica.py testes executar",
+  "modulo": "MOD-001",
+  "executado_em": "2026-11-02T23:10:01-03:00",
+  "resumo": {
+    "testes": 20,
+    "falhas": 0,
+    "erros": 0,
+    "ignorados": 0
+  },
+  "situacao": "APROVADO",
+  "execucoes": [
+    {
+      "nome": "backend",
+      "comando": "python3 -m pytest tests/test_mod001_auth.py -v --junitxml=/home/user/CFFCODEGOV/contratos/TESTE-001/evidencias/OS-TESTE-001/MOD-001/LOGS_TESTES/backend-20261102T230955.xml",
+      "cwd": "projetos/gestao-documental/backend",
+      "inicio": "2026-11-02T23:09:55-03:00",
+      "fim": "2026-11-02T23:09:59-03:00",
+      "codigo_saida": 0,
+      "junit": "contratos/TESTE-001/evidencias/OS-TESTE-001/MOD-001/LOGS_TESTES/backend-20261102T230955.xml",
+      "log": "contratos/TESTE-001/evidencias/OS-TESTE-001/MOD-001/LOGS_TESTES/backend-20261102T230955.log",
+      "testes": 17,
+      "falhas": 0,
+      "erros": 0,
+      "ignorados": 0,
+      "casos": [
+        {
+          "suite": "tests.test_mod001_auth",
+          "nome": "test_login_sucesso_retorna_token_e_usuario",
+          "tempo_s": 0.769,
+          "status": "PASSOU"
+        },
+        {
+          "suite": "tests.test_mod001_auth",
+          "nome": "test_login_senha_errada_e_email_inexistente_tem_mesma_mensagem",
+          "tempo_s": 0.048,
+          "status": "PASSOU"
+        },
+        {
+          "suite": "tests.test_mod001_auth",
+          "nome": "test_usuario_inativo_nao_entra",
+          "tempo_s": 0.043,
+          "status": "PASSOU"
+        },
+        {
+          "suite": "tests.test_mod001_auth",
+          "nome": "test_bloqueio_por_forca_bruta",
+          "tempo_s": 0.092,
+          "status": "PASSOU"
+        },
+        {
+          "suite": "tests.test_mod001_auth",
+          "nome": "test_rota_protegida_sem_token_e_token_invalido",
+          "tempo_s": 0.033,
+          "status": "PASSOU"
+        },
+        {
+          "suite": "tests.test_mod001_auth",
+          "nome": "test_logout_revoga_token",
+          "tempo_s": 0.072,
+          "status": "PASSOU"
+        },
+        {
+          "suite": "tests.test_mod001_auth",
+          "nome": "test_recuperacao_e_redefinicao_de_senha",
+          "tempo_s": 0.08,
+          "status": "PASSOU"
+        },
+        {
+          "suite": "tests.test_mod001_auth",
+          "nome": "test_recuperacao_nao_revela_email_inexistente",
+          "tempo_s": 0.04,
+          "status": "PASSOU"
+        },
+        {
+          "suite": "tests.test_mod001_auth",
+          "nome": "test_somente_admin_gerencia_usuarios",
+          "tempo_s": 0.127,
+          "status": "PASSOU"
+        },
+        {
+          "suite": "tests.test_mod001_auth",
+          "nome": "test_admin_cria_usuario_com_politica_de_senha_e_email_unico",
+          "tempo_s": 0.13,
+          "status": "PASSOU"
+        },
+        {
+          "suite": "tests.test_mod001_auth",
+          "nome": "test_admin_nao_remove_o_proprio_acesso",
+          "tempo_s": 0.114,
+          "status": "PASSOU"
+        },
+        {
+          "suite": "tests.test_mod001_auth",
+          "nome": "test_desativar_usuario_invalida_sessao",
+          "tempo_s": 0.107,
+          "status": "PASSOU"
+        },
+        {
+          "suite": "tests.test_mod001_auth",
+          "nome": "test_cabecalhos_de_seguranca",
+          "tempo_s": 0.048,
+          "status": "PASSOU"
+        },
+        {
+          "suite": "tests.test_mod001_auth",
+          "nome": "test_redefinir_senha_encerra_sessoes_abertas",
+          "tempo_s": 0.096,
+          "status": "PASSOU"
+        },
+        {
+          "suite": "tests.test_mod001_auth",
+          "nome": "test_email_muito_longo_retorna_401_e_e_auditado",
+          "tempo_s": 0.113,
+          "status": "PASSOU"
+        },
+        {
+          "suite": "tests.test_mod001_auth",
+          "nome": "test_x_forwarded_for_do_cliente_nao_e_gravado",
+          "tempo_s": 0.135,
+          "status": "PASSOU"
+        },
+        {
+          "suite": "tests.test_mod001_auth",
+          "nome": "test_request_id_invalido_e_substituido",
+          "tempo_s": 0.034,
+          "status": "PASSOU"
+        }
+      ]
+    },
+    {
+      "nome": "frontend",
+      "comando": "npx vitest run src/pages/Login.test.tsx --reporter=default --reporter=junit --outputFile.junit=/home/user/CFFCODEGOV/contratos/TESTE-001/evidencias/OS-TESTE-001/MOD-001/LOGS_TESTES/frontend-20261102T230959.xml",
+      "cwd": "projetos/gestao-documental/frontend",
+      "inicio": "2026-11-02T23:09:59-03:00",
+      "fim": "2026-11-02T23:10:01-03:00",
+      "codigo_saida": 0,
+      "junit": "contratos/TESTE-001/evidencias/OS-TESTE-001/MOD-001/LOGS_TESTES/frontend-20261102T230959.xml",
+      "log": "contratos/TESTE-001/evidencias/OS-TESTE-001/MOD-001/LOGS_TESTES/frontend-20261102T230959.log",
+      "testes": 3,
+      "falhas": 0,
+      "erros": 0,
+      "ignorados": 0,
+      "casos": [
+        {
+          "suite": "src/pages/Login.test.tsx",
+          "nome": "tem campos rotulados e acessíveis",
+          "tempo_s": 0.114319992,
+          "status": "PASSOU"
+        },
+        {
+          "suite": "src/pages/Login.test.tsx",
+          "nome": "valida campos vazios sem chamar a API",
+          "tempo_s": 0.071910424,
+          "status": "PASSOU"
+        },
+        {
+          "suite": "src/pages/Login.test.tsx",
+          "nome": "exibe a mensagem de erro do servidor",
+          "tempo_s": 0.11932937,
+          "status": "PASSOU"
+        }
+      ]
+    }
+  ]
+}

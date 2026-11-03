@@ -1,0 +1,27 @@
+{
+  "fonte": "git log (gerado por fabrica.py evidencias commits)",
+  "gerado_em": "2026-11-02T23:10:46-03:00",
+  "caminhos": [
+    "projetos/gestao-documental/backend/app/audit.py",
+    "projetos/gestao-documental/backend/app/routers/auditoria.py",
+    "projetos/gestao-documental/backend/tests/test_mod006_auditoria.py",
+    "projetos/gestao-documental/frontend/src/pages/Auditoria.tsx",
+    "projetos/gestao-documental/frontend/src/pages/Auditoria.test.tsx"
+  ],
+  "commits": [
+    {
+      "sha": "e10e719ce3e373932e99576f9be708e5c922c705",
+      "autor": "Claude",
+      "email_autor": "noreply@anthropic.com",
+      "data": "2026-11-03T02:08:21+00:00",
+      "mensagem": "MOD-006: trilha de auditoria somente inserção e tela de consulta",
+      "arquivos": [
+        "A\tprojetos/gestao-documental/backend/app/audit.py",
+        "A\tprojetos/gestao-documental/backend/app/routers/auditoria.py",
+        "A\tprojetos/gestao-documental/backend/tests/test_mod006_auditoria.py",
+        "A\tprojetos/gestao-documental/frontend/src/pages/Auditoria.test.tsx",
+        "A\tprojetos/gestao-documental/frontend/src/pages/Auditoria.tsx"
+      ]
+    }
+  ]
+}

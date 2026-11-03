@@ -1,0 +1,88 @@
+{
+  "fonte": "execução real via fabrica.py testes executar",
+  "modulo": "MOD-006",
+  "executado_em": "2026-11-02T23:10:26-03:00",
+  "resumo": {
+    "testes": 7,
+    "falhas": 0,
+    "erros": 0,
+    "ignorados": 0
+  },
+  "situacao": "APROVADO",
+  "execucoes": [
+    {
+      "nome": "backend",
+      "comando": "python3 -m pytest tests/test_mod006_auditoria.py -v --junitxml=/home/user/CFFCODEGOV/contratos/TESTE-001/evidencias/OS-TESTE-001/MOD-006/LOGS_TESTES/backend-20261102T231021.xml",
+      "cwd": "projetos/gestao-documental/backend",
+      "inicio": "2026-11-02T23:10:21-03:00",
+      "fim": "2026-11-02T23:10:24-03:00",
+      "codigo_saida": 0,
+      "junit": "contratos/TESTE-001/evidencias/OS-TESTE-001/MOD-006/LOGS_TESTES/backend-20261102T231021.xml",
+      "log": "contratos/TESTE-001/evidencias/OS-TESTE-001/MOD-006/LOGS_TESTES/backend-20261102T231021.log",
+      "testes": 6,
+      "falhas": 0,
+      "erros": 0,
+      "ignorados": 0,
+      "casos": [
+        {
+          "suite": "tests.test_mod006_auditoria",
+          "nome": "test_acoes_sensiveis_sao_auditadas",
+          "tempo_s": 0.999,
+          "status": "PASSOU"
+        },
+        {
+          "suite": "tests.test_mod006_auditoria",
+          "nome": "test_registro_tem_ip_usuario_e_detalhes",
+          "tempo_s": 0.146,
+          "status": "PASSOU"
+        },
+        {
+          "suite": "tests.test_mod006_auditoria",
+          "nome": "test_auditoria_somente_admin_e_gestor",
+          "tempo_s": 0.125,
+          "status": "PASSOU"
+        },
+        {
+          "suite": "tests.test_mod006_auditoria",
+          "nome": "test_nao_existe_rota_para_alterar_auditoria",
+          "tempo_s": 0.106,
+          "status": "PASSOU"
+        },
+        {
+          "suite": "tests.test_mod006_auditoria",
+          "nome": "test_upload_rejeitado_e_auditado",
+          "tempo_s": 0.15,
+          "status": "PASSOU"
+        },
+        {
+          "suite": "tests.test_mod006_auditoria",
+          "nome": "test_trigger_impede_update_e_delete_no_postgres",
+          "tempo_s": 0.127,
+          "status": "PASSOU"
+        }
+      ]
+    },
+    {
+      "nome": "frontend",
+      "comando": "npx vitest run src/pages/Auditoria.test.tsx --reporter=default --reporter=junit --outputFile.junit=/home/user/CFFCODEGOV/contratos/TESTE-001/evidencias/OS-TESTE-001/MOD-006/LOGS_TESTES/frontend-20261102T231024.xml",
+      "cwd": "projetos/gestao-documental/frontend",
+      "inicio": "2026-11-02T23:10:24-03:00",
+      "fim": "2026-11-02T23:10:26-03:00",
+      "codigo_saida": 0,
+      "junit": "contratos/TESTE-001/evidencias/OS-TESTE-001/MOD-006/LOGS_TESTES/frontend-20261102T231024.xml",
+      "log": "contratos/TESTE-001/evidencias/OS-TESTE-001/MOD-006/LOGS_TESTES/frontend-20261102T231024.log",
+      "testes": 1,
+      "falhas": 0,
+      "erros": 0,
+      "ignorados": 0,
+      "casos": [
+        {
+          "suite": "src/pages/Auditoria.test.tsx",
+          "nome": "lista registros e não oferece botões de edição",
+          "tempo_s": 0.14888731,
+          "status": "PASSOU"
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<testsuites name="vitest tests" tests="5" failures="0" errors="0" time="0.005852744">
+    <testsuite name="src/components/UploadPdf.test.tsx" timestamp="2026-11-03T02:10:11.634Z" hostname="vm" tests="5" failures="0" errors="0" skipped="0" time="0.005852744">
+        <testcase classname="src/components/UploadPdf.test.tsx" name="validarPdf &gt; aceita PDF dentro do limite" time="0.001913484">
+        </testcase>
+        <testcase classname="src/components/UploadPdf.test.tsx" name="validarPdf &gt; exige arquivo" time="0.000260517">
+        </testcase>
+        <testcase classname="src/components/UploadPdf.test.tsx" name="validarPdf &gt; rejeita extensão" time="0.000258877">
+        </testcase>
+        <testcase classname="src/components/UploadPdf.test.tsx" name="validarPdf &gt; rejeita vazio" time="0.000288174">
+        </testcase>
+        <testcase classname="src/components/UploadPdf.test.tsx" name="validarPdf &gt; rejeita acima do limite" time="0.001659698">
+        </testcase>
+    </testsuite>
+</testsuites>

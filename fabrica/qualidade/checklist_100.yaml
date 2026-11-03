@@ -11,6 +11,8 @@
 #   sem_segredos: true                        -> varre o projeto por padrões de segredo
 #   commits: true                             -> COMMITS.json de todo módulo aponta para commits reais do git
 #   medicao: true                             -> memória de cálculo existe e não há comprovado sem evidência
+#   caso: {modulo, contem}                    -> casos de teste do TESTES.json do módulo cujo nome contém o texto passaram
+#   auditoria: true                           -> AUDITORIA.json existe e todos os módulos estão APROVADO
 
 grupos:
   - id: 1
@@ -45,7 +47,7 @@ grupos:
       - {id: C021, descricao: Código existe no repositório, metodo: Arquivos versionados, critico: true, auto: {arquivo: "backend/app"}}
       - {id: C022, descricao: Commits reais vinculados a cada módulo, metodo: COMMITS.json x git, critico: true, auto: {commits: true}}
       - {id: C023, descricao: Tratamento de erros consistente, metodo: Revisão de código, critico: false}
-      - {id: C024, descricao: Validação de entradas em todas as APIs, metodo: Revisão + testes, critico: true}
+      - {id: C024, descricao: Validação de entradas em todas as APIs, metodo: Revisão + testes, critico: true, auto: {caso: {modulo: MOD-002, contem: "test_validacao_de_campos"}}}
       - {id: C025, descricao: Sem duplicação relevante, metodo: Revisão de código, critico: false}
       - {id: C026, descricao: Tipagem aplicada (Python hints / TypeScript), metodo: Revisão + tsc, critico: false, auto: {arquivo: "frontend/tsconfig.json"}}
       - {id: C027, descricao: Logs estruturados sem dados sensíveis, metodo: Revisão, critico: false}
@@ -56,27 +58,27 @@ grupos:
     nome: Banco de dados
     controles:
       - {id: C031, descricao: Migrações versionadas, metodo: Pasta de migrações, critico: true, auto: {arquivo: "backend/migrations/versions"}}
-      - {id: C032, descricao: Migração aplicada em banco real, metodo: Log de alembic upgrade, critico: true}
+      - {id: C032, descricao: Migração aplicada em banco real, metodo: Log de alembic upgrade, critico: true, auto: {caso: {modulo: MOD-007, contem: "verificar_ambiente"}}}
       - {id: C033, descricao: Integridade referencial (FKs) definida, metodo: Revisão do modelo, critico: false}
       - {id: C034, descricao: Índices para consultas frequentes, metodo: Revisão do modelo, critico: false}
       - {id: C035, descricao: Usuário de aplicação com menor privilégio, metodo: Script de criação de papel, critico: false}
       - {id: C036, descricao: Rotina de backup documentada, metodo: Script de backup, critico: true, auto: {arquivo: "infra/scripts/backup.sh"}}
-      - {id: C037, descricao: Restauração testada, metodo: Log de restauração, critico: true}
+      - {id: C037, descricao: Restauração testada, metodo: Log de restauração, critico: true, auto: {caso: {modulo: MOD-007, contem: "verificar_ambiente"}}}
       - {id: C038, descricao: Dicionário de dados, metodo: Documento do banco, critico: false}
       - {id: C039, descricao: Dados de demonstração fictícios, metodo: Revisão do seed, critico: true}
       - {id: C040, descricao: Retenção e expurgo definidos, metodo: Política documentada, critico: false}
   - id: 5
     nome: Segurança e LGPD
     controles:
-      - {id: C041, descricao: Autenticação implementada e testada, metodo: Testes de auth, critico: true}
-      - {id: C042, descricao: Autorização por perfil (menor privilégio), metodo: Testes de permissão, critico: true}
+      - {id: C041, descricao: Autenticação implementada e testada, metodo: Testes de auth, critico: true, auto: {caso: {modulo: MOD-001, contem: "test_login_sucesso"}}}
+      - {id: C042, descricao: Autorização por perfil (menor privilégio), metodo: Testes de permissão, critico: true, auto: {caso: {modulo: MOD-002, contem: "test_visibilidade_por_classificacao"}}}
       - {id: C043, descricao: Senhas com hash forte (bcrypt/argon2), metodo: Revisão, critico: true}
       - {id: C044, descricao: Nenhum segredo versionado, metodo: Varredura automática, critico: true, auto: {sem_segredos: true}}
-      - {id: C045, descricao: Trilha de auditoria de ações sensíveis, metodo: Testes de auditoria, critico: true}
+      - {id: C045, descricao: Trilha de auditoria de ações sensíveis, metodo: Testes de auditoria, critico: true, auto: {caso: {modulo: MOD-006, contem: "test_acoes_sensiveis_sao_auditadas"}}}
       - {id: C046, descricao: Inventário de dados pessoais e finalidade, metodo: SEGURANCA.md, critico: true, auto: {evidencia: "SEGURANCA.md"}}
       - {id: C047, descricao: TLS em homologação/produção, metodo: Configuração do proxy, critico: true}
-      - {id: C048, descricao: Cabeçalhos de segurança HTTP, metodo: Teste automatizado, critico: false}
-      - {id: C049, descricao: Proteção contra força bruta no login, metodo: Teste automatizado, critico: false}
+      - {id: C048, descricao: Cabeçalhos de segurança HTTP, metodo: Teste automatizado, critico: false, auto: {caso: {modulo: MOD-001, contem: "test_cabecalhos_de_seguranca"}}}
+      - {id: C049, descricao: Proteção contra força bruta no login, metodo: Teste automatizado, critico: false, auto: {caso: {modulo: MOD-001, contem: "test_bloqueio_por_forca_bruta"}}}
       - {id: C050, descricao: Plano de resposta a incidentes, metodo: Documento, critico: false}
   - id: 6
     nome: Testes
@@ -87,7 +89,7 @@ grupos:
       - {id: C054, descricao: Logs de execução de testes anexados, metodo: LOGS_TESTES/, critico: true, auto: {evidencia: "LOGS_TESTES"}}
       - {id: C055, descricao: Testes de API cobrem casos de erro, metodo: Revisão dos testes, critico: false}
       - {id: C056, descricao: Testes de regressão no CI, metodo: Workflow de CI, critico: false, auto: {arquivo: "../../.github/workflows/ci.yml"}}
-      - {id: C057, descricao: Testes contra banco igual ao de produção (PostgreSQL), metodo: Log de execução, critico: false}
+      - {id: C057, descricao: Testes contra banco igual ao de produção (PostgreSQL), metodo: Log de execução, critico: false, auto: {caso: {modulo: MOD-006, contem: "test_trigger_impede"}}}
       - {id: C058, descricao: Defeitos registrados e reexecutados, metodo: Quadro de tarefas, critico: false}
       - {id: C059, descricao: Testes de interface (E2E/captura), metodo: SCREENSHOTS/, critico: false}
       - {id: C060, descricao: Ferramenta da fábrica testada, metodo: JUnit XML, critico: false, auto: {testes: fabrica}}
@@ -95,10 +97,10 @@ grupos:
     nome: Desempenho
     controles:
       - {id: C061, descricao: Paginação em listagens, metodo: Revisão das APIs, critico: false}
-      - {id: C062, descricao: Limite de tamanho de upload, metodo: Teste automatizado, critico: true}
+      - {id: C062, descricao: Limite de tamanho de upload, metodo: Teste automatizado, critico: true, auto: {caso: {modulo: MOD-003, contem: "test_rejeita_arquivo_acima_do_limite"}}}
       - {id: C063, descricao: Consultas indexadas, metodo: EXPLAIN em banco real, critico: false}
       - {id: C064, descricao: Tempo de resposta medido, metodo: Teste de carga, critico: false}
-      - {id: C065, descricao: Build de frontend otimizado, metodo: vite build, critico: false}
+      - {id: C065, descricao: Build de frontend otimizado, metodo: vite build, critico: false, auto: {caso: {modulo: MOD-007, contem: "npm run build"}}}
       - {id: C066, descricao: Compressão e cache de estáticos, metodo: Configuração nginx, critico: false}
       - {id: C067, descricao: Pool de conexões configurado, metodo: Revisão, critico: false}
       - {id: C068, descricao: Arquivos armazenados fora do banco, metodo: Revisão, critico: false}
@@ -112,11 +114,11 @@ grupos:
       - {id: C073, descricao: Pipeline CI/CD, metodo: Workflow, critico: false, auto: {arquivo: "../../.github/workflows/ci.yml"}}
       - {id: C074, descricao: Ambientes dev/homologação/produção separados, metodo: Arquivos de ambiente, critico: false}
       - {id: C075, descricao: Proxy reverso com TLS documentado, metodo: infra/nginx, critico: true, auto: {arquivo: "infra/nginx"}}
-      - {id: C076, descricao: Healthchecks configurados, metodo: Compose + /api/health, critico: false}
+      - {id: C076, descricao: Healthchecks configurados, metodo: Compose + /api/health, critico: false, auto: {caso: {modulo: MOD-007, contem: "test_health_e_banco"}}}
       - {id: C077, descricao: Monitoramento e logs centralizáveis, metodo: Documento, critico: false}
       - {id: C078, descricao: Procedimento de rollback, metodo: Manual de publicação, critico: true, auto: {arquivo: "docs/MANUAL_PUBLICACAO.md"}}
       - {id: C079, descricao: Plano de recuperação de desastres, metodo: Documento, critico: false, auto: {arquivo: "docs/PLANO_CONTINUIDADE.md"}}
-      - {id: C080, descricao: Imagens construídas e ambiente subido via Compose, metodo: Log de docker compose up, critico: false}
+      - {id: C080, descricao: Imagens construídas e ambiente subido via Compose, metodo: Log de docker compose up, critico: false, auto: {caso: {modulo: MOD-007, contem: "verificar_ambiente"}}}
   - id: 9
     nome: Evidências e medição
     controles:
@@ -128,7 +130,7 @@ grupos:
       - {id: C086, descricao: Separação previsto / comprovado / aceito, metodo: medicao.json, critico: true, auto: {medicao: true}}
       - {id: C087, descricao: Nenhuma equivalência UST/PF/horas inventada, metodo: Revisão do Medidor, critico: true}
       - {id: C088, descricao: Capturas reais quando há interface, metodo: SCREENSHOTS/, critico: false}
-      - {id: C089, descricao: Auditoria de evidências executada, metodo: fabrica.py auditar, critico: true}
+      - {id: C089, descricao: Auditoria de evidências executada, metodo: fabrica.py auditar, critico: true, auto: {auditoria: true}}
       - {id: C090, descricao: Participação humana com origem registrada, metodo: RESPONSAVEIS.md, critico: true}
   - id: 10
     nome: Documentação e homologação
@@ -136,7 +138,7 @@ grupos:
       - {id: C091, descricao: README de execução local, metodo: Arquivo, critico: true, auto: {arquivo: "README.md"}}
       - {id: C092, descricao: Manual de publicação, metodo: Arquivo, critico: true, auto: {arquivo: "docs/MANUAL_PUBLICACAO.md"}}
       - {id: C093, descricao: Manual de operação e manutenção, metodo: Arquivo, critico: false, auto: {arquivo: "docs/MANUAL_OPERACAO.md"}}
-      - {id: C094, descricao: Documentação de API, metodo: OpenAPI, critico: false}
+      - {id: C094, descricao: Documentação de API, metodo: OpenAPI, critico: false, auto: {caso: {modulo: MOD-007, contem: "test_openapi_publicado"}}}
       - {id: C095, descricao: PREVIEW.md por módulo, metodo: Arquivo, critico: false, auto: {evidencia: "PREVIEW.md"}}
       - {id: C096, descricao: IMPLANTACAO.md por módulo, metodo: Arquivo, critico: false, auto: {evidencia: "IMPLANTACAO.md"}}
       - {id: C097, descricao: ACEITE.md com situação real, metodo: Arquivo, critico: true, auto: {evidencia: "ACEITE.md"}}

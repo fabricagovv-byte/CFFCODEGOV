@@ -1,0 +1,7 @@
+# Verificações humanas do checklist. Preencha SOMENTE o que uma pessoa verificou:
+# C003:
+#   resultado: APROVADO          # APROVADO | REPROVADO | NAO_APLICAVEL | NAO_VERIFICADO
+#   responsavel: "P01 - Nome"
+#   evidencia: "OS assinada nº ..."
+#   data: "2026-11-05"
+{}

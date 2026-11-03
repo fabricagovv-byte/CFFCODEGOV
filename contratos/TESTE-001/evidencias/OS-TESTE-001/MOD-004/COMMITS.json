@@ -1,0 +1,25 @@
+{
+  "fonte": "git log (gerado por fabrica.py evidencias commits)",
+  "gerado_em": "2026-11-02T23:10:46-03:00",
+  "caminhos": [
+    "projetos/gestao-documental/backend/app/routers/pesquisa.py",
+    "projetos/gestao-documental/backend/tests/test_mod004_pesquisa.py",
+    "projetos/gestao-documental/frontend/src/pages/Pesquisa.tsx",
+    "projetos/gestao-documental/frontend/src/pages/Pesquisa.test.tsx"
+  ],
+  "commits": [
+    {
+      "sha": "0ca859ef0740690a3e108bbbb19514ac00e891c3",
+      "autor": "Claude",
+      "email_autor": "noreply@anthropic.com",
+      "data": "2026-11-03T02:08:20+00:00",
+      "mensagem": "MOD-004: pesquisa por termos e filtros respeitando classificação",
+      "arquivos": [
+        "A\tprojetos/gestao-documental/backend/app/routers/pesquisa.py",
+        "A\tprojetos/gestao-documental/backend/tests/test_mod004_pesquisa.py",
+        "A\tprojetos/gestao-documental/frontend/src/pages/Pesquisa.test.tsx",
+        "A\tprojetos/gestao-documental/frontend/src/pages/Pesquisa.tsx"
+      ]
+    }
+  ]
+}
