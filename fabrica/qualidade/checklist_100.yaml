@@ -1,0 +1,145 @@
+# 100 controles de qualidade — 10 grupos x 10 controles.
+# Resultados possíveis: APROVADO | REPROVADO | NAO_APLICAVEL | NAO_VERIFICADO
+# critico: true  -> se REPROVADO, a entrega fica BLOQUEADA (fabrica.py checklist).
+# auto: verificação automática feita pela CLI. Sem "auto" = verificação humana
+#       (fica NAO_VERIFICADO até alguém registrar o resultado com evidência).
+#
+# Tipos de "auto":
+#   arquivo: <glob relativo ao projeto>       -> APROVADO se existir
+#   evidencia: <arquivo em cada módulo>       -> APROVADO se existir em todos os módulos
+#   testes: backend|frontend|fabrica          -> APROVADO se o último JUnit não tem falhas
+#   sem_segredos: true                        -> varre o projeto por padrões de segredo
+#   commits: true                             -> COMMITS.json de todo módulo aponta para commits reais do git
+#   medicao: true                             -> memória de cálculo existe e não há comprovado sem evidência
+
+grupos:
+  - id: 1
+    nome: Contrato e requisitos
+    controles:
+      - {id: C001, descricao: Documentos contratuais recebidos e registrados, metodo: Conferir pasta 01_EDITAL_CONTRATO e formulário, critico: true, auto: {arquivo: "contrato.yaml"}}
+      - {id: C002, descricao: Matriz de rastreabilidade com cláusula de origem, metodo: Conferir MATRIZ_RASTREABILIDADE.md, critico: true, auto: {arquivo: "MATRIZ_RASTREABILIDADE.md"}}
+      - {id: C003, descricao: Ordem de serviço autorizada por responsável do contratante, metodo: Verificar campo autorizacao na OS, critico: true}
+      - {id: C004, descricao: Escopo de cada módulo descrito, metodo: ESCOPO.md em cada módulo, critico: true, auto: {evidencia: "ESCOPO.md"}}
+      - {id: C005, descricao: Requisitos de cada módulo rastreados, metodo: REQUISITOS.md em cada módulo, critico: true, auto: {evidencia: "REQUISITOS.md"}}
+      - {id: C006, descricao: Critérios de aceite definidos por módulo, metodo: Seção de aceite no GEC, critico: false, auto: {arquivo: "GEC.md"}}
+      - {id: C007, descricao: Conflitos entre documentos registrados e encaminhados, metodo: Revisar matriz e AGENT_DECISIONS.md, critico: false}
+      - {id: C008, descricao: SLAs identificados e monitoráveis, metodo: Conferir matriz, critico: false}
+      - {id: C009, descricao: Exigências de equipe confrontadas com profissionais cadastrados, metodo: PROFISSIONAIS.csv x edital, critico: true}
+      - {id: C010, descricao: Legislação aplicável identificada para o ente contratante, metodo: Parecer do Analista de Editais, critico: false}
+  - id: 2
+    nome: Arquitetura
+    controles:
+      - {id: C011, descricao: Arquitetura documentada, metodo: ARQUITETURA.md, critico: true, auto: {evidencia: "ARQUITETURA.md"}}
+      - {id: C012, descricao: Tecnologias compatíveis com o contrato, metodo: Comparar stack x TR, critico: true}
+      - {id: C013, descricao: Contratos de API documentados (OpenAPI), metodo: /api/openapi.json gerado, critico: false, auto: {arquivo: "backend/app/main.py"}}
+      - {id: C014, descricao: Separação de camadas (rotas/serviços/modelos), metodo: Revisão de código, critico: false}
+      - {id: C015, descricao: Requisitos não funcionais endereçados, metodo: ARQUITETURA.md, critico: false}
+      - {id: C016, descricao: Decisões técnicas registradas, metodo: AGENT_DECISIONS.md, critico: false}
+      - {id: C017, descricao: Escalabilidade compatível com a demanda, metodo: Revisão do Arquiteto, critico: false}
+      - {id: C018, descricao: Configuração externa por variáveis de ambiente, metodo: .env.example presente, critico: false, auto: {arquivo: ".env.example"}}
+      - {id: C019, descricao: Dependências declaradas e versionadas, metodo: requirements/package.json, critico: false, auto: {arquivo: "backend/requirements.txt"}}
+      - {id: C020, descricao: Interoperabilidade (Lei 14.129/2021) avaliada quando aplicável, metodo: Revisão do Arquiteto, critico: false}
+  - id: 3
+    nome: Código-fonte
+    controles:
+      - {id: C021, descricao: Código existe no repositório, metodo: Arquivos versionados, critico: true, auto: {arquivo: "backend/app"}}
+      - {id: C022, descricao: Commits reais vinculados a cada módulo, metodo: COMMITS.json x git, critico: true, auto: {commits: true}}
+      - {id: C023, descricao: Tratamento de erros consistente, metodo: Revisão de código, critico: false}
+      - {id: C024, descricao: Validação de entradas em todas as APIs, metodo: Revisão + testes, critico: true}
+      - {id: C025, descricao: Sem duplicação relevante, metodo: Revisão de código, critico: false}
+      - {id: C026, descricao: Tipagem aplicada (Python hints / TypeScript), metodo: Revisão + tsc, critico: false, auto: {arquivo: "frontend/tsconfig.json"}}
+      - {id: C027, descricao: Logs estruturados sem dados sensíveis, metodo: Revisão, critico: false}
+      - {id: C028, descricao: Revisão independente registrada, metodo: REVISOES.md, critico: true, auto: {evidencia: "REVISOES.md"}}
+      - {id: C029, descricao: Padrão de código (lint) aplicado, metodo: Lint no CI, critico: false}
+      - {id: C030, descricao: Código-fonte entregável sem dependência de serviço proprietário não previsto, metodo: Revisão, critico: false}
+  - id: 4
+    nome: Banco de dados
+    controles:
+      - {id: C031, descricao: Migrações versionadas, metodo: Pasta de migrações, critico: true, auto: {arquivo: "backend/migrations/versions"}}
+      - {id: C032, descricao: Migração aplicada em banco real, metodo: Log de alembic upgrade, critico: true}
+      - {id: C033, descricao: Integridade referencial (FKs) definida, metodo: Revisão do modelo, critico: false}
+      - {id: C034, descricao: Índices para consultas frequentes, metodo: Revisão do modelo, critico: false}
+      - {id: C035, descricao: Usuário de aplicação com menor privilégio, metodo: Script de criação de papel, critico: false}
+      - {id: C036, descricao: Rotina de backup documentada, metodo: Script de backup, critico: true, auto: {arquivo: "infra/scripts/backup.sh"}}
+      - {id: C037, descricao: Restauração testada, metodo: Log de restauração, critico: true}
+      - {id: C038, descricao: Dicionário de dados, metodo: Documento do banco, critico: false}
+      - {id: C039, descricao: Dados de demonstração fictícios, metodo: Revisão do seed, critico: true}
+      - {id: C040, descricao: Retenção e expurgo definidos, metodo: Política documentada, critico: false}
+  - id: 5
+    nome: Segurança e LGPD
+    controles:
+      - {id: C041, descricao: Autenticação implementada e testada, metodo: Testes de auth, critico: true}
+      - {id: C042, descricao: Autorização por perfil (menor privilégio), metodo: Testes de permissão, critico: true}
+      - {id: C043, descricao: Senhas com hash forte (bcrypt/argon2), metodo: Revisão, critico: true}
+      - {id: C044, descricao: Nenhum segredo versionado, metodo: Varredura automática, critico: true, auto: {sem_segredos: true}}
+      - {id: C045, descricao: Trilha de auditoria de ações sensíveis, metodo: Testes de auditoria, critico: true}
+      - {id: C046, descricao: Inventário de dados pessoais e finalidade, metodo: SEGURANCA.md, critico: true, auto: {evidencia: "SEGURANCA.md"}}
+      - {id: C047, descricao: TLS em homologação/produção, metodo: Configuração do proxy, critico: true}
+      - {id: C048, descricao: Cabeçalhos de segurança HTTP, metodo: Teste automatizado, critico: false}
+      - {id: C049, descricao: Proteção contra força bruta no login, metodo: Teste automatizado, critico: false}
+      - {id: C050, descricao: Plano de resposta a incidentes, metodo: Documento, critico: false}
+  - id: 6
+    nome: Testes
+    controles:
+      - {id: C051, descricao: Testes automatizados de backend executados sem falhas, metodo: JUnit XML, critico: true, auto: {testes: backend}}
+      - {id: C052, descricao: Testes de frontend executados sem falhas, metodo: JUnit XML, critico: true, auto: {testes: frontend}}
+      - {id: C053, descricao: Resultados registrados por módulo, metodo: TESTES.json, critico: true, auto: {evidencia: "TESTES.json"}}
+      - {id: C054, descricao: Logs de execução de testes anexados, metodo: LOGS_TESTES/, critico: true, auto: {evidencia: "LOGS_TESTES"}}
+      - {id: C055, descricao: Testes de API cobrem casos de erro, metodo: Revisão dos testes, critico: false}
+      - {id: C056, descricao: Testes de regressão no CI, metodo: Workflow de CI, critico: false, auto: {arquivo: "../../.github/workflows/ci.yml"}}
+      - {id: C057, descricao: Testes contra banco igual ao de produção (PostgreSQL), metodo: Log de execução, critico: false}
+      - {id: C058, descricao: Defeitos registrados e reexecutados, metodo: Quadro de tarefas, critico: false}
+      - {id: C059, descricao: Testes de interface (E2E/captura), metodo: SCREENSHOTS/, critico: false}
+      - {id: C060, descricao: Ferramenta da fábrica testada, metodo: JUnit XML, critico: false, auto: {testes: fabrica}}
+  - id: 7
+    nome: Desempenho
+    controles:
+      - {id: C061, descricao: Paginação em listagens, metodo: Revisão das APIs, critico: false}
+      - {id: C062, descricao: Limite de tamanho de upload, metodo: Teste automatizado, critico: true}
+      - {id: C063, descricao: Consultas indexadas, metodo: EXPLAIN em banco real, critico: false}
+      - {id: C064, descricao: Tempo de resposta medido, metodo: Teste de carga, critico: false}
+      - {id: C065, descricao: Build de frontend otimizado, metodo: vite build, critico: false}
+      - {id: C066, descricao: Compressão e cache de estáticos, metodo: Configuração nginx, critico: false}
+      - {id: C067, descricao: Pool de conexões configurado, metodo: Revisão, critico: false}
+      - {id: C068, descricao: Arquivos armazenados fora do banco, metodo: Revisão, critico: false}
+      - {id: C069, descricao: Capacidade estimada documentada, metodo: ARQUITETURA.md, critico: false}
+      - {id: C070, descricao: Teste de carga executado quando exigido, metodo: Relatório de carga, critico: false}
+  - id: 8
+    nome: Infraestrutura
+    controles:
+      - {id: C071, descricao: Dockerfiles presentes, metodo: Arquivos, critico: true, auto: {arquivo: "backend/Dockerfile"}}
+      - {id: C072, descricao: Docker Compose do ambiente, metodo: Arquivo, critico: true, auto: {arquivo: "docker-compose.yml"}}
+      - {id: C073, descricao: Pipeline CI/CD, metodo: Workflow, critico: false, auto: {arquivo: "../../.github/workflows/ci.yml"}}
+      - {id: C074, descricao: Ambientes dev/homologação/produção separados, metodo: Arquivos de ambiente, critico: false}
+      - {id: C075, descricao: Proxy reverso com TLS documentado, metodo: infra/nginx, critico: true, auto: {arquivo: "infra/nginx"}}
+      - {id: C076, descricao: Healthchecks configurados, metodo: Compose + /api/health, critico: false}
+      - {id: C077, descricao: Monitoramento e logs centralizáveis, metodo: Documento, critico: false}
+      - {id: C078, descricao: Procedimento de rollback, metodo: Manual de publicação, critico: true, auto: {arquivo: "docs/MANUAL_PUBLICACAO.md"}}
+      - {id: C079, descricao: Plano de recuperação de desastres, metodo: Documento, critico: false, auto: {arquivo: "docs/PLANO_CONTINUIDADE.md"}}
+      - {id: C080, descricao: Imagens construídas e ambiente subido via Compose, metodo: Log de docker compose up, critico: false}
+  - id: 9
+    nome: Evidências e medição
+    controles:
+      - {id: C081, descricao: Pasta de evidências por módulo, metodo: evidencias/OS/MOD, critico: true, auto: {evidencia: "ESCOPO.md"}}
+      - {id: C082, descricao: CODIGO_ALTERADO.md por módulo, metodo: Arquivo, critico: true, auto: {evidencia: "CODIGO_ALTERADO.md"}}
+      - {id: C083, descricao: COMMITS.json por módulo, metodo: Arquivo, critico: true, auto: {evidencia: "COMMITS.json"}}
+      - {id: C084, descricao: Responsáveis humanos registrados, metodo: RESPONSAVEIS.md, critico: true, auto: {evidencia: "RESPONSAVEIS.md"}}
+      - {id: C085, descricao: Memória de cálculo da medição, metodo: MEDICAO.md + medicao.json, critico: true, auto: {medicao: true}}
+      - {id: C086, descricao: Separação previsto / comprovado / aceito, metodo: medicao.json, critico: true, auto: {medicao: true}}
+      - {id: C087, descricao: Nenhuma equivalência UST/PF/horas inventada, metodo: Revisão do Medidor, critico: true}
+      - {id: C088, descricao: Capturas reais quando há interface, metodo: SCREENSHOTS/, critico: false}
+      - {id: C089, descricao: Auditoria de evidências executada, metodo: fabrica.py auditar, critico: true}
+      - {id: C090, descricao: Participação humana com origem registrada, metodo: RESPONSAVEIS.md, critico: true}
+  - id: 10
+    nome: Documentação e homologação
+    controles:
+      - {id: C091, descricao: README de execução local, metodo: Arquivo, critico: true, auto: {arquivo: "README.md"}}
+      - {id: C092, descricao: Manual de publicação, metodo: Arquivo, critico: true, auto: {arquivo: "docs/MANUAL_PUBLICACAO.md"}}
+      - {id: C093, descricao: Manual de operação e manutenção, metodo: Arquivo, critico: false, auto: {arquivo: "docs/MANUAL_OPERACAO.md"}}
+      - {id: C094, descricao: Documentação de API, metodo: OpenAPI, critico: false}
+      - {id: C095, descricao: PREVIEW.md por módulo, metodo: Arquivo, critico: false, auto: {evidencia: "PREVIEW.md"}}
+      - {id: C096, descricao: IMPLANTACAO.md por módulo, metodo: Arquivo, critico: false, auto: {evidencia: "IMPLANTACAO.md"}}
+      - {id: C097, descricao: ACEITE.md com situação real, metodo: Arquivo, critico: true, auto: {evidencia: "ACEITE.md"}}
+      - {id: C098, descricao: Checklist de homologação preparado, metodo: Homologador, critico: false}
+      - {id: C099, descricao: Aprovação humana técnica registrada, metodo: RESPONSAVEIS.md / ACEITE.md, critico: true}
+      - {id: C100, descricao: Aceite formal do contratante (não confundir com aprovação técnica), metodo: Termo de recebimento do órgão, critico: false}

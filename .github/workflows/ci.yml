@@ -1,0 +1,61 @@
+name: CI
+on:
+  push:
+  pull_request:
+permissions:
+  contents: read
+jobs:
+  fabrica:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with: {python-version: "3.13"}
+      - run: pip install pyyaml pytest
+      - run: python -m pytest fabrica/ferramentas/tests -q
+      - run: python fabrica/ferramentas/fabrica.py agentes verificar
+      - run: python fabrica/ferramentas/fabrica.py tarefas validar
+
+  backend:
+    runs-on: ubuntu-latest
+    services:
+      postgres:
+        image: postgres:16-alpine
+        env: {POSTGRES_USER: ci, POSTGRES_PASSWORD: ci, POSTGRES_DB: ci}
+        ports: ["5432:5432"]
+        options: --health-cmd "pg_isready -U ci" --health-interval 5s --health-retries 10
+    defaults: {run: {working-directory: projetos/gestao-documental/backend}}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with: {python-version: "3.13"}
+      - run: pip install -r requirements-dev.txt
+      - name: Testes (SQLite)
+        run: python -m pytest -q
+      - name: Testes (PostgreSQL + migrações)
+        run: python -m pytest -q
+        env: {TEST_DATABASE_URL: "postgresql+psycopg2://ci:ci@localhost:5432/ci"}
+      - name: Migrações sincronizadas com o modelo
+        run: python -m alembic check
+        env: {DATABASE_URL: "postgresql+psycopg2://ci:ci@localhost:5432/ci"}
+
+  frontend:
+    runs-on: ubuntu-latest
+    defaults: {run: {working-directory: projetos/gestao-documental/frontend}}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with: {node-version: "22", cache: npm, cache-dependency-path: projetos/gestao-documental/frontend/package-lock.json}
+      - run: npm ci
+      - run: npm test
+      - run: npm run build
+
+  docker:
+    runs-on: ubuntu-latest
+    defaults: {run: {working-directory: projetos/gestao-documental}}
+    steps:
+      - uses: actions/checkout@v4
+      - run: docker compose -f docker-compose.yml -f docker-compose.prod.yml config -q
+        env: {POSTGRES_PASSWORD: x, JWT_SECRET: x, DOMINIO: exemplo.gov.br}
+      - run: docker compose build
+        env: {POSTGRES_PASSWORD: x, JWT_SECRET: x}

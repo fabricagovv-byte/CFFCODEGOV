@@ -1,0 +1,90 @@
+# AGENTS.md — Fábrica de Software Governamental
+
+Instruções permanentes para agentes de código (OpenAI Codex, Claude Code e compatíveis) neste repositório.
+Idioma de trabalho: **português do Brasil**.
+
+## O que é este repositório
+
+Uma fábrica de software para contratos públicos de TI (desenvolvimento, manutenção, sustentação). Ela organiza
+40 agentes de IA (20 da Fábrica Governamental `G01–G20` + 20 do time de Engenharia `E01–E20`), profissionais
+humanos reais, contratos, ordens de serviço (OS), evidências, medição (UST/PF), relatórios e entregas.
+
+| Pasta | Conteúdo |
+|---|---|
+| `fabrica/agentes/registry.yaml` | **Fonte única** dos 40 agentes (função, responsabilidades, ferramentas, comunicação) |
+| `fabrica/docs/EQUIPE_AGENTES.md` | Tabela da equipe (gerada) |
+| `fabrica/ferramentas/fabrica.py` | CLI: quadro de tarefas, mensagens, evidências, testes, auditoria, medição, checklist, relatórios, entrega |
+| `fabrica/comunicacao/` | `AGENT_TASKS.json`, `AGENT_MESSAGES.jsonl`, `AGENT_DECISIONS.md`, `AGENT_HANDOFFS.md`, `AGENT_BLOCKERS.md` |
+| `fabrica/qualidade/checklist_100.yaml` | 100 controles de qualidade (10 grupos × 10) |
+| `fabrica/templates/` | Formulário do contrato, CSVs (profissionais, participações, tabela UST, produção histórica), GEC, modelos de evidência |
+| `fabrica/docs/` | Guias: passo a passo, o que enviar, medição UST, linguagens |
+| `fabrica/legislacao/REFERENCIAS.md` | Leis e normas de referência e como verificar aplicabilidade |
+| `contratos/<ID>/` | Um contrato: formulário, matriz, GEC, OS, evidências, medições, relatórios, checklist, entregas |
+| `projetos/<nome>/` | Código-fonte dos sistemas (ex.: `projetos/gestao-documental`, OS TESTE-001) |
+| `.claude/agents/`, `.claude/skills/` | Agentes e comandos no formato do Claude Code (gerados/definidos aqui) |
+
+## Regras inegociáveis
+
+1. **Nada inventado.** Commits vêm do `git`; testes, de execuções reais (JUnit/log); participação humana, horas, revisões, aprovações e aceites, somente de registros preenchidos por pessoas. Sem registro = "sem registro".
+2. **Diferencie** PLANEJADO, INICIADO, EXECUTADO, VERIFICADO e ACEITO. Aprovação técnica automatizada **não** é aceite do contratante.
+3. **UST ≠ PF ≠ horas.** Não converta sem fórmula escrita no contrato. Linhas de código não comprovam quantidade faturável.
+4. **Autorização:** não execute OS sem `autorizacao.autorizado: true` + `autorizado_por` + `data` no YAML da OS. Não publique em produção sem `pode_publicar_producao: true` e confirmação humana na conversa.
+5. **Skills externas** são fornecidas pelo usuário. Não pesquise nem instale skills externas por conta própria.
+6. **Segurança desde a concepção:** sem segredos no git (`.env` fora do versionamento), menor privilégio, auditoria, dados fictícios em demonstrações, LGPD.
+7. **Documentos contratuais primeiro:** leia edital/TR/contrato antes de planejar; cite cláusula/página; conflitos vão para análise humana.
+8. **Legislação:** verifique o ente, o regime e a data antes de afirmar aplicabilidade (ver `fabrica/legislacao/REFERENCIAS.md`). Não declare certificação/conformidade integral sem evidência.
+
+## Como os agentes trabalham juntos
+
+- Toda atividade é uma tarefa no quadro, criada/movida **pela CLI** (nunca edite o JSON à mão):
+  `python3 fabrica/ferramentas/fabrica.py tarefas criar|mover|listar|validar`.
+- Estados: `BACKLOG → READY → IN_PROGRESS → IN_REVIEW → TESTING → DONE`, com `BLOCKED` a partir de qualquer estado ativo.
+  A CLI recusa: dependência não concluída, **arquivo reservado por outra tarefa IN_PROGRESS** (evita conflito), bloqueio sem motivo, DONE sem resultado/evidência existente.
+- Comunicação: `fabrica.py msg`, `decisao`, `handoff`, `bloqueio` (gravam nos arquivos de `fabrica/comunicacao/`).
+- Dois agentes no mesmo arquivo ao mesmo tempo: use branches ou `git worktree` separados e integre pelo Tech Lead (E02).
+- Fluxo hierárquico: G01 Diretor recebe → G02 lê o edital → G04 planeja (GEC) → G05/E03 arquitetura → E02 Tech Lead quebra em tarefas → E04/E08 distribuem → devs implementam → G12/G13/G10 verificam → G17 audita → G15/G16 medem → G19 relata → G20 prepara homologação → **humano aprova**.
+
+## Fluxo obrigatório por módulo (15 passos)
+
+1 requisitos → 2 arquitetura → 3 tarefas → 4 distribuição → 5 código → 6 integração → 7 testes → 8 correções →
+9 revisão de código → 10 segurança → 11 commits → 12 documentação → 13 preview → 14 evidências → 15 aprovação humana.
+
+Evidências obrigatórias por módulo em `contratos/<C>/evidencias/<OS>/<MOD>/`:
+`ESCOPO.md REQUISITOS.md ARQUITETURA.md CODIGO_ALTERADO.md COMMITS.json TESTES.json LOGS_TESTES/ SEGURANCA.md PREVIEW.md SCREENSHOTS/ REVISOES.md RESPONSAVEIS.md MEDICAO.md IMPLANTACAO.md ACEITE.md`.
+
+## Comandos operacionais
+
+Cada comando tem uma skill em `.claude/skills/<nome>/SKILL.md` (Codex: leia o arquivo correspondente e siga-o).
+
+| Comando | Skill | Principais chamadas da CLI |
+|---|---|---|
+| INICIAR FÁBRICA / INICIAR EQUIPE | `iniciar-fabrica` | `agentes gerar`, `iniciar`, `painel` |
+| NOVO CONTRATO | `novo-contrato` (+ `analisar-edital`) | `contrato novo`, `contrato faltantes` |
+| PLANEJAR CONTRATO / PLANEJAR PROJETO | `planejar-contrato` | `tarefas criar`, `tarefas validar` |
+| EXECUTAR OS / INICIAR DESENVOLVIMENTO | `executar-os` | `tarefas mover`, `testes executar` |
+| VERIFICAR CÓDIGO / REVISAR CÓDIGO / EXECUTAR TESTES | `verificar-codigo` | `testes executar` |
+| AUDITAR EVIDÊNCIAS / AUDITAR MÓDULO | `auditar-evidencias` | `evidencias commits`, `auditar` |
+| MEDIR PRODUÇÃO | `medir-producao` | `medir`, `producao estatisticas` |
+| RELATÓRIO DIÁRIO / GERAR RELATÓRIO | `relatorio-diario` | `relatorio diario|semanal|mensal|profissional` |
+| GERAR PREVIEW | `gerar-preview` | `node fabrica/ferramentas/capturar_telas.cjs` |
+| PREPARAR ENTREGA | `preparar-entrega` | `checklist`, `entrega` |
+| PREPARAR PUBLICAÇÃO | `preparar-publicacao` | — (manual de publicação do projeto) |
+| PUBLICAR PRODUÇÃO | `publicar-producao` | exige autorização humana |
+| Produção diária automática | `producao-diaria` | todas as anteriores, sem publicar |
+
+## Verificações antes de concluir qualquer trabalho
+
+```bash
+python3 fabrica/ferramentas/fabrica.py iniciar
+python3 -m pytest fabrica/ferramentas/tests -q
+(cd projetos/gestao-documental/backend && python3 -m pytest -q)
+(cd projetos/gestao-documental/frontend && npm ci && npm test && npm run build)
+python3 fabrica/ferramentas/fabrica.py tarefas validar
+```
+
+## Padrões de código
+
+Código limpo e modular; tipagem (type hints / TypeScript strict); tratamento de erros explícito; testes automatizados por módulo
+(nome `test_modNNN_*.py` / `*.test.tsx`); migrações versionadas; logs sem dados pessoais desnecessários; acessibilidade (rótulos, foco,
+contraste, `role=alert`); configuração por variáveis de ambiente; mensagens de commit no formato `MOD-NNN: descrição` ou `fabrica: descrição`.
+Stack padrão quando o contrato não exigir outra: ver `fabrica/docs/LINGUAGENS.md`.

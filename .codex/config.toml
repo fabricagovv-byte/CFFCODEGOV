@@ -1,0 +1,8 @@
+# Configuração de projeto para o OpenAI Codex CLI.
+# As instruções da fábrica estão em AGENTS.md (lido automaticamente pelo Codex).
+# Ajuste os valores à versão do Codex instalada; chaves desconhecidas são ignoradas ou rejeitadas conforme a versão.
+approval_policy = "on-request"
+sandbox_mode = "workspace-write"
+
+[sandbox_workspace_write]
+network_access = false
