@@ -1,0 +1,5 @@
+perfil,descricao,valor_hora,fator_ust_por_hora,referencia
+ANALISTA_REQUISITOS,Analista de requisitos (FICTÍCIO),110.00,1.2,Tabela fictícia de demonstração
+DESENVOLVEDOR_SENIOR,Desenvolvedor sênior (FICTÍCIO),130.00,1.3,Tabela fictícia de demonstração
+DESENVOLVEDOR_PLENO,Desenvolvedor pleno (FICTÍCIO),95.00,1.0,Tabela fictícia de demonstração
+ANALISTA_TESTES,Analista de testes (FICTÍCIO),85.00,0.9,Tabela fictícia de demonstração

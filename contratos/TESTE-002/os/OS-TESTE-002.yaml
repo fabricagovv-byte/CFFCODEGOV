@@ -1,0 +1,131 @@
+# OS gerada do PLANEJAMENTO.csv (projeto ATENDIMENTO) e completada com caminhos, testes e autorização.
+# Rode com TEST_DATABASE_URL apontando para PostgreSQL para testar no banco real.
+os: OS-TESTE-002
+contrato: TESTE-002
+titulo: Projeto ATENDIMENTO — interessados e protocolos
+projeto: projetos/gestao-documental
+autorizacao:
+  autorizado: true
+  autorizado_por: 'solicitante da sessão Claude Code (pedido de 03/11/2026: ''fazer
+    realmente, gerar o código'')'
+  data: '2026-11-03'
+  documento: Conversa da sessão — OS fictícia de demonstração
+modulos:
+- id: MOD-100
+  nome: Base modular para cadastros
+  area: BACKEND
+  servicos:
+  - codigo: SRV-BASE
+    quantidade: 1.0
+  tem_interface: false
+  caminhos:
+  - backend/app/modulos/__init__.py
+  - backend/app/modulos/validadores.py
+  - backend/app/main.py
+  - backend/app/deps.py
+  - backend/migrations/env.py
+  - backend/tests/conftest.py
+  - backend/tests/test_mod100_base_modular.py
+  - frontend/src/App.tsx
+  testes:
+  - nome: backend
+    cwd: backend
+    cmd:
+    - python3
+    - -m
+    - pytest
+    - tests/test_mod100_base_modular.py
+    - -v
+    - --junitxml={junit}
+  - nome: migracoes-sincronizadas
+    tipo: comando
+    cwd: backend
+    cmd:
+    - sh
+    - -c
+    - rm -f .check.db && DATABASE_URL=sqlite:///./.check.db python3 -m alembic upgrade
+      head && DATABASE_URL=sqlite:///./.check.db python3 -m alembic check; s=$?; rm
+      -f .check.db; exit $s
+  - nome: typecheck-build
+    tipo: comando
+    cwd: frontend
+    cmd:
+    - npm
+    - run
+    - build
+  - nome: regressao-backend-completa
+    cwd: backend
+    cmd:
+    - python3
+    - -m
+    - pytest
+    - -q
+    - --junitxml={junit}
+- id: MOD-101
+  nome: Cadastro de interessados
+  area: BACKEND
+  servicos:
+  - codigo: SRV-CRUD-M
+    quantidade: 1.0
+  tem_interface: true
+  caminhos:
+  - backend/app/modulos/interessados
+  - backend/migrations/versions/0003_interessados.py
+  - backend/tests/test_mod101_interessados.py
+  - frontend/src/modulos/interessados
+  - especificacoes/interessados.yaml
+  testes:
+  - nome: backend
+    cwd: backend
+    cmd:
+    - python3
+    - -m
+    - pytest
+    - tests/test_mod101_interessados.py
+    - -v
+    - --junitxml={junit}
+  - nome: frontend
+    cwd: frontend
+    cmd:
+    - npx
+    - vitest
+    - run
+    - src/modulos/interessados/InteressadoPagina.test.tsx
+    - --reporter=default
+    - --reporter=junit
+    - --outputFile.junit={junit}
+- id: MOD-102
+  nome: Cadastro de protocolos
+  area: BACKEND
+  servicos:
+  - codigo: SRV-CRUD-A
+    quantidade: 1.0
+  tem_interface: true
+  caminhos:
+  - backend/app/modulos/protocolos
+  - backend/migrations/versions/0004_protocolos.py
+  - backend/tests/test_mod102_protocolos.py
+  - frontend/src/modulos/protocolos
+  - especificacoes/protocolos.yaml
+  testes:
+  - nome: backend
+    cwd: backend
+    cmd:
+    - python3
+    - -m
+    - pytest
+    - tests/test_mod102_protocolos.py
+    - -v
+    - --junitxml={junit}
+  - nome: frontend
+    cwd: frontend
+    cmd:
+    - npx
+    - vitest
+    - run
+    - src/modulos/protocolos/ProtocoloPagina.test.tsx
+    - --reporter=default
+    - --reporter=junit
+    - --outputFile.junit={junit}
+aviso_medicao: UST FICTÍCIAS — catálogo, perfis e valores de demonstração; sem valor
+  para faturamento.

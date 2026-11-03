@@ -1,0 +1,11 @@
+codigo,servico,complexidade,perfil,horas,ust,referencia
+SRV-BASE,Estrutura base de módulos (FICTÍCIO),MEDIA,DESENVOLVEDOR_SENIOR,8,,Catálogo fictício item 1
+SRV-BASE,Estrutura base de módulos (FICTÍCIO),MEDIA,ANALISTA_TESTES,2,,Catálogo fictício item 1
+SRV-CRUD-M,Cadastro completo média complexidade (FICTÍCIO),MEDIA,ANALISTA_REQUISITOS,4,,Catálogo fictício item 2
+SRV-CRUD-M,Cadastro completo média complexidade (FICTÍCIO),MEDIA,DESENVOLVEDOR_PLENO,16,,Catálogo fictício item 2
+SRV-CRUD-M,Cadastro completo média complexidade (FICTÍCIO),MEDIA,ANALISTA_TESTES,4,,Catálogo fictício item 2
+SRV-CRUD-A,Cadastro completo alta complexidade com relacionamentos (FICTÍCIO),ALTA,ANALISTA_REQUISITOS,6,,Catálogo fictício item 3
+SRV-CRUD-A,Cadastro completo alta complexidade com relacionamentos (FICTÍCIO),ALTA,DESENVOLVEDOR_SENIOR,24,,Catálogo fictício item 3
+SRV-CRUD-A,Cadastro completo alta complexidade com relacionamentos (FICTÍCIO),ALTA,ANALISTA_TESTES,6,,Catálogo fictício item 3
+SRV-REL,Relatório gerencial com filtros (FICTÍCIO),MEDIA,DESENVOLVEDOR_PLENO,12,,Catálogo fictício item 4
+SRV-REL,Relatório gerencial com filtros (FICTÍCIO),MEDIA,ANALISTA_TESTES,3,,Catálogo fictício item 4

@@ -1,0 +1,56 @@
+# CONTRATO FICTÍCIO DE DEMONSTRAÇÃO — perfis, valores e catálogo inventados para teste.
+id: TESTE-002
+contratante:
+  orgao: Órgão Fictício de Demonstração
+  esfera: municipal
+  cnpj: ''
+  gestor_contrato: ''
+  fiscal_tecnico: ''
+contrato:
+  numero: TESTE-002
+  processo: ''
+  edital: ''
+  modalidade_licitacao: ''
+  regime_juridico: Lei 14.133/2021 (simulação)
+  objeto: Atendimento ao cidadão e protocolo (demonstração da fábrica — FICTÍCIO)
+  vigencia_inicio: '2026-11-03'
+  vigencia_fim: '2027-03-31'
+  prazo_execucao: ''
+  valor_global: ''
+  aditivos: []
+ordens_servico: []
+medicao:
+  modalidade: UST
+  metodologia: Catálogo de serviços × perfis × horas (FICTÍCIO)
+  valor_unitario: ''
+  quantidade_contratada: 300 UST
+  tabela: TABELA_UST.csv
+  regra_medicao_parcial: ''
+  glosas_e_sla: ''
+  formula: HORAS_X_FATOR
+criterios_aceite: []
+equipe:
+  profissionais: PROFISSIONAIS.csv
+  exigencias_edital: []
+  preposto: ''
+tecnico:
+  tecnologias_obrigatorias:
+  - React
+  - FastAPI
+  - PostgreSQL
+  tecnologias_vedadas: []
+  repositorio: github.com/fabricagovv-byte/cffcodegov
+  banco_de_dados: PostgreSQL 16
+  infraestrutura: ''
+  integracoes: []
+  ambiente_homologacao: ''
+  ambiente_producao: ''
+  requisitos_seguranca: []
+  acessibilidade: ''
+autorizacao_execucao:
+  autorizado: true
+  autorizado_por: 'solicitante da sessão Claude Code (pedido de 03/11/2026: ''fazer
+    realmente, gerar o código'')'
+  data: '2026-11-03'
+  documento: Conversa da sessão — OS fictícia de demonstração
+  pode_publicar_producao: false

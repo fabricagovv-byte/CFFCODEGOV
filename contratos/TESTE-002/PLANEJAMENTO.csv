@@ -1,0 +1,6 @@
+projeto,modulo,nome,area,servico,quantidade,inicio,fim,responsavel,prioridade,observacao
+ATENDIMENTO,MOD-100,Base modular para cadastros,BACKEND,SRV-BASE,1,2026-11-03,2026-11-03,,ALTA,habilita os módulos gerados
+ATENDIMENTO,MOD-101,Cadastro de interessados,BACKEND,SRV-CRUD-M,1,2026-11-03,2026-11-04,,ALTA,CPF/CNPJ validado; dado pessoal
+ATENDIMENTO,MOD-102,Cadastro de protocolos,BACKEND,SRV-CRUD-A,1,2026-11-03,2026-11-06,,ALTA,relacionado a interessados
+RELATORIOS,MOD-201,Relatório de protocolos por período,FRONTEND,SRV-REL,1,2026-11-09,2026-11-11,,MEDIA,planejado (não executado)
+RELATORIOS,MOD-202,Relatório de atendimento por canal,FRONTEND,SRV-REL,1,2026-11-10,2026-11-12,,MEDIA,planejado (não executado)

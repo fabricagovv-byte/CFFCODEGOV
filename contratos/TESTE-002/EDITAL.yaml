@@ -1,0 +1,4 @@
+# TESTE-002 (FICTÍCIO): exigências de demonstração.
+relatorios_exigidos: [abertura, diario, fechamento, semanal, mensal, planejamento]
+medicao: {unidade: UST}
+tecnologias_exigidas: [{nome: React, origem: "demonstração"}, {nome: FastAPI, origem: "demonstração"}, {nome: PostgreSQL, origem: "demonstração"}]

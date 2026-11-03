@@ -1,0 +1,138 @@
+{
+  "gerado_em": "2026-11-03T00:58:53-03:00",
+  "alertas": [
+    "Perfil ANALISTA_REQUISITOS: sem pessoa no perfil (10 h planejadas, 0 h disponíveis)",
+    "Perfil ANALISTA_TESTES: sem pessoa no perfil (18 h planejadas, 0 h disponíveis)",
+    "Perfil DESENVOLVEDOR_PLENO: sem pessoa no perfil (40 h planejadas, 0 h disponíveis)",
+    "Perfil DESENVOLVEDOR_SENIOR: sem pessoa no perfil (32 h planejadas, 0 h disponíveis)"
+  ],
+  "totais": {
+    "quantidade": 109.79999999999998,
+    "horas": 100.0,
+    "valor": 10590.0
+  },
+  "linhas": [
+    {
+      "projeto": "ATENDIMENTO",
+      "modulo": "MOD-100",
+      "nome": "Base modular para cadastros",
+      "area": "BACKEND",
+      "servico": "SRV-BASE",
+      "quantidade": 12.2,
+      "inicio": "2026-11-03",
+      "fim": "2026-11-03",
+      "responsavel": "",
+      "prioridade": "ALTA",
+      "observacao": "habilita os módulos gerados",
+      "formula": "HORAS_X_FATOR",
+      "horas_por_perfil": {
+        "DESENVOLVEDOR_SENIOR": 8.0,
+        "ANALISTA_TESTES": 2.0
+      },
+      "horas": 10.0,
+      "valor": 1210.0,
+      "memoria": "SRV-BASE × 1 (Estrutura base de módulos (FICTÍCIO); Catálogo fictício item 1)",
+      "ini": "2026-11-03",
+      "fim_d": "2026-11-03",
+      "dias": 1
+    },
+    {
+      "projeto": "ATENDIMENTO",
+      "modulo": "MOD-101",
+      "nome": "Cadastro de interessados",
+      "area": "BACKEND",
+      "servico": "SRV-CRUD-M",
+      "quantidade": 24.4,
+      "inicio": "2026-11-03",
+      "fim": "2026-11-04",
+      "responsavel": "",
+      "prioridade": "ALTA",
+      "observacao": "CPF/CNPJ validado; dado pessoal",
+      "formula": "HORAS_X_FATOR",
+      "horas_por_perfil": {
+        "ANALISTA_REQUISITOS": 4.0,
+        "DESENVOLVEDOR_PLENO": 16.0,
+        "ANALISTA_TESTES": 4.0
+      },
+      "horas": 24.0,
+      "valor": 2300.0,
+      "memoria": "SRV-CRUD-M × 1 (Cadastro completo média complexidade (FICTÍCIO); Catálogo fictício item 2)",
+      "ini": "2026-11-03",
+      "fim_d": "2026-11-04",
+      "dias": 2
+    },
+    {
+      "projeto": "ATENDIMENTO",
+      "modulo": "MOD-102",
+      "nome": "Cadastro de protocolos",
+      "area": "BACKEND",
+      "servico": "SRV-CRUD-A",
+      "quantidade": 43.8,
+      "inicio": "2026-11-03",
+      "fim": "2026-11-06",
+      "responsavel": "",
+      "prioridade": "ALTA",
+      "observacao": "relacionado a interessados",
+      "formula": "HORAS_X_FATOR",
+      "horas_por_perfil": {
+        "ANALISTA_REQUISITOS": 6.0,
+        "DESENVOLVEDOR_SENIOR": 24.0,
+        "ANALISTA_TESTES": 6.0
+      },
+      "horas": 36.0,
+      "valor": 4290.0,
+      "memoria": "SRV-CRUD-A × 1 (Cadastro completo alta complexidade com relacionamentos (FICTÍCIO); Catálogo fictício item 3)",
+      "ini": "2026-11-03",
+      "fim_d": "2026-11-06",
+      "dias": 4
+    },
+    {
+      "projeto": "RELATORIOS",
+      "modulo": "MOD-201",
+      "nome": "Relatório de protocolos por período",
+      "area": "FRONTEND",
+      "servico": "SRV-REL",
+      "quantidade": 14.7,
+      "inicio": "2026-11-09",
+      "fim": "2026-11-11",
+      "responsavel": "",
+      "prioridade": "MEDIA",
+      "observacao": "planejado (não executado)",
+      "formula": "HORAS_X_FATOR",
+      "horas_por_perfil": {
+        "DESENVOLVEDOR_PLENO": 12.0,
+        "ANALISTA_TESTES": 3.0
+      },
+      "horas": 15.0,
+      "valor": 1395.0,
+      "memoria": "SRV-REL × 1 (Relatório gerencial com filtros (FICTÍCIO); Catálogo fictício item 4)",
+      "ini": "2026-11-09",
+      "fim_d": "2026-11-11",
+      "dias": 3
+    },
+    {
+      "projeto": "RELATORIOS",
+      "modulo": "MOD-202",
+      "nome": "Relatório de atendimento por canal",
+      "area": "FRONTEND",
+      "servico": "SRV-REL",
+      "quantidade": 14.7,
+      "inicio": "2026-11-10",
+      "fim": "2026-11-12",
+      "responsavel": "",
+      "prioridade": "MEDIA",
+      "observacao": "planejado (não executado)",
+      "formula": "HORAS_X_FATOR",
+      "horas_por_perfil": {
+        "DESENVOLVEDOR_PLENO": 12.0,
+        "ANALISTA_TESTES": 3.0
+      },
+      "horas": 15.0,
+      "valor": 1395.0,
+      "memoria": "SRV-REL × 1 (Relatório gerencial com filtros (FICTÍCIO); Catálogo fictício item 4)",
+      "ini": "2026-11-10",
+      "fim_d": "2026-11-12",
+      "dias": 3
+    }
+  ]
+}
