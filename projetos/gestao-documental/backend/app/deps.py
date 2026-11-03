@@ -48,5 +48,14 @@ def exigir(permissao: str) -> Callable[[Usuario], Usuario]:
     return _dep
 
 
+def exigir_perfil(*perfis: str) -> Callable[[Usuario], Usuario]:
+    """Permite só os perfis informados (usado pelos módulos gerados)."""
+    def _dep(u: Usuario = Depends(usuario_atual)) -> Usuario:
+        if u.perfil not in perfis:
+            raise HTTPException(status.HTTP_403_FORBIDDEN, "Permissão insuficiente")
+        return u
+    return _dep
+
+
 def agora_utc() -> datetime:
     return datetime.now(timezone.utc)

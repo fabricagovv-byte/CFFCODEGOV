@@ -2,11 +2,13 @@ from alembic import context
 from sqlalchemy import engine_from_config, pool
 
 from app import models  # noqa: F401  (registra tabelas)
+from app.modulos import carregar_modelos
 from app.config import config as app_config
 from app.db import Base
 
 cfg = context.config
 cfg.set_main_option("sqlalchemy.url", app_config.database_url.replace("%", "%%"))
+carregar_modelos()  # tabelas dos módulos gerados
 target_metadata = Base.metadata
 
 

@@ -28,7 +28,8 @@ from app.security import hash_senha, limitador  # noqa: E402
 
 SENHA = "SenhaForte123"
 EH_PG = engine.dialect.name == "postgresql"
-TABELAS = ["auditoria", "arquivos", "documentos", "tokens_revogados", "tokens_recuperacao", "usuarios"]
+# Todas as tabelas, inclusive as dos módulos gerados (ordem segura para limpeza)
+TABELAS = [t.name for t in reversed(Base.metadata.sorted_tables)]
 
 
 @pytest.fixture(scope="session", autouse=True)

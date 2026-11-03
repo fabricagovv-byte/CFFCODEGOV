@@ -12,6 +12,7 @@ from sqlalchemy import text
 
 from .config import config
 from .db import engine
+from .modulos import routers as routers_modulos
 from .routers import arquivos, auditoria, auth, documentos, painel, pesquisa, usuarios
 
 logging.basicConfig(level=logging.INFO, format="%(asctime)s %(levelname)s %(name)s %(message)s")
@@ -50,6 +51,8 @@ async def seguranca_e_log(request: Request, call_next):
 
 for r in (auth, usuarios, documentos, arquivos, pesquisa, painel, auditoria):
     app.include_router(r.router)
+for r in routers_modulos():  # módulos gerados (app/modulos/*)
+    app.include_router(r)
 
 
 @app.get("/api/health", tags=["saúde"])

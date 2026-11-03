@@ -8,6 +8,9 @@ import { Login } from "./pages/Login";
 import { Painel } from "./pages/Painel";
 import { Pesquisa } from "./pages/Pesquisa";
 import { RedefinirSenha } from "./pages/RedefinirSenha";
+import { InteressadoPagina } from "./modulos/interessados/InteressadoPagina";
+import { ProtocoloPagina } from "./modulos/protocolos/ProtocoloPagina";
+// fabrica:imports
 
 function Protegido({ permissao }: { permissao?: string }) {
   const { usuario, carregando, pode, sair } = useAuth();
@@ -24,6 +27,9 @@ function Protegido({ permissao }: { permissao?: string }) {
           <NavLink to="/pesquisa">Pesquisa</NavLink>
           {pode("painel:ler") && <NavLink to="/painel">Painel</NavLink>}
           {pode("auditoria:ler") && <NavLink to="/auditoria">Auditoria</NavLink>}
+          <NavLink to="/interessados">Interessados</NavLink>
+          <NavLink to="/protocolos">Protocolos</NavLink>
+          {/* fabrica:menu */}
         </nav>
         <span className="usuario">{usuario.nome} ({usuario.perfil})</span>
         <button type="button" onClick={sair}>Sair</button>
@@ -44,6 +50,9 @@ export function App() {
         <Route path="/documentos" element={<Documentos />} />
         <Route path="/documentos/:id" element={<DocumentoDetalhe />} />
         <Route path="/pesquisa" element={<Pesquisa />} />
+        <Route path="/interessados" element={<InteressadoPagina />} />
+        <Route path="/protocolos" element={<ProtocoloPagina />} />
+        {/* fabrica:rotas */}
       </Route>
       <Route element={<Protegido permissao="painel:ler" />}><Route path="/painel" element={<Painel />} /></Route>
       <Route element={<Protegido permissao="auditoria:ler" />}><Route path="/auditoria" element={<Auditoria />} /></Route>
