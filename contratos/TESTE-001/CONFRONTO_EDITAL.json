@@ -1,9 +1,9 @@
 {
   "contrato": "TESTE-001",
-  "gerado_em": "2026-11-03T00:43:14-03:00",
+  "gerado_em": "2026-11-03T01:09:59-03:00",
   "atende": [
-    "Tecnologia — React: esqueleto verificado (react-vite) [Prompt mestre, Parte 7]",
-    "Tecnologia — FastAPI: esqueleto verificado (python-fastapi) [Prompt mestre, Parte 7]",
+    "Tecnologia — React: esqueleto verificado (react-vite, sistema-gov) [Prompt mestre, Parte 7]",
+    "Tecnologia — FastAPI: esqueleto verificado (python-fastapi, sistema-gov) [Prompt mestre, Parte 7]",
     "Tecnologia — PostgreSQL: usada e testada na fábrica (TESTE-001: suíte de testes em PostgreSQL 16, migrações Alembic e trigger de auditoria (contratos/TESTE-001/evidencias)) [Prompt mestre, Parte 7]",
     "Relatório diario: gerado pela fábrica",
     "Relatório semanal: gerado pela fábrica",
@@ -25,6 +25,7 @@
   "adaptacoes_aplicadas": {
     "ppj": "Planejamento de Projeto Sustentável (PPJ)",
     "fechamento": "Fechamento diário",
+    "abertura": "Abertura do dia",
     "relatorio_diario": "Relatório diário",
     "relatorio_semanal": "Relatório semanal",
     "relatorio_mensal": "Relatório mensal"

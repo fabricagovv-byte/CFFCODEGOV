@@ -1,12 +1,12 @@
 # Confronto edital × documento base — TESTE-002
 
-Gerado em 2026-11-03T01:05:12-03:00 (G02 Analista de Editais + G18 Gestor de Profissionais).
+Gerado em 2026-11-03T01:09:59-03:00 (G02 Analista de Editais + G18 Gestor de Profissionais).
 
 Resumo: **10 atende · 0 ajustar · 5 falta**
 
 ## Já atende
-- ✔ Tecnologia — React: esqueleto verificado (react-vite) [demonstração]
-- ✔ Tecnologia — FastAPI: esqueleto verificado (python-fastapi) [demonstração]
+- ✔ Tecnologia — React: esqueleto verificado (react-vite, sistema-gov) [demonstração]
+- ✔ Tecnologia — FastAPI: esqueleto verificado (python-fastapi, sistema-gov) [demonstração]
 - ✔ Tecnologia — PostgreSQL: usada e testada na fábrica (TESTE-001: suíte de testes em PostgreSQL 16, migrações Alembic e trigger de auditoria (contratos/TESTE-001/evidencias)) [demonstração]
 - ✔ Relatório abertura: gerado pela fábrica
 - ✔ Relatório diario: gerado pela fábrica

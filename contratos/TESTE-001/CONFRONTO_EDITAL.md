@@ -1,12 +1,12 @@
 # Confronto edital × documento base — TESTE-001
 
-Gerado em 2026-11-03T00:43:14-03:00 (G02 Analista de Editais + G18 Gestor de Profissionais).
+Gerado em 2026-11-03T01:09:59-03:00 (G02 Analista de Editais + G18 Gestor de Profissionais).
 
 Resumo: **10 atende · 0 ajustar · 6 falta**
 
 ## Já atende
-- ✔ Tecnologia — React: esqueleto verificado (react-vite) [Prompt mestre, Parte 7]
-- ✔ Tecnologia — FastAPI: esqueleto verificado (python-fastapi) [Prompt mestre, Parte 7]
+- ✔ Tecnologia — React: esqueleto verificado (react-vite, sistema-gov) [Prompt mestre, Parte 7]
+- ✔ Tecnologia — FastAPI: esqueleto verificado (python-fastapi, sistema-gov) [Prompt mestre, Parte 7]
 - ✔ Tecnologia — PostgreSQL: usada e testada na fábrica (TESTE-001: suíte de testes em PostgreSQL 16, migrações Alembic e trigger de auditoria (contratos/TESTE-001/evidencias)) [Prompt mestre, Parte 7]
 - ✔ Relatório diario: gerado pela fábrica
 - ✔ Relatório semanal: gerado pela fábrica
@@ -31,6 +31,7 @@ Resumo: **10 atende · 0 ajustar · 6 falta**
 
 - Documento `ppj` → título **Planejamento de Projeto Sustentável (PPJ)**
 - Documento `fechamento` → título **Fechamento diário**
+- Documento `abertura` → título **Abertura do dia**
 - Documento `relatorio_diario` → título **Relatório diário**
 - Documento `relatorio_semanal` → título **Relatório semanal**
 - Documento `relatorio_mensal` → título **Relatório mensal**

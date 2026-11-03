@@ -2117,7 +2117,7 @@ def confrontar_edital(cid: str) -> dict:
         cap = [c for c in caps if (c.get("tipo") or "").upper() == "TECNOLOGIA" and _contem(c.get("item", "") + " " + c.get("detalhe", ""), nome)]
         compl = [x for x in (ler_yaml(FAB / "stacks" / "complementares" / "tecnologias.yaml") or {}).get("tecnologias", [])
                  if _contem(x["nome"], nome) or _contem(nome, x["nome"])]
-        if compl and compl[0]["situacao"] == "verificado" and not stk:
+        if compl and compl[0]["situacao"] == "verificado":
             atende.append(f"Tecnologia — {nome}: usada e testada na fábrica ({compl[0]['evidencia']}){' e experiência declarada' if cap else ''}{orig}")
         elif stk and any(verif.get(s, {}).get("situacao") == "APROVADO" for s in stk):
             atende.append(f"Tecnologia — {nome}: esqueleto verificado ({', '.join(stk)}){' e experiência declarada' if cap else ''}{orig}")
