@@ -31,7 +31,7 @@ function mensagemDeErro(status: number, corpo: unknown): string {
   const det = (corpo as { detail?: unknown })?.detail;
   if (typeof det === "string") return det;
   if (Array.isArray(det) && det.length) {
-    return det.map((d: { loc?: unknown[]; msg?: string }) => `${(d.loc ?? []).slice(1).join(".")}: ${d.msg}`).join("; ");
+    return det.map((d: { loc?: unknown[]; msg?: string }) => `${(d.loc ?? []).slice(1).join(".")}: ${(d.msg ?? "").replace(/^Value error, /, "")}`).join("; ");
   }
   if (status === 0) return "Sem conexão com o servidor";
   return `Erro ${status}`;

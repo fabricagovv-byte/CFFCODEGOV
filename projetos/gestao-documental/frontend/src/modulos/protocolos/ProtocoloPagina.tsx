@@ -95,7 +95,7 @@ export function ProtocoloPagina() {
           <caption className="sr-only">Protocolos</caption>
           <thead><tr><th scope="col">Número</th><th scope="col">Assunto</th><th scope="col">Interessado</th><th scope="col">Canal</th><th scope="col">Prioridade</th><th scope="col">Prazo</th><th scope="col">Ações</th></tr></thead>
           <tbody>{res.itens.map((x) => (
-            <tr key={x.id}><td>{String(x.numero ?? "—")}</td><td>{String(x.assunto ?? "—")}</td><td>{String(x.interessado_id ?? "—")}</td><td>{String(x.canal ?? "—")}</td><td>{String(x.prioridade ?? "—")}</td><td>{String(x.prazo ?? "—")}</td><td>{podeEscrever && <button type="button" onClick={() => { const { id, ativo, criado_em, atualizado_em, ...d } = x; void id; void ativo; void criado_em; void atualizado_em; setForm(d as Form); setEditando(x.id); }}>Editar</button>}{" "}{podeExcluir && <button type="button" onClick={() => excluir(x)}>Excluir</button>}</td></tr>
+            <tr key={x.id}><td>{String(x.numero ?? "—")}</td><td>{String(x.assunto ?? "—")}</td><td>{op_interessado_id.find((o) => o.id === x.interessado_id)?.rotulo ?? String(x.interessado_id ?? "—")}</td><td>{String(x.canal ?? "—")}</td><td>{String(x.prioridade ?? "—")}</td><td>{String(x.prazo ?? "—")}</td><td>{podeEscrever && <button type="button" onClick={() => { const { id, ativo, criado_em, atualizado_em, ...d } = x; void id; void ativo; void criado_em; void atualizado_em; setForm(d as Form); setEditando(x.id); }}>Editar</button>}{" "}{podeExcluir && <button type="button" onClick={() => excluir(x)}>Excluir</button>}</td></tr>
           ))}</tbody>
         </table></div>
         {res.itens.length === 0 && <p className="vazio">Nenhum registro.</p>}

@@ -585,7 +585,8 @@ def gerar_pagina_tsx(s: dict, specs: dict[str, dict]) -> str:
           f'          <caption className="sr-only">{s["rotulo"]}</caption>',
           "          <thead><tr>" + "".join(f'<th scope="col">{_rotulo_campo(c)}</th>' for c in cols) + '<th scope="col">Ações</th></tr></thead>',
           "          <tbody>{res.itens.map((x) => (", "            <tr key={x.id}>"
-          + "".join(f"<td>{{String(x.{c['nome']} ?? \"—\")}}</td>" for c in cols)
+          + "".join((f"<td>{{op_{c['nome']}.find((o) => o.id === x.{c['nome']})?.rotulo ?? String(x.{c['nome']} ?? \"—\")}}</td>"
+                     if c["tipo"] == "referencia" else f"<td>{{String(x.{c['nome']} ?? \"—\")}}</td>") for c in cols)
           + "<td>{podeEscrever && <button type=\"button\" onClick={() => { const { id, ativo, criado_em, atualizado_em, ...d } = x; void id; void ativo; void criado_em; void atualizado_em; setForm(d as Form); setEditando(x.id); }}>Editar</button>}"
           + "{\" \"}{podeExcluir && <button type=\"button\" onClick={() => excluir(x)}>Excluir</button>}</td></tr>",
           "          ))}</tbody>", "        </table></div>",
