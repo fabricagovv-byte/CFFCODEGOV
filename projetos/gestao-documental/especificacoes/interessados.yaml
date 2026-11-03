@@ -1,0 +1,12 @@
+entidade: Interessado
+tabela: interessados
+rotulo: Interessados
+modulo: MOD-101
+campos:
+  - {nome: nome, tipo: texto, max: 150, obrigatorio: true, busca: true}
+  - {nome: documento, rotulo: "CPF/CNPJ", tipo: cpf_cnpj, obrigatorio: true, unico: true, busca: true, pessoal: true}
+  - {nome: tipo_pessoa, rotulo: "Tipo de pessoa", tipo: enum, opcoes: [FISICA, JURIDICA], obrigatorio: true}
+  - {nome: email, rotulo: "E-mail", tipo: email, pessoal: true}
+  - {nome: telefone, tipo: texto, max: 20, pessoal: true}
+  - {nome: observacoes, rotulo: "Observações", tipo: texto_longo}
+permissoes: {ler: [ADMIN, GESTOR, OPERADOR, CONSULTA], escrever: [ADMIN, GESTOR, OPERADOR], excluir: [ADMIN, GESTOR]}
