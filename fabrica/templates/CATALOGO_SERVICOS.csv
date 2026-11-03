@@ -1,0 +1,3 @@
+codigo,servico,complexidade,perfil,horas,ust,referencia
+#SRV-CRUD-M,Desenvolvimento de cadastro (CRUD) média complexidade,MEDIA,DESENVOLVEDOR_PLENO,16,,TR item 5.2
+#SRV-CRUD-M,Desenvolvimento de cadastro (CRUD) média complexidade,MEDIA,ANALISTA_TESTES,4,,TR item 5.2

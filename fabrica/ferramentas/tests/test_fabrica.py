@@ -369,3 +369,92 @@ def test_word_relatorio_e_equipe_simplificada(fab, tmp_path, monkeypatch):
     # 4) relatório com capa e versão Word
     rel = fab.relatorio("C1", "mensal", "2026-11-01")
     assert rel.with_suffix(".docx").exists()
+
+
+# --------------------------------------------- horas por perfil, planejamento, abertura, gerador CRUD
+
+def _catalogo(fab, formula="HORAS_X_FATOR"):
+    fab.novo_contrato("C1")
+    d = fab.CONTRATOS / "C1"
+    c = yaml.safe_load((d / "contrato.yaml").read_text())
+    c["medicao"].update(formula=formula, quantidade_contratada="100 UST")
+    (d / "contrato.yaml").write_text(yaml.safe_dump(c, allow_unicode=True))
+    (d / "PERFIS.csv").write_text("perfil,descricao,valor_hora,fator_ust_por_hora,referencia\nDEV,Dev,100.00,1.0,T\nTESTE,Testes,80.00,0.5,T\n")
+    (d / "CATALOGO_SERVICOS.csv").write_text("codigo,servico,complexidade,perfil,horas,ust,referencia\n"
+                                             "S1,Cadastro,MEDIA,DEV,10,8,TR 1\nS1,Cadastro,MEDIA,TESTE,4,2,TR 1\n")
+    return d
+
+
+def test_calculo_por_servico_perfil_e_formula(fab):
+    _catalogo(fab, "HORAS_X_FATOR")
+    r = fab.calcular_servicos("C1", [{"codigo": "S1", "quantidade": 2}])
+    assert r["horas_por_perfil"] == {"DEV": 20, "TESTE": 8} and r["quantidade"] == 24 and r["valor"] == 2640  # 20*1+8*0.5 ; 20*100+8*80
+    d = fab.CONTRATOS / "C1"
+    for formula, esperado in (("UST_POR_SERVICO", 20), ("HORAS", 28)):
+        c = yaml.safe_load((d / "contrato.yaml").read_text()); c["medicao"]["formula"] = formula
+        (d / "contrato.yaml").write_text(yaml.safe_dump(c, allow_unicode=True))
+        assert fab.calcular_servicos("C1", [{"codigo": "S1", "quantidade": 2}])["quantidade"] == esperado
+    c = yaml.safe_load((d / "contrato.yaml").read_text()); c["medicao"]["formula"] = ""
+    (d / "contrato.yaml").write_text(yaml.safe_dump(c, allow_unicode=True))
+    with pytest.raises(fab.ErroFabrica, match="fórmula"):
+        fab.calcular_servicos("C1", [{"codigo": "S1"}])
+    assert fab.brl(7800) == "R$ 7.800,00"
+
+
+def test_planejamento_por_projeto_os_e_abertura(fab):
+    d = _catalogo(fab)
+    (d / "PROFISSIONAIS.csv").write_text("id,nome,funcao\nP01,Ana,Dev\n")
+    (d / "PLANEJAMENTO.csv").write_text("projeto,modulo,nome,area,servico,quantidade,inicio,fim,responsavel,prioridade,observacao\n"
+                                        "A,MOD-1,Cadastro X,BACKEND,S1,1,2026-11-02,2026-11-03,P01,ALTA,\n"
+                                        "B,MOD-9,Cadastro Y,BACKEND,S1,3,2026-11-04,2026-11-06,,MEDIA,\n")
+    md = fab.planejamento("C1").read_text()
+    assert "| A | 1 | 12 | 14 |" in md and "| B | 1 | 36 | 42 |" in md and "| **Total** | **2** | **48** | **56** |" in md
+    assert "TESTE: sem pessoa no perfil" in md  # ninguém com cargo de testes
+    os_ = fab.gerar_os_do_plano("C1", "A", "OS-A", "projetos/x")
+    o = yaml.safe_load(os_.read_text())
+    assert o["autorizacao"]["autorizado"] is False and o["modulos"][0]["servicos"] == [{"codigo": "S1", "quantidade": 1.0}]
+    ab = fab.abertura("C1", "2026-11-03").read_text()
+    assert ab.startswith("# Abertura do dia — 2026-11-03") and "MOD-1 Cadastro X" in ab and "Ana" in ab
+    assert "Meta total do dia: **6.00 UST** (7.0 h)" in ab  # 12 UST / 2 dias úteis
+
+
+def _projeto_minimo(raiz):
+    be = raiz / "backend"
+    (be / "app/modulos").mkdir(parents=True)
+    (be / "app/modulos/__init__.py").write_text("")
+    (be / "migrations/versions").mkdir(parents=True)
+    (be / "migrations/versions/0001_inicial.py").write_text('revision = "0001_inicial"\ndown_revision = None\n')
+    (be / "tests").mkdir()
+    (raiz / "frontend/src").mkdir(parents=True)
+    (raiz / "frontend/src/App.tsx").write_text("// fabrica:imports\n{/* fabrica:menu */}\n{/* fabrica:rotas */}\n")
+
+
+def test_gerador_crud_gera_codigo_separado_por_modulo(fab, tmp_path):
+    import ast
+    sys.path.insert(0, str(ORIGEM / "fabrica/ferramentas"))
+    import gerador_crud as g
+    proj = tmp_path / "proj"
+    _projeto_minimo(proj)
+    a = tmp_path / "a.yaml"
+    a.write_text("entidade: Pessoa\ntabela: pessoas\nrotulo: Pessoas\nmodulo: MOD-5\ncampos:\n"
+                 "  - {nome: nome, tipo: texto, max: 80, obrigatorio: true, busca: true}\n"
+                 "  - {nome: documento, tipo: cpf_cnpj, obrigatorio: true, unico: true, pessoal: true}\n")
+    b = tmp_path / "b.yaml"
+    b.write_text("entidade: Pedido\ntabela: pedidos\nrotulo: Pedidos\nmodulo: MOD-6\ncampos:\n"
+                 "  - {nome: pessoa_id, tipo: referencia, alvo: pessoas, obrigatorio: true}\n"
+                 "  - {nome: valor, tipo: decimal, min: 0}\n  - {nome: situacao, tipo: enum, opcoes: [ABERTO, FECHADO], obrigatorio: true}\n")
+    ra = g.gerar_crud(a, proj)
+    rb = g.gerar_crud(b, proj)
+    for f in ra["backend"] + rb["backend"] + ra["banco"] + rb["banco"] + [x for x in ra["testes"] + rb["testes"] if x.endswith(".py")]:
+        ast.parse((proj / f).read_text())  # Python válido
+    mig = (proj / "backend/migrations/versions/0003_pedidos.py").read_text()
+    assert 'down_revision = "0002_pessoas"' in mig and 'sa.ForeignKey("pessoas.id")' in mig
+    app = (proj / "frontend/src/App.tsx").read_text()
+    assert app.count("fabrica:rotas") == 1 and '<Route path="/pessoas"' in app and '<Route path="/pedidos"' in app
+    assert (proj / "frontend/src/modulos/pedidos/PedidoPagina.tsx").exists()
+    with pytest.raises(g.ErroGerador, match="já existe"):
+        g.gerar_crud(a, proj)
+    c = tmp_path / "c.yaml"
+    c.write_text("entidade: x\ntabela: X\nrotulo: X\nmodulo: M\ncampos: [{nome: a, tipo: texto}]\n")
+    with pytest.raises(g.ErroGerador):
+        g.gerar_crud(c, proj)

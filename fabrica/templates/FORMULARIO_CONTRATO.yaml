@@ -30,6 +30,7 @@ ordens_servico: []                 # 8  lista: [{numero, data, objeto, autorizad
 medicao:
   modalidade: ""                   # 9  UST | PF | HORAS | ENTREGAVEL | MISTA
   metodologia: ""                  # Ex.: catálogo de serviços do TR; IFPUG CPM 4.3; Roteiro SISP
+  formula: ""                      # UST_POR_SERVICO | HORAS_X_FATOR | HORAS — como o CONTRATO calcula (ver PERFIS.csv e CATALOGO_SERVICOS.csv)
   valor_unitario: ""               # Valor da UST/PF conforme contrato
   quantidade_contratada: ""        # 10
   tabela: TABELA_UST.csv           # 11 (preencher o CSV na mesma pasta)

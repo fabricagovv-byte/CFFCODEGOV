@@ -128,6 +128,13 @@ def mascarar(texto: str) -> str:
     return re.sub(r"://([^:/@]+):[^@]+@", r"://\1:***@", texto)
 
 
+def brl(v: float | None) -> str:
+    """Formato monetário brasileiro: 7800 -> 'R$ 7.800,00'."""
+    if v is None:
+        return "—"
+    return "R$ " + f"{v:,.2f}".replace(",", "X").replace(".", ",").replace("X", ".")
+
+
 def slug(texto: str) -> str:
     """'Gestão Documental' -> 'gestao-documental'."""
     s = unicodedata.normalize("NFKD", texto).encode("ascii", "ignore").decode().lower()
@@ -433,6 +440,7 @@ def novo_contrato(cid: str) -> Path:
     form = (tpl / "FORMULARIO_CONTRATO.yaml").read_text(encoding="utf-8")
     (d / "contrato.yaml").write_text(form.replace("<ID_CONTRATO>", cid), encoding="utf-8")
     for nome in ("PROFISSIONAIS.csv", "PARTICIPACOES.csv", "TABELA_UST.csv", "RATEIO.yaml", "RATEIO_TOTAIS.csv", "EDITAL.yaml",
+                 "PERFIS.csv", "CATALOGO_SERVICOS.csv", "PLANEJAMENTO.csv",
                  "MATRIZ_RASTREABILIDADE.md", "GEC_TEMPLATE.md"):
         destino = d / ("GEC.md" if nome == "GEC_TEMPLATE.md" else nome)
         shutil.copy(tpl / nome, destino)
@@ -725,6 +733,58 @@ def auditar(cid: str, osid: str) -> dict:
 
 # -------------------------------------------------------------------- medição
 
+FORMULAS = ("UST_POR_SERVICO", "HORAS_X_FATOR", "HORAS")
+
+
+def catalogo(cid: str) -> tuple[dict[str, list[dict]], dict[str, dict], dict]:
+    """(serviços por código, perfis, medição do contrato)."""
+    d = dir_contrato(cid)
+    cat: dict[str, list[dict]] = {}
+    if (d / "CATALOGO_SERVICOS.csv").exists():
+        for r in ler_tabela(d / "CATALOGO_SERVICOS.csv"):
+            cat.setdefault(r["codigo"], []).append(r)
+    perfis = {r["perfil"]: r for r in ler_tabela(d / "PERFIS.csv")} if (d / "PERFIS.csv").exists() else {}
+    med = (ler_yaml(d / "contrato.yaml") or {}).get("medicao") or {}
+    return cat, perfis, med
+
+
+def calcular_servicos(cid: str, servicos: list[dict]) -> dict:
+    """Horas por perfil, quantidade medida e valor de uma lista [{codigo, quantidade}] pela fórmula DO CONTRATO."""
+    cat, perfis, med = catalogo(cid)
+    formula = str(med.get("formula") or "").upper()
+    if formula not in FORMULAS:
+        raise ErroFabrica(f"{cid}: defina medicao.formula no contrato.yaml ({' | '.join(FORMULAS)}) conforme o edital — "
+                          "a fábrica não converte horas/UST sem a fórmula do contrato")
+    horas: dict[str, float] = {}
+    ust = valor = 0.0
+    memoria = []
+    for s in servicos:
+        linhas = cat.get(s["codigo"])
+        if not linhas:
+            raise ErroFabrica(f"serviço {s['codigo']} não existe no CATALOGO_SERVICOS.csv")
+        q = float(s.get("quantidade", 1) or 1)
+        for ln in linhas:
+            h = float(numero(ln.get("horas")) or 0) * q
+            perfil = ln["perfil"]
+            horas[perfil] = horas.get(perfil, 0) + h
+            pf = perfis.get(perfil)
+            if formula == "HORAS_X_FATOR":
+                if not pf or numero(pf.get("fator_ust_por_hora")) is None:
+                    raise ErroFabrica(f"perfil {perfil} sem fator_ust_por_hora em PERFIS.csv")
+                ust += h * float(numero(pf["fator_ust_por_hora"]))
+            elif formula == "UST_POR_SERVICO":
+                ust += float(numero(ln.get("ust")) or 0) * q
+            if pf and numero(pf.get("valor_hora")) is not None:
+                valor += h * float(numero(pf["valor_hora"]))
+        memoria.append(f"{s['codigo']} × {q:g} ({linhas[0]['servico']}; {linhas[0].get('referencia', '')})")
+    total_h = sum(horas.values())
+    quantidade = total_h if formula == "HORAS" else ust
+    if not valor and numero(med.get("valor_unitario")) is not None:
+        valor = quantidade * float(numero(med["valor_unitario"]))
+    return {"formula": formula, "horas_por_perfil": {k: round(v, 2) for k, v in horas.items()}, "horas": round(total_h, 2),
+            "quantidade": round(quantidade, 2), "valor": round(valor, 2), "memoria": "; ".join(memoria)}
+
+
 def medir(cid: str, osid: str) -> dict:
     """Memória de cálculo: previsto (OS), comprovado (auditoria técnica), aceito (registro humano)."""
     o = carregar_os(cid, osid)
@@ -732,18 +792,28 @@ def medir(cid: str, osid: str) -> dict:
     aud = {m["modulo"]: m for m in auditar(cid, osid)["modulos"]}
     itens = []
     for m in o["modulos"]:
-        cod = m.get("item_tabela", "")
-        if cod not in tab:
-            raise ErroFabrica(f"{m['id']}: item {cod!r} não existe na TABELA_UST.csv")
-        item = tab[cod]
-        prev = float(m.get("ust_previsto") or 0)
+        calc = None
+        if m.get("servicos"):  # medição por catálogo de serviços × perfis × horas (fórmula do contrato)
+            calc = calcular_servicos(cid, m["servicos"])
+            cod = ", ".join(s["codigo"] for s in m["servicos"])
+            item = {"descricao": calc["memoria"], "unidade": "HORAS" if calc["formula"] == "HORAS" else "UST",
+                    "referencia_contratual": "CATALOGO_SERVICOS.csv / PERFIS.csv"}
+            prev = calc["quantidade"]
+        else:
+            cod = m.get("item_tabela", "")
+            if cod not in tab:
+                raise ErroFabrica(f"{m['id']}: item {cod!r} não existe na TABELA_UST.csv")
+            item = tab[cod]
+            prev = float(m.get("ust_previsto") or 0)
         a = aud[m["id"]]
         comprovado = prev if a["tecnico"] == "APROVADO" else 0.0
         ace = frontmatter(dir_mod(cid, osid, m["id"]) / "ACEITE.md")
         aceito = 0.0
         if str(ace.get("status", "")).upper() == "ACEITO" and ace.get("aceito_por") and ace.get("documento"):
             aceito = min(float(ace.get("quantidade_aceita") or 0), comprovado)
-        memoria = (f"previsto={prev:g} {item['unidade']} (OS {osid}, item {cod}); "
+        horas_txt = (f" [fórmula {calc['formula']}: {calc['horas']:g} h = "
+                     + ", ".join(f"{k} {v:g} h" for k, v in calc["horas_por_perfil"].items()) + f"; valor {brl(calc['valor'])}]") if calc else ""
+        memoria = (f"previsto={prev:g} {item['unidade']} (OS {osid}, item {cod}){horas_txt}; "
                    f"comprovado={comprovado:g} pois auditoria técnica={a['tecnico']}"
                    f"{' (regra: integral somente com evidências completas)' if comprovado == 0 else ''}; "
                    f"aceito={aceito:g} ({'termo: ' + str(ace.get('documento')) if aceito else 'sem aceite registrado'})")
@@ -752,8 +822,18 @@ def medir(cid: str, osid: str) -> dict:
                       "referencia_contratual": item.get("referencia_contratual", ""),
                       "previsto": prev, "comprovado": comprovado, "aceito": aceito,
                       "evidencias": rel(dir_mod(cid, osid, m["id"])), "memoria": memoria,
+                      "horas": calc["horas"] if calc else None, "horas_por_perfil": calc["horas_por_perfil"] if calc else {},
+                      "valor_previsto": calc["valor"] if calc else None,
                       "responsavel": frontmatter(dir_mod(cid, osid, m["id"]) / "RESPONSAVEIS.md").get("responsavel_tecnico", "")})
     tot = {k: sum(i[k] for i in itens) for k in ("previsto", "comprovado", "aceito")}
+    if any(i["horas"] is not None for i in itens):
+        tot["horas"] = round(sum(i["horas"] or 0 for i in itens), 2)
+        tot["valor_previsto"] = round(sum(i["valor_previsto"] or 0 for i in itens), 2)
+        hp: dict[str, float] = {}
+        for i in itens:
+            for k, v in i["horas_por_perfil"].items():
+                hp[k] = hp.get(k, 0) + v
+        tot["horas_por_perfil"] = hp
     r = {"contrato": cid, "os": osid, "medido_em": agora(), "agente": "G15",
          "aviso": o.get("aviso_medicao", ""), "itens": itens, "totais": tot}
     gravar_json(CONTRATOS / cid / "medicoes" / f"{osid}.json", r)
@@ -764,12 +844,19 @@ def medir(cid: str, osid: str) -> dict:
     for i in itens:
         linhas.append(f"| {i['modulo']} {i['nome']} | {i['item']} | {i['unidade']} | {i['previsto']:g} | {i['comprovado']:g} | {i['aceito']:g} | {i['responsavel'] or '—'} |")
     linhas.append(f"| **Total** | | | **{tot['previsto']:g}** | **{tot['comprovado']:g}** | **{tot['aceito']:g}** | |")
+    if tot.get("horas_por_perfil"):
+        _, perfis_, _ = catalogo(cid)
+        linhas += ["", "## Horas por perfil (catálogo do contrato)", "", "| Perfil | Horas | Valor/hora | Valor previsto |", "|---|---|---|---|"]
+        for k, v in tot["horas_por_perfil"].items():
+            vh = numero((perfis_.get(k) or {}).get("valor_hora"))
+            linhas.append(f"| {k} | {v:g} | {brl(vh)} | {brl(v * vh) if vh is not None else '—'} |")
+        linhas.append(f"| **Total** | **{tot['horas']:g}** | | **{brl(tot['valor_previsto'])}** |")
     linhas += ["", "## Memória por item", "", *[f"- **{i['modulo']}**: {i['memoria']}" for i in itens],
                "", "## Regras aplicadas", "",
                "- Previsto: quantidade da OS para o item da tabela contratual.",
                "- Comprovado: igual ao previsto somente se a auditoria técnica do módulo for APROVADO (evidências completas, commits reais, testes reais sem falhas); caso contrário 0. Ajuste esta regra se o contrato prever medição parcial.",
                "- Aceito: somente com ACEITE.md em status ACEITO, com `aceito_por` e `documento` (termo do contratante). Nunca maior que o comprovado.",
-               "- Não há conversão entre UST, pontos de função e horas.", ""]
+               "- Conversão entre horas e UST somente pela fórmula declarada no contrato (medicao.formula) e pelos fatores de PERFIS.csv; sem fórmula, não há conversão.", ""]
     (CONTRATOS / cid / "medicoes" / f"{osid}.md").write_text("\n".join(linhas), encoding="utf-8")
     exportar_word(CONTRATOS / cid / "medicoes" / f"{osid}.md", cid, periodo=osid, subtitulo="Memória de cálculo")
     for i in itens:
@@ -1918,6 +2005,7 @@ EDITAL_PADRAO = {
     "documentos": {
         "ppj": {"titulo": "Planejamento de Projeto Sustentável (PPJ)", "secoes_extras": []},
         "fechamento": {"titulo": "Fechamento diário"},
+        "abertura": {"titulo": "Abertura do dia"},
         "relatorio_diario": {"titulo": "Relatório diário"},
         "relatorio_semanal": {"titulo": "Relatório semanal"},
         "relatorio_mensal": {"titulo": "Relatório mensal"},
@@ -1930,7 +2018,7 @@ EDITAL_PADRAO = {
     "documentos_exigidos": [],
     "prazos": [],
 }
-RELATORIOS_SUPORTADOS = {"diario", "semanal", "mensal", "profissional", "fechamento", "medicao", "os", "final"}
+RELATORIOS_SUPORTADOS = {"diario", "semanal", "mensal", "profissional", "fechamento", "abertura", "medicao", "os", "final", "planejamento"}
 UNIDADES_SUPORTADAS = {"UST", "PF", "HORA", "ENTREGAVEL"}
 
 
@@ -2304,6 +2392,163 @@ def ppj(cid: str) -> Path:
     return p
 
 
+def dias_uteis(ini: date, fim: date) -> int:
+    return sum(1 for i in range((fim - ini).days + 1) if (ini + timedelta(days=i)).weekday() < 5)
+
+
+def carregar_planejamento(cid: str) -> list[dict]:
+    p = dir_contrato(cid) / "PLANEJAMENTO.csv"
+    if not p.exists():
+        raise ErroFabrica(f"{cid}: PLANEJAMENTO.csv não existe (modelo em fabrica/templates/PLANEJAMENTO.csv)")
+    return ler_tabela(p)
+
+
+def planejamento(cid: str, horas_dia: float = 8.0) -> Path:
+    """Consolida o planejamento feito pelo usuário: por projeto UST, horas por perfil, valor, prazo e módulos;
+    confronta com a capacidade da equipe, o saldo do contrato e o edital."""
+    plano = carregar_planejamento(cid)
+    profs = carregar_profissionais(cid)
+    sd = saldo(cid)
+    ed = edital_cfg(cid)
+    alertas, linhas = [], []
+    for r in plano:
+        try:
+            calc = calcular_servicos(cid, [{"codigo": r["servico"], "quantidade": r.get("quantidade") or 1}])
+        except ErroFabrica as e:
+            alertas.append(f"{r.get('projeto')}/{r.get('modulo')}: {e}")
+            continue
+        ini, fim = date.fromisoformat(r["inicio"]), date.fromisoformat(r["fim"])
+        if fim < ini:
+            alertas.append(f"{r['projeto']}/{r['modulo']}: fim antes do início")
+        linhas.append({**r, **calc, "ini": ini, "fim_d": fim, "dias": dias_uteis(ini, fim)})
+    projetos: dict[str, list[dict]] = {}
+    for x in linhas:
+        projetos.setdefault(x["projeto"], []).append(x)
+    unidade = sd["unidade"]
+    L = [f"# Plano de projetos — {cid}", "", f"Gerado em {agora()} pelo Planejador GEC (G04) a partir do PLANEJAMENTO.csv preenchido pelo responsável.", "",
+         "## Resumo por projeto", "", f"| Projeto | Módulos | {unidade} | Horas | Valor previsto | Início | Fim | Dias úteis |", "|---|---|---|---|---|---|---|---|"]
+    tot_q = tot_h = tot_v = 0.0
+    for pj, xs in projetos.items():
+        q = sum(x["quantidade"] for x in xs); h = sum(x["horas"] for x in xs); v = sum(x["valor"] for x in xs)
+        tot_q += q; tot_h += h; tot_v += v
+        ini, fim = min(x["ini"] for x in xs), max(x["fim_d"] for x in xs)
+        L.append(f"| {pj} | {len(xs)} | {q:g} | {h:g} | {brl(v)} | {ini} | {fim} | {dias_uteis(ini, fim)} |")
+    L.append(f"| **Total** | **{len(linhas)}** | **{tot_q:g}** | **{tot_h:g}** | **{brl(tot_v)}** | | | |")
+    for pj, xs in projetos.items():
+        L += ["", f"## Projeto {pj}", "", f"| Módulo | Nome | Área | Serviço | Qtd | {unidade} | Horas | Início | Fim | Responsável | Prioridade |",
+              "|---|---|---|---|---|---|---|---|---|---|---|"]
+        nomes = {p["id"]: p["nome"] for p in profs}
+        for x in xs:
+            L.append(f"| {x['modulo']} | {x['nome']} | {x.get('area', '')} | {x['servico']} | {x.get('quantidade') or 1} | {x['quantidade']:g} | "
+                     f"{x['horas']:g} | {x['ini']} | {x['fim_d']} | {nomes.get(x.get('responsavel', ''), x.get('responsavel') or 'a definir')} | {x.get('prioridade', '')} |")
+    # capacidade por perfil
+    demanda: dict[str, float] = {}
+    for x in linhas:
+        for k, v in x["horas_por_perfil"].items():
+            demanda[k] = demanda.get(k, 0) + v
+    if linhas:
+        ini, fim = min(x["ini"] for x in linhas), max(x["fim_d"] for x in linhas)
+        du = dias_uteis(ini, fim)
+        L += ["", "## Capacidade da equipe por perfil", "", f"Janela {ini} a {fim} ({du} dias úteis, {horas_dia:g} h/dia por pessoa).", "",
+              "| Perfil | Horas planejadas | Pessoas no perfil | Capacidade (h) | Ocupação | Situação |", "|---|---|---|---|---|---|"]
+        for k, v in sorted(demanda.items()):
+            pessoas = [p for p in profs if _contem(p["funcao"] + " " + p.get("area", ""), k.replace("_", " ")) or
+                       _contem(k.replace("_", " "), p["funcao"])]
+            cap = len(pessoas) * horas_dia * du
+            occ = (v / cap * 100) if cap else None
+            sit = "SEM PESSOA NO PERFIL" if not pessoas else ("ACIMA DA CAPACIDADE" if v > cap else "ok")
+            if sit != "ok":
+                alertas.append(f"Perfil {k}: {sit.lower()} ({v:g} h planejadas, {cap:g} h disponíveis)")
+            L.append(f"| {k} | {v:g} | {', '.join(p['nome'] for p in pessoas) or '—'} | {cap:g} | {'—' if occ is None else f'{occ:.0f}%'} | {sit} |")
+    if sd["saldo_oficial"] is not None and tot_q > sd["saldo_oficial"]:
+        alertas.append(f"Planejado ({tot_q:g} {unidade}) maior que o saldo oficial do contrato ({sd['saldo_oficial']:g} {unidade})")
+    L += ["", "## Saldo do contrato × plano", "",
+          f"- Contratado: {sd['contratado'] if sd['contratado'] is not None else 'não informado'} {unidade} · Aceito: {sd['aceito']:g} · Saldo oficial: {sd['saldo_oficial'] if sd['saldo_oficial'] is not None else '—'}",
+          f"- Planejado neste plano: {tot_q:g} {unidade} ({tot_h:g} h, {brl(tot_v)})"]
+    if ed.get("prazos"):
+        L += ["", "## Prazos do edital", "", *[f"- {p_.get('evento', p_)}: {p_.get('prazo', '')} ({p_.get('origem', '')})" if isinstance(p_, dict) else f"- {p_}" for p_ in ed["prazos"]]]
+    L += ["", "## Alertas", "", *([f"- ⚠ {a}" for a in alertas] or ["- Nenhum alerta."]), "",
+          "> Planejamento do responsável; quantidades calculadas pela fórmula do contrato sobre o catálogo de serviços. Previsão não é produção nem aceite.", ""]
+    p = dir_contrato(cid) / "PLANO_PROJETOS.md"
+    p.write_text("\n".join(L), encoding="utf-8")
+    gravar_json(dir_contrato(cid) / "PLANO_PROJETOS.json", {"gerado_em": agora(), "alertas": alertas, "totais": {"quantidade": tot_q, "horas": tot_h, "valor": tot_v},
+                                                           "linhas": [{k: (str(v) if isinstance(v, date) else v) for k, v in x.items()} for x in linhas]})
+    exportar_word(p, cid, subtitulo="Planejamento por projeto: quantidades, horas, prazos e capacidade")
+    return p
+
+
+def gerar_os_do_plano(cid: str, projeto: str, osid: str, caminho_projeto: str) -> Path:
+    """Cria o rascunho da OS a partir das linhas do plano de um projeto (sem autorização: precisa de aprovação humana)."""
+    xs = [r for r in carregar_planejamento(cid) if r["projeto"] == projeto]
+    if not xs:
+        raise ErroFabrica(f"projeto {projeto} sem linhas no PLANEJAMENTO.csv")
+    destino = dir_contrato(cid) / "os" / f"{osid}.yaml"
+    if destino.exists():
+        raise ErroFabrica(f"OS já existe: {rel(destino)}")
+    os_ = {"os": osid, "contrato": cid, "titulo": f"Projeto {projeto}", "projeto": caminho_projeto,
+           "autorizacao": {"autorizado": False, "autorizado_por": "", "data": "", "documento": ""},
+           "modulos": [{"id": r["modulo"], "nome": r["nome"], "area": r.get("area", ""),
+                        "servicos": [{"codigo": r["servico"], "quantidade": float(r.get("quantidade") or 1)}],
+                        "tem_interface": True, "caminhos": [], "testes": []} for r in xs]}
+    destino.write_text("# Rascunho gerado do PLANEJAMENTO.csv — complete caminhos/testes e registre a autorização\n"
+                       + yaml.safe_dump(os_, allow_unicode=True, sort_keys=False), encoding="utf-8")
+    return destino
+
+
+def abertura(cid: str, ref: str | None = None) -> Path:
+    """Abertura do dia: contratado, consumo e saldo; equipe; o que está planejado para hoje; tarefas e bloqueios."""
+    d = dir_contrato(cid)
+    dia = ref or hoje()
+    hoje_d = date.fromisoformat(dia)
+    c = ler_yaml(d / "contrato.yaml") or {}
+    sd = saldo(cid)
+    un = sd["unidade"]
+    profs = carregar_profissionais(cid)
+    nomes = {p["id"]: p["nome"] for p in profs}
+    plano = []
+    if (d / "PLANEJAMENTO.csv").exists():
+        for r in ler_tabela(d / "PLANEJAMENTO.csv"):
+            try:
+                if date.fromisoformat(r["inicio"]) <= hoje_d <= date.fromisoformat(r["fim"]):
+                    calc = calcular_servicos(cid, [{"codigo": r["servico"], "quantidade": r.get("quantidade") or 1}])
+                    du = max(1, dias_uteis(date.fromisoformat(r["inicio"]), date.fromisoformat(r["fim"])))
+                    plano.append({**r, **calc, "meta_dia": calc["quantidade"] / du, "horas_dia": calc["horas"] / du})
+            except (ErroFabrica, ValueError, KeyError):
+                continue
+    tarefas = [t for t in carregar_tarefas()["tarefas"] if t["contrato"] == cid]
+    andamento = [t for t in tarefas if t["status"] in ("IN_PROGRESS", "IN_REVIEW", "TESTING")]
+    prontas = [t for t in tarefas if t["status"] == "READY"]
+    bloq = [t for t in tarefas if t["status"] == "BLOCKED"]
+    def f(v):
+        return "—" if v is None else f"{v:g}"
+    L = [f"# {titulo_doc(cid, 'abertura')} — {dia}", "",
+         f"- Contrato: {(c.get('contrato') or {}).get('numero') or cid} · Órgão: {(c.get('contratante') or {}).get('orgao') or 'a cadastrar'}",
+         f"- Gerado em {agora()} por G01 (Diretor) via `fabrica.py abertura`", "",
+         "## Contratado, consumo e saldo", "",
+         "| Contratado | Previsto em OS | Comprovado | Aceito | Saldo oficial | Saldo projetado | Consumo aceito |", "|---|---|---|---|---|---|---|",
+         f"| {f(sd['contratado'])} {un} | {f(sd['previsto'])} | {f(sd['comprovado'])} | {f(sd['aceito'])} | {f(sd['saldo_oficial'])} | {f(sd['saldo_projetado'])} | {f(sd['consumo_aceito_pct'])}% |", "",
+         "## Equipe contratada", "", f"Total: {len(profs)} profissional(is).", ""]
+    L += ["| Nome | Cargo | Área | Senioridade |", "|---|---|---|---|", *[f"| {p['nome']} | {p['funcao']} | {p.get('area') or '—'} | {p.get('senioridade') or '—'} |" for p in profs]] if profs else ["Nenhum profissional cadastrado."]
+    L += ["", "## Planejado para hoje", ""]
+    if plano:
+        L += [f"| Projeto | Módulo | Serviço | Responsável | Meta do dia ({un}) | Horas do dia |", "|---|---|---|---|---|---|"]
+        L += [f"| {x['projeto']} | {x['modulo']} {x['nome']} | {x['servico']} | {nomes.get(x.get('responsavel', ''), x.get('responsavel') or 'a definir')} | {x['meta_dia']:.2f} | {x['horas_dia']:.1f} |" for x in plano]
+        L.append(f"\nMeta total do dia: **{sum(x['meta_dia'] for x in plano):.2f} {un}** ({sum(x['horas_dia'] for x in plano):.1f} h).")
+    else:
+        L.append("Nada planejado para hoje no PLANEJAMENTO.csv.")
+    L += ["", "## Tarefas", "", f"- Em andamento: {len(andamento)} · Prontas para começar: {len(prontas)} · Bloqueadas: {len(bloq)}"]
+    L += [f"- {t['id']} [{t['status']}] {t['agente']}: {t['descricao']}" for t in (andamento + prontas)[:15]]
+    if bloq:
+        L += ["", "## Bloqueios", "", *[f"- {t['id']} {t['agente']}: {t['historico'][-1]['nota']}" for t in bloq]]
+    L += ["", "> Abertura = plano do dia. O que foi feito de verdade aparece no relatório diário e no fechamento.", ""]
+    pasta = d / "relatorios" / "aberturas"
+    pasta.mkdir(parents=True, exist_ok=True)
+    p = pasta / f"{dia}.md"
+    p.write_text("\n".join(L), encoding="utf-8")
+    exportar_word(p, cid, periodo=dia)
+    return p
+
+
 def adicionar_profissional(cid: str, nome: str, funcao: str, area: str = "", senioridade: str = "") -> str:
     """Cadastro mínimo: só nome e função."""
     import tempfile
@@ -2479,6 +2724,13 @@ def main(argv: list[str] | None = None) -> int:
     x = sp.add_parser("ppj", help="Planejamento de Projeto Sustentável"); x.add_argument("contrato")
     x = sp.add_parser("oportunidades", help="Trabalho comprovado × catálogo (sugestões de medição)"); x.add_argument("contrato"); x.add_argument("os")
     x = sp.add_parser("word", help="Converte um documento .md da fábrica para Word"); x.add_argument("arquivo"); x.add_argument("--contrato")
+    x = sp.add_parser("abertura", help="Abertura do dia (contratado, saldo, equipe, plano do dia)"); x.add_argument("contrato"); x.add_argument("--data")
+    pj = sp.add_parser("planejamento", help="Plano por projeto (UST, horas, perfis, prazos, capacidade)").add_subparsers(dest="sub", required=True)
+    x = pj.add_parser("consolidar"); x.add_argument("contrato"); x.add_argument("--horas-dia", type=float, default=8.0)
+    x = pj.add_parser("gerar-os"); x.add_argument("contrato"); x.add_argument("--projeto", required=True); x.add_argument("--os", required=True)
+    x.add_argument("--caminho", required=True, help="pasta do código do projeto, ex.: projetos/gestao-documental")
+    x = sp.add_parser("crud", help="Gera CRUD completo (banco, API, testes, tela) a partir de uma especificação")
+    x.add_argument("sub", choices=["gerar"]); x.add_argument("especificacao"); x.add_argument("--projeto", required=True)
     x = pf.add_parser("adicionar", help="Cadastro mínimo: nome e função"); x.add_argument("contrato"); x.add_argument("--nome", required=True)
     x.add_argument("--funcao", required=True); x.add_argument("--area", default=""); x.add_argument("--senioridade", default="")
 
@@ -2606,6 +2858,24 @@ def main(argv: list[str] | None = None) -> int:
             print(rel(ppj(a.contrato)))
         elif a.cmd == "oportunidades":
             print(rel(oportunidades_medicao(a.contrato, a.os)))
+        elif a.cmd == "abertura":
+            print(rel(abertura(a.contrato, a.data)))
+        elif a.cmd == "planejamento":
+            if a.sub == "consolidar":
+                print(rel(planejamento(a.contrato, a.horas_dia)))
+            else:
+                print(rel(gerar_os_do_plano(a.contrato, a.projeto, a.os, a.caminho)))
+        elif a.cmd == "crud":
+            sys.path.insert(0, str(Path(__file__).parent))
+            from gerador_crud import ErroGerador, gerar_crud
+            try:
+                arqs = gerar_crud(Path(a.especificacao), RAIZ / a.projeto)
+            except ErroGerador as e:
+                raise ErroFabrica(str(e))
+            for camada, lista in arqs.items():
+                print(f"{camada}: {len(lista)} arquivo(s)")
+                for x_ in lista:
+                    print(f"  {x_}")
         elif a.cmd == "word":
             w = exportar_word(Path(a.arquivo), a.contrato)
             print(w or "Word não gerado (ver aviso)")
