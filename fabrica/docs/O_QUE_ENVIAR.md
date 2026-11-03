@@ -16,7 +16,7 @@ Envie o que tiver. O Analista de Editais (G02) lê tudo e depois pergunta **só 
 
 ## 2. Planilhas para preencher
 
-**Mais fácil:** `PLANILHA_PREENCHIMENTO.xlsx` (no ZIP de preenchimento) — todas as abas abaixo num arquivo só. Ver `PREENCHIMENTO_LEIA-ME.md`.
+**Mais fácil:** `DOCUMENTO_BASE.xlsx` (no ZIP de preenchimento) — todas as abas abaixo num arquivo só. Ver `PREENCHIMENTO_LEIA-ME.md`.
 
 Modelos CSV equivalentes em `fabrica/templates/`:
 

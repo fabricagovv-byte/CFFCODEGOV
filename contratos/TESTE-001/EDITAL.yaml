@@ -1,0 +1,13 @@
+# TESTE-001 (FICTÍCIO): exigências extraídas do prompt mestre, que faz o papel de edital neste teste.
+documentos:
+  ppj: {titulo: "Planejamento de Projeto Sustentável (PPJ)", secoes_extras: []}
+relatorios_exigidos: [diario, semanal, mensal, profissional, os, final]
+medicao: {unidade: UST}
+equipe_exigida:
+  - {perfil: "Profissional responsável técnico", quantidade: 1, palavras_chave: ["responsavel", "desenvolvedor", "engenheiro", "analista"], origem: "Prompt mestre, Parte 7 (Profissional responsável: a cadastrar)"}
+tecnologias_exigidas:
+  - {nome: React, origem: "Prompt mestre, Parte 7"}
+  - {nome: FastAPI, origem: "Prompt mestre, Parte 7"}
+  - {nome: PostgreSQL, origem: "Prompt mestre, Parte 7"}
+certificacoes_empresa_exigidas: []
+documentos_exigidos: []

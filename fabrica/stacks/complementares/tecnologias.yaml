@@ -1,0 +1,16 @@
+# Tecnologias complementares (banco, infraestrutura, testes) com a evidência de uso real na fábrica.
+# "verificado": usado e testado de verdade; "configurado": arquivos prontos, sem execução registrada.
+tecnologias:
+  - {nome: PostgreSQL, situacao: verificado, evidencia: "TESTE-001: suíte de testes em PostgreSQL 16, migrações Alembic e trigger de auditoria (contratos/TESTE-001/evidencias)"}
+  - {nome: SQLAlchemy, situacao: verificado, evidencia: "TESTE-001 backend"}
+  - {nome: Alembic, situacao: verificado, evidencia: "TESTE-001: alembic upgrade/check"}
+  - {nome: Docker, situacao: verificado, evidencia: "TESTE-001: docker compose up + backup/restauração (MOD-007 docker-e2e)"}
+  - {nome: Docker Compose, situacao: verificado, evidencia: "TESTE-001 MOD-007"}
+  - {nome: Nginx, situacao: verificado, evidencia: "TESTE-001: proxy do frontend; nginx -t da configuração TLS"}
+  - {nome: Playwright, situacao: verificado, evidencia: "TESTE-001: 12 capturas de tela"}
+  - {nome: SQLite, situacao: verificado, evidencia: "TESTE-001: testes rápidos"}
+  - {nome: GitHub Actions, situacao: configurado, evidencia: ".github/workflows/ci.yml (sem execução registrada aqui)"}
+  - {nome: Maven, situacao: verificado, evidencia: "stack java-spring (VERIFICACAO.md)"}
+  - {nome: Spring Boot, situacao: verificado, evidencia: "stack java-spring (VERIFICACAO.md)"}
+  - {nome: Vite, situacao: verificado, evidencia: "stack react-vite"}
+  - {nome: TypeScript, situacao: verificado, evidencia: "stacks react-vite e node-typescript"}

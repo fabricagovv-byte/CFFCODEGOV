@@ -14,4 +14,6 @@ Produza, em `contratos/<ID>/MATRIZ_RASTREABILIDADE.md` e num resumo ao usuário:
 6. **Entregáveis e aceite** — documentos e artefatos por OS, critério de aceite, termo provisório/definitivo.
 7. **Riscos e conflitos** — ambiguidades e divergências entre documentos, para análise humana/jurídica.
 
+Grave também as exigências estruturadas em `contratos/<ID>/EDITAL.yaml` (modelo em `fabrica/templates/EDITAL.yaml`) e rode a skill confrontar-edital.
+
 Regras: toda afirmação cita documento + cláusula/página; o que não estiver escrito vira "não encontrado — perguntar ao usuário". Não estime valores que o edital não traz.

@@ -256,3 +256,83 @@ def test_novo_repositorio_com_stack(fab, tmp_path):
     assert json.loads((destino / "fabrica/comunicacao/AGENT_TASKS.json").read_text())["tarefas"] == []
     with pytest.raises(fab.ErroFabrica):
         fab.novo_repositorio(tmp_path / "x", "ID", "S", componentes=["backend=cobol"])
+
+
+# ---------------------------------------------- edital, documento base, saldo, fechamento, PPJ
+
+def test_numero_formato_brasileiro(fab):
+    assert fab.numero("1.500 UST") == 1500 and fab.numero("10,5") == 10.5 and fab.numero("10 UST fictícias") == 10
+    assert fab.numero("") is None
+
+
+def test_cadastro_so_com_nome_e_funcao(fab):
+    fab.novo_contrato("C1")
+    pid = fab.adicionar_profissional("C1", "João da Silva", "Analista de Requisitos")
+    assert pid == "P01" and fab.carregar_profissionais("C1")[0]["funcao"] == "Analista de Requisitos"
+    assert fab.adicionar_profissional("C1", "João da Silva", "Analista de Requisitos") == "P01"  # não duplica
+
+
+def _edital(fab, extra=""):
+    (fab.CONTRATOS / "C1" / "EDITAL.yaml").write_text(
+        "documentos:\n  ppj: {titulo: 'Plano de Trabalho', secoes_extras: [{nome: 'Plano de Transição', orientacao: 'TR 8.2'}]}\n"
+        "  fechamento: {titulo: 'Boletim Diário'}\n"
+        "equipe_exigida:\n"
+        "  - {perfil: 'Gerente de Projeto', quantidade: 1, palavras_chave: [gerente], certificacoes: [PMP], experiencia_anos: 5, origem: 'TR 7.1'}\n"
+        "  - {perfil: 'Desenvolvedor', quantidade: 2, palavras_chave: [desenvolvedor], origem: 'TR 7.2'}\n"
+        "tecnologias_exigidas: [{nome: PostgreSQL, origem: 'TR 4'}, {nome: COBOL, origem: 'TR 4'}]\n"
+        "certificacoes_empresa_exigidas: [{nome: 'ISO 27001'}]\n" + extra)
+
+
+def test_confronto_edital_com_documento_base(fab):
+    fab.novo_contrato("C1")
+    arq = fab.CONTRATOS / "C1" / "eq.csv"
+    arq.write_text("nome,funcao,anos_experiencia,certificacoes\nAna,Gerente de Projeto,3,PMP\nBeto,Desenvolvedor Backend,,\n")
+    fab.importar_profissionais("C1", arq)
+    (fab.CONTRATOS / "C1" / "BASE.yaml").write_text(
+        "empresa: {razao_social: X Ltda, cnpj: '00', responsavel_legal: Y, preposto: Z}\n"
+        "capacidades: [{tipo: CERTIFICACAO_EMPRESA, item: ISO 27001, evidencia: cert.pdf}]\n")
+    _edital(fab)
+    r = fab.confrontar_edital("C1")
+    txt = " | ".join(r["atende"] + r["ajustar"] + r["falta"])
+    assert any("Gerente de Projeto: Ana tem a função, mas falta: experiência" in x for x in r["ajustar"])
+    assert any("Desenvolvedor: Beto (1 de 2)" in x for x in r["atende"]) and any("Desenvolvedor: faltam 1" in x for x in r["falta"])
+    assert any("PostgreSQL" in x for x in r["atende"]) and any("COBOL" in x for x in r["falta"])
+    assert any("ISO 27001" in x for x in r["atende"]) and "razao social" not in txt
+    assert (fab.CONTRATOS / "C1" / "CONFRONTO_EDITAL.md").exists()
+
+
+def test_ppj_e_fechamento_adaptados_ao_edital(fab, tmp_path):
+    _equipe(fab, tmp_path)
+    _edital(fab)
+    c = yaml.safe_load((fab.CONTRATOS / "C1/contrato.yaml").read_text())
+    c["medicao"]["quantidade_contratada"] = "1.000 UST"
+    (fab.CONTRATOS / "C1/contrato.yaml").write_text(yaml.safe_dump(c, allow_unicode=True))
+    (fab.CONTRATOS / "C1/medicoes").mkdir(exist_ok=True)
+    (fab.CONTRATOS / "C1/medicoes/OS1.json").write_text(json.dumps(
+        {"contrato": "C1", "os": "OS1", "medido_em": "x", "totais": {"previsto": 300, "comprovado": 200, "aceito": 120}}))
+    _participacoes(fab, ["2026-11-03,P01,OS1,M1,REVISAO,revisou,PR 1,", "2026-11-03,P02,OS1,M1,CONDUCAO,fez,commit abc,"])
+    (fab.CONTRATOS / "C1/RATEIO_TOTAIS.csv").write_text("periodo,data_inicio,total_ust,base,documento\ndiario,2026-11-03,40,comprovado,registro do gestor\n")
+    s = fab.saldo("C1")
+    assert (s["contratado"], s["saldo_oficial"], s["saldo_projetado"]) == (1000, 880, 800)
+    md = fab.fechamento("C1", "2026-11-03").read_text()
+    assert md.startswith("# Boletim Diário — 2026-11-03") and "Ana Sênior" in md and "Beto Júnior" in md
+    assert "40 UST" in md and "| 1000 UST |" in md
+    assert fab.saldo("C1")["dias_para_esgotar"] == 22  # 880 / 40
+    p = fab.ppj("C1").read_text()
+    assert p.startswith("# Plano de Trabalho — C1") and "Plano de Transição (exigida pelo edital)" in p and "Ana Sênior" in p
+
+
+def test_documento_base_importa_empresa_e_capacidades(fab, tmp_path):
+    openpyxl = pytest.importorskip("openpyxl")
+    x = fab.gerar_planilha(tmp_path / "base.xlsx")
+    wb = openpyxl.load_workbook(x)
+    for row in wb["EMPRESA"].iter_rows(min_row=2):
+        if row[0].value == "razao_social":
+            row[1].value = "Empresa Exemplo Ltda"
+    wb["CAPACIDADES"].append(["TECNOLOGIA", "Java / Spring Boot", "5 sistemas", "atestado 1"])
+    wb["PROFISSIONAIS"].append(["Ana", "Gerente de Projeto"])
+    wb.save(x)
+    r = fab.importar_planilha("C5", x)
+    base = yaml.safe_load((fab.CONTRATOS / "C5/BASE.yaml").read_text())
+    assert base["empresa"]["razao_social"] == "Empresa Exemplo Ltda" and base["capacidades"][0]["item"] == "Java / Spring Boot"
+    assert r["profissionais"]["novos"] == 1

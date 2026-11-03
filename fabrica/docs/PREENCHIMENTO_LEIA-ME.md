@@ -1,13 +1,21 @@
 # Pacote de preenchimento — leia primeiro
 
+## O documento base
+
+`DOCUMENTO_BASE.xlsx` é o **documento único** que você preenche uma vez e entrega junto com o edital.
+A fábrica lê o edital, cruza com o documento base e responde: **o que já atende, o que precisa ajustar e o que falta**
+(`CONFRONTAR EDITAL <ID>`). O mínimo é a aba PROFISSIONAIS com **nome e função** de cada pessoa.
+
 ## O jeito mais fácil (celular)
 
-Abra **`PLANILHA_PREENCHIMENTO.xlsx`** no Excel ou Google Planilhas, preencha as abas e me envie.
+Abra **`DOCUMENTO_BASE.xlsx`** no Excel ou Google Planilhas, preencha as abas e me envie.
 
 | Aba | O que pôr | Obrigatório |
 |---|---|---|
+| EMPRESA | razão social, CNPJ, responsável legal, preposto, contato | sim, para o confronto |
+| CAPACIDADES | tecnologias dominadas, certificações e atestados da empresa, metodologias, infraestrutura | recomendado |
 | CONTRATO | dados do contrato (só a coluna "valor") | o que souber |
-| PROFISSIONAIS | **nome, função, CPF**, área, senioridade de cada pessoa real | sim |
+| PROFISSIONAIS | **nome e função** (mínimo); CPF, área, senioridade, formação, anos de experiência, certificações | sim |
 | PARTICIPACOES | o que cada pessoa fez e a prova (commit, PR, ata, e-mail, "registro do gestor") | para relatório por pessoa e rateio |
 | RATEIO_TOTAIS | total de UST de cada semana/mês para dividir (ex.: semanal, 2026-11-02, 250) | para o rateio em UST |
 | TABELA_UST | catálogo de serviços do TR | sim, para medir |

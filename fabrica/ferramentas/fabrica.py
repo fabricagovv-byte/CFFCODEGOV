@@ -399,7 +399,7 @@ def novo_contrato(cid: str) -> Path:
         (d / sub).mkdir(parents=True, exist_ok=True)
     form = (tpl / "FORMULARIO_CONTRATO.yaml").read_text(encoding="utf-8")
     (d / "contrato.yaml").write_text(form.replace("<ID_CONTRATO>", cid), encoding="utf-8")
-    for nome in ("PROFISSIONAIS.csv", "PARTICIPACOES.csv", "TABELA_UST.csv", "RATEIO.yaml", "RATEIO_TOTAIS.csv",
+    for nome in ("PROFISSIONAIS.csv", "PARTICIPACOES.csv", "TABELA_UST.csv", "RATEIO.yaml", "RATEIO_TOTAIS.csv", "EDITAL.yaml",
                  "MATRIZ_RASTREABILIDADE.md", "GEC_TEMPLATE.md"):
         destino = d / ("GEC.md" if nome == "GEC_TEMPLATE.md" else nome)
         shutil.copy(tpl / nome, destino)
@@ -964,8 +964,9 @@ def relatorio(cid: str, tipo: str, ref: str | None = None, profissional: str | N
     profs = {p["id"]: p for p in carregar_profissionais(cid)}
     org = (contrato.get("contratante") or {}).get("orgao", "")
     num = (contrato.get("contrato") or {}).get("numero", cid)
-    titulo = {"diario": f"Relatório diário — {inis}", "semanal": f"Relatório semanal — {inis} a {fims}",
-              "mensal": f"Relatório mensal — {ini.strftime('%m/%Y')}",
+    titulo = {"diario": f"{titulo_doc(cid, 'relatorio_diario')} — {inis}",
+              "semanal": f"{titulo_doc(cid, 'relatorio_semanal')} — {inis} a {fims}",
+              "mensal": f"{titulo_doc(cid, 'relatorio_mensal')} — {ini.strftime('%m/%Y')}",
               "profissional": f"Relatório por profissional — {profissional} — {ini.strftime('%m/%Y')}"}[tipo]
     L = [f"# {titulo}", "", f"- Órgão: {org or 'a cadastrar'}", f"- Contrato: {num}",
          f"- Ordens de serviço: {', '.join(o['os'] for o in oss) or '—'}", f"- Período: {inis} a {fims}",
@@ -1154,8 +1155,8 @@ def preparar_entrega(cid: str, osid: str) -> Path:
 # ------------------------------------------------------- equipe real (CPF / LGPD)
 
 SENIORIDADES = ["JUNIOR", "PLENO", "SENIOR", "ESPECIALISTA"]
-CAMPOS_PROF = ["id", "nome", "funcao", "area", "senioridade", "cpf_mascarado", "qualificacao",
-               "registro_ou_certificacao", "responsabilidades", "modulos", "email_corporativo", "inicio", "fim"]
+CAMPOS_PROF = ["id", "nome", "funcao", "area", "senioridade", "cpf_mascarado", "formacao", "anos_experiencia", "certificacoes",
+               "qualificacao", "registro_ou_certificacao", "responsabilidades", "modulos", "email_corporativo", "inicio", "fim"]
 
 
 def so_digitos(texto: str) -> str:
@@ -1396,8 +1397,9 @@ def tabela_rateio_md(r: dict, profissional: str | None = None) -> list[str]:
 # ------------------------------------------------------------------ planilha
 
 ABAS_PLANILHA = {
-    "PROFISSIONAIS": ["nome", "funcao", "cpf", "area", "senioridade", "qualificacao", "registro_ou_certificacao",
-                      "responsabilidades", "email_corporativo", "inicio", "fim"],
+    "PROFISSIONAIS": ["nome", "funcao", "cpf", "area", "senioridade", "formacao", "anos_experiencia", "certificacoes",
+                      "qualificacao", "responsabilidades", "email_corporativo", "inicio", "fim"],
+    "CAPACIDADES": ["tipo", "item", "detalhe", "evidencia"],
     "PARTICIPACOES": ["data", "profissional_id", "os", "modulo", "tipo", "descricao", "evidencia", "horas_declaradas"],
     "TABELA_UST": ["codigo", "descricao", "unidade", "ust_por_unidade", "complexidade", "referencia_contratual", "observacao"],
     "RATEIO_TOTAIS": ["periodo", "data_inicio", "total_ust", "base", "documento"],
@@ -1407,7 +1409,8 @@ ABAS_PLANILHA = {
 LISTAS = {"senioridade": SENIORIDADES, "tipo": TIPOS_PARTICIPACAO,
           "area": ["BACKEND", "FRONTEND", "DADOS", "INTEGRACOES", "INFRA", "QUALIDADE", "SEGURANCA", "GESTAO", "REQUISITOS", "UX"],
           "periodo": ["diario", "semanal", "mensal"], "base": ["aceito", "comprovado", "previsto"],
-          "unidade": ["UST", "PF", "HORA", "ENTREGAVEL"], "complexidade": ["BAIXA", "MEDIA", "ALTA", "MUITO_ALTA"]}
+          "unidade": ["UST", "PF", "HORA", "ENTREGAVEL"],
+          "tipo_cap": ["TECNOLOGIA", "CERTIFICACAO_EMPRESA", "ATESTADO", "METODOLOGIA", "INFRAESTRUTURA", "FERRAMENTA", "OUTRO"], "complexidade": ["BAIXA", "MEDIA", "ALTA", "MUITO_ALTA"]}
 
 
 def _campos_formulario() -> list[tuple[str, str]]:
@@ -1426,6 +1429,12 @@ def _campos_formulario() -> list[tuple[str, str]]:
     return campos
 
 
+CAMPOS_EMPRESA = [("razao_social", "Razão social da contratada"), ("cnpj", "CNPJ"), ("endereco", "Endereço"),
+                  ("responsavel_legal", "Nome do responsável legal"), ("preposto", "Nome do preposto junto ao órgão"),
+                  ("contato", "E-mail/telefone de contato"), ("porte", "ME / EPP / demais"),
+                  ("areas_atuacao", "Ex.: desenvolvimento, sustentação, BI"), ("observacoes", "Qualquer informação útil")]
+
+
 def gerar_planilha(destino: Path) -> Path:
     import openpyxl
     from openpyxl.styles import Alignment, Font, PatternFill
@@ -1434,9 +1443,13 @@ def gerar_planilha(destino: Path) -> Path:
     ws = wb.active
     ws.title = "LEIA-ME"
     texto = [
-        "PLANILHA DE PREENCHIMENTO — Fábrica de Software Governamental",
+        "DOCUMENTO BASE — Fábrica de Software Governamental",
+        "",
+        "Preencha uma vez e entregue junto com o edital: a fábrica cruza com o edital e diz o que atende, o que ajustar e o que falta.",
+        "Mínimo necessário: aba PROFISSIONAIS com NOME e FUNÇÃO de cada pessoa. O resto melhora a análise.",
         "",
         "1. Preencha as abas. Linhas iniciadas por # são exemplos e são ignoradas.",
+        "   EMPRESA: dados da contratada. CAPACIDADES: tecnologias, certificações, atestados, metodologias, infraestrutura.",
         "2. CONTRATO: só a coluna 'valor' (deixe vazio o que não souber).",
         "3. PROFISSIONAIS: nome, função e CPF de cada pessoa real; área e senioridade servem para o rateio.",
         "   O CPF NÃO vai para o git: fica numa pasta privada; nos relatórios aparece mascarado (***.456.789-**).",
@@ -1445,19 +1458,25 @@ def gerar_planilha(destino: Path) -> Path:
         "5. RATEIO_TOTAIS: total de UST do período (ex.: semanal, 2026-11-02, 250) para dividir entre a equipe.",
         "6. TABELA_UST: copie o catálogo do Termo de Referência sem converter unidades.",
         "7. PROJETOS: até 30 sistemas — cada linha vira um repositório próprio.",
-        "8. Envie a planilha na conversa e diga: IMPORTAR PLANILHA <ID-do-contrato>.",
+        "8. Envie este arquivo com o edital e diga: IMPORTAR DOCUMENTO BASE <ID-do-contrato> e depois CONFRONTAR EDITAL <ID>.",
     ]
     for i, t in enumerate(texto, start=1):
         ws.cell(row=i, column=1, value=t)
     ws["A1"].font = Font(bold=True, size=14)
     ws.column_dimensions["A"].width = 110
     cab_fill = PatternFill("solid", fgColor="1351B4")
+    we = wb.create_sheet("EMPRESA")
+    we.append(["campo", "valor", "ajuda"])
+    for campo, ajuda in CAMPOS_EMPRESA:
+        we.append([campo, "", ajuda])
+    we.column_dimensions["A"].width = 24; we.column_dimensions["B"].width = 50; we.column_dimensions["C"].width = 50
     wc = wb.create_sheet("CONTRATO")
     wc.append(["campo", "valor", "ajuda"])
     for campo, ajuda in _campos_formulario():
         wc.append([campo, "", ajuda])
     exemplos = {
-        "PROFISSIONAIS": ["#Maria Exemplo", "Desenvolvedora Backend", "000.000.000-00", "BACKEND", "SENIOR", "Graduação + 8 anos", "", "APIs e revisão", "maria@empresa.com.br", "2026-01-01", ""],
+        "PROFISSIONAIS": ["#Maria Exemplo", "Desenvolvedora Backend", "000.000.000-00", "BACKEND", "SENIOR", "Ciência da Computação", "8", "Java OCP; Scrum", "", "APIs e revisão", "maria@empresa.com.br", "2026-01-01", ""],
+        "CAPACIDADES": ["#TECNOLOGIA", "Java / Spring Boot", "5 sistemas em produção desde 2019", "atestado 03/2024"],
         "PARTICIPACOES": ["#2026-11-03", "P01", "OS-001", "MOD-001", "REVISAO", "Revisou e corrigiu a API de login", "PR #12", ""],
         "TABELA_UST": ["#UST-DEV-03", "Desenvolvimento alta complexidade", "UST", "24", "ALTA", "TR item 5.3", ""],
         "RATEIO_TOTAIS": ["#semanal", "2026-11-02", "250", "aceito", "Termo 12/2026 ou e-mail do fiscal"],
@@ -1470,7 +1489,7 @@ def gerar_planilha(destino: Path) -> Path:
         w.append(exemplos[aba])
         for i, c in enumerate(cols, start=1):
             w.column_dimensions[openpyxl.utils.get_column_letter(i)].width = max(14, len(c) + 4)
-            lista = LISTAS.get(c)
+            lista = LISTAS.get("tipo_cap" if (aba, c) == ("CAPACIDADES", "tipo") else c)
             if lista:
                 dv = DataValidation(type="list", formula1='"' + ",".join(lista) + '"', allow_blank=True)
                 w.add_data_validation(dv)
@@ -1513,6 +1532,16 @@ def importar_planilha(cid: str, arquivo: Path) -> dict:
         (d / "contrato.yaml").write_text("# Atualizado por fabrica.py planilha importar\n" +
                                          yaml.safe_dump(contrato, allow_unicode=True, sort_keys=False), encoding="utf-8")
     res["contrato_campos"] = n
+    emp = {r["campo"]: r["valor"] for r in ler_tabela(arquivo, "EMPRESA") if r.get("campo") and r.get("valor")}
+    caps = ler_tabela(arquivo, "CAPACIDADES")
+    if emp or caps:
+        base = carregar_base(cid)
+        base["empresa"] = {**(base.get("empresa") or {}), **emp}
+        if caps:
+            base["capacidades"] = caps
+        (d / "BASE.yaml").write_text("# Documento base importado (empresa e capacidades)\n" +
+                                     yaml.safe_dump(base, allow_unicode=True, sort_keys=False), encoding="utf-8")
+        res["empresa_campos"], res["capacidades"] = len(emp), len(caps)
     if ler_tabela(arquivo, "PROFISSIONAIS"):
         res["profissionais"] = importar_profissionais(cid, arquivo)
     for aba, nome in (("PARTICIPACOES", "PARTICIPACOES.csv"), ("TABELA_UST", "TABELA_UST.csv"),
@@ -1704,7 +1733,7 @@ def repositorios_em_lote(planilha: Path, base: Path) -> list[Path]:
     return criados
 
 
-def consolidar_portfolio(repos: list[Path], saida: Path) -> Path:
+def consolidar_portfolio(repos: list[Path], saida: Path, dia: str | None = None) -> Path:
     """Soma medições e rateios de vários repositórios (portfólio de projetos)."""
     L = ["# Portfólio — consolidado de repositórios", "", f"Gerado em {agora()}.", "",
          "| Repositório | Projeto | Contrato/OS | Previsto | Comprovado | Aceito |", "|---|---|---|---|---|---|"]
@@ -1724,11 +1753,359 @@ def consolidar_portfolio(repos: list[Path], saida: Path) -> Path:
                     chave = f"{ln['nome']} ({ln['funcao']})"
                     por_prof[chave] = por_prof.get(chave, 0) + ln["ust"]
     L.append(f"| **Total** | | | **{tot['previsto']:g}** | **{tot['comprovado']:g}** | **{tot['aceito']:g}** |")
+    L += ["", "## Saldo por projeto", "", "| Repositório | Contrato | Contratado | Aceito | Comprovado | Saldo oficial | Saldo projetado |", "|---|---|---|---|---|---|---|"]
+    for r in repos:
+        for cdir in sorted(r.glob("contratos/*/contrato.yaml")):
+            c = ler_yaml(cdir) or {}
+            contratado = numero((c.get("medicao") or {}).get("quantidade_contratada"))
+            ac = cp = 0.0
+            for m in cdir.parent.glob("medicoes/*.json"):
+                tt = json.loads(m.read_text(encoding="utf-8"))["totais"]; ac += tt["aceito"]; cp += tt["comprovado"]
+            fmt = lambda x: "—" if x is None else f"{x:g}"  # noqa: E731
+            L.append(f"| {r.name} | {cdir.parent.name} | {fmt(contratado)} | {ac:g} | {cp:g} | {fmt(None if contratado is None else contratado - ac)} | {fmt(None if contratado is None else contratado - cp)} |")
+    if dia:
+        L += ["", f"## Fechamento de {dia} — todos os projetos", "", "| Repositório | Contrato | Quem trabalhou | Commits | Tarefas concluídas | Produção informada |", "|---|---|---|---|---|---|"]
+        for r in repos:
+            for fj in sorted(r.glob(f"contratos/*/relatorios/fechamentos/{dia}.json")):
+                fx = json.loads(fj.read_text(encoding="utf-8"))
+                prod = fx.get("producao_informada") or {}
+                L.append(f"| {r.name} | {fx['contrato']} | {', '.join(x['nome'] for x in fx['trabalharam']) or 'sem registro'} | {fx['commits']} | {len(fx['tarefas_concluidas'])} | {prod.get('total', '—')} |")
     L += ["", "## Rateio interno somado por profissional (todos os repositórios)", ""]
     L += ["| Profissional | UST atribuída |", "|---|---|", *[f"| {k} | {v:g} |" for k, v in sorted(por_prof.items())]] if por_prof else ["Sem rateios com total informado."]
     saida.parent.mkdir(parents=True, exist_ok=True)
     saida.write_text("\n".join(L) + "\n", encoding="utf-8")
     return saida
+
+
+# ------------------------------------------- edital: exigências, adaptações, confronto
+
+EDITAL_PADRAO = {
+    "documentos": {
+        "ppj": {"titulo": "Planejamento de Projeto Sustentável (PPJ)", "secoes_extras": []},
+        "fechamento": {"titulo": "Fechamento diário"},
+        "relatorio_diario": {"titulo": "Relatório diário"},
+        "relatorio_semanal": {"titulo": "Relatório semanal"},
+        "relatorio_mensal": {"titulo": "Relatório mensal"},
+    },
+    "relatorios_exigidos": ["diario", "semanal", "mensal"],
+    "medicao": {"unidade": "UST"},
+    "equipe_exigida": [],
+    "tecnologias_exigidas": [],
+    "certificacoes_empresa_exigidas": [],
+    "documentos_exigidos": [],
+    "prazos": [],
+}
+RELATORIOS_SUPORTADOS = {"diario", "semanal", "mensal", "profissional", "fechamento", "medicao", "os", "final"}
+UNIDADES_SUPORTADAS = {"UST", "PF", "HORA", "ENTREGAVEL"}
+
+
+def _mesclar(base: dict, extra: dict) -> dict:
+    out = dict(base)
+    for k, v in (extra or {}).items():
+        out[k] = _mesclar(out[k], v) if isinstance(v, dict) and isinstance(out.get(k), dict) else v
+    return out
+
+
+def edital_cfg(cid: str) -> dict:
+    """Exigências e adaptações do edital (EDITAL.yaml do contrato) sobre o padrão da fábrica."""
+    p = CONTRATOS / cid / "EDITAL.yaml"
+    return _mesclar(EDITAL_PADRAO, (ler_yaml(p) or {}) if p.exists() else {})
+
+
+def titulo_doc(cid: str, chave: str) -> str:
+    return edital_cfg(cid)["documentos"].get(chave, {}).get("titulo", chave)
+
+
+def normalizar(texto: str) -> str:
+    return " " + " ".join(re.findall(r"[a-z0-9+#.]+", unicodedata.normalize("NFKD", str(texto)).encode("ascii", "ignore").decode().lower())) + " "
+
+
+def _contem(texto: str, termo: str) -> bool:
+    t = normalizar(termo).strip()
+    return bool(t) and f" {t} " in normalizar(texto)
+
+
+def carregar_base(cid: str) -> dict:
+    p = CONTRATOS / cid / "BASE.yaml"
+    return (ler_yaml(p) or {}) if p.exists() else {}
+
+
+def confrontar_edital(cid: str) -> dict:
+    """Cruza as exigências do edital (EDITAL.yaml) com o documento base (equipe + capacidades) e diz o que atende, o que ajustar e o que falta."""
+    d = dir_contrato(cid)
+    if not (d / "EDITAL.yaml").exists():
+        raise ErroFabrica(f"{cid}: EDITAL.yaml não existe — o Analista de Editais (G02) precisa extrair as exigências primeiro")
+    ed = edital_cfg(cid)
+    base = carregar_base(cid)
+    profs = carregar_profissionais(cid)
+    caps = base.get("capacidades") or []
+    atende, ajustar, falta = [], [], []
+    usados: set[str] = set()
+    for req in ed["equipe_exigida"]:
+        perfil = req.get("perfil", "")
+        qtd = int(req.get("quantidade", 1) or 1)
+        termos = req.get("palavras_chave") or [perfil]
+        cand = [p for p in profs if p["id"] not in usados and any(_contem(p["funcao"] + " " + p.get("area", ""), t) for t in termos)]
+        bons, parciais = [], []
+        for p in cand:
+            faltas = []
+            for c in req.get("certificacoes", []) or []:
+                if not _contem(" ".join([p.get("certificacoes", ""), p.get("registro_ou_certificacao", ""), p.get("qualificacao", "")]), c):
+                    faltas.append(f"certificação {c}")
+            anos = req.get("experiencia_anos")
+            if anos and float(re.sub(r"[^\d.]", "", str(p.get("anos_experiencia") or "0")) or 0) < float(anos):
+                faltas.append(f"experiência ≥ {anos} anos (informado: {p.get('anos_experiencia') or 'não informado'})")
+            if req.get("formacao") and not _contem(p.get("formacao", "") + " " + p.get("qualificacao", ""), req["formacao"]):
+                faltas.append(f"formação {req['formacao']}")
+            (parciais if faltas else bons).append((p, faltas))
+        escolhidos = bons[:qtd]
+        for p, _ in escolhidos:
+            usados.add(p["id"])
+        orig = req.get("origem", "origem não citada")
+        if len(escolhidos) >= qtd:
+            atende.append(f"Equipe — {perfil} ({qtd}): {', '.join(p['nome'] for p, _ in escolhidos)} [{orig}]")
+        else:
+            resto = qtd - len(escolhidos)
+            for p, f in parciais[:resto]:
+                usados.add(p["id"])
+                ajustar.append(f"Equipe — {perfil}: {p['nome']} tem a função, mas falta: {', '.join(f)} [{orig}]")
+                resto -= 1
+            if escolhidos:
+                atende.append(f"Equipe — {perfil}: {', '.join(p['nome'] for p, _ in escolhidos)} ({len(escolhidos)} de {qtd}) [{orig}]")
+            if resto > 0:
+                falta.append(f"Equipe — {perfil}: faltam {resto} profissional(is) "
+                             f"(exige {qtd}{'; certificações: ' + ', '.join(req.get('certificacoes') or []) if req.get('certificacoes') else ''}"
+                             f"{'; ' + str(req['experiencia_anos']) + ' anos' if req.get('experiencia_anos') else ''}) [{orig}]")
+    stacks_txt = " ".join(f"{s} {carregar_stack(s)['linguagem']} {carregar_stack(s).get('framework', '')}" for s in listar_stacks())
+    verif = (ler_json(FAB / "stacks" / "_verificacao" / "resultado.json") or {}).get("resultados", {})
+    for tec in ed["tecnologias_exigidas"]:
+        nome = tec if isinstance(tec, str) else tec.get("nome", "")
+        orig = "" if isinstance(tec, str) else f" [{tec.get('origem', '')}]"
+        stk = [s for s in listar_stacks() if _contem(f"{s} {carregar_stack(s)['linguagem']} {carregar_stack(s).get('framework', '')}", nome)]
+        cap = [c for c in caps if (c.get("tipo") or "").upper() == "TECNOLOGIA" and _contem(c.get("item", "") + " " + c.get("detalhe", ""), nome)]
+        compl = [x for x in (ler_yaml(FAB / "stacks" / "complementares" / "tecnologias.yaml") or {}).get("tecnologias", [])
+                 if _contem(x["nome"], nome) or _contem(nome, x["nome"])]
+        if compl and compl[0]["situacao"] == "verificado" and not stk:
+            atende.append(f"Tecnologia — {nome}: usada e testada na fábrica ({compl[0]['evidencia']}){' e experiência declarada' if cap else ''}{orig}")
+        elif stk and any(verif.get(s, {}).get("situacao") == "APROVADO" for s in stk):
+            atende.append(f"Tecnologia — {nome}: esqueleto verificado ({', '.join(stk)}){' e experiência declarada' if cap else ''}{orig}")
+        elif stk or cap:
+            ajustar.append(f"Tecnologia — {nome}: {'esqueleto existe mas não verificado (' + ', '.join(stk) + ')' if stk else 'experiência declarada, sem esqueleto na fábrica — criar stack'}{orig}")
+        elif _contem(stacks_txt, nome):
+            ajustar.append(f"Tecnologia — {nome}: citada parcialmente nas stacks; confirmar versão{orig}")
+        else:
+            falta.append(f"Tecnologia — {nome}: não há stack nem experiência declarada — criar stack e informar experiência{orig}")
+    for cert in ed["certificacoes_empresa_exigidas"]:
+        nome = cert if isinstance(cert, str) else cert.get("nome", "")
+        ok = [c for c in caps if (c.get("tipo") or "").upper() in ("CERTIFICACAO_EMPRESA", "ATESTADO") and _contem(c.get("item", "") + " " + c.get("detalhe", ""), nome)]
+        (atende if ok else falta).append(f"Certificação/atestado da empresa — {nome}: {'informado: ' + ok[0].get('item', '') + (' (prova: ' + ok[0].get('evidencia', '') + ')' if ok[0].get('evidencia') else ' (sem documento anexado)') if ok else 'não consta no documento base'}")
+    for r in ed["relatorios_exigidos"]:
+        (atende if str(r).lower() in RELATORIOS_SUPORTADOS else ajustar).append(
+            f"Relatório {r}: {'gerado pela fábrica' if str(r).lower() in RELATORIOS_SUPORTADOS else 'formato novo — criar modelo (G19)'}")
+    un = str(ed["medicao"].get("unidade", "UST")).upper()
+    (atende if un in UNIDADES_SUPORTADAS else ajustar).append(f"Medição em {un}: {'suportada' if un in UNIDADES_SUPORTADAS else 'unidade nova — definir regra de medição com base no contrato'}")
+    for doc in ed["documentos_exigidos"]:
+        nome = doc if isinstance(doc, str) else doc.get("nome", "")
+        ajustar.append(f"Documento exigido — {nome}: será gerado com este título; confirmar seções no edital")
+    emp = base.get("empresa") or {}
+    for campo in ("razao_social", "cnpj", "responsavel_legal", "preposto"):
+        if not emp.get(campo):
+            falta.append(f"Empresa — {campo.replace('_', ' ')} não informado no documento base")
+    if not profs:
+        falta.append("Equipe — nenhum profissional cadastrado (basta informar nome e função)")
+    r = {"contrato": cid, "gerado_em": agora(), "atende": atende, "ajustar": ajustar, "falta": falta,
+         "adaptacoes_aplicadas": {k: v["titulo"] for k, v in ed["documentos"].items()},
+         "relatorios_exigidos": ed["relatorios_exigidos"]}
+    gravar_json(d / "CONFRONTO_EDITAL.json", r)
+    L = [f"# Confronto edital × documento base — {cid}", "", f"Gerado em {r['gerado_em']} (G02 Analista de Editais + G18 Gestor de Profissionais).", "",
+         f"Resumo: **{len(atende)} atende · {len(ajustar)} ajustar · {len(falta)} falta**", "",
+         "## Já atende", *[f"- ✔ {x}" for x in atende or ["(nada ainda)"]], "",
+         "## Precisa ajustar", *[f"- ⚠ {x}" for x in ajustar or ["(nada)"]], "",
+         "## Falta (pedir ao responsável)", *[f"- ✘ {x}" for x in falta or ["(nada)"]], "",
+         "## Adaptações aplicadas a partir do edital", "",
+         *[f"- Documento `{k}` → título **{v}**" for k, v in r["adaptacoes_aplicadas"].items()],
+         f"- Relatórios exigidos: {', '.join(map(str, ed['relatorios_exigidos']))}", "",
+         "> A comparação é automática por palavras-chave. Itens de equipe e certificações exigem conferência humana dos documentos comprobatórios.", ""]
+    (d / "CONFRONTO_EDITAL.md").write_text("\n".join(L), encoding="utf-8")
+    return r
+
+
+# ------------------------------------------------------ saldo, fechamento e PPJ
+
+def numero(texto: Any) -> float | None:
+    """Primeiro número do texto, aceitando formato brasileiro: '1.500 UST' -> 1500; '10,5' -> 10.5."""
+    m = re.search(r"\d[\d.]*(?:,\d+)?", str(texto or ""))
+    if not m:
+        return None
+    v = m.group(0).rstrip(".")
+    if "," in v:
+        v = v.replace(".", "").replace(",", ".")
+    elif re.fullmatch(r"\d{1,3}(\.\d{3})+", v):
+        v = v.replace(".", "")
+    return float(v)
+
+
+def saldo(cid: str) -> dict:
+    """Saldo do contrato: contratado − aceito (oficial) e contratado − comprovado (projetado)."""
+    d = dir_contrato(cid)
+    c = ler_yaml(d / "contrato.yaml") or {}
+    contratado = numero((c.get("medicao") or {}).get("quantidade_contratada"))
+    tot = {"previsto": 0.0, "comprovado": 0.0, "aceito": 0.0}
+    por_os = []
+    for m in sorted((d / "medicoes").glob("*.json")):
+        med = json.loads(m.read_text(encoding="utf-8"))
+        por_os.append({"os": med["os"], **med["totais"], "medido_em": med["medido_em"]})
+        for k in tot:
+            tot[k] += med["totais"][k]
+    r = {"contratado": contratado, **tot, "por_os": por_os,
+         "saldo_oficial": None if contratado is None else round(contratado - tot["aceito"], 2),
+         "saldo_projetado": None if contratado is None else round(contratado - tot["comprovado"], 2),
+         "consumo_aceito_pct": None if not contratado else round(100 * tot["aceito"] / contratado, 1),
+         "unidade": edital_cfg(cid)["medicao"].get("unidade", "UST")}
+    hist = sorted((d / "relatorios" / "fechamentos").glob("*.json")) if (d / "relatorios" / "fechamentos").exists() else []
+    dias = [json.loads(h.read_text(encoding="utf-8")) for h in hist]
+    dias_prod = [x for x in dias if (x.get("producao_informada") or {}).get("total")]
+    if dias_prod and r["saldo_oficial"] is not None:
+        media = sum(x["producao_informada"]["total"] for x in dias_prod) / len(dias_prod)
+        r["media_diaria_informada"] = round(media, 2)
+        r["dias_para_esgotar"] = round(r["saldo_oficial"] / media, 1) if media else None
+    return r
+
+
+def fechamento(cid: str, ref: str | None = None) -> Path:
+    """Fechamento do dia do projeto: nomes, produção, UST do dia, acumulados e saldo."""
+    d = dir_contrato(cid)
+    dia = ref or hoje()
+    date.fromisoformat(dia)
+    c = ler_yaml(d / "contrato.yaml") or {}
+    profs = {p["id"]: p for p in carregar_profissionais(cid)}
+    partic, _ = carregar_participacoes(cid)
+    partic = [p for p in partic if p["data"] == dia]
+    oss = [ler_yaml(p) for p in sorted((d / "os").glob("*.yaml"))]
+    commits = []
+    for o in oss:
+        try:
+            commits += [{**x, "os": o["os"]} for x in _git_periodo(dia, dia, o["projeto"])]
+        except ErroFabrica:
+            pass
+    tarefas = [t for t in carregar_tarefas()["tarefas"] if t["contrato"] == cid]
+    concl = [t for t in tarefas if any(h["para"] == "DONE" and h["em"][:10] == dia for h in t["historico"])]
+    testes = []
+    for o in oss:
+        for m in o.get("modulos", []):
+            tj = ler_json(dir_mod(cid, o["os"], m["id"]) / "TESTES.json")
+            if tj and tj["executado_em"][:10] == dia:
+                testes.append((o["os"], m["id"], tj))
+    informada = total_informado(cid, "diario", dia)
+    rt = rateio(cid, "diario", dia, informada["total"] if informada else None)
+    sd = saldo(cid)
+    trabalharam = sorted({p["profissional_id"] for p in partic})
+    dados = {"contrato": cid, "data": dia, "gerado_em": agora(),
+             "trabalharam": [{"id": i, "nome": profs[i]["nome"], "funcao": profs[i]["funcao"]} for i in trabalharam],
+             "participacoes": partic, "commits": len(commits), "tarefas_concluidas": [t["id"] for t in concl],
+             "testes": sum(t["resumo"]["testes"] for *_, t in testes), "falhas": sum(t["resumo"]["falhas"] + t["resumo"]["erros"] for *_, t in testes),
+             "producao_informada": informada, "rateio": rt["linhas"], "saldo": {k: v for k, v in sd.items() if k != "por_os"}}
+    pasta = d / "relatorios" / "fechamentos"
+    gravar_json(pasta / f"{dia}.json", dados)
+    sd = saldo(cid)  # recalcula com o dia gravado (média)
+    un = sd["unidade"]
+    org = (c.get("contratante") or {}).get("orgao", "")
+    L = [f"# {titulo_doc(cid, 'fechamento')} — {dia}", "",
+         f"- Projeto/contrato: {cid} · Órgão: {org or 'a cadastrar'} · OS: {', '.join(o['os'] for o in oss) or '—'}",
+         f"- Gerado em {dados['gerado_em']} por G19 via `fabrica.py fechamento`", "",
+         "## Quem trabalhou hoje", ""]
+    L += [f"- {x['nome']} — {x['funcao']}" for x in dados["trabalharam"]] or ["- Sem participação registrada hoje."]
+    L += ["", "## Equipe designada", ""]
+    L += [f"- {p['nome']} — {p['funcao']}" for p in profs.values()] or ["- Nenhum profissional cadastrado."]
+    L += ["", "## Produção do dia", "",
+          f"- Commits: {len(commits)}", f"- Tarefas concluídas: {', '.join(dados['tarefas_concluidas']) or 'nenhuma'}",
+          f"- Testes executados: {dados['testes']} ({dados['falhas']} falhas)",
+          "- Produção informada do dia: " + (f"{informada['total']:g} {un} (base {informada['base'] or 'não informada'}; {informada['documento'] or 'sem documento'})"
+                                              if informada else "não informada (RATEIO_TOTAIS.csv, período diario)")]
+    for p in partic:
+        L.append(f"  - {profs[p['profissional_id']]['nome']}: {p['tipo']} {p['os']}/{p['modulo']} — {p['descricao']} (prova: {p['evidencia']})")
+    L += ["", "## Divisão do dia por profissional", "", *tabela_rateio_md(rt)]
+    def f(v):
+        return "—" if v is None else f"{v:g}"
+    L += ["", "## Saldo do contrato", "",
+          f"| Contratado | Previsto (OS) | Comprovado | Aceito | Saldo oficial (contratado − aceito) | Saldo projetado (contratado − comprovado) | Consumo aceito |",
+          "|---|---|---|---|---|---|---|",
+          f"| {f(sd['contratado'])} {un} | {f(sd['previsto'])} | {f(sd['comprovado'])} | {f(sd['aceito'])} | {f(sd['saldo_oficial'])} | {f(sd['saldo_projetado'])} | {f(sd['consumo_aceito_pct'])}% |"]
+    if sd.get("media_diaria_informada"):
+        L.append(f"\nMédia diária informada: {sd['media_diaria_informada']:g} {un} → saldo oficial dura cerca de {f(sd.get('dias_para_esgotar'))} dias úteis de produção.")
+    if sd["contratado"] is None:
+        L.append("\nQuantidade contratada não informada em contrato.yaml (medicao.quantidade_contratada).")
+    L += ["", "> Fatos registrados (git, quadro, testes, participações). Produção \"aceita\" só com documento do órgão.", ""]
+    (pasta / f"{dia}.md").write_text("\n".join(L), encoding="utf-8")
+    return pasta / f"{dia}.md"
+
+
+def ppj(cid: str) -> Path:
+    """Gera o Planejamento de Projeto Sustentável (título e seções extras adaptáveis pelo EDITAL.yaml)."""
+    d = dir_contrato(cid)
+    c = ler_yaml(d / "contrato.yaml") or {}
+    ed = edital_cfg(cid)
+    cfg = ed["documentos"]["ppj"]
+    profs = carregar_profissionais(cid)
+    sd = saldo(cid)
+    oss = [ler_yaml(p) for p in sorted((d / "os").glob("*.yaml"))]
+    cont, ctr, tec = c.get("contratante") or {}, c.get("contrato") or {}, c.get("tecnico") or {}
+    def v(x):
+        return x if x not in (None, "", []) else "**a preencher**"
+    un = sd["unidade"]
+    L = [f"# {cfg['titulo']} — {cid}", "", f"Gerado em {agora()} pelo Planejador GEC (G04). Itens **a preencher** dependem de informação do contrato ou da equipe.", "",
+         "## 1. Identificação", "", f"- Órgão: {v(cont.get('orgao'))}", f"- Contrato: {v(ctr.get('numero'))} · Processo: {v(ctr.get('processo'))} · Edital: {v(ctr.get('edital'))}",
+         f"- Objeto: {v(ctr.get('objeto'))}", f"- Vigência: {v(ctr.get('vigencia_inicio'))} a {v(ctr.get('vigencia_fim'))}", "",
+         "## 2. Objetivo e escopo", "", f"Executar o objeto contratado com entregas verificáveis por ordem de serviço. OS registradas: {', '.join(o['os'] + ' (' + o.get('titulo', '') + ')' for o in oss) or 'nenhuma'}.", "",
+         "## 3. Entregas e módulos", ""]
+    for o in oss:
+        for m in o.get("modulos", []):
+            L.append(f"- {o['os']}/{m['id']} {m['nome']} — área {m.get('area', '—')}, previsto {m.get('ust_previsto', '—')} {un}")
+    if not oss:
+        L.append("- Nenhuma OS cadastrada.")
+    L += ["", "## 4. Equipe", ""]
+    L += [f"- {p['nome']} — {p['funcao']}{' (' + p['senioridade'] + ')' if p.get('senioridade') else ''}" for p in profs] or ["- **a preencher** (informe nomes e funções)"]
+    L += ["", "## 5. Capacidade, saldo e cronograma", "",
+          f"- Contratado: {sd['contratado'] if sd['contratado'] is not None else '**a preencher**'} {un} · Aceito: {sd['aceito']:g} · Comprovado: {sd['comprovado']:g} · Saldo oficial: {sd['saldo_oficial'] if sd['saldo_oficial'] is not None else '—'}",
+          f"- Média diária informada: {sd.get('media_diaria_informada', 'sem histórico')} · Projeção de esgotamento: {sd.get('dias_para_esgotar', 'sem histórico')} dias",
+          "- Marcos e datas: ver GEC.md, seção 8.", "",
+          "## 6. Sustentação (continuidade do serviço)", "",
+          "- Manutenção corretiva, adaptativa e evolutiva por OS, com testes de regressão automatizados no CI.",
+          "- Monitoramento de saúde (/api/health), backup diário com teste de restauração mensal e plano de recuperação (PLANO_CONTINUIDADE.md).",
+          "- Documentação viva (manuais de publicação e operação) e transferência de conhecimento ao fim do contrato (código, migrações, imagens, último backup, histórico de commits).",
+          f"- Níveis de serviço do contrato: {v((c.get('medicao') or {}).get('glosas_e_sla'))}", "",
+          "## 7. Sustentabilidade", "",
+          "Base: Lei 14.133/2021 (desenvolvimento nacional sustentável como princípio e objetivo da contratação) e critérios do edital. Confirmar no texto vigente e no Guia Nacional de Contratações Sustentáveis aplicável.", "",
+          "| Dimensão | Prática no projeto | Evidência |", "|---|---|---|",
+          "| Ambiental | Processos 100% digitais (sem papel), infraestrutura em contêineres dimensionada à demanda, desligamento de ambientes ociosos | Docker Compose, manuais digitais |",
+          "| Ambiental | Reuso de componentes e builds otimizados (menos processamento e tráfego) | build do frontend, cache de estáticos |",
+          "| Social | Acessibilidade digital (WCAG/eMAG), proteção de dados (LGPD), capacitação da equipe e do órgão | testes de interface, SEGURANCA_LGPD.md |",
+          "| Econômica | Software livre, sem aprisionamento a fornecedor; código e dados entregues ao órgão; medição transparente | pacote de entrega, memória de cálculo |",
+          "| Governança | Rastreabilidade (commits, testes, auditoria), revisão humana, relatórios diários | evidências por módulo, fechamentos |", "",
+          "## 8. Riscos", "", "- Ver GEC.md (seção 10) e AGENT_BLOCKERS.md.", "",
+          "## 9. Indicadores", "", "- Saldo e consumo do contrato (fechamento diário).", "- Taxa de testes aprovados e defeitos reabertos.",
+          "- Tempo de atendimento das OS e cumprimento de SLA.", "- Pendências de aceite do órgão.", ""]
+    for i, s in enumerate(cfg.get("secoes_extras") or [], start=10):
+        nome = s if isinstance(s, str) else s.get("nome", "")
+        L += [f"## {i}. {nome} (exigida pelo edital)", "", f"{(s.get('orientacao') if isinstance(s, dict) else '') or '**a preencher** conforme o edital'}", ""]
+    L += ["---", "Aprovação humana: **pendente**.", ""]
+    p = d / "PPJ.md"
+    p.write_text("\n".join(L), encoding="utf-8")
+    return p
+
+
+def adicionar_profissional(cid: str, nome: str, funcao: str, area: str = "", senioridade: str = "") -> str:
+    """Cadastro mínimo: só nome e função."""
+    import tempfile
+    with tempfile.NamedTemporaryFile("w", suffix=".csv", delete=False, encoding="utf-8") as f:
+        w = csv.writer(f)
+        w.writerow(["nome", "funcao", "area", "senioridade"])
+        w.writerow([nome, funcao, area, senioridade])
+    r = importar_profissionais(cid, Path(f.name))
+    os.unlink(f.name)
+    if r["erros"]:
+        raise ErroFabrica("; ".join(r["erros"]))
+    return next(p["id"] for p in carregar_profissionais(cid) if p["nome"].lower() == nome.strip().lower())
 
 
 def gerar_pacotes(destino: Path) -> dict[str, Path]:
@@ -1746,7 +2123,7 @@ def gerar_pacotes(destino: Path) -> dict[str, Path]:
         saida["configuracao"] = z
         pre = Path(tmp) / "PREENCHIMENTO"
         pre.mkdir()
-        gerar_planilha(pre / "PLANILHA_PREENCHIMENTO.xlsx")
+        gerar_planilha(pre / "DOCUMENTO_BASE.xlsx")
         shutil.copytree(FAB / "templates", pre / "modelos_csv_yaml", ignore=shutil.ignore_patterns("evidencias", "PROFISSIONAIS.csv"))
         shutil.copytree(FAB / "templates" / "evidencias", pre / "modelos_evidencia")
         for doc in ("PREENCHIMENTO_LEIA-ME.md", "O_QUE_ENVIAR.md", "COMO_INICIAR.md", "MEDICAO_UST.md"):
@@ -1880,7 +2257,15 @@ def main(argv: list[str] | None = None) -> int:
     x.add_argument("--orgao", default=""); x.add_argument("--contrato", default=""); x.add_argument("--componente", action="append", default=[])
     x = rp.add_parser("lote", help="Um repositório por linha da aba PROJETOS"); x.add_argument("planilha"); x.add_argument("base")
     x = sp.add_parser("portfolio", help="Consolida vários repositórios"); x.add_argument("repos", nargs="+"); x.add_argument("--saida", default="relatorios/PORTFOLIO.md")
+    x.add_argument("--data", help="inclui o fechamento deste dia de todos os projetos")
     x = sp.add_parser("pacotes", help="Gera os ZIPs de configuração e de preenchimento"); x.add_argument("destino")
+    ed = sp.add_parser("edital", help="Exigências do edital").add_subparsers(dest="sub", required=True)
+    x = ed.add_parser("confrontar", help="Edital × documento base: atende / ajustar / falta"); x.add_argument("contrato")
+    x = sp.add_parser("fechamento", help="Fechamento do dia do projeto (nomes, produção, saldo)"); x.add_argument("contrato"); x.add_argument("--data")
+    x = sp.add_parser("saldo", help="Saldo do contrato"); x.add_argument("contrato")
+    x = sp.add_parser("ppj", help="Planejamento de Projeto Sustentável"); x.add_argument("contrato")
+    x = pf.add_parser("adicionar", help="Cadastro mínimo: nome e função"); x.add_argument("contrato"); x.add_argument("--nome", required=True)
+    x.add_argument("--funcao", required=True); x.add_argument("--area", default=""); x.add_argument("--senioridade", default="")
 
     pr = sp.add_parser("producao").add_subparsers(dest="sub", required=True)
     x = pr.add_parser("estatisticas", help="Média de UST aceita por profissional/complexidade"); x.add_argument("arquivo")
@@ -1957,6 +2342,8 @@ def main(argv: list[str] | None = None) -> int:
         elif a.cmd == "profissionais":
             if a.sub == "importar":
                 print(json.dumps(importar_profissionais(a.contrato, Path(a.arquivo)), ensure_ascii=False, indent=2))
+            elif a.sub == "adicionar":
+                print(adicionar_profissional(a.contrato, a.nome, a.funcao, a.area, a.senioridade))
             else:
                 print(rel(equipe_oficial(a.contrato)))
         elif a.cmd == "rateio":
@@ -1989,7 +2376,16 @@ def main(argv: list[str] | None = None) -> int:
                 for r in repositorios_em_lote(Path(a.planilha), Path(a.base)):
                     print(r)
         elif a.cmd == "portfolio":
-            print(consolidar_portfolio([Path(r) for r in a.repos], Path(a.saida)))
+            print(consolidar_portfolio([Path(r) for r in a.repos], Path(a.saida), a.data))
+        elif a.cmd == "edital":
+            r = confrontar_edital(a.contrato)
+            print(f"atende {len(r['atende'])} · ajustar {len(r['ajustar'])} · falta {len(r['falta'])} → contratos/{a.contrato}/CONFRONTO_EDITAL.md")
+        elif a.cmd == "fechamento":
+            print(rel(fechamento(a.contrato, a.data)))
+        elif a.cmd == "saldo":
+            print(json.dumps({k: v for k, v in saldo(a.contrato).items()}, ensure_ascii=False, indent=2))
+        elif a.cmd == "ppj":
+            print(rel(ppj(a.contrato)))
         elif a.cmd == "pacotes":
             for k, v in gerar_pacotes(Path(a.destino)).items():
                 print(f"{k}: {v}")

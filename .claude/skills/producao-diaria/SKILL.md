@@ -8,7 +8,7 @@ description: Workflow de produção automática diária — lê tarefas pendente
 2. `python3 fabrica/ferramentas/fabrica.py tarefas listar --status READY` e `--status BLOCKED`. Para cada OS com tarefas, verifique a autorização no YAML; OS sem autorização: só planejamento, nada de código.
 3. Execute as tarefas READY autorizadas (skill executar-os), respeitando dependências e reservas de arquivos.
 4. `python3 fabrica/ferramentas/fabrica.py testes executar` → `python3 fabrica/ferramentas/fabrica.py evidencias commits` → `python3 fabrica/ferramentas/fabrica.py auditar` → `python3 fabrica/ferramentas/fabrica.py medir` para cada OS trabalhada.
-5. `python3 fabrica/ferramentas/fabrica.py relatorio diario <C>` para cada contrato trabalhado.
+5. `python3 fabrica/ferramentas/fabrica.py relatorio diario <C>` e `python3 fabrica/ferramentas/fabrica.py fechamento <C>` para cada contrato trabalhado (relatórios exigidos pelo edital: ver EDITAL.yaml `relatorios_exigidos`).
 6. Atualize o cronograma do GEC se houver atraso; crie as tarefas do dia seguinte.
 7. Commit e push na branch de trabalho. Nunca publique em produção nesta rotina.
 

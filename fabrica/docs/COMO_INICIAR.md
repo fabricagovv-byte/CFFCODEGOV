@@ -13,7 +13,7 @@ python3 fabrica/ferramentas/fabrica.py repositorio novo ../pmx-001-sgd \
   --componente backend=python-fastapi --componente frontend=react-vite
 ```
 **Opção C — vários de uma vez (até 30+):** preencha a aba PROJETOS da planilha e rode
-`python3 fabrica/ferramentas/fabrica.py repositorio lote PLANILHA_PREENCHIMENTO.xlsx ../repos`.
+`python3 fabrica/ferramentas/fabrica.py repositorio lote DOCUMENTO_BASE.xlsx ../repos`.
 
 **Opção D — GitHub "Template repository":** suba o modelo uma vez, marque *Settings → Template repository* e use *Use this template* para cada sistema novo.
 
@@ -27,10 +27,12 @@ python3 fabrica/ferramentas/fabrica.py repositorio novo ../pmx-001-sgd \
 
 1. `INICIAR FÁBRICA`
 2. Anexe a planilha preenchida e os PDFs → `IMPORTAR PLANILHA CT-12-2026` e depois `NOVO CONTRATO CT-12-2026`
-3. Responda às perguntas do que faltar.
-4. `PLANEJAR CONTRATO CT-12-2026`
+3. `CONFRONTAR EDITAL CT-12-2026` → você recebe: ✔ atende · ⚠ ajustar · ✘ falta. Responda ao que faltar.
+   Se o edital exigir outro nome/seções de documentos, a fábrica ajusta sozinha (EDITAL.yaml).
+4. `PLANEJAR CONTRATO CT-12-2026` e `PPJ CT-12-2026` (Planejamento de Projeto Sustentável)
 5. Aprove o plano e escreva no YAML da OS (ou na conversa) quem autorizou e quando → `EXECUTAR OS OS-001`
-6. Todo dia: `RELATÓRIO DIÁRIO CT-12-2026`
+6. Todo dia: `FECHAMENTO DO DIA CT-12-2026` (nomes, produção, saldo) — informe a produção do dia se tiver (ex.: "hoje fechou 40 UST")
+   Vários projetos: `FECHAMENTO DE TODOS OS PROJETOS` (portfólio)
 7. Toda semana: informe o total (ex.: "a semana de 02/11 fechou 250 UST") → `RATEIO SEMANAL CT-12-2026`
 8. Todo mês: `MEDIR PRODUÇÃO` → `GERAR RELATÓRIO mensal` → `PREPARAR ENTREGA`
 9. Publicar: `PREPARAR PUBLICAÇÃO` → autorização → `PUBLICAR PRODUÇÃO`

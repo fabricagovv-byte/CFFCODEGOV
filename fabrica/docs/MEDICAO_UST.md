@@ -38,6 +38,13 @@ Isso sai dos **seus dados históricos**, não de uma tabela inventada:
 
 Use essas médias **para planejar** (capacidade da equipe, prazo). Para faturar, vale só a medição da OS.
 
+## Saldo e fechamento diário
+
+- **Saldo oficial** = quantidade contratada (contrato.yaml `medicao.quantidade_contratada`) − aceito.
+- **Saldo projetado** = contratado − comprovado (o que já foi produzido e auditado, ainda sem aceite).
+- `fabrica.py saldo <C>` mostra os dois, o consumo e, com histórico de fechamentos, a média diária e em quantos dias o saldo acaba.
+- `fabrica.py fechamento <C> --data AAAA-MM-DD`: quem trabalhou, produção do dia, divisão por pessoa e saldo. Para todos os projetos: `fabrica.py portfolio <repos...> --data AAAA-MM-DD`.
+
 ## Rateio por período (ex.: 250 UST na semana divididas entre a equipe)
 
 1. Registre o total do período em `RATEIO_TOTAIS.csv` (`semanal,2026-11-02,250,aceito,<documento>`) — ou passe `--total 250`.

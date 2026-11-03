@@ -41,6 +41,8 @@ humanos reais, contratos, ordens de serviço (OS), evidências, medição (UST/P
 11. **Sem assinatura:** aceite pode vir de qualquer documento do órgão (termo, ofício, e-mail do fiscal). Sem documento do órgão, a quantidade fica COMPROVADA, nunca ACEITA. Participação humana sem assinatura usa a prova disponível (commit, PR, ata, "registro do gestor em data") — e o relatório mostra qual foi.
 12. **Um repositório por sistema:** todo repositório novo nasce do modelo (`fabrica.py repositorio novo` ou `CONFIGURACAO_FABRICA.zip`), com `PROJETO.yaml`, stack declarada e CI. Veja `fabrica/docs/PADRAO_REPOSITORIOS.md`.
 13. **Linguagem nova:** antes de usar uma stack sem perfil, crie `fabrica/stacks/<id>.yaml` + esqueleto com teste e rode `fabrica.py stacks verificar <id>`. Stack não verificada é declarada como tal.
+14. **O edital manda:** exigências e adaptações ficam em `contratos/<ID>/EDITAL.yaml` (títulos de documentos, seções obrigatórias, relatórios exigidos, unidade de medição, equipe, tecnologias). Se o edital pede diferente do padrão, mude ali — os geradores (PPJ, fechamento, relatórios) seguem. Depois rode `fabrica.py edital confrontar <ID>` e diga ao usuário o que atende, o que ajustar e o que falta.
+15. **Cadastro mínimo da equipe:** basta nome e função (`fabrica.py profissionais adicionar` ou aba PROFISSIONAIS do documento base). Os demais campos melhoram o confronto com o edital e o rateio.
 
 ## Como os agentes trabalham juntos
 
@@ -78,9 +80,12 @@ Cada comando tem uma skill em `.claude/skills/<nome>/SKILL.md` (Codex: leia o ar
 | PREPARAR ENTREGA | `preparar-entrega` | `checklist`, `entrega` |
 | PREPARAR PUBLICAÇÃO | `preparar-publicacao` | — (manual de publicação do projeto) |
 | PUBLICAR PRODUÇÃO | `publicar-producao` | exige autorização humana |
-| IMPORTAR PLANILHA | `importar-planilha` | `planilha importar`, `profissionais importar` |
+| IMPORTAR PLANILHA / DOCUMENTO BASE | `importar-planilha` | `planilha importar`, `profissionais importar` |
 | RATEIO (diário/semanal/mensal) | `rateio-ust` | `rateio`, `relatorio ... --total-ust` |
 | NOVO REPOSITÓRIO / NOVO SISTEMA | `novo-repositorio` | `repositorio novo|lote`, `stacks listar`, `projeto verificar` |
+| CONFRONTAR EDITAL | `confrontar-edital` | `edital confrontar` |
+| FECHAMENTO DO DIA / SALDO | `fechamento-diario` | `fechamento`, `saldo`, `portfolio --data` |
+| PPJ (Planejamento de Projeto Sustentável) | `ppj` | `ppj` |
 | Produção diária automática | `producao-diaria` | todas as anteriores, sem publicar |
 
 ## Verificações antes de concluir qualquer trabalho

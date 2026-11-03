@@ -50,15 +50,15 @@ $F relatorio mensal PMX-2026-01 --data 2026-11-01
 $F relatorio profissional PMX-2026-01 --profissional P02 --data 2026-11-01
 $F entrega PMX-2026-01 OS-01
 $F producao estatisticas PRODUCAO_HISTORICA.csv
-$F planilha gerar PLANILHA_PREENCHIMENTO.xlsx            # modelo para preencher
-$F planilha importar PMX-2026-01 PLANILHA_PREENCHIMENTO.xlsx
+$F planilha gerar DOCUMENTO_BASE.xlsx            # modelo para preencher
+$F planilha importar PMX-2026-01 DOCUMENTO_BASE.xlsx
 $F profissionais importar PMX-2026-01 equipe.csv          # nome, função, CPF (CPF fica fora do git)
 $F profissionais oficial PMX-2026-01                      # lista com CPF completo (pasta privada)
 $F rateio semanal PMX-2026-01 --data 2026-11-02 --total 250
 $F relatorio semanal PMX-2026-01 --data 2026-11-02        # inclui o rateio
 $F stacks listar                                          # linguagens disponíveis
 $F repositorio novo ../pmx-001-sgd --id PMX-001-SGD --sistema "Gestão Documental" --componente backend=java-spring --componente frontend=react-vite
-$F repositorio lote PLANILHA_PREENCHIMENTO.xlsx ../repos  # um repositório por linha da aba PROJETOS
+$F repositorio lote DOCUMENTO_BASE.xlsx ../repos  # um repositório por linha da aba PROJETOS
 $F projeto verificar --instalar                           # testa os componentes do PROJETO.yaml
 $F portfolio ../repos/* --saida PORTFOLIO.md              # soma de todos os repositórios
 $F pacotes ./saida                                        # gera CONFIGURACAO_FABRICA.zip e PREENCHIMENTO.zip

@@ -1,6 +1,6 @@
 ---
 name: importar-planilha
-description: IMPORTAR PLANILHA — importa a PLANILHA_PREENCHIMENTO.xlsx (ou CSVs) enviada pelo usuário para o contrato - dados do contrato, equipe com CPF protegido, participações, totais para rateio, tabela UST, produção histórica e lista de projetos.
+description: IMPORTAR PLANILHA / IMPORTAR DOCUMENTO BASE — importa o DOCUMENTO_BASE.xlsx (ou CSVs) enviada pelo usuário para o contrato - dados do contrato, equipe com CPF protegido, participações, totais para rateio, tabela UST, produção histórica e lista de projetos.
 ---
 # IMPORTAR PLANILHA (G18 Gestor de Profissionais, G02, G03)
 
