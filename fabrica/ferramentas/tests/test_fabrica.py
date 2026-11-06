@@ -571,7 +571,7 @@ def test_relatorio_tecnico_mostra_ust_feito_saldo_e_a_fazer(fab):
     assert "| Executado | 10 |" in md
     assert "| **Saldo para executar** | **90** |" in md
     assert "## 2. Meta diária" in md and "**Meta de hoje (06/11/2026):** 0 UST" in md
-    assert "## 5. De onde vêm os números" in md
+    assert "## 6. De onde vêm os números" in md and "## 4. Equipe técnica e agentes de IA" in md
     assert "`pedidos`" in md and "`GET /api/pedidos`" in md
     assert "| MOD-002 | Relatório |" in md
     assert "termo de aceite" in md

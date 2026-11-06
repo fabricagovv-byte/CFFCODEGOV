@@ -3423,7 +3423,7 @@ def relatorio_tecnico(cid: str, ref: str | None = None) -> Path:
           f"| Pago | {_n(ust_pago)} | {rs(valor_pago)} | {'pagamento registrado' if pagos else 'depois do aceite (registre em PAGAMENTOS.csv)'} |"]
     if contratado:
         L += [f"| **Saldo para executar** | **{_n(contratado - comprovado)}** | | contratado − executado |",
-              f"| ↳ já planejado | {_n(ust_a_fazer)} | | {len(a_fazer)} módulo(s) com data (seção 9) |",
+              f"| ↳ já planejado | {_n(ust_a_fazer)} | | {len(a_fazer)} módulo(s) com data (seção 10) |",
               f"| ↳ ainda sem planejamento | {_n(falta_plan)} | | precisa de novas demandas/OS do órgão |"]
     L += ["", f"Em uma frase: de {_n(contratado)} {unidade} contratadas, {_n(comprovado)} já foram executadas "
           f"({pct(comprovado)}); {_n(ust_a_fazer)} estão planejadas e {_n(falta_plan)} ainda não têm demanda." if contratado else
@@ -3471,8 +3471,45 @@ def relatorio_tecnico(cid: str, ref: str | None = None) -> Path:
           f"| Contratada | {_cel(emp.get('razao_social') or 'sem registro')}{' — CNPJ ' + _cel(emp['cnpj']) if emp.get('cnpj') else ''} |",
           f"| Responsável técnico | {_cel(emp.get('responsavel_tecnico') or 'sem registro')} |", ""]
 
+    # 4. equipe técnica (pessoas) e agentes de IA
+    equipe = carregar_profissionais(cid) if (cdir / "PROFISSIONAIS.csv").exists() else []
+    partic = []
+    if (cdir / "PARTICIPACOES.csv").exists():
+        partic, _ = carregar_participacoes(cid)
+    L += ["## 4. Equipe técnica e agentes de IA", "",
+          "Os agentes de IA executam as etapas técnicas; a equipe técnica responde por eles: orienta, revisa e aprova. "
+          "Participação individual só aparece quando há registro (commit, revisão, ata ou registro do gestor).", ""]
+    if equipe:
+        L += ["| Nome | Função | Responsabilidade | Desde | Participações registradas |", "|---|---|---|---|---|"]
+        for pe in equipe:
+            n_part = [x for x in partic if x["profissional_id"] == pe["id"]]
+            tipos = ", ".join(f"{t.lower()} {sum(1 for x in n_part if x['tipo'] == t)}" for t in dict.fromkeys(x["tipo"] for x in n_part))
+            L.append(f"| {_cel(pe['nome'])} | {_cel(pe.get('funcao'))} | {_cel(pe.get('responsabilidades') or '—')} | "
+                     f"{_cel(pe.get('inicio') or '—')} | {tipos or 'nenhuma ainda'} |")
+    else:
+        L.append("Equipe técnica: sem registro (cadastre com `fabrica.py profissionais adicionar`).")
+    papel = {"autorizacao": "G03 Gestor Contratual", "testes": "G12 Engenheiro de Testes", "commits": "G17 Auditor de Evidências",
+             "auditoria": "G17 Auditor de Evidências", "medicao": "G15 Medidor de UST", "relatorios": "G19 Gerador de Relatórios",
+             "checklist": "G20 Homologador Técnico", "entrega": "G20 Homologador Técnico"}
+    etapa_nome = {"autorizacao": "Conferência da autorização", "testes": "Execução dos testes", "commits": "Registro dos commits",
+                  "auditoria": "Auditoria das evidências", "medicao": "Medição", "relatorios": "Relatórios",
+                  "checklist": "Checklist de qualidade", "entrega": "Pacote de entrega"}
+    for o in oss:
+        fl = ler_json(cdir / "fluxos" / f"{o['os']}.json", {}) or {}
+        autores = sorted({c["autor"] for m in modulos if m["os"] == o["os"] for c in m["commits"]})
+        L += ["", f"**Etapas da {o['os']} executadas pelos agentes:**", "", "| Etapa | Agente (papel na fábrica) | Resultado | Data | Situação |", "|---|---|---|---|---|",
+              f"| Código (banco, API, telas, testes) | G06/G07/G08 + gerador de cadastros | commits no git (autor: {', '.join(autores) or 'sem registro'}) | "
+              f"{min((c['data'] for m in modulos if m['os'] == o['os'] for c in m['commits']), default='—')} | concluído |"]
+        for no in NOS_FLUXO:
+            info = (fl.get("nos") or {}).get(no) or {}
+            st = {"CONCLUIDO": "concluído", "PAUSA": "aguardando a equipe", "PENDENTE": "pendente", "FALHA": "falhou"}.get(info.get("status"), "sem registro")
+            L.append(f"| {etapa_nome[no]} | {papel[no]} | {_cel(info.get('resultado') or '—')} | {(info.get('fim') or info.get('inicio') or '—')[:10]} | {st} |")
+        o["pausa"] = next((((fl.get("nos") or {}).get(no) or {}).get("resultado") for no in NOS_FLUXO
+                           if (((fl.get("nos") or {}).get(no) or {}).get("status") == "PAUSA")), None)
+    L.append("")
+
     # 3. o que foi feito
-    L += ["## 4. O que foi feito e quanto foi medido", "",
+    L += ["## 5. O que foi feito e quanto foi medido", "",
           f"| Módulo | O que foi entregue | Item do contrato | {unidade} executada | Testes |", "|---|---|---|---|---|"]
     for m in modulos:
         ent = ", ".join(k.split(" (")[0] for k in m["camadas"] if k not in ("Outros", "Especificação", "Documentação")) or "sem registro"
@@ -3509,7 +3546,11 @@ def relatorio_tecnico(cid: str, ref: str | None = None) -> Path:
         if m["commits"]:
             L.append("- **Commits:** " + "; ".join(f"`{c['sha']}` {c['data']} {_cel(c['mensagem'])}" for c in m["commits"][:4])
                      + (f" (+{len(m['commits']) - 4})" if len(m["commits"]) > 4 else "") + ".")
-        L.append(f"- **Responsável:** {m['responsavel']}.")
+        resp = m["responsavel"]
+        if resp in ("A CADASTRAR", "sem registro"):
+            resp = (f"equipe técnica ({', '.join(pe['nome'] for pe in equipe)}); revisão individual deste módulo: sem registro"
+                    if equipe else "sem registro")
+        L.append(f"- **Responsável:** {resp}.")
         for img in m["telas"]:
             L += ["", f"![{m['id']} — {img.stem.split('-', 1)[-1].replace('-', ' ')} (preview)]({os.path.relpath(img, cdir / 'relatorios')})"]
         L.append("")
@@ -3518,7 +3559,7 @@ def relatorio_tecnico(cid: str, ref: str | None = None) -> Path:
     _, perfis_c, med_cfg = catalogo(cid)
     formula = str(med_cfg.get("formula") or "").upper()
     nome_perfil = lambda k: re.sub(r"\s*\(.*\)$", "", (perfis_c.get(k) or {}).get("descricao") or k.replace("_", " ").capitalize())
-    L += ["## 5. De onde vêm os números (memória de cálculo)", "",
+    L += ["## 6. De onde vêm os números (memória de cálculo)", "",
           "1. **O contrato define o catálogo de serviços** (`CATALOGO_SERVICOS.csv`): para cada serviço, quantas horas de cada perfil ele consome.",
           "2. **Cada perfil tem um fator de UST por hora e um valor por hora** (`PERFIS.csv`)." if formula == "HORAS_X_FATOR" else
           "2. **Cada serviço do catálogo tem uma quantidade fixa de UST** (`CATALOGO_SERVICOS.csv`)." if formula == "UST_POR_SERVICO" else
@@ -3541,13 +3582,13 @@ def relatorio_tecnico(cid: str, ref: str | None = None) -> Path:
     L += ["", "Exemplo de leitura: \"4 h Analista × 1,2\" significa 4 horas do perfil Analista, que valem 1,2 UST por hora = 4,8 UST.", ""]
 
     # 4. tecnologias
-    L += ["## 6. Tecnologias utilizadas", "", "| Camada | Tecnologias | Fonte |", "|---|---|---|"]
+    L += ["## 7. Tecnologias utilizadas", "", "| Camada | Tecnologias | Fonte |", "|---|---|---|"]
     for camada, nomes, fonte in _tecnologias(cdir, contrato, projetos) or [("—", "sem registro", "—")]:
         L.append(f"| {camada} | {_cel(nomes)} | `{fonte}` |")
     L.append("")
 
     # 5. código do mês e de hoje / 6. código total
-    for titulo, ini in ((f"## 7. Código de {mes_nome}", mes_ini), (f"### Código de hoje ({d0.strftime('%d/%m/%Y')})", ref)):
+    for titulo, ini in ((f"## 8. Código de {mes_nome}", mes_ini), (f"### Código de hoje ({d0.strftime('%d/%m/%Y')})", ref)):
         L += [titulo, ""]
         for pj in projetos:
             cs = _commits([pj], ini, ref)
@@ -3564,7 +3605,7 @@ def relatorio_tecnico(cid: str, ref: str | None = None) -> Path:
                 if len(cs) > 40:
                     L.append(f"| … | | mais {len(cs) - 40} commit(s) no git |")
             L.append("")
-    L += ["## 8. Código total do sistema", ""]
+    L += ["## 9. Código total do sistema", ""]
     for pj in projetos:
         arqs = _arquivos_projeto(pj)
         por_c: dict[str, list[int]] = {}
@@ -3584,7 +3625,7 @@ def relatorio_tecnico(cid: str, ref: str | None = None) -> Path:
     L += ["> Linhas de código e commits mostram o tamanho do trabalho; a quantidade medida vem do catálogo do contrato, não das linhas.", ""]
 
     # 9. a fazer (planejado)
-    L += ["## 9. A fazer (planejado)", ""]
+    L += ["## 10. A fazer (planejado)", ""]
     if a_fazer:
         L += [f"| Módulo | O que fazer | Item do contrato | {unidade} (estimativa) | Início | Fim | Responsável |", "|---|---|---|---|---|---|---|"]
         L += [f"| {x['id']} | {_cel(x['nome'])} | {_cel(x['item'])} | {_n(x['ust'])} | {_cel(x['inicio']) or '—'} | {_cel(x['prazo']) or '—'} | {_cel(x['responsavel'])} |" for x in a_fazer]
@@ -3599,17 +3640,21 @@ def relatorio_tecnico(cid: str, ref: str | None = None) -> Path:
         pend.append(f"Próxima etapa normal: enviar ao órgão os {_n(comprovado - aceito)} {unidade} executados para conferência e termo de aceite.")
     if aceito > ust_pago:
         pend.append(f"Faturar e acompanhar o pagamento de {_n(aceito - ust_pago)} {unidade} aceitos.")
+    for o in oss:
+        if o.get("pausa"):
+            pend.append(f"{o['os']}: a equipe técnica verifica o checklist — {o['pausa']}.")
     sem_resp = [m["id"] for m in modulos if m["responsavel"] in ("A CADASTRAR", "sem registro")]
     if sem_resp:
-        pend.append(f"Responsável humano não registrado em: {', '.join(sem_resp)}.")
+        pend.append(f"Registrar a revisão de cada módulo por um membro da equipe ({', '.join(sem_resp)}) em PARTICIPACOES.csv "
+                    "(data, pessoa, módulo, tipo REVISAO/APROVACAO, evidência).")
     sem_teste = [m["id"] for m in modulos if not m["testes"]]
     if sem_teste:
         pend.append(f"Módulos sem teste registrado: {', '.join(sem_teste)}.")
     for o in oss:
         if not (o["autorizacao"] or {}).get("autorizado"):
             pend.append(f"{o['os']} sem autorização registrada.")
-    L += ["## 10. Próximas etapas e pendências", ""] + [f"- {p}" for p in pend or ["Nenhuma pendência registrada."]] + [""]
-    L += ["## 11. Arquivos de origem", "",
+    L += ["## 11. Próximas etapas e pendências", ""] + [f"- {p}" for p in pend or ["Nenhuma pendência registrada."]] + [""]
+    L += ["## 12. Arquivos de origem", "",
           "- UST: `medicoes/<OS>.json` (medição pelo catálogo do contrato) e `contrato.yaml`.",
           "- O que foi feito, código e commits: repositório git (`git log`, `git ls-files`).",
           "- Testes: `evidencias/<OS>/<MÓDULO>/TESTES.json` (execuções reais com JUnit).",

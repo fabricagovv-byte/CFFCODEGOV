@@ -11,7 +11,7 @@ O ciclo é: **a empresa executa → o órgão confere e aceita → o órgão pag
 | Aceito pelo órgão | 0 | — | próxima etapa: o órgão confere o executado e emite o termo de aceite |
 | Pago | 0 | — | depois do aceite (registre em PAGAMENTOS.csv) |
 | **Saldo para executar** | **219,6** | | contratado − executado |
-| ↳ já planejado | 29,4 | | 2 módulo(s) com data (seção 9) |
+| ↳ já planejado | 29,4 | | 2 módulo(s) com data (seção 10) |
 | ↳ ainda sem planejamento | 190,2 | | precisa de novas demandas/OS do órgão |
 
 Em uma frase: de 300 UST contratadas, 80,4 já foram executadas (26,8%); 29,4 estão planejadas e 190,2 ainda não têm demanda.
@@ -49,7 +49,33 @@ Como a meta é calculada: a UST de cada módulo do planejamento é dividida igua
 | Contratada | V4 Tecnologia Brasil · DigitalGov — CNPJ 24.361.188/0001-61 |
 | Responsável técnico | Warley Luciano Costa Gomes |
 
-## 4. O que foi feito e quanto foi medido
+## 4. Equipe técnica e agentes de IA
+
+Os agentes de IA executam as etapas técnicas; a equipe técnica responde por eles: orienta, revisa e aprova. Participação individual só aparece quando há registro (commit, revisão, ata ou registro do gestor).
+
+| Nome | Função | Responsabilidade | Desde | Participações registradas |
+|---|---|---|---|---|
+| Arthur Miguel | Desenvolvedor pleno Java | Responde pela execução dos agentes de IA: orienta, revisa e aprova (designação do gestor em 06/11/2026) | 2026-11-06 | nenhuma ainda |
+| Lucas | Desenvolvedor pleno Java | Responde pela execução dos agentes de IA: orienta, revisa e aprova (designação do gestor em 06/11/2026) | 2026-11-06 | nenhuma ainda |
+| Jerlian | Desenvolvedor pleno Java | Responde pela execução dos agentes de IA: orienta, revisa e aprova (designação do gestor em 06/11/2026) | 2026-11-06 | nenhuma ainda |
+| Warley | Desenvolvedor pleno Java | Responde pela execução dos agentes de IA: orienta, revisa e aprova (designação do gestor em 06/11/2026) | 2026-11-06 | nenhuma ainda |
+| Will | Desenvolvedor pleno Java | Responde pela execução dos agentes de IA: orienta, revisa e aprova (designação do gestor em 06/11/2026) | 2026-11-06 | nenhuma ainda |
+
+**Etapas da OS-TESTE-002 executadas pelos agentes:**
+
+| Etapa | Agente (papel na fábrica) | Resultado | Data | Situação |
+|---|---|---|---|---|
+| Código (banco, API, telas, testes) | G06/G07/G08 + gerador de cadastros | commits no git (autor: Claude) | 2026-11-03 | concluído |
+| Conferência da autorização | G03 Gestor Contratual | autorização registrada | 2026-11-03 | concluído |
+| Execução dos testes | G12 Engenheiro de Testes | 140 verificações aprovadas | 2026-11-03 | concluído |
+| Registro dos commits | G17 Auditor de Evidências | 5 commits | 2026-11-03 | concluído |
+| Auditoria das evidências | G17 Auditor de Evidências | 3 módulos aprovados | 2026-11-03 | concluído |
+| Medição | G15 Medidor de UST | previsto 80.4 · comprovado 80.4 · aceito 0 | 2026-11-03 | concluído |
+| Relatórios | G19 Gerador de Relatórios | relatório diário e fechamento gerados | 2026-11-03 | concluído |
+| Checklist de qualidade | G20 Homologador Técnico | 16 controle(s) crítico(s) aguardam verificação humana — verifique e rode de novo com --aprovado-por "Nome (cargo)" | 2026-11-03 | aguardando a equipe |
+| Pacote de entrega | G20 Homologador Técnico | — | — | pendente |
+
+## 5. O que foi feito e quanto foi medido
 
 | Módulo | O que foi entregue | Item do contrato | UST executada | Testes |
 |---|---|---|---|---|
@@ -66,7 +92,7 @@ Como a meta é calculada: a UST de cada módulo do planejamento é dividida igua
 - **Testes:** 105 executado(s), 0 falha(s) — APROVADO em 2026-11-03 (2 arquivo(s) de teste, 134 linhas).
 - **Medição:** item SRV-BASE — SRV-BASE × 1 (Estrutura base de módulos (FICTÍCIO); Catálogo fictício item 1): previsto 12,2, executado **12,2**, aceito 0 UST; 10 h pelo catálogo.
 - **Commits:** `ea7f8f4` 2026-11-03 MOD-100: base modular — descoberta automática de módulos, validadores CPF/CNPJ e permissão por perfil; `e4e16a3` 2026-11-03 MOD-007: infraestrutura (Docker Compose, Nginx/TLS, backup/restauração), base da API, migrações e documentação.
-- **Responsável:** A CADASTRAR.
+- **Responsável:** equipe técnica (Arthur Miguel, Lucas, Jerlian, Warley, Will); revisão individual deste módulo: sem registro.
 
 ### MOD-101 — Cadastro de interessados
 
@@ -76,7 +102,7 @@ Como a meta é calculada: a UST de cada módulo do planejamento é dividida igua
 - **Testes:** 17 executado(s), 0 falha(s) — APROVADO em 2026-11-03 (2 arquivo(s) de teste, 149 linhas).
 - **Medição:** item SRV-CRUD-M — SRV-CRUD-M × 1 (Cadastro completo média complexidade (FICTÍCIO); Catálogo fictício item 2): previsto 24,4, executado **24,4**, aceito 0 UST; 24 h pelo catálogo.
 - **Commits:** `83e7978` 2026-11-03 MOD-101: cadastro de interessados (gerado da especificação: modelo, migração, API, auditoria, tela e testes).
-- **Responsável:** A CADASTRAR.
+- **Responsável:** equipe técnica (Arthur Miguel, Lucas, Jerlian, Warley, Will); revisão individual deste módulo: sem registro.
 
 ![MOD-101 — validacao cpf invalido (preview)](../evidencias/OS-TESTE-002/MOD-101/SCREENSHOTS/01-validacao-cpf-invalido.png)
 
@@ -90,13 +116,13 @@ Como a meta é calculada: a UST de cada módulo do planejamento é dividida igua
 - **Testes:** 18 executado(s), 0 falha(s) — APROVADO em 2026-11-03 (2 arquivo(s) de teste, 161 linhas).
 - **Medição:** item SRV-CRUD-A — SRV-CRUD-A × 1 (Cadastro completo alta complexidade com relacionamentos (FICTÍCIO); Catálogo fictício item 3): previsto 43,8, executado **43,8**, aceito 0 UST; 36 h pelo catálogo.
 - **Commits:** `6e7928a` 2026-11-03 MOD-102: lista mostra o nome do interessado; mensagens de validação sem prefixo técnico (gerador corrigido); `7313248` 2026-11-03 MOD-102: cadastro de protocolos com relacionamento a interessados (gerado da especificação).
-- **Responsável:** A CADASTRAR.
+- **Responsável:** equipe técnica (Arthur Miguel, Lucas, Jerlian, Warley, Will); revisão individual deste módulo: sem registro.
 
 ![MOD-102 — protocolo formulario (preview)](../evidencias/OS-TESTE-002/MOD-102/SCREENSHOTS/01-protocolo-formulario.png)
 
 ![MOD-102 — protocolos busca (preview)](../evidencias/OS-TESTE-002/MOD-102/SCREENSHOTS/02-protocolos-busca.png)
 
-## 5. De onde vêm os números (memória de cálculo)
+## 6. De onde vêm os números (memória de cálculo)
 
 1. **O contrato define o catálogo de serviços** (`CATALOGO_SERVICOS.csv`): para cada serviço, quantas horas de cada perfil ele consome.
 2. **Cada perfil tem um fator de UST por hora e um valor por hora** (`PERFIS.csv`).
@@ -112,7 +138,7 @@ Como a meta é calculada: a UST de cada módulo do planejamento é dividida igua
 
 Exemplo de leitura: "4 h Analista × 1,2" significa 4 horas do perfil Analista, que valem 1,2 UST por hora = 4,8 UST.
 
-## 6. Tecnologias utilizadas
+## 7. Tecnologias utilizadas
 
 | Camada | Tecnologias | Fonte |
 |---|---|---|
@@ -124,7 +150,7 @@ Exemplo de leitura: "4 h Analista × 1,2" significa 4 horas do perfil Analista, 
 | Infraestrutura (contêineres) | nginx:1.27-alpine | `projetos/gestao-documental/docker-compose.prod.yml` |
 | Infraestrutura (contêineres) | postgres:16-alpine | `projetos/gestao-documental/docker-compose.yml` |
 
-## 7. Código de novembro de 2026
+## 8. Código de novembro de 2026
 
 **projetos/gestao-documental:** 11 commit(s), +4832 / −3 linhas.
 
@@ -157,7 +183,7 @@ Exemplo de leitura: "4 h Analista × 1,2" significa 4 horas do perfil Analista, 
 
 **projetos/gestao-documental:** 0 commit(s), +0 / −0 linhas.
 
-## 8. Código total do sistema
+## 9. Código total do sistema
 
 **projetos/gestao-documental:** 110 arquivo(s), 4829 linhas, 11 commit(s) desde o início.
 
@@ -190,7 +216,7 @@ Exemplo de leitura: "4 h Analista × 1,2" significa 4 horas do perfil Analista, 
 
 > Linhas de código e commits mostram o tamanho do trabalho; a quantidade medida vem do catálogo do contrato, não das linhas.
 
-## 9. A fazer (planejado)
+## 10. A fazer (planejado)
 
 | Módulo | O que fazer | Item do contrato | UST (estimativa) | Início | Fim | Responsável |
 |---|---|---|---|---|---|---|
@@ -199,12 +225,13 @@ Exemplo de leitura: "4 h Analista × 1,2" significa 4 horas do perfil Analista, 
 
 Total planejado: 29,4 UST (estimativa pelo catálogo; vira executado quando entregue e medido).
 
-## 10. Próximas etapas e pendências
+## 11. Próximas etapas e pendências
 
 - Próxima etapa normal: enviar ao órgão os 80,4 UST executados para conferência e termo de aceite.
-- Responsável humano não registrado em: MOD-100, MOD-101, MOD-102.
+- OS-TESTE-002: a equipe técnica verifica o checklist — 16 controle(s) crítico(s) aguardam verificação humana — verifique e rode de novo com --aprovado-por "Nome (cargo)".
+- Registrar a revisão de cada módulo por um membro da equipe (MOD-100, MOD-101, MOD-102) em PARTICIPACOES.csv (data, pessoa, módulo, tipo REVISAO/APROVACAO, evidência).
 
-## 11. Arquivos de origem
+## 12. Arquivos de origem
 
 - UST: `medicoes/<OS>.json` (medição pelo catálogo do contrato) e `contrato.yaml`.
 - O que foi feito, código e commits: repositório git (`git log`, `git ls-files`).

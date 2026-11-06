@@ -1,2 +1,6 @@
 id,nome,funcao,area,senioridade,cpf_mascarado,formacao,anos_experiencia,certificacoes,qualificacao,registro_ou_certificacao,responsabilidades,modulos,email_corporativo,inicio,fim
-#P01,Nome Completo,Desenvolvedor Backend,BACKEND,SENIOR,***.456.789-**,Ciência da Computação,8,Java OCP,,,APIs e revisão,MOD-001,nome@empresa.com.br,2026-01-01,
+P01,Arthur Miguel,Desenvolvedor pleno Java,BACKEND,PLENO,,,,,,,"Responde pela execução dos agentes de IA: orienta, revisa e aprova (designação do gestor em 06/11/2026)",,,2026-11-06,
+P02,Lucas,Desenvolvedor pleno Java,BACKEND,PLENO,,,,,,,"Responde pela execução dos agentes de IA: orienta, revisa e aprova (designação do gestor em 06/11/2026)",,,2026-11-06,
+P03,Jerlian,Desenvolvedor pleno Java,BACKEND,PLENO,,,,,,,"Responde pela execução dos agentes de IA: orienta, revisa e aprova (designação do gestor em 06/11/2026)",,,2026-11-06,
+P04,Warley,Desenvolvedor pleno Java,BACKEND,PLENO,,,,,,,"Responde pela execução dos agentes de IA: orienta, revisa e aprova (designação do gestor em 06/11/2026)",,,2026-11-06,
+P05,Will,Desenvolvedor pleno Java,BACKEND,PLENO,,,,,,,"Responde pela execução dos agentes de IA: orienta, revisa e aprova (designação do gestor em 06/11/2026)",,,2026-11-06,
