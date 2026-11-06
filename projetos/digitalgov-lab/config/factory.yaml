@@ -1,0 +1,25 @@
+factory:
+  name: "DIGITALGOV — Codex Factory V3 MULTISSERVIÇOS LAB"
+  mode: "LABORATORIO_NAO_CONTRATUAL"
+  contract: "LAB-PE223-2026"
+  project_slots: 15
+  agent_positions: 100
+  agent_concurrency_limit: 0 # Sem integração real configurada
+  daily_real_ust_target: null # Só OS e catálogo permitem metas contratuais
+  planned_test_target_adjusted_ust: 60000
+  requires_scope_interview: true
+  requires_written_authorization: true
+  require_independent_review: true
+  require_external_acceptance_for_billable: true
+reports:
+  timezone: America/Sao_Paulo
+  daily_close: '18:00'
+  auto_schedule_active: false # ativar cron/systemd no host depois da instalação
+  format: docx
+projects:
+  isolation: separate_directories_and_databases
+  github_publish: false # requer autenticação e autorização humana
+security:
+  local_loopback_only: true
+  refuse_secret_publication: true
+  refuse_human_hour_fabrication: true

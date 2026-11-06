@@ -1,0 +1,8 @@
+id,nome,funcao,area,senioridade,cpf_mascarado,formacao,anos_experiencia,certificacoes,qualificacao,registro_ou_certificacao,responsabilidades,modulos,email_corporativo,inicio,fim
+P01,Jerlian,Arquitetura e desenvolvimento sênior,BACKEND,,,,,,,,,,,,
+P02,Ruan,Backend e sustentação sênior,BACKEND,,,,,,,,,,,,
+P03,Arthur Miguel,Gestão e governança sênior,GESTAO,,,,,,,,,,,,
+P04,Warley,Frontend e integrações sênior,FRONTEND,,,,,,,,,,,,
+P05,Werverton,DevOps e integrações sênior,INFRA,,,,,,,,,,,,
+P06,João Miguel,Dados e IA sênior,DADOS,,,,,,,,,,,,
+P07,Warley C.,"QA, análise e segurança sênior",QUALIDADE,,,,,,,,,,,,

@@ -1,0 +1,110 @@
+# Confronto edital × documento base — PE-223-2026-PR
+
+Gerado em 2026-11-06T00:44:49-03:00 (G02 Analista de Editais + G18 Gestor de Profissionais).
+
+Resumo: **6 atende · 38 ajustar · 43 falta**
+
+## Já atende
+- ✔ Tecnologia — SGBD: PostgreSQL, MySQL, SQL Server, Oracle (compatibilidade obrigatória no desenvolvimento): usada e testada na fábrica (TESTE-001: suíte de testes em PostgreSQL 16, migrações Alembic e trigger de auditoria (contratos/TESTE-001/evidencias)) [p031 (TR 1.4.5.1)]
+- ✔ Tecnologia — Bancos SQL e NoSQL nas integrações: Oracle, PostgreSQL, MongoDB, Redis: usada e testada na fábrica (TESTE-001: suíte de testes em PostgreSQL 16, migrações Alembic e trigger de auditoria (contratos/TESTE-001/evidencias)) [p038 (TR 1.4.15)]
+- ✔ Tecnologia — Containers e orquestração; Docker/Kubernetes (OpenShift/Rancher): usada e testada na fábrica (TESTE-001: docker compose up + backup/restauração (MOD-007 docker-e2e)) [p033 (TR 1.4.8.1); p042 (TR 1.4.15.2)]
+- ✔ Tecnologia — Servidores web/aplicação monitorados: Apache, Apache Tomcat, nginx, JBoss, Glassfish, IIS; ambientes Windows/Unix/Linux: usada e testada na fábrica (TESTE-001: proxy do frontend; nginx -t da configuração TLS) [p041 (TR 1.4.15.2)]
+- ✔ Tecnologia — PostgreSQL: usada e testada na fábrica (TESTE-001: suíte de testes em PostgreSQL 16, migrações Alembic e trigger de auditoria (contratos/TESTE-001/evidencias)) [p109 item 3; p106 2.1.2.2]
+- ✔ Tecnologia — Docker: usada e testada na fábrica (TESTE-001: docker compose up + backup/restauração (MOD-007 docker-e2e)) [p109 item 3; p113]
+
+## Precisa ajustar
+- ⚠ Relatório Relatório mensal sobre a prestação dos serviços: formato novo — criar modelo (G19)
+- ⚠ Relatório Relatórios de execução (elaborados pela contratada e validados pelo fiscal): formato novo — criar modelo (G19)
+- ⚠ Relatório Relatórios gerenciais / relatórios periódicos: formato novo — criar modelo (G19)
+- ⚠ Relatório Relatório/documentação final de transferência de conhecimento: formato novo — criar modelo (G19)
+- ⚠ Relatório Relatórios técnicos de conformidade com políticas e normas de segurança: formato novo — criar modelo (G19)
+- ⚠ Relatório Relatório da taxa de transmissão dos links ativos: formato novo — criar modelo (G19)
+- ⚠ Relatório Relatório de indisponibilidade dos serviços: formato novo — criar modelo (G19)
+- ⚠ Relatório Relatórios de desempenho e integridade de banco de dados: formato novo — criar modelo (G19)
+- ⚠ Relatório Relatórios de execução e qualidade de testes: formato novo — criar modelo (G19)
+- ⚠ Relatório Relatórios gerenciais de acompanhamento de projetos: formato novo — criar modelo (G19)
+- ⚠ Relatório Relatórios da solução de gestão de TIC: formato novo — criar modelo (G19)
+- ⚠ Relatório Relatórios gerenciais da solução de gestão de projetos: formato novo — criar modelo (G19)
+- ⚠ Relatório Relatórios de disponibilidade e consumo das integrações e dashboards: formato novo — criar modelo (G19)
+- ⚠ Medição em UST – UNIDADE DE SERVIÇO TÉCNICO, 'MÉTRICA QUE REPRESENTA O ESFORÇO NECESSÁRIO À EXECUÇÃO DAS ATIVIDADES PREVISTAS': unidade nova — definir regra de medição com base no contrato
+- ⚠ Documento exigido — Ordem de Serviço (OS): será gerado com este título; confirmar seções no edital
+- ⚠ Documento exigido — Catálogo de Serviços (UST) – versionado, com justificativa formal a cada ajuste: será gerado com este título; confirmar seções no edital
+- ⚠ Documento exigido — Ata da reunião inicial e documentos apresentados pela contratada; cronograma de inserção; termos de responsabilidade e sigilo: será gerado com este título; confirmar seções no edital
+- ⚠ Documento exigido — Atas de reunião da configuração do ambiente; ambiente e conectividade verificados e certificados pelo órgão ('Sistema Implantado'): será gerado com este título; confirmar seções no edital
+- ⚠ Documento exigido — Atas de reunião da absorção do conhecimento: será gerado com este título; confirmar seções no edital
+- ⚠ Documento exigido — Documentação técnica e de uso das soluções desenvolvidas ou sustentadas; capacitação EaD em LMS de código aberto, quando requisitada em OS: será gerado com este título; confirmar seções no edital
+- ⚠ Documento exigido — Atas das reuniões de acompanhamento e ações de melhoria aprovadas: será gerado com este título; confirmar seções no edital
+- ⚠ Documento exigido — Estudo Técnico Preliminar e Análise de Riscos para prorrogação (produzido pelo CONTRATANTE): será gerado com este título; confirmar seções no edital
+- ⚠ Documento exigido — Ata de encerramento (contrato encerrado, pendências solucionadas, conhecimento transferido, acessos cancelados): será gerado com este título; confirmar seções no edital
+- ⚠ Documento exigido — Registro das evidências de execução para análise da fiscalização: será gerado com este título; confirmar seções no edital
+- ⚠ Documento exigido — Relatório mensal e relatórios de execução: será gerado com este título; confirmar seções no edital
+- ⚠ Documento exigido — Produtos de arquitetura: visão funcional, visão de linguagem, visão estrutural e visão física (documento de arquitetura física): será gerado com este título; confirmar seções no edital
+- ⚠ Documento exigido — Artefatos de QA: plano de testes, casos de teste, matriz de rastreabilidade, evidências, registro de defeitos, relatórios de execução e qualidade: será gerado com este título; confirmar seções no edital
+- ⚠ Documento exigido — Documentação de rede, servidores e serviços; inventário de servidores, topologia de rede e mapas de comunicação: será gerado com este título; confirmar seções no edital
+- ⚠ Documento exigido — Políticas e normativos de segurança; plano de ação de conformidade LGPD; planos de contingência, resposta a incidentes e PCN: será gerado com este título; confirmar seções no edital
+- ⚠ Documento exigido — Documentação técnica das integrações (publicação web; formato aberto JSON/YAML; OpenAPI/WSDL): será gerado com este título; confirmar seções no edital
+- ⚠ Documento exigido — Comprovação das funcionalidades da solução de gestão de TIC (manual do fabricante, folhetos, URL oficial ou documentos do fabricante): será gerado com este título; confirmar seções no edital
+- ⚠ Documento exigido — Termo de Aceite Provisório e Termo de Aceite Definitivo (emitidos pelo CONTRATANTE): será gerado com este título; confirmar seções no edital
+- ⚠ Documento exigido — Nota Fiscal/Fatura conforme Nota de Empenho: será gerado com este título; confirmar seções no edital
+- ⚠ Documento exigido — Plano de Transferência de Conhecimento; relatório final de transferência de conhecimento; ferramenta de gestão de serviços de TIC com base de dados atualizada; bases de dados geradas; scripts, processos e procedimentos desenvolvidos: será gerado com este título; confirmar seções no edital
+- ⚠ Documento exigido — Comprovação de vínculo dos profissionais (contratos CLT/PJ, folhas de pagamento, declarações fiscais) – condição para assinatura: será gerado com este título; confirmar seções no edital
+- ⚠ Documento exigido — Garantia de execução contratual (cláusula 11 da Minuta de Contrato): será gerado com este título; confirmar seções no edital
+- ⚠ Documento exigido — Proposta (Anexo III), documentos de habilitação (Anexo II), Planilha de Custos e Formação de Preços, declaração de custos trabalhistas (art. 63 §1º): será gerado com este título; confirmar seções no edital
+- ⚠ Documento exigido — Declarações anexas: ausência de nepotismo, compromisso e confidencialidade, LGPD, identificação do cliente, termo de vistoria/declaração de conhecimento, procuração, disposições BIRD: será gerado com este título; confirmar seções no edital
+
+## Falta (pedir ao responsável)
+- ✘ Equipe — Preposto (e substitutos): faltam 1 profissional(is) (exige 1) [p049 (TR 6.1.1 Reunião Inicial); p051 (workshop); p052–p053; p068 (TR 16.2)]
+- ✘ Equipe — Responsável pelo acompanhamento da execução (regularidade técnica e disciplinar da equipe e contato com o CONTRATANTE): faltam 1 profissional(is) (exige 1) [p062 (TR 11.2.1.2)]
+- ✘ Equipe — Responsáveis técnicos (e substitutos): faltam 1 profissional(is) (exige 1) [p051 (TR 6.1.1 – capacitação); p052 (reuniões de acompanhamento)]
+- ✘ Equipe — Equipe técnica que executa as OS – exemplos citados: arquitetos, analistas de requisitos, analistas de negócios, desenvolvedores: faltam 1 profissional(is) (exige 1) [p051 (TR 6.1.1 – Envolvidos)]
+- ✘ Equipe — Níveis de senioridade Júnior / Pleno / Sênior (vinculados ao fator de complexidade 1/2/3): faltam 1 profissional(is) (exige 1) [p021 (TR 1.3.1)]
+- ✘ Equipe — Perfis profissionais requeridos por OS: faltam 1 profissional(is) (exige 1) [p020–p021 (TR 1.3)]
+- ✘ Equipe — Equipe indicada na habilitação (qualificação técnica) – deve executar os serviços: faltam 1 profissional(is) (exige 1) [p064 (TR 11.2.1.19 e 11.2.1.20)]
+- ✘ Tecnologia — Linguagens: Java, PHP, React, Next.js, Python e linguagens de código aberto de mercado: não há stack nem experiência declarada — criar stack e informar experiência [p031 (TR 1.4.5.1)]
+- ✘ Tecnologia — Ferramentas de BI de destino: Power BI, Qlik Sense, Tableau: não há stack nem experiência declarada — criar stack e informar experiência [p038 (TR 1.4.15)]
+- ✘ Tecnologia — Protocolos/conectores: HTTP, SOAP, FTP, REST, Kafka, GraphQL, WebSockets, SFTP, MQTT: não há stack nem experiência declarada — criar stack e informar experiência [p038; p043 (TR 1.4.15, 1.4.15.4)]
+- ✘ Tecnologia — Segurança de integrações: OAuth2, JWT, API Key, CORS, CSRF; padrões fallback, retry, circuit breaker: não há stack nem experiência declarada — criar stack e informar experiência [p043–p044 (TR 1.4.15.4)]
+- ✘ Tecnologia — Documentação de APIs: OpenAPI, WSDL, JSON, YAML; interface low-code: não há stack nem experiência declarada — criar stack e informar experiência [p039; p043–p044]
+- ✘ Tecnologia — Infraestrutura: GNU/Linux, nuvem, Microsoft (Domain Controller, Active Directory, Exchange, IIS, DNS, DHCP, Proxy, File Server), Oracle, Group Policies, IPS/Firewall, clusters, virtualização: não há stack nem experiência declarada — criar stack e informar experiência [p023–p027 (TR 1.4.3)]
+- ✘ Tecnologia — Solução ITSM com processos ITIL ou MPS.BR Serviços ou CMMI Services ou ISO 20000; web em pt-BR; compatível com Internet Explorer, Firefox e Chrome; integração com Microsoft AD: não há stack nem experiência declarada — criar stack e informar experiência [p039–p040 (TR 1.4.15.1)]
+- ✘ Tecnologia — Notificações do monitoramento por e-mail, Telegram ou WhatsApp, web ou aplicativo: não há stack nem experiência declarada — criar stack e informar experiência [p041 (TR 1.4.15.2)]
+- ✘ Tecnologia — BI/DW, ETL, data lake, big data, redes neurais, visão computacional: não há stack nem experiência declarada — criar stack e informar experiência [p033 (TR 1.4.9.1)]
+- ✘ Tecnologia — BPMN: não há stack nem experiência declarada — criar stack e informar experiência [p033 (TR 1.4.7.1)]
+- ✘ Tecnologia — Acessibilidade: WCAG, eMAG: não há stack nem experiência declarada — criar stack e informar experiência [p035 (TR 1.4.12)]
+- ✘ Tecnologia — Frameworks: COBIT, ITIL, CMMI, MPS.BR, PMI, TOGAF; ISO 27001, NIST: não há stack nem experiência declarada — criar stack e informar experiência [p035–p036 (TR 1.4.13, 1.4.14)]
+- ✘ Tecnologia — Métodos ágeis com padrões de qualidade CMMI ou MPS.BR: não há stack nem experiência declarada — criar stack e informar experiência [p032 (TR 1.4.5.3)]
+- ✘ Tecnologia — LMS de código aberto (capacitação EaD, quando pedida em OS): não há stack nem experiência declarada — criar stack e informar experiência [p051 (TR 6.1.1)]
+- ✘ Tecnologia — LGPD (Lei 13.709/2018): não há stack nem experiência declarada — criar stack e informar experiência [p019 (TR 1.1 f); p036; p066 (TR 13.1)]
+- ✘ Tecnologia — Django: não há stack nem experiência declarada — criar stack e informar experiência [p108 item 3; p117]
+- ✘ Tecnologia — Next.js: não há stack nem experiência declarada — criar stack e informar experiência [p108 item 3; p117]
+- ✘ Tecnologia — Helm: não há stack nem experiência declarada — criar stack e informar experiência [p108–p109 item 3]
+- ✘ Tecnologia — Kubernetes: não há stack nem experiência declarada — criar stack e informar experiência [p109 item 3; p104; p118 item 4]
+- ✘ Tecnologia — ArgoCD: não há stack nem experiência declarada — criar stack e informar experiência [p109 item 3; p113–p114]
+- ✘ Tecnologia — GitLab CE (on-premises): não há stack nem experiência declarada — criar stack e informar experiência [p109 item 3; p107 2.1.4; p120 item 8.2]
+- ✘ Tecnologia — GitLab CI: não há stack nem experiência declarada — criar stack e informar experiência [p109 item 3]
+- ✘ Tecnologia — Celery: não há stack nem experiência declarada — criar stack e informar experiência [p109 item 3; p106 2.1.2.2]
+- ✘ Tecnologia — Redis ou RabbitMQ: não há stack nem experiência declarada — criar stack e informar experiência [p109; p110 obs.]
+- ✘ Tecnologia — Prometheus: não há stack nem experiência declarada — criar stack e informar experiência [p109–p110 item 3; p116]
+- ✘ Tecnologia — Grafana: não há stack nem experiência declarada — criar stack e informar experiência [p110 item 3; p116]
+- ✘ Tecnologia — Elastic APM: não há stack nem experiência declarada — criar stack e informar experiência [p110 item 3]
+- ✘ Tecnologia — Cypress ou Robot Framework: não há stack nem experiência declarada — criar stack e informar experiência [p110 item 3; p107 2.1.6]
+- ✘ Tecnologia — Fluentd/Elasticsearch: não há stack nem experiência declarada — criar stack e informar experiência [p110 obs.]
+- ✘ Tecnologia — Loki: não há stack nem experiência declarada — criar stack e informar experiência [p117]
+- ✘ Tecnologia — Jaeger: não há stack nem experiência declarada — criar stack e informar experiência [p117]
+- ✘ Tecnologia — OWASP ZAP: não há stack nem experiência declarada — criar stack e informar experiência [p117]
+- ✘ Empresa — razao social não informado no documento base
+- ✘ Empresa — cnpj não informado no documento base
+- ✘ Empresa — responsavel legal não informado no documento base
+- ✘ Empresa — preposto não informado no documento base
+
+## Adaptações aplicadas a partir do edital
+
+- Documento `ppj` → título **Planejamento de Projeto Sustentável (PPJ)**
+- Documento `fechamento` → título **Fechamento diário**
+- Documento `abertura` → título **Abertura do dia**
+- Documento `relatorio_diario` → título **Relatório diário**
+- Documento `relatorio_semanal` → título **Relatório semanal**
+- Documento `relatorio_mensal` → título **Relatório mensal**
+- Relatórios exigidos: Relatório mensal sobre a prestação dos serviços, Relatórios de execução (elaborados pela contratada e validados pelo fiscal), Relatórios gerenciais / relatórios periódicos, Relatório/documentação final de transferência de conhecimento, Relatórios técnicos de conformidade com políticas e normas de segurança, Relatório da taxa de transmissão dos links ativos, Relatório de indisponibilidade dos serviços, Relatórios de desempenho e integridade de banco de dados, Relatórios de execução e qualidade de testes, Relatórios gerenciais de acompanhamento de projetos, Relatórios da solução de gestão de TIC, Relatórios gerenciais da solução de gestão de projetos, Relatórios de disponibilidade e consumo das integrações e dashboards
+
+> A comparação é automática por palavras-chave. Itens de equipe e certificações exigem conferência humana dos documentos comprobatórios.

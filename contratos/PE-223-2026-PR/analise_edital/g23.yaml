@@ -1,0 +1,460 @@
+# G23 — Analista de SLA e Glosas — PE 223/2026 (Paraná)
+# Fonte: texto extraído por página (pNNN.txt). Páginas lidas integralmente: p069–p089, p141–p159, p163–p170.
+# Situação: EXTRAÍDO DO EDITAL (não verificado juridicamente, não aceito). O que não está escrito = "não consta".
+# Convenção de origem: "pNNN, <documento> item X". TR = Termo de Referência (itens 17–21); CONTRATO = minuta de contrato (itens 5–17);
+# ANEXO I.VIII = Declaração de LGPD.
+
+meta:
+  agente: G23
+  edital: PE 223/2026 - Paraná
+  paginas_lidas: ["p069-p089", "p141-p159", "p163-p170"]
+  estado: EXTRAIDO (PLANEJADO para monitoramento; nada EXECUTADO/VERIFICADO/ACEITO)
+  observacao_geral: >
+    O ANS (TR item 18.6, p070-p072) é uma tabela de 26 ocorrências com GRAU 1 a 5. Não há indicadores
+    quantitativos com meta percentual, fórmula de cálculo nem janela de apuração, exceto o item 4 (indisponibilidade
+    superior a 24 horas). A "meta" de cada item é, portanto, ocorrência zero. A penalidade de cada grau é percentual
+    ao dia sobre o "valor mensal do contrato" (termo não definido nas páginas lidas); o item 18.5 (p070) diz que os
+    descontos são aplicados na fatura mensal.
+
+tabela_graus_ans:
+  origem: "p070, TR item 18.6 (tabela GRAU / CORRESPONDÊNCIA)"
+  graus:
+    1: "0,2% ao dia sobre o valor mensal do contrato"
+    2: "0,4% ao dia sobre o valor mensal do contrato"
+    3: "0,8% ao dia sobre o valor mensal do contrato"
+    4: "1,6% ao dia sobre o valor mensal do contrato"
+    5: "3,2% ao dia sobre o valor mensal do contrato"
+  regras_gerais:
+    - texto: "Os níveis de atendimento serão mensurados com base nos índices descritos na tabela."
+      origem: "p069, TR item 18.1"
+    - texto: "A recorrência de descumprimento dos níveis pactuados causará, a critério da CONTRATANTE, a notificação de inexecução parcial."
+      origem: "p069, TR item 18.2"
+    - texto: "A falta de resposta adequada quanto ao restabelecimento dos níveis facultará a notificação de inexecução total."
+      origem: "p069, TR item 18.3"
+    - texto: "ANS são critérios objetivos e mensuráveis para aferir desempenho; definem a maneira de avaliação, o nível mínimo aceitável e os descontos a serem aplicados na fatura mensal quando o serviço não alcançar o nível máximo esperado."
+      origem: "p069-p070, TR itens 18.4 e 18.5"
+    - texto: "Pagamento em até 30 dias do atesto da NF, já deduzidas as glosas e notas de débito."
+      origem: "p143, CONTRATO item 9.1"
+
+slas:
+  - item: 1
+    indicador: "Suspender ou interromper, salvo motivo de força maior ou caso fortuito, os serviços contratuais"
+    meta: "Zero ocorrências (não consta meta numérica)"
+    medicao: "Contagem por dia e por unidade de atendimento ('unidade de atendimento' não definida nas páginas lidas)"
+    glosa: "Grau 4 = 1,6% ao dia sobre o valor mensal do contrato, por dia e por unidade de atendimento"
+    periodicidade: "Incidência diária; desconto na fatura mensal (TR 18.5)"
+    origem: "p070, TR item 18.6, tabela ANS item 1"
+  - item: 2
+    indicador: "Manter funcionário sem qualificação para executar os serviços contratados"
+    meta: "Zero ocorrências (critério de 'qualificação' não consta nas páginas lidas)"
+    medicao: "Por empregado e por dia"
+    glosa: "Grau 3 = 0,8% ao dia sobre o valor mensal do contrato, por empregado e por dia"
+    periodicidade: "Diária; desconto na fatura mensal"
+    origem: "p070, TR item 18.6, tabela ANS item 2"
+  - item: 3
+    indicador: "Recusar-se a executar serviço determinado pela fiscalização"
+    meta: "Zero ocorrências"
+    medicao: "Por serviço e por dia"
+    glosa: "Grau 2 = 0,4% ao dia sobre o valor mensal do contrato, por serviço e por dia"
+    periodicidade: "Diária; desconto na fatura mensal"
+    origem: "p070, TR item 18.6, tabela ANS item 3"
+  - item: 4
+    indicador: "Indisponibilidade de Plataforma por um período superior a 24 (vinte e quatro) horas"
+    meta: "Indisponibilidade contínua não superior a 24 horas ('Plataforma' não definida nas páginas lidas; não consta meta de disponibilidade percentual)"
+    medicao: "Duração da indisponibilidade em horas; forma de aferição (ferramenta, janela, exclusões) não consta"
+    glosa: "Grau 3 = 0,8% ao dia sobre o valor mensal do contrato"
+    periodicidade: "Por evento/diária; desconto na fatura mensal"
+    origem: "p070, TR item 18.6, tabela ANS item 4"
+  - item: 5
+    indicador: "Deixar de atender chamado aberto para correção de falha na plataforma"
+    meta: "Atender todo chamado de correção de falha (prazo de atendimento/solução não consta nas páginas lidas)"
+    medicao: "Por chamado não atendido; unidade de contagem não consta"
+    glosa: "Grau 4 = 1,6% ao dia sobre o valor mensal do contrato"
+    periodicidade: "Diária; desconto na fatura mensal"
+    origem: "p070, TR item 18.6, tabela ANS item 5"
+  - item: 6
+    indicador: "Deixar de cumprir determinação formal ou instrução complementar do órgão fiscalizador"
+    meta: "Zero ocorrências"
+    medicao: "Por ocorrência"
+    glosa: "Grau 2 = 0,4% ao dia sobre o valor mensal do contrato, por ocorrência"
+    periodicidade: "Por ocorrência; desconto na fatura mensal"
+    origem: "p070, TR item 18.6, tabela ANS item 6 (bloco 'Para os itens a seguir, deixar de:')"
+  - item: 7
+    indicador: "Deixar de substituir empregado que se conduza de modo inconveniente ou não atenda às necessidades do serviço"
+    meta: "Zero ocorrências"
+    medicao: "Por funcionário e por dia"
+    glosa: "Grau 1 = 0,2% ao dia sobre o valor mensal do contrato, por funcionário e por dia"
+    periodicidade: "Diária; desconto na fatura mensal"
+    origem: "p070, TR item 18.6, tabela ANS item 7"
+  - item: 8
+    indicador: "Deixar de cumprir quaisquer dos itens do Edital e seus Anexos não previstos nesta tabela, após reincidência formalmente notificada pelo órgão fiscalizador"
+    meta: "Zero reincidências notificadas"
+    medicao: "Por item e por ocorrência; por funcionário e por dia (o texto traz as duas unidades)"
+    glosa: "Grau 3 = 0,8% ao dia sobre o valor mensal do contrato"
+    periodicidade: "Após reincidência notificada; desconto na fatura mensal"
+    origem: "p070-p071, TR item 18.6, tabela ANS item 8"
+  - item: 9
+    indicador: "Deixar de indicar e manter durante a execução do contrato os prepostos previstos no edital/contrato"
+    meta: "Preposto indicado e mantido continuamente (CONTRATO 10.1.1, p144)"
+    medicao: "Por funcionário e por dia"
+    glosa: "Grau 1 = 0,2% ao dia sobre o valor mensal do contrato, por funcionário e por dia"
+    periodicidade: "Diária; desconto na fatura mensal"
+    origem: "p071, TR item 18.6, tabela ANS item 9"
+  - item: 10
+    indicador: "Deixar de providenciar treinamento para seus funcionários conforme previsto na relação de obrigações da CONTRATADA"
+    meta: "Treinamentos previstos realizados (conteúdo/carga não constam nas páginas lidas)"
+    medicao: "Por funcionário e por dia"
+    glosa: "Grau 1 = 0,2% ao dia sobre o valor mensal do contrato, por funcionário e por dia"
+    periodicidade: "Diária; desconto na fatura mensal"
+    origem: "p071, TR item 18.6, tabela ANS item 10"
+  - item: 11
+    indicador: "Deixar de registrar e controlar, diariamente, a assiduidade e a pontualidade de seu pessoal"
+    meta: "Registro diário de assiduidade e pontualidade de todo o pessoal"
+    medicao: "Por empregado e por dia"
+    glosa: "Grau 4 = 1,6% ao dia sobre o valor mensal do contrato, por empregado e por dia"
+    periodicidade: "Diária; desconto na fatura mensal"
+    origem: "p071, TR item 18.6, tabela ANS item 11"
+  - item: 12
+    indicador: "Deixar de manter, durante a execução do contrato, todas as condições de habilitação e qualificação exigidas na licitação"
+    meta: "Habilitação e qualificação mantidas durante toda a vigência"
+    medicao: "Por empregado e por dia"
+    glosa: "Grau 4 = 1,6% ao dia sobre o valor mensal do contrato, por empregado e por dia"
+    periodicidade: "Diária; desconto na fatura mensal"
+    origem: "p071, TR item 18.6, tabela ANS item 12"
+  - item: 13
+    indicador: "Não apresentar, quando solicitado, documentação fiscal, trabalhista e previdenciária, sem motivo justificável (redação com dupla negação por estar sob 'deixar de')"
+    meta: "Apresentar a documentação sempre que solicitado (prazo de apresentação não consta)"
+    medicao: "Por empregado e por dia"
+    glosa: "Grau 5 = 3,2% ao dia sobre o valor mensal do contrato, por empregado e por dia"
+    periodicidade: "Diária; desconto na fatura mensal"
+    origem: "p071, TR item 18.6, tabela ANS item 13"
+  - item: 14
+    indicador: "Deixar de garantir a manutenção de empregado em serviço durante o expediente"
+    meta: "Empregado em serviço durante todo o expediente (horário do expediente não consta nas páginas lidas)"
+    medicao: "Por empregado e por dia"
+    glosa: "Grau 5 = 3,2% ao dia sobre o valor mensal do contrato, por empregado e por dia"
+    periodicidade: "Diária; desconto na fatura mensal"
+    origem: "p071, TR item 18.6, tabela ANS item 14"
+  - item: 15
+    indicador: "Deixar de substituir empregado que tenha conduta inconveniente ou incompatível com suas atribuições"
+    meta: "Zero ocorrências"
+    medicao: "Por empregado e por dia"
+    glosa: "Grau 4 = 1,6% ao dia sobre o valor mensal do contrato, por empregado e por dia"
+    periodicidade: "Diária; desconto na fatura mensal"
+    origem: "p071, TR item 18.6, tabela ANS item 15"
+  - item: 16
+    indicador: "Deixar de cumprir horários estabelecidos pelo contrato ou determinados pela Fiscalização"
+    meta: "Cumprimento integral dos horários (horários não constam nas páginas lidas)"
+    medicao: "Por empregado e por dia"
+    glosa: "Grau 4 = 1,6% ao dia sobre o valor mensal do contrato, por empregado e por dia"
+    periodicidade: "Diária; desconto na fatura mensal"
+    origem: "p071, TR item 18.6, tabela ANS item 16"
+  - item: 17
+    indicador: "(Deixar de) Entregar ou entregar com atraso documentação exigida no contrato"
+    meta: "Documentação exigida entregue no prazo (prazos específicos não constam nas páginas lidas)"
+    medicao: "Unidade de contagem não consta"
+    glosa: "Grau 3 = 0,8% ao dia sobre o valor mensal do contrato"
+    periodicidade: "Diária; desconto na fatura mensal"
+    origem: "p071, TR item 18.6, tabela ANS item 17"
+  - item: 18
+    indicador: "Deixar de efetuar o recolhimento mensal do FGTS e/ou das contribuições sociais previdenciárias dos empregados"
+    meta: "Recolhimento mensal em dia"
+    medicao: "Por empregado e por dia"
+    glosa: "Grau 5 = 3,2% ao dia sobre o valor mensal do contrato, por empregado e por dia"
+    periodicidade: "Mensal (obrigação) / diária (incidência); desconto na fatura mensal"
+    origem: "p071, TR item 18.6, tabela ANS item 18"
+  - item: 19
+    indicador: "Deixar de garantir empregado com qualificação para a execução dos serviços"
+    meta: "Todos os empregados qualificados (critério não consta nas páginas lidas)"
+    medicao: "Por empregado e por dia"
+    glosa: "Grau 5 = 3,2% ao dia sobre o valor mensal do contrato, por empregado e por dia"
+    periodicidade: "Diária; desconto na fatura mensal"
+    origem: "p071, TR item 18.6, tabela ANS item 19"
+  - item: 20
+    indicador: "Deixar de executar serviço completo, com qualidade"
+    meta: "Serviço completo e com qualidade (critério de qualidade não consta nas páginas lidas)"
+    medicao: "Unidade de contagem não consta"
+    glosa: "Grau 4 = 1,6% ao dia sobre o valor mensal do contrato"
+    periodicidade: "Diária; desconto na fatura mensal"
+    origem: "p071, TR item 18.6, tabela ANS item 20"
+  - item: 21
+    indicador: "Deixar de garantir o pagamento mensal de salários, férias, vale-transporte"
+    meta: "Pagamentos trabalhistas em dia"
+    medicao: "Por empregado e por dia"
+    glosa: "Grau 4 = 1,6% ao dia sobre o valor mensal do contrato, por empregado e por dia"
+    periodicidade: "Mensal (obrigação) / diária (incidência); desconto na fatura mensal"
+    origem: "p071, TR item 18.6, tabela ANS item 21"
+  - item: 22
+    indicador: "Deixar de zelar pelas instalações da CONTRATANTE"
+    meta: "Zero ocorrências"
+    medicao: "Unidade de contagem não consta"
+    glosa: "Grau 3 = 0,8% ao dia sobre o valor mensal do contrato"
+    periodicidade: "Diária; desconto na fatura mensal"
+    origem: "p071, TR item 18.6, tabela ANS item 22"
+  - item: 23
+    indicador: "Deixar de iniciar, não suspender ou não interromper os serviços contratados, salvo motivo de força maior"
+    meta: "Início no prazo e continuidade dos serviços"
+    medicao: "Unidade de contagem não consta"
+    glosa: "Grau 5 = 3,2% ao dia sobre o valor mensal do contrato"
+    periodicidade: "Diária; desconto na fatura mensal"
+    origem: "p071, TR item 18.6, tabela ANS item 23"
+  - item: 24
+    indicador: "Deixar de efetuar a IMEDIATA reposição de empregados faltosos"
+    meta: "Reposição imediata (prazo em horas não consta)"
+    medicao: "Por empregado e por dia"
+    glosa: "Grau 5 = 3,2% ao dia sobre o valor mensal do contrato, por empregado e por dia"
+    periodicidade: "Diária; desconto na fatura mensal"
+    origem: "p071, TR item 18.6, tabela ANS item 24"
+  - item: 25
+    indicador: "Deixar de garantir que seus funcionários não destruam nem danifiquem patrimônio da contratante"
+    meta: "Zero ocorrências"
+    medicao: "Por empregado e por dia"
+    glosa: "Grau 4 = 1,6% ao dia sobre o valor mensal do contrato, por empregado e por dia"
+    periodicidade: "Diária; desconto na fatura mensal"
+    origem: "p072, TR item 18.6, tabela ANS item 25"
+  - item: 26
+    indicador: "Manter nas dependências da CONTRATANTE quaisquer equipamentos ou materiais, previstos em contrato, sem autorização prévia do CONTRATANTE (redação ambígua sob 'deixar de')"
+    meta: "Zero ocorrências"
+    medicao: "Unidade de contagem não consta"
+    glosa: "Grau 3 = 0,8% ao dia sobre o valor mensal do contrato"
+    periodicidade: "Diária; desconto na fatura mensal"
+    origem: "p072, TR item 18.6, tabela ANS item 26"
+
+prazos_contratuais_monitoraveis:
+  - prazo: "Garantia técnica dos serviços entregues durante a vigência, contada do aceite definitivo do produto (todos os entregáveis)"
+    origem: "p068-p069, TR itens 17.1-17.2 (início do 17.1 em p068)"
+  - prazo: "Sem renovação: garantia técnica por até 90 dias corridos após o último dia de vigência"
+    origem: "p069, TR item 17.3"
+  - prazo: "Defeitos reportados no período de garantia devem ser todos corrigidos, mesmo que a correção extrapole o período; corretivas sem ônus; mesmos critérios para defeitos introduzidos pelas correções"
+    origem: "p069, TR itens 17.4-17.6"
+  - prazo: "Recebimento provisório em 30 dias (termo detalhado); definitivo em 60 dias do provisório; sem verificação no prazo, reputa-se realizado"
+    origem: "p141-p142, CONTRATO itens 6.4, 6.6, 6.7"
+  - prazo: "Pagamento em até 30 dias do atesto da NF, já deduzidas glosas e notas de débito; pagamento só dos quantitativos efetivamente prestados"
+    origem: "p143-p144, CONTRATO itens 9.1 e 9.6"
+  - prazo: "NF emitida conforme RELATÓRIO MENSAL elaborado pela contratada e aprovado pelo contratante"
+    origem: "p146, CONTRATO item 10.1.19"
+  - prazo: "Vigência de 12 meses, prorrogável (arts. 106 e 107 da Lei 14.133/2021)"
+    origem: "p142, CONTRATO item 8.1"
+
+sancoes:
+  - tipo: "Sanções administrativas da Lei 14.133/2021 (art. 156) e Decreto PR 10.086/2022 (arts. 193 a 227)"
+    hipotese: "Contratado que incorra em infrações; sem prejuízo de implicações penais (Cap. II-B do Título XI do Código Penal). Espécies de sanção não detalhadas nas páginas lidas."
+    valor_ou_percentual: "Não consta nestas páginas (remissão à lei)"
+    origem: "p074, TR item 19.3.1; p152, CONTRATO item 12.1"
+  - tipo: "Multa (limites gerais)"
+    hipotese: "Qualquer multa"
+    valor_ou_percentual: "Mínimo 0,5% e máximo 30% sobre o valor total do lote ou do contrato"
+    origem: "p075, TR item 19.3.2; p152, CONTRATO item 12.2"
+  - tipo: "Multa — infrações do art. 195 do Decreto 10.086/2022"
+    hipotese: "Infrações previstas no art. 195"
+    valor_ou_percentual: "0,5% a 5%"
+    origem: "p075, TR item 19.3.2 a; p152, CONTRATO item 12.2.1"
+  - tipo: "Multa — infrações do art. 196 do Decreto 10.086/2022"
+    hipotese: "Infrações previstas no art. 196"
+    valor_ou_percentual: "5% a 30%"
+    origem: "p075, TR item 19.3.2 b; p152, CONTRATO item 12.2.2"
+  - tipo: "Multa — infrações do art. 197 do Decreto 10.086/2022"
+    hipotese: "Infrações previstas no art. 197"
+    valor_ou_percentual: "15% a 30%"
+    origem: "p075, TR item 19.3.2 c; p152, CONTRATO item 12.2.3"
+  - tipo: "Multa de mora"
+    hipotese: "Atraso na entrega"
+    valor_ou_percentual: "Até 0,3% ao dia sobre o valor global do contrato ou da parcela em atraso, até o 30º dia; a partir do 31º dia converte-se em compensatória"
+    origem: "p075, TR item 19.3.6; p152-p153, CONTRATO item 12.5"
+  - tipo: "Multa por atraso na garantia de execução"
+    hipotese: "Não prestar a garantia em 30 dias após assinatura"
+    valor_ou_percentual: "0,5% do valor do contrato, até o limite de 2%, até o 30º dia de atraso; atraso > 30 dias = inadimplência total e rescisão"
+    origem: "p150-p151, CONTRATO itens 11.2 e 11.2.1"
+  - tipo: "Penalidades do ANS (graus 1 a 5)"
+    hipotese: "Ocorrências da tabela de 26 itens"
+    valor_ou_percentual: "0,2% / 0,4% / 0,8% / 1,6% / 3,2% ao dia sobre o valor mensal do contrato"
+    origem: "p070-p072, TR item 18.6"
+  - tipo: "Notificação de inexecução parcial / total"
+    hipotese: "Recorrência de descumprimento do ANS (parcial); falta de resposta adequada ao restabelecimento dos níveis (total)"
+    valor_ou_percentual: "Não consta"
+    origem: "p069, TR itens 18.2 e 18.3"
+  - tipo: "Desconto/compensação de multas"
+    hipotese: "Multa pode ser descontada de pagamentos de outros contratos com a Administração estadual, com retenção até o adimplemento; multa não paga no prazo é descontada da fatura"
+    valor_ou_percentual: "Valor da multa"
+    origem: "p075-p076, TR itens 19.3.4, 19.3.5, 19.3.11; p143, CONTRATO item 9.3.1; p152-p153, CONTRATO itens 12.4, 12.4.1, 12.10"
+  - tipo: "Desconto por serviço não executado ou executado em desacordo"
+    hipotese: "Vícios e danos da execução"
+    valor_ou_percentual: "Valor correspondente aos serviços não executados/em desacordo, descontado da garantia ou dos pagamentos"
+    origem: "p145-p146, CONTRATO item 10.1.12"
+  - tipo: "Rejeição e refazimento"
+    hipotese: "Serviços em desacordo com TR, proposta ou contrato"
+    valor_ou_percentual: "Refazimento às custas do contratado, no prazo fixado pelo fiscal, sem prejuízo das penalidades"
+    origem: "p142, CONTRATO item 6.9"
+  - tipo: "Desconto por falta de reforço da garantia"
+    hipotese: "Acréscimo contratual sem reforço proporcional da garantia"
+    valor_ou_percentual: "Valor correspondente descontado das faturas"
+    origem: "p151, CONTRATO item 11.5.1"
+  - tipo: "Responsabilização da Lei 12.846/2013 (Anticorrupção) e PAR"
+    hipotese: "Atos contra a Administração; descumprimento da Lei Anticorrupção"
+    valor_ou_percentual: "Não consta nestas páginas"
+    origem: "p076, TR item 19.3.9; p081, TR item 19.5.1.7 (PAR, Decreto 8.420/2015 e IN CGU 13/2019); p153, CONTRATO item 12.8"
+  - tipo: "Sanções do Banco Mundial (BIRD)"
+    hipotese: "Fraude e corrupção; obstrução de inspeção/auditoria do Banco"
+    valor_ou_percentual: "Rejeição de adjudicação; declaração de inelegibilidade (indefinida ou por prazo); rescisão do contrato por obstrução"
+    origem: "p073-p074, TR itens 19.1.2.3 a 19.1.2.5; p082, TR item 19.5.2.2"
+  - tipo: "Sanções do BID"
+    hipotese: "Práticas Proibidas (corrupta, fraudulenta, coercitiva, colusiva, obstrutiva, apropriação indébita)"
+    valor_ou_percentual: "Não financiar adjudicação; suspender desembolsos; aquisição viciada; carta de censura; inelegibilidade; encaminhamento a autoridades; multas de reembolso de custos de investigação"
+    origem: "p084-p086, TR itens 20.2 a 20.4.10"
+  - tipo: "Extinção do contrato"
+    hipotese: "Hipóteses 13.2.1 a 13.2.22 (descumprimento, lentidão, paralisação, subcontratação, faltas reiteradas no Relatório de Fiscalização, falta de garantia etc.)"
+    valor_ou_percentual: "Não consta"
+    origem: "p153-p155, CONTRATO itens 13.1 a 13.6"
+  - tipo: "Publicidade das penalidades"
+    hipotese: "Qualquer penalidade aplicada"
+    valor_ou_percentual: "Registro no PNCP e no cadastro estadual (CAUFPR no TR; 'CFPR' no contrato)"
+    origem: "p076, TR item 19.3.10; p153, CONTRATO item 12.9"
+  - tipo: "Procedimento"
+    hipotese: "Aplicação de sanções"
+    valor_ou_percentual: "Capítulo XVI do Título I do Decreto 10.086/2022 e Lei 20.656/2021; cálculo justificado (arts. 210 a 212)"
+    origem: "p075, TR itens 19.3.3 e 19.3.7; p152-p153, CONTRATO itens 12.3 e 12.6"
+
+garantia_execucao:
+  percentual: "5% do valor do contrato"
+  modalidades:
+    - "Caução em dinheiro ou títulos da dívida pública (forma escritural, sistema autorizado pelo Banco Central)"
+    - "Seguro-garantia"
+    - "Fiança bancária (cooperativa de crédito: com autorização de funcionamento do Banco Central)"
+  prazo: >
+    Apresentar em até 30 dias após a assinatura do contrato; se seguro-garantia, prazo mínimo de 1 mês (§3º art. 96 Lei 14.133).
+    Seguro-garantia e fiança não podem ser proporcionais ao período: validade coincidente com a vigência e prorrogada junto.
+    Reposição em até 22 dias úteis após notificação de uso. Readequar em alteração de valor/prorrogação.
+    Devolução após termo de recebimento definitivo e apuração de haveres (art. 100 Lei 14.133).
+    Multa de 0,5% até 2% por atraso até o 30º dia; acima de 30 dias = inadimplência total e rescisão.
+  origem: "p150-p152, CONTRATO itens 11.1 a 11.9"
+
+lgpd:
+  papeis: "Contratante = controlador (CONTRATO 10.2.14, p149; Anexo I.VIII item 1, p163); Contratada = operadora ou suboperadora (TR 19.4.1, p076; 19.4.24, p080)"
+  obrigacoes_principais:
+    - "Tratar dados só mediante definições prévias e fundamentadas da SEAP/contratante; princípio da necessidade (TR 19.4.2 p076; CONTRATO 16.2 p156-p157)"
+    - "Usar dados apenas para a prestação dos serviços (TR 19.4.3 p076; CONTRATO 16.3 p157)"
+    - "Apresentar declaração/evidências de medidas técnicas e administrativas de segurança (TR 19.4.4 p077; CONTRATO 16.5 p157)"
+    - "Dar conhecimento formal aos empregados das regras; termo de compromisso e confidencialidade / Norma de Conduta (TR 19.4.5, 19.4.10 p077-p078; CONTRATO 16.6, 16.11 p157-p158)"
+    - "Dever de sigilo absoluto, inclusive após o encerramento (TR 19.4.6 p077; CONTRATO 16.7 p157)"
+    - "Manter registros de tratamento rastreáveis e com prova eletrônica (CONTRATO 16.4 p157; TR 19.5.4.6 p083)"
+    - "Apoiar relatório de impacto (RIPD) quando provocada (TR 19.4.8 p077; CONTRATO 16.9 p157; Anexo I.VIII item 11 p169)"
+    - "Permitir inspeções e auditorias, inclusive independentes; fornecer evidências quando inspeção direta não for possível (TR 19.4.13 p078; CONTRATO 16.14 p158; Anexo I.VIII item 6 p166)"
+    - "Manter lista de suboperadores publicada no sítio eletrônico (TR 19.4.14 p078)"
+    - "Ao fim do contrato: descartar ou devolver dados e cópias; omissão do contratante = devolução; comprovar descarte/devolução (TR 19.4.15 p078-p079; CONTRATO 16.16 p158); Anexo I.VIII item 10 (p169): devolução em .CSV em 30 dias, apagar dados do banco em 30 dias e dos backups em 30 dias"
+    - "Auxiliar no atendimento a titulares; a contratada NÃO recebe manifestações de titulares (TR 19.4.17, 19.4.18 p079); notificar reclamações e solicitações de titulares (TR 19.5.4.4 p083); não buscar dados direto no banco sem acompanhamento designado pelo gestor (Anexo I.VIII item 12 p169-p170)"
+    - "Monitoramento contínuo e detecção de intrusão; relatórios à SEAP mediante solicitação (TR 19.4.20 p079)"
+    - "Testes regulares de vulnerabilidade e penetração; resultados e plano de ação ao Gestor do Contrato (TR 19.4.21 p080)"
+    - "Backup regular dos dados pessoais; eficácia testada periodicamente conforme alinhamento (TR 19.4.22 p080)"
+    - "Criptografia em trânsito, MFA e segmentação de rede para dados sensíveis (TR 19.4.23 p080)"
+    - "Indenizar a SEAP por violações, inclusive multas de autoridades, se oficialmente declarada responsável (TR 19.4.19 p079); responde por danos da violação de segurança (TR 19.4.9 p077; CONTRATO 16.10 p157)"
+    - "Não usar, compartilhar ou comercializar dados, produtos ou subprodutos do tratamento (TR 19.5.4.7 p083)"
+    - "Armazenamento somente no Data Center do CONTRATADO em território nacional (Anexo I.VIII item 4 p166)"
+    - "Dados autorizados (Anexo I.VIII item 3, p164-p165): nome, e-mail, telefone, RG, CPF, endereço residencial, login e IP; nenhum dado sensível (itens 5 e 6, p166); prazo = duração do contrato"
+    - "Funcionalidades padrão exigidas: login/senha pessoal, SSL, logs de acesso, cópia de segurança, firewall alta disponibilidade com anti-DDoS e IPS, treinamento LGPD, área de segurança/privacidade, vigilância 24x7 (Anexo I.VIII item 7 p167)"
+  encarregado: >
+    Contratante: nome, telefone e e-mail NÃO preenchidos no Anexo I.VIII ('[Inserir o nome designado pela SGSD]'); horário 08:30 às 18:00 (p163, item 2).
+    Contratada: deve ter encarregado que mantenha contato formal com o encarregado do contratante (TR 19.4.7 p077; CONTRATO 16.8 p157); nome não consta.
+  incidentes:
+    prazo_comunicacao: >
+      TR 19.4.7 (p077): 24 horas da IDENTIFICAÇÃO do incidente. CONTRATO 16.8 (p157): 24 horas da OCORRÊNCIA do incidente.
+      Anexo I.VIII item 8 (p168): 24 horas ÚTEIS após a identificação, com o formulário de relato de incidentes.
+      Adotar o mais restritivo (24 horas corridas da ocorrência) até esclarecimento.
+    formulario: "Data e hora; relator; localização; descrição; efeito; como foi descoberto; tipo de sistema; nome e número do sistema; possíveis causas; medidas corretivas; danos identificados; danos investigados (Anexo I.VIII item 8 p168)"
+    mitigacao_pre_autorizada: "Acesso não autorizado: bloqueio do acesso dos usuários às funcionalidades via Internet — prazo imediato (Anexo I.VIII item 8 p168)"
+    riscos_mapeados: "Acesso não autorizado (P1 x I2 = 2) e Perda (P1 x I2 = 2) (Anexo I.VIII item 7 p166-p167)"
+  origem: "p076-p080 e p083 (TR 19.4 e 19.5.4); p156-p158 (CONTRATO 16); p163-p170 (Anexo I.VIII)"
+
+fiscalizacao_e_gestao:
+  gestor: "Servidor(a) ou comissão designados por ato próprio do Contratante; atribuições do art. 10 do Decreto 10.086/2022 (p141, CONTRATO itens 5.1 e 5.3)"
+  fiscal: "Servidor(a) ou comissão designados; atribuições dos arts. 11 e 12 do Decreto 10.086/2022 (p141, CONTRATO itens 5.2 e 5.3). O contratante acompanha por comissão ou servidor designado (p149, CONTRATO 10.2.6)"
+  poderes: "Fiscalização, controle, avaliação e aplicação de penalidades após devido processo (p141, 5.4); sustar fornecimento total ou parcial (p144, 10.1.3); fixar prazo para refazimento (p142, 6.9); comunicar falhas por escrito com prazo de correção (p149, 10.2.5)"
+  preposto: "Contratada indica formalmente preposto que responde pela fiel execução (p144, CONTRATO 10.1.1); ausência é ANS item 9, grau 1 (p071)"
+  relatorios:
+    - "RELATÓRIO MENSAL elaborado pela contratada e aprovado pelo contratante — base para a Nota Fiscal (p146, CONTRATO 10.1.19)"
+    - "Relatórios de execução do contrato sempre que solicitado (p145, CONTRATO 10.1.5)"
+    - "Relatório de Fiscalização — faltas reiteradas nele anotadas são motivo de extinção (p154, CONTRATO 13.2.8)"
+    - "Relatórios de monitoramento de segurança mediante solicitação (p079, TR 19.4.20); resultados de pentest + plano de ação ao Gestor (p080, TR 19.4.21)"
+    - "Termos detalhados de recebimento provisório (30 dias) e definitivo (60 dias) (p141, CONTRATO 6.4 e 6.6)"
+  reunioes: "Não consta nas páginas lidas (há menções a reunião em páginas fora da faixa, ex.: p047-p053, não analisadas aqui)"
+  outros: "Contratante indica pessoal técnico para esclarecer processos de negócio e requisitos das OS (p149, 10.2.13); responde a solicitações da contratada (p150, 10.2.19); serviços prestados na sede da CONTRATADA (p141, 6.3); subcontratação não admitida (p156, 15.1); Banco Mundial/BID podem inspecionar contas e registros; guardar documentos por 7 anos (p082, TR 19.5.2.1; p087, TR 20.4.11 a)"
+
+riscos_de_glosa:
+  - risco: "Indisponibilidade da plataforma > 24h — grau 3 (0,8%/dia sobre o valor mensal)"
+    como_monitorar_na_fabrica: "Monitoramento de disponibilidade (health check) com registro de início/fim de incidentes; alerta em 4h/12h/20h de indisponibilidade no fechamento diário; evidência em IMPLANTACAO.md/logs"
+    origem: "p070, TR 18.6 item 4"
+  - risco: "Chamado de correção de falha não atendido — grau 4 (1,6%/dia), sem prazo definido de atendimento"
+    como_monitorar_na_fabrica: "Registrar todo chamado como tarefa no quadro com data/hora de abertura e primeira resposta; alerta no fechamento para chamado sem resposta no dia; pedir ao órgão definição de prazo (conflito registrado)"
+    origem: "p070, TR 18.6 item 5"
+  - risco: "Serviço incompleto ou sem qualidade — grau 4 (1,6%/dia); rejeição com refazimento às custas da contratada"
+    como_monitorar_na_fabrica: "Checklist de qualidade (checklist_100), testes executados (TESTES.json/LOGS_TESTES), revisão G13/G10 antes da entrega; registrar rejeições do fiscal"
+    origem: "p071, TR 18.6 item 20; p142, CONTRATO 6.9"
+  - risco: "Qualificação de empregado / habilitação — itens 2 (grau 3), 12 (grau 4) e 19 (grau 5), por empregado e por dia"
+    como_monitorar_na_fabrica: "Cadastro de profissionais com função e qualificação exigida pelo edital; confronto `edital confrontar`; alerta mensal de certidões/habilitação vencendo"
+    origem: "p070-p071, TR 18.6 itens 2, 12, 19"
+  - risco: "Registro diário de assiduidade e pontualidade não feito — grau 4, por empregado e por dia; horários e manutenção em serviço (itens 14 e 16, graus 5 e 4); reposição imediata de faltosos (item 24, grau 5)"
+    como_monitorar_na_fabrica: "Registro de presença diário por pessoa (participações) no relatório de abertura/fechamento; sem registro = 'sem registro' e alerta; nunca preencher presença por inferência"
+    origem: "p071, TR 18.6 itens 11, 14, 16, 24"
+  - risco: "Documentação fiscal/trabalhista/previdenciária, FGTS e salários — itens 13, 18 (grau 5) e 21 (grau 4)"
+    como_monitorar_na_fabrica: "Checklist mensal (fora do código) com comprovantes de FGTS/INSS/folha e CRF/CNDT antes do faturamento; responsabilidade humana (gestor administrativo)"
+    origem: "p071, TR 18.6 itens 13, 18, 21; p143, CONTRATO 9.1"
+  - risco: "Entrega/atraso de documentação exigida — grau 3; mora de até 0,3%/dia na entrega"
+    como_monitorar_na_fabrica: "Prazos de cada OS e de cada documento no quadro; alerta D-3/D-1 no fechamento diário; Relatório Mensal pronto antes da NF"
+    origem: "p071, TR 18.6 item 17; p075, TR 19.3.6; p152-p153, CONTRATO 12.5; p146, CONTRATO 10.1.19"
+  - risco: "Suspensão/interrupção ou não início dos serviços — itens 1 (grau 4) e 23 (grau 5)"
+    como_monitorar_na_fabrica: "Relatório diário de abertura mostra OS ativas; alerta se dia útil sem atividade registrada em OS autorizada"
+    origem: "p070-p071, TR 18.6 itens 1 e 23"
+  - risco: "Descumprir determinação do fiscal / recusar serviço — itens 3 e 6 (grau 2); reincidência notificada em qualquer item do edital — item 8 (grau 3)"
+    como_monitorar_na_fabrica: "Registrar cada determinação/notificação do fiscal como tarefa com prazo (`fabrica.py msg`/`bloqueio`); contador de reincidência por tema"
+    origem: "p070-p071, TR 18.6 itens 3, 6, 8"
+  - risco: "Preposto não indicado/mantido — grau 1; treinamento não providenciado — grau 1"
+    como_monitorar_na_fabrica: "Preposto e substituto cadastrados no EDITAL.yaml/equipe; registro de treinamentos com data e participantes"
+    origem: "p071, TR 18.6 itens 9 e 10"
+  - risco: "Incidente LGPD não comunicado em 24h (contratual, não ANS; pode gerar inexecução/indenização)"
+    como_monitorar_na_fabrica: "Procedimento de incidente com formulário do Anexo I.VIII, relógio de 24h a partir da ocorrência, registro em SEGURANCA.md; encarregado da contratada nomeado"
+    origem: "p077, TR 19.4.7; p157, CONTRATO 16.8; p168, Anexo I.VIII item 8"
+  - risco: "Garantia de execução não apresentada em 30 dias — multa 0,5% a 2%; > 30 dias = rescisão"
+    como_monitorar_na_fabrica: "Marco no cronograma do contrato (D+30 da assinatura) com alerta semanal"
+    origem: "p150-p151, CONTRATO 11.1, 11.2, 11.2.1"
+  - risco: "Recorrência de descumprimento do ANS levando a notificação de inexecução parcial/total"
+    como_monitorar_na_fabrica: "Consolidação mensal das ocorrências do ANS (estimativa de desconto ROTULADA como ESTIMATIVA) no relatório mensal"
+    origem: "p069, TR 18.2 e 18.3"
+
+conflitos_ou_ambiguidades:
+  - descricao: "ANS sem metas quantitativas, fórmulas ou janela de apuração; apenas o item 4 tem limiar (24h). Item 5 não define prazo de atendimento do chamado. 'Plataforma' e 'unidade de atendimento' não definidas."
+    paginas: [p069, p070]
+  - descricao: "Base de cálculo 'valor mensal do contrato' não definida para contrato de empreitada por preço unitário com pagamento só dos quantitativos efetivamente prestados (sem valor mensal fixo)."
+    paginas: [p070, p141, p144]
+  - descricao: "Natureza do desconto: TR 18.5 fala em 'descontos na fatura mensal' (glosa), mas a tabela chama de 'PENALIDADE' (multa). Não está claro se exige processo sancionatório (CONTRATO 5.4, 12.6) nem como se compatibiliza com o teto de 30% e o piso de 0,5% (TR 19.3.2). Grau 5 (3,2%/dia) atinge 30% do valor mensal em ~10 dias."
+    paginas: [p070, p075, p141, p152]
+  - descricao: "Itens do ANS típicos de terceirização com posto de trabalho (assiduidade, expediente, FGTS, vale-transporte, instalações, equipamentos nas dependências) enquanto os serviços são prestados na sede da CONTRATADA."
+    paginas: [p071, p072, p141]
+  - descricao: "Redação sob o prefixo 'Para os itens a seguir, deixar de:' gera dupla negação ou sentido invertido nos itens 13 ('Não apresentar'), 17 ('Entregar ou entregar com atraso'), 23 ('Iniciar, não suspender...') e 26 ('Manter... sem autorização')."
+    paginas: [p070, p071, p072]
+  - descricao: "Itens duplicados com graus diferentes: 2 (sem qualificação, grau 3) x 19 (qualificação, grau 5); 7 (substituir empregado inconveniente, grau 1) x 15 (grau 4); 1 (suspender/interromper, grau 4) x 23 (grau 5); 3 x 6 (determinação da fiscalização, grau 2). Risco de dupla penalização pelo mesmo fato."
+    paginas: [p070, p071]
+  - descricao: "Item 8 do ANS traz duas unidades de contagem ('por item e por ocorrência; por funcionário e por dia')."
+    paginas: [p070, p071]
+  - descricao: "Prazo de comunicação de incidente LGPD: 24 horas da identificação (TR 19.4.7) x 24 horas da ocorrência (CONTRATO 16.8) x 24 horas ÚTEIS após a identificação (Anexo I.VIII item 8)."
+    paginas: [p077, p157, p168]
+  - descricao: "Papel LGPD da contratada: TR 19.4.1 'controlador e operadora ou suboperadora' x CONTRATO 16.1 'Contratante e Contratado, na condição de operadora' (redação imprecisa)."
+    paginas: [p076, p156]
+  - descricao: "Subcontratação não admitida (CONTRATO 15.1) x compartilhamento de dados com 'empresa subcontratada' (CONTRATO 16.15) x autorização geral de suboperadores com lista publicada (TR 19.4.14; Anexo I.VIII item 9, operadora de telecom)."
+    paginas: [p078, p156, p158, p168, p169]
+  - descricao: "Armazenamento 'somente no Data Center do CONTRATADO, em território nacional' (Anexo I.VIII item 4) x possibilidade de infraestrutura de terceiros/suboperador tecnológico (TR 19.4.13, 19.4.15, 19.4.24)."
+    paginas: [p078, p079, p080, p166]
+  - descricao: "Fim do tratamento: TR 19.4.15 (definições do contratante até 30 dias antes do término; omissão = devolução) x CONTRATO 16.16 (descarte ou devolução) x Anexo I.VIII item 10 (devolução em .CSV E eliminação, prazos de 30 dias cada, sem marco inicial explícito)."
+    paginas: [p078, p079, p158, p169]
+  - descricao: "Anexo I.VIII com encarregado do contratante não preenchido (placeholders) e mapeamento de dados centrado na 'Ouvidoria da CONTRATANTE' — verificar se corresponde ao objeto."
+    paginas: [p163, p164, p165]
+  - descricao: "Cadastro de penalidades: 'CAUFPR' (TR 19.3.10) x 'CFPR' (CONTRATO 12.9)."
+    paginas: [p076, p153]
+  - descricao: "Garantia: 11.1.1 diz 'Caso seja exigida garantia' embora 11.1 a exija (5%); prazo de 30 dias x 'no mínimo 01 mês' para seguro-garantia; multa de 0,5% 'até o limite de 2%' sem indicar periodicidade de incidência (por dia? por período?)."
+    paginas: [p150, p151]
+  - descricao: "TR 19.5.1.1 cita a Lei de Lavagem de Dinheiro com o mesmo número da Lei Anticorrupção (Lei nº 12.846/2013) — provável erro material."
+    paginas: [p080]
+  - descricao: "Remissões a itens inexistentes nas páginas lidas: 'parágrafo 3.4.5.2.2 e.' (TR 19.1.2.2.1.5.2), 'IAL 1.1 (f)' e 'IAL 1.1 (b)' (TR 20.4.5 e 20.4.8); 'item 12.4.1 das Condições Gerais do Pregão' (CONTRATO 9.3)."
+    paginas: [p073, p085, p086, p143]
+  - descricao: "CONTRATO 6.2 com texto truncado ('O serviço terá início em com a assinatura do contrato') e CONTRATO 7.1 com dotação a preencher, enquanto TR 21.1 já indica Casa Civil, fonte 501/101."
+    paginas: [p089, p141, p142]
+  - descricao: "'Recorrência' de descumprimento (TR 18.2) que leva a inexecução parcial não é quantificada."
+    paginas: [p069]

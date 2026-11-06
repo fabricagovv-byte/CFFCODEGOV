@@ -1,0 +1,36 @@
+{
+  "projeto": "SYS-04",
+  "servico": "Sustentação de sistemas",
+  "descricao": "Cálculo de tempo de indisponibilidade e conformidade com meta interna",
+  "executado_em": "2026-11-05T15:03:42+00:00",
+  "positivo": {
+    "http": 201,
+    "entrada": {
+      "incident_started_at": "2026-11-04T10:00:00",
+      "service_restored_at": "2026-11-04T11:15:00",
+      "target_minutes": 90
+    },
+    "resposta": {
+      "run_id": 1,
+      "service": "Sustentação de sistemas",
+      "result": {
+        "downtime_minutes": 75.0,
+        "target_minutes": 90,
+        "meets_target": true,
+        "mttr_sample_minutes": 75.0,
+        "note": "Apenas um evento; MTTR agregado depende de múltiplos incidentes."
+      },
+      "laboratory_only": true
+    }
+  },
+  "negativo": {
+    "http": 400,
+    "entrada": {
+      "invalid": true
+    },
+    "resposta": {
+      "error": "incident_started_at: texto entre 10 e 40 caracteres"
+    }
+  },
+  "historico_registros": 1
+}

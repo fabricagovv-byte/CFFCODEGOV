@@ -1,0 +1,35 @@
+{
+  "projeto": "SYS-12",
+  "servico": "Serviços para Jornada do Cidadão",
+  "descricao": "Motor de estados para atendimento digital do cidadão",
+  "executado_em": "2026-11-05T15:03:42+00:00",
+  "positivo": {
+    "http": 201,
+    "entrada": {
+      "current_state": "PROTOCOLADO",
+      "action": "analisar"
+    },
+    "resposta": {
+      "run_id": 1,
+      "service": "Serviços para Jornada do Cidadão",
+      "result": {
+        "previous_state": "PROTOCOLADO",
+        "action": "analisar",
+        "new_state": "EM_ANALISE",
+        "accessible_message": "Solicitação atualizada para em analise",
+        "note": "Não registra protocolo real em órgão público."
+      },
+      "laboratory_only": true
+    }
+  },
+  "negativo": {
+    "http": 400,
+    "entrada": {
+      "invalid": true
+    },
+    "resposta": {
+      "error": "current_state: texto entre 1 e 30 caracteres"
+    }
+  },
+  "historico_registros": 1
+}

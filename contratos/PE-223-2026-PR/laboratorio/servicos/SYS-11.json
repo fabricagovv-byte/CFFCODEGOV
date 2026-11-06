@@ -1,0 +1,60 @@
+{
+  "projeto": "SYS-11",
+  "servico": "Gerenciamento de projetos",
+  "descricao": "Cálculo de caminho crítico em projeto com dependências",
+  "executado_em": "2026-11-05T15:03:42+00:00",
+  "positivo": {
+    "http": 201,
+    "entrada": {
+      "tasks": [
+        {
+          "id": "a",
+          "days": 2
+        },
+        {
+          "id": "b",
+          "days": 3,
+          "depends_on": [
+            "a"
+          ]
+        },
+        {
+          "id": "c",
+          "days": 1,
+          "depends_on": [
+            "a"
+          ]
+        }
+      ]
+    },
+    "resposta": {
+      "run_id": 1,
+      "service": "Gerenciamento de projetos",
+      "result": {
+        "total_days": 5,
+        "critical_path": [
+          "a",
+          "b"
+        ],
+        "earliest_finish": {
+          "a": 2,
+          "b": 5,
+          "c": 3
+        },
+        "task_count": 3,
+        "note": "Tempos de calendário teórico, sem alocação de recursos ou feriados."
+      },
+      "laboratory_only": true
+    }
+  },
+  "negativo": {
+    "http": 400,
+    "entrada": {
+      "invalid": true
+    },
+    "resposta": {
+      "error": "tasks: 1 a 60 tarefas"
+    }
+  },
+  "historico_registros": 1
+}

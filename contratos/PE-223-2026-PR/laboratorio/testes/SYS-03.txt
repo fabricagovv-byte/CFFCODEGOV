@@ -1,0 +1,9 @@
+test_crud_and_validation (test_api.TestCRUD.test_crud_and_validation) ... ok
+test_health (test_api.TestCRUD.test_health) ... ok
+test_api_and_persistence (test_service.DomainTest.test_api_and_persistence) ... ok
+test_unique_service_logic (test_service.DomainTest.test_unique_service_logic) ... ok
+
+----------------------------------------------------------------------
+Ran 4 tests in 1.196s
+
+OK

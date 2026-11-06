@@ -1,0 +1,62 @@
+{
+  "projeto": "SYS-15",
+  "servico": "Serviços de Integração de Sistemas",
+  "descricao": "Transformação de registros com mapeamento de campos e erros por linha",
+  "executado_em": "2026-11-05T15:03:42+00:00",
+  "positivo": {
+    "http": 201,
+    "entrada": {
+      "records": [
+        {
+          "nome_origem": "Ana",
+          "idade": 23
+        },
+        {
+          "idade": 40
+        }
+      ],
+      "mapping": {
+        "nome": "nome_origem",
+        "idade": "idade"
+      },
+      "required": [
+        "nome"
+      ]
+    },
+    "resposta": {
+      "run_id": 1,
+      "service": "Serviços de Integração de Sistemas",
+      "result": {
+        "transformed": [
+          {
+            "nome": "Ana",
+            "idade": 23
+          }
+        ],
+        "success_count": 1,
+        "error_count": 1,
+        "errors": [
+          {
+            "row": 2,
+            "missing": [
+              "nome"
+            ]
+          }
+        ],
+        "external_send": false,
+        "note": "Transformação local; não encaminha dados a sistemas externos."
+      },
+      "laboratory_only": true
+    }
+  },
+  "negativo": {
+    "http": 400,
+    "entrada": {
+      "invalid": true
+    },
+    "resposta": {
+      "error": "records: 1 a 1000 linhas"
+    }
+  },
+  "historico_registros": 1
+}

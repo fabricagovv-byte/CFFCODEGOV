@@ -1,0 +1,65 @@
+{
+  "projeto": "SYS-09",
+  "servico": "Business Intelligence e Ciência de Dados",
+  "descricao": "Agregação de indicadores e estatísticas por categoria",
+  "executado_em": "2026-11-05T15:03:42+00:00",
+  "positivo": {
+    "http": 201,
+    "entrada": {
+      "group_by": "setor",
+      "measure": "valor",
+      "rows": [
+        {
+          "setor": "A",
+          "valor": 10
+        },
+        {
+          "setor": "A",
+          "valor": 20
+        },
+        {
+          "setor": "B",
+          "valor": 5
+        }
+      ]
+    },
+    "resposta": {
+      "run_id": 1,
+      "service": "Business Intelligence e Ciência de Dados",
+      "result": {
+        "dimension": "setor",
+        "measure": "valor",
+        "groups": [
+          {
+            "group": "A",
+            "count": 2,
+            "total": 30.0,
+            "average": 15.0,
+            "minimum": 10.0,
+            "maximum": 20.0
+          },
+          {
+            "group": "B",
+            "count": 1,
+            "total": 5.0,
+            "average": 5.0,
+            "minimum": 5.0,
+            "maximum": 5.0
+          }
+        ],
+        "row_count": 3
+      },
+      "laboratory_only": true
+    }
+  },
+  "negativo": {
+    "http": 400,
+    "entrada": {
+      "invalid": true
+    },
+    "resposta": {
+      "error": "group_by: texto entre 1 e 80 caracteres"
+    }
+  },
+  "historico_registros": 1
+}

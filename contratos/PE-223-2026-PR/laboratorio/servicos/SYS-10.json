@@ -1,0 +1,44 @@
+{
+  "projeto": "SYS-10",
+  "servico": "Desenvolvimento de IA",
+  "descricao": "Classificador local explicável de demandas, sem modelo externo",
+  "executado_em": "2026-11-05T15:03:42+00:00",
+  "positivo": {
+    "http": 201,
+    "entrada": {
+      "text": "Falha na API do sistema e bug no cadastro"
+    },
+    "resposta": {
+      "run_id": 1,
+      "service": "Desenvolvimento de IA",
+      "result": {
+        "label": "desenvolvimento",
+        "scores": {
+          "seguranca": 0,
+          "infraestrutura": 0,
+          "desenvolvimento": 3,
+          "atendimento": 0
+        },
+        "matched_keywords": [
+          "api",
+          "sistema",
+          "bug"
+        ],
+        "model": "regras_explicitas_v1",
+        "uses_external_ai": false,
+        "note": "Este módulo NÃO é um modelo treinado nem previsão de IA generativa."
+      },
+      "laboratory_only": true
+    }
+  },
+  "negativo": {
+    "http": 400,
+    "entrada": {
+      "invalid": true
+    },
+    "resposta": {
+      "error": "text: texto entre 1 e 1000 caracteres"
+    }
+  },
+  "historico_registros": 1
+}

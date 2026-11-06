@@ -1,0 +1,40 @@
+{
+  "projeto": "SYS-14",
+  "servico": "Serviços de Gestão de Segurança da Informação",
+  "descricao": "Varredura estática de padrões de código de exemplo",
+  "executado_em": "2026-11-05T15:03:42+00:00",
+  "positivo": {
+    "http": 201,
+    "entrada": {
+      "source_code": "x = eval(user_input)\nprint(x)"
+    },
+    "resposta": {
+      "run_id": 1,
+      "service": "Serviços de Gestão de Segurança da Informação",
+      "result": {
+        "lines_scanned": 2,
+        "findings": [
+          {
+            "line": 1,
+            "rule": "S001",
+            "severity": "CRITICO",
+            "message": "Avaliação dinâmica de expressão"
+          }
+        ],
+        "finding_count": 1,
+        "note": "Varredura parcial; não é certificação de segurança ou pentest."
+      },
+      "laboratory_only": true
+    }
+  },
+  "negativo": {
+    "http": 400,
+    "entrada": {
+      "invalid": true
+    },
+    "resposta": {
+      "error": "source_code: texto entre 1 e 20000 caracteres"
+    }
+  },
+  "historico_registros": 1
+}

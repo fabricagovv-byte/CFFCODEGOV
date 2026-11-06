@@ -1,0 +1,1331 @@
+# Exigências do edital PE 223/2026 extraídas pelos agentes (com página). Revisão humana pendente.
+_fonte: Edital PE 223/2026 (Paraná), 223 páginas, lido por G02/G05/G21/G22/G23 da fábrica; cada item cita a página (pNNN).
+documentos:
+  ppj:
+    titulo: Planejamento de Projeto Sustentável (PPJ)
+    secoes_extras: []
+relatorios_exigidos:
+- Relatório mensal sobre a prestação dos serviços
+- Relatórios de execução (elaborados pela contratada e validados pelo fiscal)
+- Relatórios gerenciais / relatórios periódicos
+- Relatório/documentação final de transferência de conhecimento
+- Relatórios técnicos de conformidade com políticas e normas de segurança
+- Relatório da taxa de transmissão dos links ativos
+- Relatório de indisponibilidade dos serviços
+- Relatórios de desempenho e integridade de banco de dados
+- Relatórios de execução e qualidade de testes
+- Relatórios gerenciais de acompanhamento de projetos
+- Relatórios da solução de gestão de TIC
+- Relatórios gerenciais da solução de gestão de projetos
+- Relatórios de disponibilidade e consumo das integrações e dashboards
+medicao:
+  unidade: UST – Unidade de Serviço Técnico, 'métrica que representa o esforço necessário à execução das atividades previstas'
+  modelo: UST (não PF, não horas). Modelo de exaustão do saldo contratado; prestação 'integralmente medida em UST, independentemente da natureza
+    da atividade'. O TR não define conversão de UST em horas nem em PF.
+  fatores_complexidade: '[{aplicacao: Tarefas triviais existentes dentro de base de conhecimento, expertise: Júnior, fator: 1, multiplicacao:
+    1 × valor base UST}, {aplicacao: ''Tarefas com maior grau de dificuldade, que demandam expertise profissional intermediária'', expertise:
+    Pleno, fator: 2, multiplicacao: 2 × valor base UST}, {aplicacao: Tarefas que exigem perfil especialista ou grau de senioridade avançada, expertise:
+    Sênior, fator: 3, multiplicacao: 3 × valor base UST}]'
+  criterios_do_fator: impacto institucional (inclusive requisitos regulatórios), necessidade de metodologias reconhecidas (engenharia de software,
+    governança, segurança) e grau de senioridade requerido
+  regra: 'O fator é aplicado ao valor base da UST definido no processo licitatório; cada OS deve conter a descrição detalhada do serviço, o quantitativo
+    de UST base e o fator ''acordado entre as partes''. Exemplo: 300 UST base × fator 3 = 900 UST.'
+  origem: p018 (TR 1); p019–p022 (TR 1.3, 1.3.1, 1.3.2); p048 (TR 5.1.3); p051 (TR 6.1.1); p055 (TR 6.3.3); p059 (TR 7.1, 7.2); p060–p061 (TR
+    10.2)
+  quantidade_estimada_anual: '325.000 UST no período contratual inicial (TR 1.3); tabela: 130.000 UST estimadas/ano, 325.000 ajustadas pela complexidade.
+    Distribuição por serviço é apenas referencial: todo o saldo pode ser consumido em um único serviço.'
+  como_se_mede: 'Medição pela quantidade de UST consumidas conforme registrado nas Ordens de Serviço (TR 7.1). Etapa ''Medição e Validação'':
+    aferição com base em UST, avaliação da conformidade com requisitos técnicos e SLA e registro das evidências de execução para análise da fiscalização
+    (TR 5.1.3). Medições e recebimentos são feitos por Ordem de Serviço, cada entrega verificada e liquidada de forma autônoma (justificativa
+    do TR 10.2). Capacitação EaD, quando pedida em OS, é medida em UST como as demais entregas e não é serviço autônomo (TR 6.1.1).'
+  ordem_de_servico: '[''tipo de serviço (p020, TR 1.3)'', descrição detalhada do escopo / do serviço (p020; p021 nota), esforço estimado em UST
+    / quantitativo de UST base (p020; p021), fator de complexidade acordado entre as partes (p021 nota), perfis profissionais requeridos (p020–p021),
+    prazos previstos para execução (p021), ''quando houver capacitação EaD: o ambiente LMS de código aberto é definido na própria OS (p051)'']'
+  validacao: 'Pagamento após validação da execução pelo gestor do contrato (TR 7.1). Condições: conformidade técnica e operacional, aprovação
+    dos relatórios de execução elaborados pela contratada e validados pelo fiscal, cumprimento de prazos e metas do SLA (TR 7.2). O fiscal do
+    contrato comprova a adequação técnica e atesta o cumprimento que permite a liquidação (TR 6.3.3). Recebimento provisório em 30 dias (Termo
+    de Aceite Provisório) e definitivo em 60 dias do provisório (Termo de Aceite Definitivo) (TR 10.2.1–10.2.2).'
+equipe_exigida:
+- perfil: Preposto (e substitutos)
+  quantidade: 1
+  palavras_chave:
+  - preposto
+  formacao: ''
+  experiencia_anos: null
+  certificacoes: []
+  origem: p049 (TR 6.1.1 Reunião Inicial); p051 (workshop); p052–p053; p068 (TR 16.2)
+- perfil: Responsável pelo acompanhamento da execução (regularidade técnica e disciplinar da equipe e contato com o CONTRATANTE)
+  quantidade: 1
+  palavras_chave:
+  - responsável
+  formacao: ''
+  experiencia_anos: null
+  certificacoes: []
+  origem: p062 (TR 11.2.1.2)
+- perfil: Responsáveis técnicos (e substitutos)
+  quantidade: 1
+  palavras_chave:
+  - responsáveis
+  formacao: ''
+  experiencia_anos: null
+  certificacoes: []
+  origem: p051 (TR 6.1.1 – capacitação); p052 (reuniões de acompanhamento)
+- perfil: 'Equipe técnica que executa as OS – exemplos citados: arquitetos, analistas de requisitos, analistas de negócios, desenvolvedores'
+  quantidade: 1
+  palavras_chave:
+  - equipe
+  formacao: ''
+  experiencia_anos: null
+  certificacoes: []
+  origem: p051 (TR 6.1.1 – Envolvidos)
+- perfil: Níveis de senioridade Júnior / Pleno / Sênior (vinculados ao fator de complexidade 1/2/3)
+  quantidade: 1
+  palavras_chave:
+  - níveis
+  formacao: ''
+  experiencia_anos: null
+  certificacoes: []
+  origem: p021 (TR 1.3.1)
+- perfil: Perfis profissionais requeridos por OS
+  quantidade: 1
+  palavras_chave:
+  - perfis
+  formacao: ''
+  experiencia_anos: null
+  certificacoes: []
+  origem: p020–p021 (TR 1.3)
+- perfil: Equipe indicada na habilitação (qualificação técnica) – deve executar os serviços
+  quantidade: 1
+  palavras_chave:
+  - equipe
+  formacao: ''
+  experiencia_anos: null
+  certificacoes: []
+  origem: p064 (TR 11.2.1.19 e 11.2.1.20)
+tecnologias_exigidas:
+- nome: 'Linguagens: Java, PHP, React, Next.js, Python e linguagens de código aberto de mercado'
+  origem: p031 (TR 1.4.5.1)
+- nome: 'SGBD: PostgreSQL, MySQL, SQL Server, Oracle (compatibilidade obrigatória no desenvolvimento)'
+  origem: p031 (TR 1.4.5.1)
+- nome: 'Bancos SQL e NoSQL nas integrações: Oracle, PostgreSQL, MongoDB, Redis'
+  origem: p038 (TR 1.4.15)
+- nome: 'Ferramentas de BI de destino: Power BI, Qlik Sense, Tableau'
+  origem: p038 (TR 1.4.15)
+- nome: 'Protocolos/conectores: HTTP, SOAP, FTP, REST, Kafka, GraphQL, WebSockets, SFTP, MQTT'
+  origem: p038; p043 (TR 1.4.15, 1.4.15.4)
+- nome: 'Segurança de integrações: OAuth2, JWT, API Key, CORS, CSRF; padrões fallback, retry, circuit breaker'
+  origem: p043–p044 (TR 1.4.15.4)
+- nome: 'Documentação de APIs: OpenAPI, WSDL, JSON, YAML; interface low-code'
+  origem: p039; p043–p044
+- nome: Containers e orquestração; Docker/Kubernetes (OpenShift/Rancher)
+  origem: p033 (TR 1.4.8.1); p042 (TR 1.4.15.2)
+- nome: 'Infraestrutura: GNU/Linux, nuvem, Microsoft (Domain Controller, Active Directory, Exchange, IIS, DNS, DHCP, Proxy, File Server), Oracle,
+    Group Policies, IPS/Firewall, clusters, virtualização'
+  origem: p023–p027 (TR 1.4.3)
+- nome: 'Servidores web/aplicação monitorados: Apache, Apache Tomcat, nginx, JBoss, Glassfish, IIS; ambientes Windows/Unix/Linux'
+  origem: p041 (TR 1.4.15.2)
+- nome: Solução ITSM com processos ITIL ou MPS.BR Serviços ou CMMI Services ou ISO 20000; web em pt-BR; compatível com Internet Explorer, Firefox
+    e Chrome; integração com Microsoft AD
+  origem: p039–p040 (TR 1.4.15.1)
+- nome: Notificações do monitoramento por e-mail, Telegram ou WhatsApp, web ou aplicativo
+  origem: p041 (TR 1.4.15.2)
+- nome: BI/DW, ETL, data lake, big data, redes neurais, visão computacional
+  origem: p033 (TR 1.4.9.1)
+- nome: BPMN
+  origem: p033 (TR 1.4.7.1)
+- nome: 'Acessibilidade: WCAG, eMAG'
+  origem: p035 (TR 1.4.12)
+- nome: 'Frameworks: COBIT, ITIL, CMMI, MPS.BR, PMI, TOGAF; ISO 27001, NIST'
+  origem: p035–p036 (TR 1.4.13, 1.4.14)
+- nome: Métodos ágeis com padrões de qualidade CMMI ou MPS.BR
+  origem: p032 (TR 1.4.5.3)
+- nome: LMS de código aberto (capacitação EaD, quando pedida em OS)
+  origem: p051 (TR 6.1.1)
+- nome: LGPD (Lei 13.709/2018)
+  origem: p019 (TR 1.1 f); p036; p066 (TR 13.1)
+- nome: Django
+  origem: p108 item 3; p117
+- nome: Next.js
+  origem: p108 item 3; p117
+- nome: Helm
+  origem: p108–p109 item 3
+- nome: PostgreSQL
+  origem: p109 item 3; p106 2.1.2.2
+- nome: Docker
+  origem: p109 item 3; p113
+- nome: Kubernetes
+  origem: p109 item 3; p104; p118 item 4
+- nome: ArgoCD
+  origem: p109 item 3; p113–p114
+- nome: GitLab CE (on-premises)
+  origem: p109 item 3; p107 2.1.4; p120 item 8.2
+- nome: GitLab CI
+  origem: p109 item 3
+- nome: Celery
+  origem: p109 item 3; p106 2.1.2.2
+- nome: Redis ou RabbitMQ
+  origem: p109; p110 obs.
+- nome: Prometheus
+  origem: p109–p110 item 3; p116
+- nome: Grafana
+  origem: p110 item 3; p116
+- nome: Elastic APM
+  origem: p110 item 3
+- nome: Cypress ou Robot Framework
+  origem: p110 item 3; p107 2.1.6
+- nome: Fluentd/Elasticsearch
+  origem: p110 obs.
+- nome: Loki
+  origem: p117
+- nome: Jaeger
+  origem: p117
+- nome: OWASP ZAP
+  origem: p117
+servicos:
+- codigo: '01'
+  nome: Serviços de suporte técnico de 1º Nível
+  unidade: UST
+  explicacao_tecnica: Atendimento remoto de questões básicas de hardware, software e rede para usuários de TI. Corresponde a um service desk de
+    primeiro contato, com tarefas triviais existentes em base de conhecimento (fator 1 na tabela).
+  quantidade_estimada: 10.000 UST/ano; fator de complexidade 1; quantidade ajustada 10.000
+  origem: p022 (TR 1.4.1.1); p020 (tabela 1.3)
+- codigo: '02'
+  nome: Serviços de suporte técnico de 2º Nível
+  unidade: UST
+  explicacao_tecnica: Atendimento presencial de questões básicas de hardware, software e rede. O texto diferencia o 2º nível do 1º apenas pela
+    forma presencial de atendimento, não pela complexidade técnica.
+  quantidade_estimada: 5.000 UST/ano; fator 2; ajustada 10.000
+  origem: p022 (TR 1.4.2.1); p020
+- codigo: '03'
+  nome: Serviços de suporte técnico de 3º Nível
+  unidade: UST
+  explicacao_tecnica: Sustentação de infraestrutura de redes e segurança (LAN/WAN, roteadores/switches, IPS/firewall, testes de invasão, patches,
+    GPOs, antivírus), administração de servidores (Linux/Microsoft, AD, DNS, DHCP, IIS, Exchange, clusters, virtualização, backup/restore) e administração
+    de bancos de dados (tuning, segurança, backup/recovery, privilégios). Inclui atividades rotineiras, periódicas e um setor de atendimento técnico
+    responsável pelos postos e por suporte telefônico.
+  quantidade_estimada: 10.000 UST/ano; fator 3; ajustada 30.000
+  origem: p022–p029 (TR 1.4.3, 1.4.3.1, 1.4.3.1.1, 1.4.3.1.2, 1.4.3.2, 1.4.3.2.1, 1.4.3.2.2, 1.4.3.3); p020
+- codigo: '04'
+  nome: Serviços de Sustentação de Sistemas
+  unidade: UST
+  explicacao_tecnica: Manutenção corretiva, preventiva, adaptativa (mudanças legais/normativas) e de segurança de sistemas em produção e seus
+    bancos de dados, com atualização de bibliotecas, monitoramento de disponibilidade/performance e gestão de incidentes e problemas com análise
+    de causa raiz. Inclui controle de mudanças/versionamento com rastreabilidade, suporte a integrações legadas, otimização de consultas e criação
+    de silos de dados.
+  quantidade_estimada: 20.000 UST/ano; fator 2; ajustada 40.000
+  origem: p029–p030 (TR 1.4.4.1 a 1.4.4.3); p020
+- codigo: '05'
+  nome: Serviços de Desenvolvimento de Sistemas
+  unidade: UST
+  explicacao_tecnica: Construção de sistemas, portais, sistemas web e apps móveis, com modelagem de dados e integração com sistemas externos/legados,
+    em Java, PHP, React, Next.js, Python ou outras linguagens de código aberto, compatível com PostgreSQL, MySQL, SQL Server e Oracle. Abrange
+    também arquitetura de sistemas (visões funcional, de linguagem, estrutural e física) e análise/qualidade de software (requisitos, processos
+    AS-IS/TO-BE, testes), com método ágil e padrões CMMI ou MPS.BR.
+  quantidade_estimada: 10.000 UST/ano; fator 3; ajustada 30.000
+  origem: p030–p032 (TR 1.4.5.1, 1.4.5.2, 1.4.5.3); p020
+- codigo: '06'
+  nome: Serviços de Testes de Sistemas
+  unidade: UST
+  explicacao_tecnica: Planejamento e execução de testes manuais e automatizados (funcionais, regressão, integração, usabilidade), UAT com usuários-chave
+    e testes em homologação/pré-produção. Inclui gestão de defeitos, evidências (prints, logs, relatórios), indicadores (TDC, VAE, taxa de aprovação,
+    cobertura) e manutenção de artefatos de QA como plano de testes e matriz de rastreabilidade.
+  quantidade_estimada: 5.000 UST/ano; fator 2; ajustada 10.000
+  origem: p032–p033 (TR 1.4.6.1, 1.4.6.2); p020
+- codigo: '07'
+  nome: Serviços de Análise de Negócios e Processos
+  unidade: UST
+  explicacao_tecnica: Análise de negócio da área específica de cada projeto de TI no contexto da administração pública. Inclui mapeamento, modelagem
+    e redesenho de processos com BPMN.
+  quantidade_estimada: 10.000 UST/ano; fator 2; ajustada 20.000
+  origem: p033 (TR 1.4.7.1); p020
+- codigo: 08
+  nome: Serviços de Implementação DevOps
+  unidade: UST
+  explicacao_tecnica: Implementação de ferramentas, processos e infraestrutura de DevOps com arquitetura de containers e orquestração de aplicações.
+    O objeto relaciona o serviço à integração contínua e à entrega ágil de soluções.
+  quantidade_estimada: 5.000 UST/ano; fator 3; ajustada 15.000
+  origem: p033 (TR 1.4.8.1); p019 (TR 1.1 alínea d); p020
+- codigo: 09
+  nome: Serviços de Business Intelligence (BI) e Ciência de Dados
+  unidade: UST
+  explicacao_tecnica: Soluções de BI e Data Warehouse (requisitos de dados, modelagem multidimensional, indicadores, mapas ETL, camada visual,
+    implantação) e de data lake/big data (arquitetura, modelagem, administração). Inclui algoritmos de análise de dados, reconhecimento de padrões,
+    fala/escrita, visão computacional, estatística avançada e redes neurais, além de processos de inovação incremental.
+  quantidade_estimada: 10.000 UST/ano; fator 3; ajustada 30.000
+  origem: p033–p034 (TR 1.4.9.1); p020
+- codigo: '10'
+  nome: Serviços de Desenvolvimento de IA
+  unidade: UST
+  explicacao_tecnica: Desenvolvimento de algoritmos e tecnologias de Inteligência Artificial com as tecnologias mais atuais de mercado, conforme
+    a necessidade do contratante. O TR não detalha atividades, artefatos nem critérios específicos para este item.
+  quantidade_estimada: 10.000 UST/ano; fator 3; ajustada 30.000
+  origem: p034 (TR 1.4.10.1); p020
+- codigo: '11'
+  nome: Serviços de Gerenciamento de Projetos
+  unidade: UST
+  explicacao_tecnica: Apoio à definição, melhoria e institucionalização de metodologias de gestão de projetos. Inclui acompanhamento de portfólio,
+    programas e projetos e extração de relatórios gerenciais.
+  quantidade_estimada: 5.000 UST/ano; fator 3; ajustada 15.000
+  origem: p034 (TR 1.4.11.1, 1.4.11.2); p020
+- codigo: '12'
+  nome: Serviços para Jornada do Cidadão
+  unidade: UST
+  explicacao_tecnica: 'Análise e melhoria da experiência do cidadão em serviços digitais: Linguagem Simples (tradução, organização da informação,
+    automação), portais e automação de transparência, mapeamento da jornada com indicadores de satisfação. Inclui acessibilidade digital conforme
+    WCAG e eMAG e recursos assistivos (leitores de tela, comandos de voz).'
+  quantidade_estimada: 5.000 UST/ano; fator 2; ajustada 10.000
+  origem: p034–p035 (TR 1.4.12.1, 1.4.12.1.1); p020
+- codigo: '13'
+  nome: Serviços de Governança de TI
+  unidade: UST
+  explicacao_tecnica: Estruturação de modelos de governança (análise de maturidade; apoio à implantação de COBIT, ITIL, CMMI, MPS.BR, PMI, TOGAF),
+    gestão da informação (fluxos, governança de dados e documentos, políticas de acesso/classificação/preservação) e auditoria/conformidade. Inclui
+    gestão de riscos e continuidade (planos de contingência e resposta a incidentes) e gestão de portfólio com metodologia ágil.
+  quantidade_estimada: 5.000 UST/ano; fator 3; ajustada 15.000
+  origem: p035–p036 (TR 1.4.13.1, 1.4.13.1.1); p020
+- codigo: '14'
+  nome: Serviços de Gestão de Segurança da Informação
+  unidade: UST
+  explicacao_tecnica: Construção de políticas de segurança (análise de riscos, normativos, controles alinhados a ISO 27001, NIST e ITIL), implantação
+    da LGPD (diagnóstico, plano de ação, mapeamento e classificação de dados pessoais, programa contínuo de auditoria). Inclui implantação de
+    controles de segurança e gestão de identidade e acesso, resposta a incidentes, PCN e monitoramento contínuo de ameaças.
+  quantidade_estimada: 10.000 UST/ano; fator 3; ajustada 30.000
+  origem: p036–p037 (TR 1.4.14.1); p020
+- codigo: '15'
+  nome: Serviços de Integração de Sistemas
+  unidade: UST
+  explicacao_tecnica: 'Planejamento/arquitetura de integrações (multi-inquilino, escalável, segura), desenvolvimento e publicação de APIs institucionais
+    com versionamento e rollback, integração com legados, nuvem, bancos SQL/NoSQL e ferramentas de BI, fluxos orquestrados com consistência transacional,
+    observabilidade e logs de auditoria. Este item também exige que a CONTRATADA forneça, sem custos adicionais, quatro soluções tecnológicas:
+    gestão de serviços de TIC (ITSM), monitoramento, gestão de projetos de TIC e gestão de integrações (low-code).'
+  quantidade_estimada: 10.000 UST/ano; fator 3; ajustada 30.000
+  origem: p037–p044 (TR 1.4.15, 1.4.15.1, 1.4.15.2, 1.4.15.3, 1.4.15.4); p020
+habilitacao:
+- grupo: outros
+  documento: Certificado de Regularidade de Registro Cadastral (SICAF ou CAUFPR)
+  exigencia: Emitido pelo SICAF ou pelo Cadastro Unificado de Fornecedores do Estado do Paraná (CAUFPR), acompanhado dos documentos dos itens
+    1.4, 1.5, 1.6 e 1.7 do Anexo II. Quem não tiver documentos válidos no SICAF/CAUFPR deve apresentar todos os documentos listados no Anexo II.
+  origem: p173 — Edital Anexo II item 1.1
+  situacao: a verificar
+- grupo: jurídica
+  documento: Prova de Registro Comercial (empresa individual)
+  exigencia: Aplicável no caso de empresa individual.
+  origem: p123 — TR Anexo I.III item 1.1; p173 — Edital Anexo II item 1.2/1.1
+  situacao: a verificar
+- grupo: jurídica
+  documento: Ato constitutivo, Estatuto ou Contrato Social e Aditivo em vigor
+  exigencia: Devidamente registrados (sociedades comerciais); para sociedades por ações, acompanhado de documentos de eleição dos administradores.
+  origem: p123 — TR Anexo I.III item 1.2; p173 — Edital Anexo II item 1.2
+  situacao: a verificar
+- grupo: jurídica
+  documento: Inscrição do Ato Constitutivo (sociedades civis) com prova da diretoria em exercício
+  exigencia: Aplicável a sociedades civis.
+  origem: p123 — TR Anexo I.III item 1.2.1; p173 — Edital Anexo II item 1.2.1
+  situacao: a verificar
+- grupo: jurídica
+  documento: Decreto de autorização (empresa/sociedade estrangeira) e ato de registro/autorização de funcionamento
+  exigencia: Para empresa estrangeira em funcionamento no País; ato de registro quando a atividade exigir.
+  origem: p123 — TR Anexo I.III item 1.2.2; p173 — Edital Anexo II item 1.2.2
+  situacao: a verificar
+- grupo: fiscal-trabalhista
+  documento: Prova de inscrição no CNPJ
+  exigencia: Cadastro Nacional da Pessoa Jurídica.
+  origem: p123 — TR Anexo I.III item 2.1.1; p173 — Edital Anexo II item 1.3.1
+  situacao: a verificar
+- grupo: fiscal-trabalhista
+  documento: Certidão Conjunta Negativa de Débitos relativos a Tributos Federais e à Dívida Ativa da União (RFB/PGFN)
+  exigencia: Dentro do prazo de validade; conforme Decreto Federal nº 5.512/2005.
+  origem: p123 — TR Anexo I.III item 2.1.2 a; p173 — Edital Anexo II item 1.3.2 a
+  situacao: a verificar
+- grupo: fiscal-trabalhista
+  documento: Regularidade com a Fazenda Pública Estadual
+  exigencia: Certidão Negativa de Existência de Débitos inscritos na Dívida Ativa Estadual e certidões negativas de débitos estaduais.
+  origem: p123 — TR Anexo I.III item 2.1.2 b; p173 — Edital Anexo II item 1.3.2 b
+  situacao: a verificar
+- grupo: fiscal-trabalhista
+  documento: Regularidade com a Fazenda Pública Municipal
+  exigencia: Certidão Negativa de Existência de Débitos inscritos na Dívida Ativa Municipal e certidões negativas de débitos municipais. Texto
+    diz "da sede da CONTRATANTE" (ver conflitos).
+  origem: p123 — TR Anexo I.III item 2.1.2 c; p173 — Edital Anexo II item 1.3.2 c
+  situacao: a verificar
+- grupo: fiscal-trabalhista
+  documento: Regra de filial (documentos jurídicos e fiscais em nome da filial)
+  exigencia: 'Se a licitante for filial, documentos de habilitação jurídica e regularidade fiscal em nome da filial, exceto os emitidos somente
+    em nome da matriz. ME/EPP com restrição fiscal: 5 dias úteis (prorrogáveis por igual período) a partir da declaração de vencedor; não regularização
+    = decadência do direito à contratação.'
+  origem: p123–p124 — TR Anexo I.III itens 2.1.3–2.1.5; p173–p174 — Edital Anexo II itens 1.3.3–1.3.5
+  situacao: a verificar
+- grupo: fiscal-trabalhista
+  documento: Declaração de não emprego de menor (art. 7º, XXXIII, CF)
+  exigencia: Nenhum menor de 18 anos em trabalho noturno, perigoso ou insalubre; nenhum menor de 16 anos, salvo aprendiz a partir de 14 anos.
+    Texto remete ao "Anexo II" (modelo efetivo está no Anexo V item 2, p185).
+  origem: p124 — TR Anexo I.III item 2.2.1; p174 — Edital Anexo II item 1.4.1; p185 — Anexo V item 2
+  situacao: a verificar
+- grupo: fiscal-trabalhista
+  documento: Certidão Negativa de Débitos Trabalhistas (Justiça do Trabalho)
+  exigencia: Admite-se Certidão Positiva com Efeitos de Negativa nos termos da CLT.
+  origem: p124 — TR Anexo I.III item 2.2.2; p174 — Edital Anexo II item 1.4.2
+  situacao: a verificar
+- grupo: econômico-financeira
+  documento: Certidão negativa de falência, recuperação judicial ou execução patrimonial
+  exigencia: Expedida pelo distribuidor da sede da pessoa jurídica; validade = a constante na própria certidão.
+  origem: p124 — TR Anexo I.III item 2.3.1; p174 — Edital Anexo II item 1.5.1
+  situacao: a verificar
+- grupo: econômico-financeira
+  documento: Balanço patrimonial, DRE e demais demonstrações contábeis dos 2 últimos exercícios sociais
+  exigencia: Vedada substituição por balancetes ou balanços provisórios; podem ser atualizados por índices oficiais.
+  origem: p124 — TR Anexo I.III item 2.3.2; p174 — Edital Anexo II item 1.5.2
+  situacao: a verificar
+- grupo: econômico-financeira
+  documento: Índices LG, SG e LC já calculados
+  exigencia: LG = (AC + RLP) / (PC + PNC) >= 1,0; SG = Ativo Total / (PC + PNC) >= 1,0; LC = AC / PC >= 1,0. Vale para empresas cadastradas ou
+    não no PNCP. O Edital (não o TR) exige apresentar os índices JÁ CALCULADOS, com assinatura do contador e do representante legal.
+  origem: p125 — TR Anexo I.III itens 2.3.3–2.3.4; p174 — Edital Anexo II itens 1.5.3–1.5.5
+  situacao: a verificar
+- grupo: econômico-financeira
+  documento: Comprovação de patrimônio líquido mínimo
+  exigencia: 'PL não inferior a 10% do valor total estimado anual da contratação, pelo balanço e demonstrações do último exercício, já exigíveis;
+    vedados balancetes/balanços provisórios. Valor estimado anual: não consta nas páginas lidas.'
+  origem: p125 — TR Anexo I.III item 2.3.5; p175 — Edital Anexo II item 1.5.6
+  situacao: a verificar
+- grupo: técnica
+  documento: Atestado (a) — desenvolvimento, sustentação e manutenção corretiva e adaptativa
+  exigencia: '>= 20.000 UST (50% da quantidade anual ajustada do item 04 — Sustentação de Sistemas)'
+  origem: p126 — TR item 2.4.6 a; p175 — Edital Anexo II item 1.6.6 a
+  situacao: a verificar
+- grupo: técnica
+  documento: Atestado (b) — desenvolvimento e sustentação sob metodologias ágeis (Scrum ou equivalente)
+  exigencia: Sem quantitativo; um ou mais contratos
+  origem: p126–p127 — TR item 2.4.6 b; p175 — Edital 1.6.6 b
+  situacao: a verificar
+- grupo: técnica
+  documento: Atestado (c) — sustentação sob práticas DevOps com contêineres e orquestração
+  exigencia: Sem quantitativo; um ou mais contratos
+  origem: p127 — TR 2.4.6 c; p176 — Edital 1.6.6 c
+  situacao: a verificar
+- grupo: técnica
+  documento: Atestado (d) — back-end Python + SGBD relacional (PostgreSQL, MySQL, SQL Server ou Oracle)
+  exigencia: '>= 10.000 UST; ''experiência sobre versões da tecnologia lançadas'' (frase incompleta)'
+  origem: p127 — TR 2.4.6 d; p176 — Edital 1.6.6 d
+  situacao: a verificar
+- grupo: técnica
+  documento: Atestado (e) — back-end PHP + SGBD relacional
+  exigencia: '>= 10.000 UST'
+  origem: p127 — TR 2.4.6 e; p176 — Edital 1.6.6 e
+  situacao: a verificar
+- grupo: técnica
+  documento: Atestado (f) — manutenção de sistemas em Python ou PHP
+  exigencia: '>= 20 aplicações distintas; somatório admitido'
+  origem: p127 — TR 2.4.6 f; p176 — Edital 1.6.6 f
+  situacao: a verificar
+- grupo: técnica
+  documento: Atestado (g) — front-end React.js, Next.js ou Vue.js
+  exigencia: '>= 10.000 UST; atualidade tecnológica da alínea d'
+  origem: p127 — TR 2.4.6 g; p176 — Edital 1.6.6 g
+  situacao: a verificar
+- grupo: técnica
+  documento: Atestado ou declaração (h) — uso de ferramenta de gestão de projetos aderente a CMMI, MPS.BR ou equivalente
+  exigencia: Sem quantitativo
+  origem: p127 — TR 2.4.6 h; p176 — Edital 1.6.6 h
+  situacao: a verificar
+- grupo: técnica
+  documento: Atestado (i) — desenvolvimento e sustentação mobile (Android e iOS)
+  exigencia: '>= 5.000 UST'
+  origem: p127 — TR 2.4.6 i; p176 — Edital 1.6.6 i
+  situacao: a verificar
+- grupo: técnica
+  documento: Atestado (j) — soluções web de BI, Data Warehouse e ETL, incluindo capacitação de usuários
+  exigencia: '>= 5.000 UST'
+  origem: p127–p128 — TR 2.4.6 j; p176 — Edital 1.6.6 j
+  situacao: a verificar
+- grupo: técnica
+  documento: Atestado (k) — migração de dados entre sistemas ou bases
+  exigencia: Sem quantitativo
+  origem: p128 — TR 2.4.6 k; p176 — Edital 1.6.6 k
+  situacao: a verificar
+- grupo: técnica
+  documento: Atestado (l) — atendimento de 2º nível com administração de legados e infraestrutura (BD, backup, armazenamento, virtualização, aplicações
+    web, mensageria)
+  exigencia: '>= 5.000 UST'
+  origem: p128 — TR 2.4.6 l; p176 — Edital 1.6.6 l
+  situacao: a verificar
+- grupo: técnica
+  documento: Comprovação (m) — maturidade CMMI-DEV nível 3+ ou MPS.BR-SW nível C+
+  exigencia: Certificado vigente OU equivalência com evidência datada das 7 práticas (requisitos/rastreabilidade, planejamento, monitoramento,
+    QA, configuração, medição, processo organizacional institucional)
+  origem: p128 — TR 2.4.6 m; p176–p177 — Edital 1.6.6 m
+  situacao: a verificar
+- grupo: técnica
+  documento: Comprovação (n) — gestão de serviços ISO/IEC 20000, CMMI-SVC nível 2+ ou MPS.BR-Serviços nível F+
+  exigencia: Certificado vigente OU evidência datada de 6 processos (catálogo, SLA medido, incidentes, requisições/mudanças, configuração, relato
+    periódico)
+  origem: p128–p129 — TR 2.4.6 n; p177 — Edital 1.6.6 n
+  situacao: a verificar
+- grupo: técnica
+  documento: Comprovação (o) — SGSI compatível com ISO/IEC 27001
+  exigencia: Certificado vigente OU evidência datada de 6 itens (política aprovada, gestão de riscos, declaração de aplicabilidade, incidentes,
+    controle de acesso/ativos, análise crítica e auditoria interna)
+  origem: p129 — TR 2.4.6 o; p177 — Edital 1.6.6 o
+  situacao: a verificar
+- grupo: técnica
+  documento: Comprovação (p) — privacidade ISO/IEC 27701 / LGPD
+  exigencia: Certificado vigente OU evidência datada de 6 itens (política, ROPA, nomeação do DPO, RIPD/DPIA quando aplicável, atendimento a titulares,
+    incidentes com dados pessoais)
+  origem: p129–p130 — TR 2.4.6 p; p177 — Edital 1.6.6 p
+  situacao: a verificar
+- grupo: técnica
+  documento: Atestado (q) — suporte e administração de infraestrutura de redes N3
+  exigencia: '>= 5.000 UST; somatório admitido'
+  origem: p130 — TR 2.4.6 q; p177 — Edital 1.6.6 q
+  situacao: a verificar
+- grupo: técnica
+  documento: Atestado (r) — suporte técnico N1 e/ou N2
+  exigencia: '>= 10.000 UST, dos quais >= 5.000 UST em UM ÚNICO contrato (única exceção ao somatório)'
+  origem: p130 — TR 2.4.6 r; p177 — Edital 1.6.6 r
+  situacao: a verificar
+- grupo: técnica
+  documento: Atestado (s) — gestão e monitoramento de ambientes de infraestrutura de TI
+  exigencia: Sem quantitativo; admite evidências do ambiente, com sigilo do cliente
+  origem: p130 — TR 2.4.6 s; p178 — Edital 1.6.6 s
+  situacao: a verificar
+- grupo: técnica
+  documento: Atestado (t) — mapeamento e modelagem de processos e análise de negócios
+  exigencia: '>= 10.000 UST'
+  origem: p130 — TR 2.4.6 t; p178 — Edital 1.6.6 t
+  situacao: a verificar
+- grupo: técnica
+  documento: Atestado (u) — projetos aderentes à Lei 13.460/2017 e à LGPD
+  exigencia: Sem quantitativo
+  origem: p130 — TR 2.4.6 u; p178 — Edital 1.6.6 u
+  situacao: a verificar
+- grupo: técnica
+  documento: Atestado (v) — integração com login único governamental (gov.br ou equivalente)
+  exigencia: Sem quantitativo
+  origem: p130 — TR 2.4.6 v; p178 — Edital 1.6.6 v
+  situacao: a verificar
+- grupo: técnica
+  documento: Atestado (w) — integração com assinatura eletrônica governamental (gov.br ou equivalente)
+  exigencia: Sem quantitativo
+  origem: p130 — TR 2.4.6 w; p178 — Edital 1.6.6 w
+  situacao: a verificar
+- grupo: técnica
+  documento: Atestado (x) — solução aderente à Lei 14.063/2020 (assinatura eletrônica)
+  exigencia: Sem quantitativo
+  origem: p130 — TR 2.4.6 x; p178 — Edital 1.6.6 x
+  situacao: a verificar
+- grupo: técnica
+  documento: Atestado (y) — projetos com inteligência artificial
+  exigencia: 'Mínimo: integração com modelos de IA por API, tratamento e auditabilidade dos dados, conformidade com proteção de dados'
+  origem: p130–p131 — TR 2.4.6 y; p178 — Edital 1.6.6 y
+  situacao: a verificar
+- grupo: técnica
+  documento: Atestado (z) — conteúdo de capacitação EaD em LMS de código aberto (Moodle, Open edX, Chamilo, Canvas comunitário ou equivalente)
+  exigencia: Sem quantitativo mínimo de UST; sem plataforma proprietária
+  origem: p131 — TR 2.4.6 z; p178 — Edital 1.6.6 z
+  situacao: a verificar
+- grupo: técnica
+  documento: Datação externa de cada documento apresentado (regra geral)
+  exigencia: Cada documento deve ter data comprovada por meio externo verificável (assinatura eletrônica avançada/qualificada — gov.br ou ICP-Brasil
+    —, carimbo de tempo, protocolo/registro em sistema de terceiro ou publicação oficial). Não se aceita data autodeclarada/interna.
+  origem: p131 — TR Anexo I.III, regra geral de equivalência; p178 — Edital Anexo II, regra geral
+  situacao: a verificar
+- grupo: declarações
+  documento: Declaração única do Anexo V
+  exigencia: Conhecimento do edital e posse das condições de habilitação; (1) inexistência de fato impeditivo (art. 14 da Lei 14.133/2021 — vínculos
+    com dirigentes/agentes até 3º grau; sem condenação em 5 anos por trabalho infantil/escravo); (2) não utilização de mão de obra de menores;
+    (3) atendimento à política ambiental de licitação sustentável (logística reversa); (4) reserva de cargos para PcD e reabilitados (art. 63,
+    IV).
+  origem: p185 — Anexo V
+  situacao: a verificar
+- grupo: declarações
+  documento: Declaração de ausência de nepotismo (Decreto Estadual nº 2.485/2019)
+  exigencia: Modelo do Anexo VI.
+  origem: p186 — Anexo VI
+  situacao: a verificar
+- grupo: declarações
+  documento: Termo de Vistoria
+  exigencia: 'Modelo do Anexo VII-02, com assinatura do representante e do servidor responsável. Se a vistoria é obrigatória ou facultativa: não
+    consta nas páginas lidas.'
+  origem: p187 — Anexo VII (02 – Termo de Vistoria)
+  situacao: a verificar
+- grupo: declarações
+  documento: Declaração de Conhecimento (das condições locais)
+  exigencia: Modelo do Anexo VII-03. Relação com o Termo de Vistoria (alternativa ou cumulativa) — não consta nas páginas lidas.
+  origem: p188 — Anexo VII (03 – Declaração de Conhecimento)
+  situacao: a verificar
+- grupo: declarações
+  documento: Procuração (se houver representante)
+  exigencia: Modelo do Anexo IV, acompanhada de cópia do documento oficial de identidade do outorgado.
+  origem: p184 — Anexo IV
+  situacao: a verificar
+- grupo: outros
+  documento: Item 1.7 do Anexo II (referido no item 1.1)
+  exigencia: Não consta nas páginas lidas (o item 1.1 manda apresentar os itens 1.4–1.7; o item 1.7 não aparece em p173–p178).
+  origem: p173 — Edital Anexo II item 1.1
+  situacao: a verificar
+- grupo: outros
+  documento: Prova de Conceito (PoC) — etapa eliminatória após a habilitação
+  exigencia: Só para a 1ª colocada já habilitada; demandas de no mínimo 500 UST em 5 dias úteis (08–12h e 14–18h); equipe nomeada com remuneração
+    comprovada; nomes enviados com 2 dias úteis de antecedência; Termo de Confidencialidade; tecnologias de código aberto; vedada IA generativa;
+    custos da licitante; produto executável e sem erros.
+  origem: p090–p099 — TR item 24 (24.1.3, 24.2.8, 24.3.3, 24.3.4, 24.3.11, 24.3.21, 24.3.22, 24.3.24, 24.3.25)
+  situacao: a verificar
+slas:
+- indicador: Suspender ou interromper, salvo motivo de força maior ou caso fortuito, os serviços contratuais
+  meta: Zero ocorrências (não consta meta numérica)
+  medicao: Contagem por dia e por unidade de atendimento ('unidade de atendimento' não definida nas páginas lidas)
+  glosa: Grau 4 = 1,6% ao dia sobre o valor mensal do contrato, por dia e por unidade de atendimento
+  origem: p070, TR item 18.6, tabela ANS item 1
+- indicador: Manter funcionário sem qualificação para executar os serviços contratados
+  meta: Zero ocorrências (critério de 'qualificação' não consta nas páginas lidas)
+  medicao: Por empregado e por dia
+  glosa: Grau 3 = 0,8% ao dia sobre o valor mensal do contrato, por empregado e por dia
+  origem: p070, TR item 18.6, tabela ANS item 2
+- indicador: Recusar-se a executar serviço determinado pela fiscalização
+  meta: Zero ocorrências
+  medicao: Por serviço e por dia
+  glosa: Grau 2 = 0,4% ao dia sobre o valor mensal do contrato, por serviço e por dia
+  origem: p070, TR item 18.6, tabela ANS item 3
+- indicador: Indisponibilidade de Plataforma por um período superior a 24 (vinte e quatro) horas
+  meta: Indisponibilidade contínua não superior a 24 horas ('Plataforma' não definida nas páginas lidas; não consta meta de disponibilidade percentual)
+  medicao: Duração da indisponibilidade em horas; forma de aferição (ferramenta, janela, exclusões) não consta
+  glosa: Grau 3 = 0,8% ao dia sobre o valor mensal do contrato
+  origem: p070, TR item 18.6, tabela ANS item 4
+- indicador: Deixar de atender chamado aberto para correção de falha na plataforma
+  meta: Atender todo chamado de correção de falha (prazo de atendimento/solução não consta nas páginas lidas)
+  medicao: Por chamado não atendido; unidade de contagem não consta
+  glosa: Grau 4 = 1,6% ao dia sobre o valor mensal do contrato
+  origem: p070, TR item 18.6, tabela ANS item 5
+- indicador: Deixar de cumprir determinação formal ou instrução complementar do órgão fiscalizador
+  meta: Zero ocorrências
+  medicao: Por ocorrência
+  glosa: Grau 2 = 0,4% ao dia sobre o valor mensal do contrato, por ocorrência
+  origem: p070, TR item 18.6, tabela ANS item 6 (bloco 'Para os itens a seguir, deixar de:')
+- indicador: Deixar de substituir empregado que se conduza de modo inconveniente ou não atenda às necessidades do serviço
+  meta: Zero ocorrências
+  medicao: Por funcionário e por dia
+  glosa: Grau 1 = 0,2% ao dia sobre o valor mensal do contrato, por funcionário e por dia
+  origem: p070, TR item 18.6, tabela ANS item 7
+- indicador: Deixar de cumprir quaisquer dos itens do Edital e seus Anexos não previstos nesta tabela, após reincidência formalmente notificada
+    pelo órgão fiscalizador
+  meta: Zero reincidências notificadas
+  medicao: Por item e por ocorrência; por funcionário e por dia (o texto traz as duas unidades)
+  glosa: Grau 3 = 0,8% ao dia sobre o valor mensal do contrato
+  origem: p070-p071, TR item 18.6, tabela ANS item 8
+- indicador: Deixar de indicar e manter durante a execução do contrato os prepostos previstos no edital/contrato
+  meta: Preposto indicado e mantido continuamente (CONTRATO 10.1.1, p144)
+  medicao: Por funcionário e por dia
+  glosa: Grau 1 = 0,2% ao dia sobre o valor mensal do contrato, por funcionário e por dia
+  origem: p071, TR item 18.6, tabela ANS item 9
+- indicador: Deixar de providenciar treinamento para seus funcionários conforme previsto na relação de obrigações da CONTRATADA
+  meta: Treinamentos previstos realizados (conteúdo/carga não constam nas páginas lidas)
+  medicao: Por funcionário e por dia
+  glosa: Grau 1 = 0,2% ao dia sobre o valor mensal do contrato, por funcionário e por dia
+  origem: p071, TR item 18.6, tabela ANS item 10
+- indicador: Deixar de registrar e controlar, diariamente, a assiduidade e a pontualidade de seu pessoal
+  meta: Registro diário de assiduidade e pontualidade de todo o pessoal
+  medicao: Por empregado e por dia
+  glosa: Grau 4 = 1,6% ao dia sobre o valor mensal do contrato, por empregado e por dia
+  origem: p071, TR item 18.6, tabela ANS item 11
+- indicador: Deixar de manter, durante a execução do contrato, todas as condições de habilitação e qualificação exigidas na licitação
+  meta: Habilitação e qualificação mantidas durante toda a vigência
+  medicao: Por empregado e por dia
+  glosa: Grau 4 = 1,6% ao dia sobre o valor mensal do contrato, por empregado e por dia
+  origem: p071, TR item 18.6, tabela ANS item 12
+- indicador: Não apresentar, quando solicitado, documentação fiscal, trabalhista e previdenciária, sem motivo justificável (redação com dupla
+    negação por estar sob 'deixar de')
+  meta: Apresentar a documentação sempre que solicitado (prazo de apresentação não consta)
+  medicao: Por empregado e por dia
+  glosa: Grau 5 = 3,2% ao dia sobre o valor mensal do contrato, por empregado e por dia
+  origem: p071, TR item 18.6, tabela ANS item 13
+- indicador: Deixar de garantir a manutenção de empregado em serviço durante o expediente
+  meta: Empregado em serviço durante todo o expediente (horário do expediente não consta nas páginas lidas)
+  medicao: Por empregado e por dia
+  glosa: Grau 5 = 3,2% ao dia sobre o valor mensal do contrato, por empregado e por dia
+  origem: p071, TR item 18.6, tabela ANS item 14
+- indicador: Deixar de substituir empregado que tenha conduta inconveniente ou incompatível com suas atribuições
+  meta: Zero ocorrências
+  medicao: Por empregado e por dia
+  glosa: Grau 4 = 1,6% ao dia sobre o valor mensal do contrato, por empregado e por dia
+  origem: p071, TR item 18.6, tabela ANS item 15
+- indicador: Deixar de cumprir horários estabelecidos pelo contrato ou determinados pela Fiscalização
+  meta: Cumprimento integral dos horários (horários não constam nas páginas lidas)
+  medicao: Por empregado e por dia
+  glosa: Grau 4 = 1,6% ao dia sobre o valor mensal do contrato, por empregado e por dia
+  origem: p071, TR item 18.6, tabela ANS item 16
+- indicador: (Deixar de) Entregar ou entregar com atraso documentação exigida no contrato
+  meta: Documentação exigida entregue no prazo (prazos específicos não constam nas páginas lidas)
+  medicao: Unidade de contagem não consta
+  glosa: Grau 3 = 0,8% ao dia sobre o valor mensal do contrato
+  origem: p071, TR item 18.6, tabela ANS item 17
+- indicador: Deixar de efetuar o recolhimento mensal do FGTS e/ou das contribuições sociais previdenciárias dos empregados
+  meta: Recolhimento mensal em dia
+  medicao: Por empregado e por dia
+  glosa: Grau 5 = 3,2% ao dia sobre o valor mensal do contrato, por empregado e por dia
+  origem: p071, TR item 18.6, tabela ANS item 18
+- indicador: Deixar de garantir empregado com qualificação para a execução dos serviços
+  meta: Todos os empregados qualificados (critério não consta nas páginas lidas)
+  medicao: Por empregado e por dia
+  glosa: Grau 5 = 3,2% ao dia sobre o valor mensal do contrato, por empregado e por dia
+  origem: p071, TR item 18.6, tabela ANS item 19
+- indicador: Deixar de executar serviço completo, com qualidade
+  meta: Serviço completo e com qualidade (critério de qualidade não consta nas páginas lidas)
+  medicao: Unidade de contagem não consta
+  glosa: Grau 4 = 1,6% ao dia sobre o valor mensal do contrato
+  origem: p071, TR item 18.6, tabela ANS item 20
+- indicador: Deixar de garantir o pagamento mensal de salários, férias, vale-transporte
+  meta: Pagamentos trabalhistas em dia
+  medicao: Por empregado e por dia
+  glosa: Grau 4 = 1,6% ao dia sobre o valor mensal do contrato, por empregado e por dia
+  origem: p071, TR item 18.6, tabela ANS item 21
+- indicador: Deixar de zelar pelas instalações da CONTRATANTE
+  meta: Zero ocorrências
+  medicao: Unidade de contagem não consta
+  glosa: Grau 3 = 0,8% ao dia sobre o valor mensal do contrato
+  origem: p071, TR item 18.6, tabela ANS item 22
+- indicador: Deixar de iniciar, não suspender ou não interromper os serviços contratados, salvo motivo de força maior
+  meta: Início no prazo e continuidade dos serviços
+  medicao: Unidade de contagem não consta
+  glosa: Grau 5 = 3,2% ao dia sobre o valor mensal do contrato
+  origem: p071, TR item 18.6, tabela ANS item 23
+- indicador: Deixar de efetuar a IMEDIATA reposição de empregados faltosos
+  meta: Reposição imediata (prazo em horas não consta)
+  medicao: Por empregado e por dia
+  glosa: Grau 5 = 3,2% ao dia sobre o valor mensal do contrato, por empregado e por dia
+  origem: p071, TR item 18.6, tabela ANS item 24
+- indicador: Deixar de garantir que seus funcionários não destruam nem danifiquem patrimônio da contratante
+  meta: Zero ocorrências
+  medicao: Por empregado e por dia
+  glosa: Grau 4 = 1,6% ao dia sobre o valor mensal do contrato, por empregado e por dia
+  origem: p072, TR item 18.6, tabela ANS item 25
+- indicador: Manter nas dependências da CONTRATANTE quaisquer equipamentos ou materiais, previstos em contrato, sem autorização prévia do CONTRATANTE
+    (redação ambígua sob 'deixar de')
+  meta: Zero ocorrências
+  medicao: Unidade de contagem não consta
+  glosa: Grau 3 = 0,8% ao dia sobre o valor mensal do contrato
+  origem: p072, TR item 18.6, tabela ANS item 26
+pagamento:
+  regra: 'O Contratante paga os preços unitários da proposta (3.1) apenas sobre os quantitativos de serviços efetivamente prestados (3.2.1, 9.6,
+    10.2.7). Regime: Empreitada por Preço Unitário (6.1). Notas Fiscais emitidas em conformidade com o RELATÓRIO MENSAL elaborado pelo Contratado
+    e aprovado pelo Contratante (10.1.19). Descontam-se glosas, notas de débito (9.1), multas não pagas (9.3.1), retenções tributárias na fonte
+    (9.5, 10.2.8) e valores de serviços não executados ou executados em desacordo (10.1.12). Atraso não causado pelo Contratado: EM = I × N ×
+    VP, I = 6%/365 = 0,00016438 (9.4).
+
+    '
+  origem: Anexo I.VI p140 item 3, p141 item 6, p143–p144 item 9; Anexo IX p191 item 3, p192 item 6, p193–p194 item 9, p195 item 10.1.19, p196
+    itens 10.2.7–10.2.8
+prazos:
+- evento: Sessão pública / disputa de lances
+  prazo: 11/11/2026 às 10h00 (Brasília)
+  origem: p001
+- evento: Pedido de esclarecimento ou impugnação
+  prazo: até 3 dias úteis antes da abertura; resposta em até 3 dias úteis, limitada ao último dia útil antes da abertura
+  origem: p001–p002 (Edital 4.1)
+- evento: Validade da proposta
+  prazo: mínimo 180 dias da apresentação
+  origem: p005 (CG 4.6)
+- evento: Etapa de lances
+  prazo: 10 minutos + prorrogações automáticas de 2 minutos
+  origem: p006 (CG 5.10–5.11)
+- evento: Envio da proposta adequada ao último lance
+  prazo: 1 dia útil (prorrogável a pedido)
+  origem: p007 (CG 5.23.2–5.23.3)
+- evento: Planilha de Custos e Formação de Preços readequada
+  prazo: 1 dia útil da solicitação do pregoeiro
+  origem: p008 (CG 6.2.3)
+- evento: Documento digital complementar
+  prazo: 1 dia útil (CG 6.4) / '01 (um) dia' (CG 6.11)
+  origem: p008; p009
+- evento: Complementação de documentos de habilitação
+  prazo: até 1 dia útil
+  origem: p013 (CG 13.3.1)
+- evento: Razões de recurso / contrarrazões
+  prazo: 3 dias úteis / 3 dias úteis após o término do prazo do recorrente
+  origem: p010 (CG 9.1, 9.1.2)
+- evento: Assinatura do contrato após notificação
+  prazo: 5 dias úteis, prorrogável; seguro-garantia com prazo mínimo de 1 mês
+  origem: p011 (CG 11.1, 11.1.1)
+- evento: Validade de documentos sem prazo expresso
+  prazo: 90 dias da emissão
+  origem: p013 (CG 13.8)
+- evento: Vigência do contrato
+  prazo: 12 meses, prorrogável (arts. 106 e 107 da Lei 14.133/2021)
+  origem: p002 (CE 5.1)
+- evento: Reunião inicial
+  prazo: até 5 dias úteis após a assinatura
+  origem: p050 (TR 6.1.1)
+- evento: Configuração do ambiente
+  prazo: início no dia útil seguinte à reunião inicial; conclusão em até 15 dias úteis
+  origem: p050 (TR 6.1.1)
+- evento: Absorção do conhecimento
+  prazo: início no dia útil seguinte à reunião inicial; conclusão em até 10 dias úteis
+  origem: p050–p051 (TR 6.1.1)
+- evento: Workshop de capacitação no método do órgão e na execução contratual
+  prazo: até 15 dias úteis após a assinatura
+  origem: p051 (TR 6.1.1)
+- evento: Recebimento provisório
+  prazo: 30 dias (Termo de Aceite Provisório)
+  origem: p060 (TR 10.2.1)
+- evento: Recebimento definitivo
+  prazo: 60 dias contados do recebimento provisório (Termo de Aceite Definitivo)
+  origem: p060 (TR 10.2.2)
+- evento: Pagamento
+  prazo: até 30 dias após o encerramento do mês de uso; até 5 dias úteis se não ultrapassar 'o limite'
+  origem: p066–p067 (TR 15.1, 15.3)
+- evento: Substituição de profissional
+  prazo: até 5 dias úteis
+  origem: p063 (TR 11.2.1.9)
+- evento: Vínculo mínimo dos profissionais indicados
+  prazo: 6 meses antes da entrega dos atestados
+  origem: p064 (TR 11.2.1.20)
+- evento: Garantia de qualidade e segurança dos serviços
+  prazo: mínimo 12 meses, independentemente da aceitação; garantia técnica durante a vigência, incluindo renovações
+  origem: p061 (TR 10.2.4); p068 (TR 17.1)
+- evento: Estudos para prorrogação (ETP e Análise de Riscos)
+  prazo: nos 4 meses que antecedem o encerramento
+  origem: p052 (TR 6.1.3)
+- evento: Transição contratual / assistência à nova contratada
+  prazo: últimos 60 dias corridos antes do encerramento da vigência
+  origem: p055 (TR 6.5.1)
+- evento: Reunião de encerramento
+  prazo: até 5 dias úteis após o encerramento
+  origem: p053 (TR 6.1.4)
+- evento: Multa de mora
+  prazo: até 0,3% ao dia até o 30º dia; a partir do 31º dia converte-se em compensatória
+  origem: p012 (CG 12.5)
+- evento: Pedido de reajuste
+  prazo: até 30 dias antes do aniversário do contrato (orçamento-base); interregno mínimo de 12 meses; IPCA se o ICTI não for divulgado em 180
+    dias
+  origem: p067–p068 (TR 16.1, 16.3, 16.4)
+documentos_exigidos:
+- nome: Ordem de Serviço (OS)
+  origem: p019 (TR 1.1); p020–p021 (TR 1.3, 1.3.1)
+- nome: Catálogo de Serviços (UST) – versionado, com justificativa formal a cada ajuste
+  origem: p022 (TR 1.3.2); p056 (TR 6.5.6 g)
+- nome: Ata da reunião inicial e documentos apresentados pela contratada; cronograma de inserção; termos de responsabilidade e sigilo
+  origem: p049–p050 (TR 6.1.1)
+- nome: Atas de reunião da configuração do ambiente; ambiente e conectividade verificados e certificados pelo órgão ('Sistema Implantado')
+  origem: p050 (TR 6.1.1)
+- nome: Atas de reunião da absorção do conhecimento
+  origem: p051 (TR 6.1.1)
+- nome: Documentação técnica e de uso das soluções desenvolvidas ou sustentadas; capacitação EaD em LMS de código aberto, quando requisitada em
+    OS
+  origem: p051 (TR 6.1.1 – Capacitação nas Soluções)
+- nome: Atas das reuniões de acompanhamento e ações de melhoria aprovadas
+  origem: p052 (TR 6.1.2)
+- nome: Estudo Técnico Preliminar e Análise de Riscos para prorrogação (produzido pelo CONTRATANTE)
+  origem: p052 (TR 6.1.3)
+- nome: Ata de encerramento (contrato encerrado, pendências solucionadas, conhecimento transferido, acessos cancelados)
+  origem: p053 (TR 6.1.4)
+- nome: Registro das evidências de execução para análise da fiscalização
+  origem: p048 (TR 5.1.3)
+- nome: Relatório mensal e relatórios de execução
+  origem: p059 (TR 7.2); p063 (TR 11.2.1.17)
+- nome: 'Produtos de arquitetura: visão funcional, visão de linguagem, visão estrutural e visão física (documento de arquitetura física)'
+  origem: p031 (TR 1.4.5.2)
+- nome: 'Artefatos de QA: plano de testes, casos de teste, matriz de rastreabilidade, evidências, registro de defeitos, relatórios de execução
+    e qualidade'
+  origem: p032–p033 (TR 1.4.6.2)
+- nome: Documentação de rede, servidores e serviços; inventário de servidores, topologia de rede e mapas de comunicação
+  origem: p024–p026 (TR 1.4.3.1.1, 1.4.3.1.2, 1.4.3.2.1)
+- nome: Políticas e normativos de segurança; plano de ação de conformidade LGPD; planos de contingência, resposta a incidentes e PCN
+  origem: p036–p037 (TR 1.4.13, 1.4.14)
+- nome: Documentação técnica das integrações (publicação web; formato aberto JSON/YAML; OpenAPI/WSDL)
+  origem: p039; p044 (TR 1.4.15, 1.4.15.4)
+- nome: Comprovação das funcionalidades da solução de gestão de TIC (manual do fabricante, folhetos, URL oficial ou documentos do fabricante)
+  origem: p039 (TR 1.4.15.1)
+- nome: Termo de Aceite Provisório e Termo de Aceite Definitivo (emitidos pelo CONTRATANTE)
+  origem: p060 (TR 10.2.1, 10.2.2)
+- nome: Nota Fiscal/Fatura conforme Nota de Empenho
+  origem: p066 (TR 15.1)
+- nome: Plano de Transferência de Conhecimento; relatório final de transferência de conhecimento; ferramenta de gestão de serviços de TIC com
+    base de dados atualizada; bases de dados geradas; scripts, processos e procedimentos desenvolvidos
+  origem: p056–p057 (TR 6.5.2, 6.5.6, 6.5.7)
+- nome: Comprovação de vínculo dos profissionais (contratos CLT/PJ, folhas de pagamento, declarações fiscais) – condição para assinatura
+  origem: p064 (TR 11.2.1.20)
+- nome: Garantia de execução contratual (cláusula 11 da Minuta de Contrato)
+  origem: p003 (CE 7); p011 (CG 11.1.1)
+- nome: Proposta (Anexo III), documentos de habilitação (Anexo II), Planilha de Custos e Formação de Preços, declaração de custos trabalhistas
+    (art. 63 §1º)
+  origem: p008 (CG 6.2.2–6.2.3); p009 (CG 7.1); p010 (CG 8.1, 8.2)
+- nome: 'Declarações anexas: ausência de nepotismo, compromisso e confidencialidade, LGPD, identificação do cliente, termo de vistoria/declaração
+    de conhecimento, procuração, disposições BIRD'
+  origem: p003 (CE 9 – Anexos)
+prova_de_conceito:
+  objetivo: 'Comprovar a capacidade técnica e operacional da empresa em entregar, em curto prazo, uma solução integrada de TI: (1) aplicação de
+    controle de acesso SSO (cadastro, login único, permissões, OAuth2) e (2) aplicação cliente-servidor de gestão de dados (ingestão de datasets
+    IPARDES, ETL assíncrono em fila, notificação por e-mail, dashboards), conteinerizadas e orquestradas (Kubernetes), com CI/CD, GitOps, observabilidade
+    (métricas, logs, tracing, alertas), testes automatizados de UI e API, documentação em português e LGPD. Abrange "pelo menos 500 UST de trabalho".
+    No rito, é etapa de julgamento (não de habilitação) para comprovar, por amostragem técnica, a capacidade da 1ª colocada já habilitada.'
+  prazo_preparacao: Convocação formal com não menos de 5 (cinco) dias úteis de antecedência (p118, item 3). O conteúdo da prova (anexo sigiloso)
+    só é entregue no início da sessão (p118 intro; p121–p122 itens 10 e 13).
+  duracao: 5 (cinco) dias úteis (p104 item 1; p116 item 5; p118 item 3). Demandas entregues por inteiro no começo e entrega única ao fim do 5º
+    dia útil, sem cronômetro por item nem etapas parciais (p119 item 6).
+  local_forma: Presencial, em dependências indicadas pela Administração em Curitiba/PR (p118 item 3). Sala exclusiva e isolada, crachá temporário,
+    rede segregada com firewall e saída à Internet só para destinos liberados (provedor de identidade de teste OAuth2, repositórios oficiais de
+    dependências, ferramenta de observabilidade da prova) (p119 item 8). Ambiente de execução, orquestrador, plataforma de versionamento, IdP
+    de teste e massas de dados fictícias/mascaradas fornecidos pela Administração; computadores da empresa só como estações; código fica na plataforma
+    de versionamento da Administração (p118 item 4; p120 item 8.2). Tráfego de rede registrado (metadados) (p119–p120 item 8.1). Proibida IA generativa
+    (p120 item 8.3). Proibidas conexões externas (p120 item 8.4). Captação audiovisual da sala com observadores (p120 item 9). Sorteio aberto
+    de uma entre três versões equivalentes (V1/V2/V3) do enunciado (p121 item 10).
+  criterios_aprovacao:
+  - Correção por banca técnica (fiscal técnico + especialistas); cada item apurado por critério binário atende/não atende, subsidiariamente por
+    escala objetiva (p118–p119 item 5).
+  - Aprova-se quem atingir nota mínima sobre a soma ponderada dos itens marcados como atende; sem itens eliminatórios isolados; sem correção fracionada;
+    tolerância embutida na nota mínima (p119 item 6).
+  - Eixos, pesos, forma de pontuar e nota mínima declarados como conhecidos de antemão pelo Roteiro (p119 item 6) — porém os valores NÃO constam
+    das páginas p104–p122 (ver conflitos).
+  - Tabela de requisitos do Anexo I.I serve de checklist Atendido/Não Atendido; todos os pontos obrigatórios devem ser cumpridos na demonstração
+    final (p111 item 4).
+  - Validação durante a apresentação e pela análise dos artefatos (código, documentação, relatórios de teste) (p116).
+  - 'Sucesso condicionado ao atendimento completo dos requisitos, especialmente itens críticos: SSO funcional, ingestão de dados IPARDES, pipeline
+    CI/CD operacional e monitoramento Prometheus/Grafana ativo (p116).'
+  - Requisito não atendido exige justificativa documentada e, se possível, plano para fase posterior (p116).
+  - 'Regras essenciais cuja violação reprova: uso de correio/mensageiro/nuvem pessoal etc. (p120 item 8.1); plataformas externas ou cópia do acervo
+    para fora (p120 item 8.2); uso de IA generativa (p120 item 8.3); conexões externas não oficiais (p120 item 8.4).'
+  - Equipe executora indicada pela empresa, vedada troca não justificada (p118 item 5); termo de sigilo antes de iniciar (p119 item 7).
+  consequencia_reprovacao: Reprovação fundamentada e registrada em ata, com contraditório na fase de recursos (p119 item 6); convoca-se a empresa
+    seguinte na ordem de classificação para a mesma etapa (p118 item 3), com redação diversa do enunciado (p121 item 10). Na fase de recursos
+    a reprovada tem acesso ao enunciado aplicado, à sua entrega e à fundamentação de cada item reprovado (p121 item 12). Código da prova nunca
+    é aproveitado em produção (p121 item 11).
+  origem: p104 (Anexo I.I item 1), p105 item 2, p111 item 4, p116, p118–p122 (Anexo I.II itens 1–13)
+identificacao:
+  orgao: 'Estado do Paraná, por intermédio do Departamento de Logística para Contratações Públicas da Secretaria de Estado da Administração e
+    da Previdência – DECON/SEAP (licitante). Unidade orçamentária: 130000 – Casa Civil do Estado do Paraná.'
+  processo: Protocolo nº 24.481.744-0
+  numero_edital: Pregão Eletrônico nº 223/2026 (nº interno GMS); nº Compras.gov 36/2026; UASG 928658
+  modalidade: Pregão Eletrônico, modo de disputa 'aberto' (lances públicos e sucessivos com prorrogações)
+  criterio_julgamento: 'Menor preço (TIPO: MENOR PREÇO). Critério de aceitabilidade na disputa: valor unitário máximo fixado no TR; desclassificação
+    acima dos valores unitários e totais máximos. O TR fala em ''menor preço global''. Lote único.'
+  regime_juridico: 'Lei Federal nº 14.133/2021, Decreto Estadual nº 10.086/2022 e LC nº 123/2006. Serviço de natureza contínua, modelo de exaustão
+    do saldo contratado, medido em UST. Minuta padronizada PGE/PR para ''prestação de serviços sem dedicação exclusiva de mão de obra''. Recursos
+    com apoio do BIRD (Projeto Paraná Eficiente, componente PforR). Consórcio e subcontratação vedados. Regime de execução (empreitada etc.):
+    não consta.'
+  objeto: Contratação de empresa especializada em serviços de desenvolvimento de software personalizado (Custom Software Development – CSD), conforme
+    estudos da Gartner, abrangendo sustentação, desenvolvimento, manutenção e evolução de sistemas, em modelo de catálogo de serviços estruturado
+    em Unidades de Serviço Técnico (UST). O TR descreve ainda suporte (1º, 2º e 3º níveis), infraestrutura, DevOps, BI/Ciência de Dados, IA, gestão
+    de projetos, jornada do cidadão, governança, segurança da informação e integração (15 itens).
+  valor_estimado: não consta nas páginas lidas. O TR 9.1 informa que o valor estimado foi 'detalhado em documento separado e classificado'.
+  vigencia: 12 (doze) meses, prorrogável por interesse das partes com base nos arts. 106 e 107 da Lei 14.133/2021
+  data_sessao: 11/11/2026, às 10h00min (horário de Brasília)
+  origem: 'Edital assinado em Curitiba, 29/09/2026 (Aline de Almeida Santos – Assessoria SEAP/DECON/DL; Eloisa Márcia Xavier da Silva – Equipe
+    de Apoio). Pregoeiro: Luciano José de Lima (Resolução SEAP nº 12.224/2026). Inserido no protocolo em 22/10/2026. E-mail decondl2@seap.pr.gov.br.
+    Edital publicado no PNCP, comprasparana.pr.gov.br e gov.br/compras.'
+identificacao_origem:
+  orgao: p001 (preâmbulo e item 2 – Recursos Orçamentários)
+  processo: p001 (cabeçalho)
+  numero_edital: p001
+  modalidade: p001; p006 (Condições Gerais 5.9)
+  criterio_julgamento: p001; p002 (Condições Específicas 1, 2.1, 2.1.1, 2.2, 2.3); p059 (TR 8.1); p046–p047 (TR 4.1)
+  regime_juridico: p002 (Edital 5.2); p001 (rodapé 'Minuta Padronizada...'); p018 (TR 1 – exaustão do saldo); p019 (TR 1.2); p011 (Condições Gerais
+    10.3); p044–p045 (TR 2.1); p003 (Cond. Específicas 8.1); p064–p066 (TR 12 e 13.1)
+  objeto: 'p001 (Edital 1); p018–p019 (TR 1 e 1.1); p015 (capa do TR: ''suporte, sustentação, desenvolvimento, serviços de TI e governança de
+    TI'')'
+  valor_estimado: p060 (TR 9.1)
+  vigencia: p002 (Condições Específicas 5.1)
+  data_sessao: p001
+  origem: p001; p014
+conflitos:
+  G02:
+  - descricao: 'Valor estimado / preço máximo: o Edital manda desclassificar propostas acima dos ''valores unitários máximos e totais máximos
+      fixados no Termo de Referência'', mas o TR 9.1 diz que o valor estimado está em ''documento separado e classificado''. Nas páginas lidas
+      não há valor unitário máximo da UST.'
+    paginas: p002 (CE 1, 2.1, 2.3); p060 (TR 9.1)
+  - descricao: 'Critério de julgamento: o Edital diz ''MENOR PREÇO'', com aceitabilidade por valor unitário; o TR 8.1 diz ''modalidade de menor
+      preço global''. O Edital fala em ''lote(s)'' e o TR em lote único com 15 itens; não está claro se o lance é por UST única ou por item.'
+    paginas: p001; p002; p046–p047 (TR 4); p059 (TR 8.1)
+  - descricao: 'Quantidade: o TR 1.3 diz 325.000 UST ''ao longo do período contratual inicial'', mas a tabela traz a coluna ''Qtd. Estimada (Ano)''
+      = 130.000 e ''Ajustada pela Complex'' = 325.000. Não está claro se o saldo contratado é 130.000 UST base ou 325.000 UST ponderadas.'
+    paginas: p019 (TR 1.3); p020 (tabela)
+  - descricao: 'Aplicação do fator de complexidade: a nota diz que o fator é aplicado ''ao valor base da UST'' (preço), mas o exemplo multiplica
+      a quantidade (300 UST × 3 = 900 UST). A tabela fixa um fator por serviço, mas cada OS terá o fator ''acordado entre as partes''. Há risco
+      de dupla aplicação (325.000 já ponderadas e novo fator por OS). A frase de fundamentação está truncada (''bem como às orientações da'').'
+    paginas: p020; p021; p022 (TR 1.3, 1.3.1)
+  - descricao: 'O Catálogo de Serviços com atividades, parâmetros e mensuração ainda não existe: será elaborado em comum acordo após a contratação.
+      Não há nas páginas lidas tabela de UST por atividade/produto, o que impede orçar e medir de forma objetiva antes da assinatura.'
+    paginas: p022 (TR 1.3.2)
+  - descricao: 'Recebimento x pagamento: o TR 7.1 prevê pagamento mensal após validação e o TR 15.1 prevê até 30 dias após o fim do mês de uso.
+      O TR 10.2 prevê recebimento provisório em 30 dias e definitivo em 60 dias do provisório. A justificativa admite que a soma dos prazos alonga
+      o pagamento, mas não diz se o pagamento depende do aceite definitivo. O TR 15.3 cita ''não ultrapassar o limite'' (5 dias úteis) sem definir
+      o limite.'
+    paginas: p059 (TR 7.1); p060–p061 (TR 10.2); p066–p067 (TR 15.1, 15.3)
+  - descricao: 'Referências cruzadas de anexos inconsistentes: a garantia remete à ''cláusula 11 da Minuta de Contrato (Anexo XI)'', mas o Anexo
+      XI é a Declaração LGPD e a minuta é o Anexo IX (e também o Anexo I.VI). A lista de anexos duplica conteúdos (I.III/II, I.IV/III, I.V/VI,
+      I.VII/X, I.VIII/XI, I.IX/XII). A ''Planilha de Custos e Formação de Preços'' exigida ''conforme anexo deste Edital'' não aparece na lista
+      de anexos.'
+    paginas: p003 (CE 7 e 9); p008 (CG 6.2.2)
+  - descricao: 'Financiador: o Edital (Anexo XIII e CG 10.3) e o TR 2.1 citam o BIRD/Banco Mundial (Projeto Paraná Eficiente, PforR), mas o sumário
+      do TR tem o item 20 ''Cláusulas Banco Interamericano de Desenvolvimento (BID)''.'
+    paginas: p003; p011; p017 (sumário TR item 20); p044–p045 (TR 2.1)
+  - descricao: 'Escopo além de CSD: o objeto é ''desenvolvimento de software personalizado (CSD)'', mas os itens 01–03 e o TR 1.1 c incluem suporte
+      presencial e remoto, gestão e operação de infraestrutura (redes, servidores, nuvem, BD, atendimento técnico com ''postos''). O Edital usa
+      a minuta ''sem dedicação exclusiva de mão de obra'', o que pode conflitar com atendimento por postos e atividades rotineiras diárias.'
+    paginas: p001; p018–p019; p022–p029; rodapé da minuta em p001–p013
+  - descricao: 'Itens 01 e 02 têm a mesma descrição (''questões básicas de hardware, software e rede'') e só diferem pela forma (remoto x presencial),
+      mas os fatores são diferentes (1 x 2). Há sobreposições entre itens: o 05 inclui testes e processos AS-IS/TO-BE (itens 06 e 07), o 09 inclui
+      IA (item 10) e os itens 11 e 13 tratam de portfólio. Há risco de enquadramento duplo e de divergência na classificação das OS.'
+    paginas: p022; p031–p036
+  - descricao: O item 15 obriga a fornecer quatro soluções de software (ITSM, monitoramento, gestão de projetos, gestão de integrações) 'sem custos
+      adicionais', sem dizer se são remuneradas em UST, se há licenciamento e quem detém a propriedade. Ao final, a 'ferramenta de gerenciamento
+      de serviços de TIC' deve ser entregue com a base. Exige ainda compatibilidade com Internet Explorer (navegador descontinuado).
+    paginas: p039–p044 (TR 1.4.15.1–1.4.15.4); p057 (TR 6.5.7 f)
+  - descricao: 'Texto aparentemente reaproveitado de outro TR: ''Tecnologia da Informação e Pedagógica'', ''Método Educacional'', ''Administração
+      de Plataforma'', ''Sistema Implantado''. O campo ''Local e período'' das Reuniões de Acompanhamento repete o texto da prorrogação (''estudos
+      ... nos 4 meses que antecedem o encerramento''), de modo que a periodicidade das reuniões fica indefinida. Também aparecem ''obras'' e ''EPI''
+      na rescisão e nas obrigações.'
+    paginas: p050–p052 (TR 6.1.1, 6.1.2); p058–p059 (TR 6.6); p063 (TR 11.2.1.18)
+  - descricao: 'Equipe: as páginas lidas não definem perfis, quantidades, formação, experiência nem certificações. Ainda assim, exigem que os
+      serviços sejam prestados pela ''equipe indicada nos documentos apresentados na fase de habilitação'' e vínculo mínimo de 6 meses como condição
+      para assinatura. As regras estariam no item 23 / Anexo I.III, fora do intervalo lido.'
+    paginas: p017 (sumário); p064 (TR 11.2.1.19–11.2.1.20)
+  - descricao: SLA/ANS e indicadores (INMS) são condição de pagamento e de aceite, mas o item 18 (ANS) está fora das páginas lidas. O workshop
+      menciona 'Indicadores de Nível Mínimo de Serviço (INMS)', terminologia diferente de SLA/ANS.
+    paginas: p051; p059 (TR 7.2); p017 (sumário item 18)
+  - descricao: 'Órgão contratante não está identificado de forma inequívoca: a licitação é conduzida pela SEAP/DECON, a dotação é da Casa Civil
+      (130000) e o TR fala em ''Governo'', ''Diretoria'' e ''STI''. Fonte de Recursos e Programa de Trabalho têm o mesmo texto (''501/101''),
+      o que sugere erro de preenchimento.'
+    paginas: p001; p015; p026; p055
+  - descricao: 'Erros e inconsistências de redação: ''art. 130 da Lei Federal n.º 14.133, de 2022'' (a lei é de 2021); prazo de ''documento complementar''
+      de 1 dia útil (CG 6.4) contra ''01 (um) dia'' (CG 6.11); o TR 6.6.4 remete a ''subitem 6.6.2, I'' e o 6.6.5 a ''incisos I e II'' inexistentes;
+      o TR 1.4.9 tem no título ''Business Intelligence (BI) Ciência de Dados'' e no subitem ''BI, Big Data e IA''; resíduo de texto ''recur436sos''
+      em 6.5.2.'
+    paginas: p005 (CG 4.3.1); p008; p009; p033; p055; p058–p059
+  - descricao: 'Garantia técnica: o TR 10.2.4 fala em ''prazo mínimo de 12 meses independente de aceitação'' e o TR 17.1 em garantia ''durante
+      a vigência do contrato, incluindo possíveis renovações''. O texto do 17.1 continua após p068 e não foi lido.'
+    paginas: p061; p068
+  - descricao: Configuração do ambiente exige 'reprodução do ambiente tecnológico para o órgão CONTRATANTE nas dependências da CONTRATADA' em
+      até 15 dias úteis. Isso pode conflitar com o sigilo absoluto sobre dados e código-fonte (6.4) e com a LGPD, e não se diz quais dados podem
+      ser replicados.
+    paginas: p050; p055
+  G05:
+  - descricao: Anexo I.I pede que a empresa DESENVOLVA a aplicação de SSO (cadastro, login CPF, OAuth2), mas o Roteiro diz que a Administração
+      fornece 'provedor de identidade de teste' e libera a Internet para ele no fluxo OAuth2. Não está claro se é para construir um IdP próprio
+      ou integrar com o fornecido.
+    paginas: p105 2.1.1; p111; p118 item 4; p119 item 8
+  - descricao: Ingestão 'exclusivamente' com datasets públicos do IPARDES vs. massas de dados fictícias ou mascaradas fornecidas pela Administração
+      e versões V1–V3 que variam dados; a saída à Internet não lista o site do IPARDES.
+    paginas: p105 2.1.2.1; p118 item 4; p119 item 8; p121 item 10
+  - descricao: '''A licitante deverá implantar um orquestrador'' vs. ''A Administração provê ... o orquestrador de contêineres''.'
+    paginas: p106 2.1.3; p118 item 4
+  - descricao: Repositório 'implantado durante a PoC, sob responsabilidade da licitante' vs. 'instância on-premises fornecida' e plataforma de
+      versionamento exclusiva da Administração.
+    paginas: p105 item 2; p107 2.1.4; p118 item 4; p120 item 8.2
+  - descricao: Escolha de domínios para expor as aplicações 'para a internet' a critério da licitante vs. rede isolada com saída restrita a destinos
+      liberados.
+    paginas: p106 2.1.3.1; p119 item 8; p120 item 8.4
+  - descricao: '''Sucesso condicionado ao atendimento completo'' e itens ''críticos'' vs. ''sem itens eliminatórios isolados'' e aprovação por
+      nota mínima ponderada.'
+    paginas: p111; p116; p119 item 6
+  - descricao: Roteiro afirma que eixos, pesos e nota mínima são conhecidos de antemão, mas esses valores não constam em p104–p122.
+    paginas: p119 item 6
+  - descricao: Requisito não atendido 'deverá haver justificativa e plano para fase posterior' (sugere tolerância) vs. julgamento binário sem
+      correção fracionada.
+    paginas: p116; p119 item 6
+  - descricao: Anexo I.I descreve escopo detalhado, mas o 'conteúdo de prova propriamente dito' é anexo sigiloso entregue no momento, com variação
+      de dados, campos, endpoint e contrato de interface; o Anexo I.I pode ser apenas indicativo.
+    paginas: p118 intro; p121 item 10; p122 item 13
+  - descricao: '''Pelo menos 500 UST de trabalho'' na PoC sem indicar como serão medidas nem relação com a tabela de UST do contrato.'
+    paginas: p104 item 1
+  - descricao: Demonstrar recebimento efetivo de e-mail (SMTP funcional) sem destino SMTP na lista de saídas liberadas; correio pessoal/corporativo
+      proibido na sala.
+    paginas: p112; p119 item 8; p120 item 8.1
+  - descricao: Observabilidade a ser implantada pela licitante vs. 'ferramenta de observabilidade da prova' como destino externo liberado (sugere
+      ferramenta fornecida).
+    paginas: p107 2.1.5; p119 item 8
+  - descricao: Tracing 'em toda a cadeia de microserviços' como requisito da tabela vs. Jaeger apenas 'caso haja microsserviços'.
+    paginas: p114; p117
+  - descricao: Tecnologias apenas 'recomendadas', mas o resumo diz que a equipe demonstrará 'back-end Django, front-end React/Next.js' e p116
+      exige 'Prometheus/Grafana ativo'. Não fica claro se FastAPI ou Playwright são aceitos sem perda de pontos.
+    paginas: p108–p110 item 3; p116; p117
+  - descricao: Objetivos citam Manual de Usuário e Documento de Requisitos, mas a tabela de requisitos não os lista (lista Arquitetura, Guia de
+      Implantação, plano e relatório de testes).
+    paginas: p107 2.1.7; p114–p116
+  - descricao: Proibição de IA generativa abrange 'textos ou artefatos', inclusive documentação; também não há regra explícita sobre autocompletar
+      não-IA, geradores de código determinísticos ou scaffolds trazidos de fora (estes conflitam com 8.2).
+    paginas: p120 itens 8.2 e 8.3
+  - descricao: Prazos de retenção e eliminação de artefatos 'em prazos certos' não informados; teto de pessoas presentes não informado; composição/tamanho
+      de equipe não informado.
+    paginas: p118 item 5; p120 item 9; p121 item 11
+  - descricao: 'Erros de redação: ''população mundial municipal'' (Demografia); ''visualizar a reenviar''; ''orquestrador de de PoC''.'
+    paginas: p106; p107; p112
+  G21:
+  - descricao: Regularidade municipal 'da sede da CONTRATANTE' (o usual é a sede da licitante); a contratante declara Inscrição Municipal 'Isento'.
+    paginas:
+    - p123
+    - p173
+    - p171
+  - descricao: Índices já calculados com assinatura do contador e do representante legal constam só no Edital (1.5.5), não no TR Anexo I.III.
+    paginas:
+    - p125
+    - p174
+  - descricao: Índices calculados sobre balanços dos 2 últimos exercícios (2.3.2/1.5.2), mas PL mínimo pelo 'último exercício' (2.3.5/1.5.6);
+      não diz sobre qual exercício os índices são aferidos.
+    paginas:
+    - p124
+    - p125
+    - p174
+    - p175
+  - descricao: PL mínimo de 10% do 'valor total estimado anual' — valor não consta nas páginas lidas.
+    paginas:
+    - p125
+    - p175
+  - descricao: Declaração de menores remete ao 'Anexo II', mas o modelo está no Anexo V; no Edital, o 'Anexo II' é o próprio rol de documentos
+      de habilitação.
+    paginas:
+    - p124
+    - p173
+    - p174
+    - p185
+  - descricao: Anexo II, item 1.1, exige os documentos dos itens 1.4 a 1.7; o item 1.7 não aparece no texto lido (vai até 1.6). Numeração interna
+      repetida (1.2 seguido de 1.1 e 1.2).
+    paginas:
+    - p173
+    - p175
+    - p178
+  - descricao: 'Alínea d: ''Exige-se que a experiência recaia sobre versões da tecnologia lançadas'' — frase incompleta (sem marco de versão/data);
+      a alínea g remete a essa ''atualidade tecnológica'', herdando a indefinição.'
+    paginas:
+    - p127
+    - p176
+  - descricao: Regra do 'prazo mínimo de experiência' (somatório, limite de 3 anos) sem nenhuma alínea fixando prazo mínimo de experiência.
+    paginas:
+    - p126
+    - p175
+  - descricao: Alínea r exige 5.000 UST em um único contrato; a regra geral veda comprovação em contrato único, mas abre exceção expressa para
+      N1/N2 (coerente, mas restritivo — para análise humana).
+    paginas:
+    - p130
+    - p132
+    - p177
+    - p178
+  - descricao: Volume total das exigências técnicas (26 alíneas, 11 com quantitativo; soma nominal de 110.000 UST) e exigências de maturidade
+      (CMMI-DEV 3/MPS.BR C, ISO 20000, ISO 27001, ISO 27701, ainda que por equivalência) — potencial restrição à competitividade; o texto afirma
+      proporcionalidade com base no ETP (não lido).
+    paginas:
+    - p126
+    - p127
+    - p128
+    - p129
+    - p130
+    - p131
+    - p132
+  - descricao: Alínea h (ferramenta aderente a CMMI/MPS.BR) sobrepõe-se à alínea m (maturidade CMMI-DEV 3/MPS.BR C), e a alínea m diz que 'a simples
+      adoção de ferramenta' não basta.
+    paginas:
+    - p127
+    - p128
+    - p176
+    - p177
+  - descricao: Equivalência 1 PF = 10 UST e 1 UST = 1 hora vale só para habilitação; não pode ser usada na execução contratual.
+    paginas:
+    - p126
+    - p175
+  - descricao: Item 22 tem título 'LOCAL DE EXECUÇÃO DOS SERVIÇOS', mas trata de prazo; execução de 12 meses a partir da OS (22.1) x vigência
+      de 12 meses a partir da assinatura (25.1).
+    paginas:
+    - p090
+    - p099
+  - descricao: 'PoC: 24.1.2/24.1.5 dizem que a PoC não é exigência de habilitação, mas 24.3.25.6 diz que, se o produto não estiver todo funcional,
+      ''não será habilitada a empresa''.'
+    paginas:
+    - p090
+    - p091
+    - p098
+    - p099
+  - descricao: 'PoC: 24.2.13 proíbe correção fracionada/retomada de itens, mas 24.3.25.2 concede 1 dia útil para ajustes se houver erros; 24.3.25.5
+      desclassifica produto com ''qualquer espécie de erro''.'
+    paginas:
+    - p095
+    - p098
+  - descricao: 'PoC: 24.3.6 e 24.3.21 admitem execução remota, mas 24.2.5–24.2.9 exigem sala física isolada, lacre de equipamentos e rede segregada.'
+    paginas:
+    - p092
+    - p093
+    - p094
+    - p096
+    - p097
+  - descricao: 'PoC: licitante traz o hardware (24.3.8, 24.3.10) x ''CONTRATANTE disponibilizará os equipamentos'' (24.3.20, cujo texto termina
+      em ''seguintes questões:'' sem lista).'
+    paginas:
+    - p096
+    - p097
+  - descricao: 'PoC: ''deverá ser comprovada sua remuneração'' (24.3.21) — não diz como (vínculo CLT, contrato, folha).'
+    paginas:
+    - p097
+  - descricao: 'PoC: prazo de 5 dias úteis ''no horário de expediente do Município'' (24.3.14), embora a contratante seja órgão estadual; janela
+      de 08–12h/14–18h (24.3.21) difere do horário do Anexo VIII (08:30–18:00).'
+    paginas:
+    - p097
+    - p189
+  - descricao: 'PoC: ''comparados com aplicações similares que existem atualmente na CONTRATANTE'' (24.3.25.4.7) — critério sem parâmetro objetivo
+      nas páginas lidas; requisitos no ''Anexo I'' do TR.'
+    paginas:
+    - p097
+    - p098
+  - descricao: Foro 'do Município da CONTRATANTE' (27.5) em contratação estadual.
+    paginas:
+    - p101
+  - descricao: Sustentabilidade cita ISO 14001 e ISO 50001 sem dizer se exige certificação ou só alinhamento; periodicidade dos relatórios de
+      sustentabilidade não consta.
+    paginas:
+    - p099
+    - p100
+  - descricao: 'Termo de Vistoria (Anexo VII-02) e Declaração de Conhecimento (Anexo VII-03): não consta nas páginas lidas se a vistoria é obrigatória
+      ou se a declaração a substitui; Anexo VII aparece com dois títulos.'
+    paginas:
+    - p187
+    - p188
+  - descricao: Prazo de apenas 1 dia útil para envio de todos os documentos de habilitação após a notificação (inclui evidências datadas de maturidade
+      e 26 alíneas técnicas).
+    paginas:
+    - p173
+  G22:
+  - descricao: 'Objeto diferente entre minutas: Anexo I.VI (p138) descreve ''Prestação de Serviços de TIC para suporte, sustentação, desenvolvimento,
+      serviços de TI e governança''; Anexo IX (p190) descreve ''desenvolvimento de software personalizado (CSD), conforme estudos da Gartner...
+      catálogo em UST''. Há duas minutas de contrato (Anexo I.VI e Anexo IX).'
+    paginas: p138; p190
+  - descricao: Não está definido se o VALOR TOTAL por item = valor unitário × Qtd. Estimada (130.000) ou × Qtd. Ajustada pela Complex (325.000).
+      Diferença de 2,5× no valor global.
+    paginas: p135–p136; p181–p183
+  - descricao: Item 14 'Gestão de Segurança da Informação' tem descrição de integração (APIs, orquestração, legados, SQL/NoSQL); item 15 'Integração
+      de Sistemas' descreve soluções de software (ITSM, monitoramento, gestão de projetos, plataforma low-code). Descrições aparentam deslocadas;
+      item 15 sugere fornecimento de software/licenças precificado em UST.
+    paginas: p136; p182–p183
+  - descricao: 'Sobreposição entre item 9 (BI e Ciência de Dados inclui ''IA, algoritmos... redes neurais'') e item 10 (Desenvolvimento de IA):
+      risco de enquadramento duplo/divergente.'
+    paginas: p135–p136; p182
+  - descricao: Item 2 (2º nível) é 'atendimento presencial', mas cláusula 6.3 diz que os serviços serão prestados na sede da CONTRATADA conforme
+      Anexo VII.
+    paginas: p135; p141; p192
+  - descricao: Subcontratação vedada (15.1), mas a minuta menciona subcontratada/subcontratados (16.15; 17.2.1; 17.2.2).
+    paginas: p201; p202; p203
+  - descricao: Item 9.3 remete ao 'item 12.4.1 das Condições Gerais do Pregão', mas o 12.4.1 citado está na própria minuta (retenção por multa).
+    paginas: p143; p193; p199
+  - descricao: Dotação orçamentária em branco no Anexo I.VI e preenchida no Anexo IX; no Anexo IX 'Programa de Trabalho' repete o texto da Fonte
+      de Recursos (501/101).
+    paginas: p142; p192
+  - descricao: 'Item 6.2 truncado: ''O serviço terá início em com a assinatura do contrato''.'
+    paginas: p141; p192
+  - descricao: 'Garantia: 11.1 prazo de 30 dias; 11.1.1 para seguro-garantia prazo ''de, no mínimo, 01 (um) mês''. Base ''valor do Contrato''
+      é estimativo e indefinido (R$ XX,XX).'
+    paginas: p197; p191
+  - descricao: 'Rodapé do Anexo IX: ''Minuta Padronizada... sem dedicação exclusiva de mão de obra - sem objeto definido''; ao mesmo tempo 10.1.10
+      exige alocar recursos quantos forem necessários.'
+    paginas: p190–p209; p194
+  - descricao: 17.1.2 cita a Lei 12.846/2013 também como 'Lei contra a Lavagem de Dinheiro' (provável erro de referência).
+    paginas: p202
+  - descricao: Proposta remete a 'serviços... constam na última página' (com erro 'posposta'); a planilha de valores do modelo não traz coluna
+      de valor mensal nem forma de medição da UST — remete ao TR.
+    paginas: p134; p179
+  - descricao: Reajuste 'em harmonia com a cláusula de reajuste do Termo de Referência' — data-base e marco inicial (data do orçamento/proposta)
+      não constam nas páginas lidas.
+    paginas: p140; p191
+  G23:
+  - descricao: ANS sem metas quantitativas, fórmulas ou janela de apuração; apenas o item 4 tem limiar (24h). Item 5 não define prazo de atendimento
+      do chamado. 'Plataforma' e 'unidade de atendimento' não definidas.
+    paginas:
+    - p069
+    - p070
+  - descricao: Base de cálculo 'valor mensal do contrato' não definida para contrato de empreitada por preço unitário com pagamento só dos quantitativos
+      efetivamente prestados (sem valor mensal fixo).
+    paginas:
+    - p070
+    - p141
+    - p144
+  - descricao: 'Natureza do desconto: TR 18.5 fala em ''descontos na fatura mensal'' (glosa), mas a tabela chama de ''PENALIDADE'' (multa). Não
+      está claro se exige processo sancionatório (CONTRATO 5.4, 12.6) nem como se compatibiliza com o teto de 30% e o piso de 0,5% (TR 19.3.2).
+      Grau 5 (3,2%/dia) atinge 30% do valor mensal em ~10 dias.'
+    paginas:
+    - p070
+    - p075
+    - p141
+    - p152
+  - descricao: Itens do ANS típicos de terceirização com posto de trabalho (assiduidade, expediente, FGTS, vale-transporte, instalações, equipamentos
+      nas dependências) enquanto os serviços são prestados na sede da CONTRATADA.
+    paginas:
+    - p071
+    - p072
+    - p141
+  - descricao: Redação sob o prefixo 'Para os itens a seguir, deixar de:' gera dupla negação ou sentido invertido nos itens 13 ('Não apresentar'),
+      17 ('Entregar ou entregar com atraso'), 23 ('Iniciar, não suspender...') e 26 ('Manter... sem autorização').
+    paginas:
+    - p070
+    - p071
+    - p072
+  - descricao: 'Itens duplicados com graus diferentes: 2 (sem qualificação, grau 3) x 19 (qualificação, grau 5); 7 (substituir empregado inconveniente,
+      grau 1) x 15 (grau 4); 1 (suspender/interromper, grau 4) x 23 (grau 5); 3 x 6 (determinação da fiscalização, grau 2). Risco de dupla penalização
+      pelo mesmo fato.'
+    paginas:
+    - p070
+    - p071
+  - descricao: Item 8 do ANS traz duas unidades de contagem ('por item e por ocorrência; por funcionário e por dia').
+    paginas:
+    - p070
+    - p071
+  - descricao: 'Prazo de comunicação de incidente LGPD: 24 horas da identificação (TR 19.4.7) x 24 horas da ocorrência (CONTRATO 16.8) x 24 horas
+      ÚTEIS após a identificação (Anexo I.VIII item 8).'
+    paginas:
+    - p077
+    - p157
+    - p168
+  - descricao: 'Papel LGPD da contratada: TR 19.4.1 ''controlador e operadora ou suboperadora'' x CONTRATO 16.1 ''Contratante e Contratado, na
+      condição de operadora'' (redação imprecisa).'
+    paginas:
+    - p076
+    - p156
+  - descricao: Subcontratação não admitida (CONTRATO 15.1) x compartilhamento de dados com 'empresa subcontratada' (CONTRATO 16.15) x autorização
+      geral de suboperadores com lista publicada (TR 19.4.14; Anexo I.VIII item 9, operadora de telecom).
+    paginas:
+    - p078
+    - p156
+    - p158
+    - p168
+    - p169
+  - descricao: Armazenamento 'somente no Data Center do CONTRATADO, em território nacional' (Anexo I.VIII item 4) x possibilidade de infraestrutura
+      de terceiros/suboperador tecnológico (TR 19.4.13, 19.4.15, 19.4.24).
+    paginas:
+    - p078
+    - p079
+    - p080
+    - p166
+  - descricao: 'Fim do tratamento: TR 19.4.15 (definições do contratante até 30 dias antes do término; omissão = devolução) x CONTRATO 16.16 (descarte
+      ou devolução) x Anexo I.VIII item 10 (devolução em .CSV E eliminação, prazos de 30 dias cada, sem marco inicial explícito).'
+    paginas:
+    - p078
+    - p079
+    - p158
+    - p169
+  - descricao: Anexo I.VIII com encarregado do contratante não preenchido (placeholders) e mapeamento de dados centrado na 'Ouvidoria da CONTRATANTE'
+      — verificar se corresponde ao objeto.
+    paginas:
+    - p163
+    - p164
+    - p165
+  - descricao: 'Cadastro de penalidades: ''CAUFPR'' (TR 19.3.10) x ''CFPR'' (CONTRATO 12.9).'
+    paginas:
+    - p076
+    - p153
+  - descricao: 'Garantia: 11.1.1 diz ''Caso seja exigida garantia'' embora 11.1 a exija (5%); prazo de 30 dias x ''no mínimo 01 mês'' para seguro-garantia;
+      multa de 0,5% ''até o limite de 2%'' sem indicar periodicidade de incidência (por dia? por período?).'
+    paginas:
+    - p150
+    - p151
+  - descricao: TR 19.5.1.1 cita a Lei de Lavagem de Dinheiro com o mesmo número da Lei Anticorrupção (Lei nº 12.846/2013) — provável erro material.
+    paginas:
+    - p080
+  - descricao: 'Remissões a itens inexistentes nas páginas lidas: ''parágrafo 3.4.5.2.2 e.'' (TR 19.1.2.2.1.5.2), ''IAL 1.1 (f)'' e ''IAL 1.1
+      (b)'' (TR 20.4.5 e 20.4.8); ''item 12.4.1 das Condições Gerais do Pregão'' (CONTRATO 9.3).'
+    paginas:
+    - p073
+    - p085
+    - p086
+    - p143
+  - descricao: CONTRATO 6.2 com texto truncado ('O serviço terá início em com a assinatura do contrato') e CONTRATO 7.1 com dotação a preencher,
+      enquanto TR 21.1 já indica Casa Civil, fonte 501/101.
+    paginas:
+    - p089
+    - p141
+    - p142
+  - descricao: '''Recorrência'' de descumprimento (TR 18.2) que leva a inexecução parcial não é quantificada.'
+    paginas:
+    - p069

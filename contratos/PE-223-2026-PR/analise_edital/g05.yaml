@@ -1,0 +1,248 @@
+# G05 — Arquiteto de Software
+# Fonte: PE 223/2026 (Paraná), páginas p104–p122 (Anexo I.I Requisitos da PoC; Anexo I.II Roteiro da PoC).
+# Situação: PLANEJADO (análise documental). Nada aqui foi executado nem verificado em ambiente da PoC.
+# Avaliação da fábrica feita sobre projetos/gestao-documental (FastAPI+PostgreSQL+React/Vite, Docker Compose, GitHub Actions).
+
+poc:
+  objetivo: >-
+    Comprovar a capacidade técnica e operacional da empresa em entregar, em curto prazo, uma solução integrada
+    de TI: (1) aplicação de controle de acesso SSO (cadastro, login único, permissões, OAuth2) e (2) aplicação
+    cliente-servidor de gestão de dados (ingestão de datasets IPARDES, ETL assíncrono em fila, notificação por
+    e-mail, dashboards), conteinerizadas e orquestradas (Kubernetes), com CI/CD, GitOps, observabilidade
+    (métricas, logs, tracing, alertas), testes automatizados de UI e API, documentação em português e LGPD.
+    Abrange "pelo menos 500 UST de trabalho". No rito, é etapa de julgamento (não de habilitação) para comprovar,
+    por amostragem técnica, a capacidade da 1ª colocada já habilitada.
+  prazo_preparacao: >-
+    Convocação formal com não menos de 5 (cinco) dias úteis de antecedência (p118, item 3). O conteúdo da prova
+    (anexo sigiloso) só é entregue no início da sessão (p118 intro; p121–p122 itens 10 e 13).
+  duracao: >-
+    5 (cinco) dias úteis (p104 item 1; p116 item 5; p118 item 3). Demandas entregues por inteiro no começo e
+    entrega única ao fim do 5º dia útil, sem cronômetro por item nem etapas parciais (p119 item 6).
+  local_forma: >-
+    Presencial, em dependências indicadas pela Administração em Curitiba/PR (p118 item 3). Sala exclusiva e
+    isolada, crachá temporário, rede segregada com firewall e saída à Internet só para destinos liberados
+    (provedor de identidade de teste OAuth2, repositórios oficiais de dependências, ferramenta de observabilidade
+    da prova) (p119 item 8). Ambiente de execução, orquestrador, plataforma de versionamento, IdP de teste e
+    massas de dados fictícias/mascaradas fornecidos pela Administração; computadores da empresa só como estações;
+    código fica na plataforma de versionamento da Administração (p118 item 4; p120 item 8.2). Tráfego de rede
+    registrado (metadados) (p119–p120 item 8.1). Proibida IA generativa (p120 item 8.3). Proibidas conexões
+    externas (p120 item 8.4). Captação audiovisual da sala com observadores (p120 item 9). Sorteio aberto de uma
+    entre três versões equivalentes (V1/V2/V3) do enunciado (p121 item 10).
+  criterios_aprovacao:
+    - "Correção por banca técnica (fiscal técnico + especialistas); cada item apurado por critério binário atende/não atende, subsidiariamente por escala objetiva (p118–p119 item 5)."
+    - "Aprova-se quem atingir nota mínima sobre a soma ponderada dos itens marcados como atende; sem itens eliminatórios isolados; sem correção fracionada; tolerância embutida na nota mínima (p119 item 6)."
+    - "Eixos, pesos, forma de pontuar e nota mínima declarados como conhecidos de antemão pelo Roteiro (p119 item 6) — porém os valores NÃO constam das páginas p104–p122 (ver conflitos)."
+    - "Tabela de requisitos do Anexo I.I serve de checklist Atendido/Não Atendido; todos os pontos obrigatórios devem ser cumpridos na demonstração final (p111 item 4)."
+    - "Validação durante a apresentação e pela análise dos artefatos (código, documentação, relatórios de teste) (p116)."
+    - "Sucesso condicionado ao atendimento completo dos requisitos, especialmente itens críticos: SSO funcional, ingestão de dados IPARDES, pipeline CI/CD operacional e monitoramento Prometheus/Grafana ativo (p116)."
+    - "Requisito não atendido exige justificativa documentada e, se possível, plano para fase posterior (p116)."
+    - "Regras essenciais cuja violação reprova: uso de correio/mensageiro/nuvem pessoal etc. (p120 item 8.1); plataformas externas ou cópia do acervo para fora (p120 item 8.2); uso de IA generativa (p120 item 8.3); conexões externas não oficiais (p120 item 8.4)."
+    - "Equipe executora indicada pela empresa, vedada troca não justificada (p118 item 5); termo de sigilo antes de iniciar (p119 item 7)."
+  consequencia_reprovacao: >-
+    Reprovação fundamentada e registrada em ata, com contraditório na fase de recursos (p119 item 6); convoca-se a
+    empresa seguinte na ordem de classificação para a mesma etapa (p118 item 3), com redação diversa do enunciado
+    (p121 item 10). Na fase de recursos a reprovada tem acesso ao enunciado aplicado, à sua entrega e à
+    fundamentação de cada item reprovado (p121 item 12). Código da prova nunca é aproveitado em produção (p121 item 11).
+  origem: "p104 (Anexo I.I item 1), p105 item 2, p111 item 4, p116, p118–p122 (Anexo I.II itens 1–13)"
+
+poc_requisitos:
+  # --- Tabela de requisitos (checklist da banca) — p111 a p116 ---
+  - {id: R01, requisito: "SSO permite cadastro de novos usuários (criação de contas)", como_demonstrar: "Criar conta na aplicação de SSO e logar com ela", origem: "p111 item 4 (Funcional - SSO/Autenticação); p105 2.1.1"}
+  - {id: R02, requisito: "Login de usuários utilizando CPF e senha", como_demonstrar: "Login na tela do SSO informando CPF e senha", origem: "p111 item 4"}
+  - {id: R03, requisito: "Single Sign-On integrado entre todas as aplicações da PoC (um único login válido em todos os módulos)", como_demonstrar: "Logar uma vez no SSO e acessar a aplicação de gestão de dados sem novo login", origem: "p111 item 4; p105 2.1.1"}
+  - {id: R04, requisito: "Mais de um perfil de acesso (pelo menos administrador e usuário comum)", como_demonstrar: "Mostrar diferença de acesso entre admin e usuário comum", origem: "p111 item 4"}
+  - {id: R05, requisito: "Gerenciamento básico de usuários (criação, edição e desativação de contas)", como_demonstrar: "Admin cria, edita e desativa conta; conta desativada não loga", origem: "p111 item 4"}
+  - {id: R06, requisito: "Fluxos OAuth2.0 para emissão e validação de tokens de acesso", como_demonstrar: "Fluxo OAuth2 (ex.: authorization code) com emissão e validação/introspecção de token; integração com o provedor de identidade de teste da Administração", origem: "p111 item 4; p105 2.1.1; p118 item 4; p119 item 8"}
+  - {id: R07, requisito: "Importar conjuntos de dados por interface de envio de arquivo para processamento", como_demonstrar: "Upload de arquivo pela tela da aplicação de gestão de dados", origem: "p111 item 4; p105 2.1.2.1"}
+  - {id: R08, requisito: "ETL sobre dados importados da base Demografia (IPARDES), com transformações e limpezas para gerar visualizações", como_demonstrar: "Processar arquivo de Demografia e exibir resultado nos gráficos", origem: "p111 item 4; p106 2.1.2.1.1 e 2.1.2.2"}
+  - {id: R09, requisito: "ETL sobre dados importados da base PIB e VAF (IPARDES)", como_demonstrar: "Processar arquivo de PIB/VAF e exibir resultado nos gráficos", origem: "p111 item 4; p106 2.1.2.1.2"}
+  - {id: R10, requisito: "ETL sobre dados importados da base Indicadores Educacionais (IPARDES)", como_demonstrar: "Processar arquivo de Indicadores Educacionais e exibir resultado nos gráficos", origem: "p112 item 4; p106 2.1.2.1.3"}
+  - {id: R11, requisito: "ETL pesado assíncrono em sistema de filas de tarefas distribuído, sem travar o fluxo web; armazenamento em banco relacional", como_demonstrar: "Upload retorna imediatamente; worker (ex.: Celery+Redis/RabbitMQ) processa e grava no PostgreSQL", origem: "p106 2.1.2.2; p109 (Celery)"}
+  - {id: R12, requisito: "Interface com lista de arquivos enviados e status (Enviado, Em processamento, Processado, Falha ao Processar)", como_demonstrar: "Tela de arquivos mostrando os quatro status", origem: "p112 item 4"}
+  - {id: R13, requisito: "Interface para reenviar arquivos em caso de falha ao processar", como_demonstrar: "Forçar falha e reenviar pela tela", origem: "p112 item 4"}
+  - {id: R14, requisito: "Notificação por e-mail ao usuário solicitante após o processamento", como_demonstrar: "E-mail recebido após o ETL", origem: "p112 item 4; p106 2.1.2.3"}
+  - {id: R15, requisito: "E-mail informa sucesso ou falha do processamento", como_demonstrar: "Mostrar e-mail de sucesso e e-mail de falha", origem: "p112 item 4"}
+  - {id: R16, requisito: "Envio do e-mail assíncrono (segundo plano)", como_demonstrar: "Envio por tarefa de background na fila", origem: "p112 item 4; p109 (Celery)"}
+  - {id: R17, requisito: "Configurações SMTP implementadas e funcionais", como_demonstrar: "SMTP configurado por variáveis de ambiente/segredo e funcionando", origem: "p112 item 4"}
+  - {id: R18, requisito: "Demonstrar que o usuário recebe efetivamente o e-mail", como_demonstrar: "Abrir caixa de entrada (servidor SMTP de teste ou do ambiente) e mostrar a mensagem", origem: "p112 item 4"}
+  - {id: R19, requisito: "Interface com gráficos e dashboards alinhados às regras de negócio dos dados processados", como_demonstrar: "Dashboard por dataset", origem: "p112 item 4; p106 2.1.2.4"}
+  - {id: R20, requisito: "Visualizar tendências, totais e comparativos por meio dos gráficos", como_demonstrar: "Série temporal, cartões de total e comparação entre municípios/regiões", origem: "p112 item 4"}
+  - {id: R21, requisito: "Pelo menos dois tipos distintos de visualização (ex.: linhas e barras)", como_demonstrar: "Gráfico de linhas e de barras", origem: "p112 item 4"}
+  - {id: R22, requisito: "Filtrar ou selecionar intervalos de dados nos dashboards", como_demonstrar: "Filtros de período/município/indicador", origem: "p112 item 4"}
+  - {id: R23, requisito: "Front-end responsivo e compatível com Chrome, Firefox e Edge (gráficos e tabelas dinâmicas, boas práticas de UX)", como_demonstrar: "Abrir nos três navegadores e em largura móvel", origem: "p112–p113 item 4; p106 2.1.2.4"}
+  - {id: R24, requisito: "Arquitetura baseada em contêineres", como_demonstrar: "Imagens de cada componente (Dockerfile)", origem: "p113 item 4; p106 2.1.3"}
+  - {id: R25, requisito: "Mecanismo de orquestração que gerencia os serviços automaticamente (deployments, services etc.); IaC por manifests/scripts", como_demonstrar: "Deploy no Kubernetes via manifests/Helm versionados", origem: "p113 item 4; p106 2.1.3; p108–p109 (Helm, Kubernetes)"}
+  - {id: R26, requisito: "Escalabilidade automática (aumentar e reduzir conforme carga)", como_demonstrar: "HorizontalPodAutoscaler escalando sob carga", origem: "p113 item 4"}
+  - {id: R27, requisito: "Auto-healing: recuperação automática de falhas", como_demonstrar: "Matar pod e mostrar recriação; liveness/readiness probes", origem: "p113 item 4; p106 2.1.3"}
+  - {id: R28, requisito: "Balanceamento de carga entre instâncias", como_demonstrar: "Service/Ingress distribuindo entre réplicas", origem: "p113 item 4"}
+  - {id: R29, requisito: "Integração contínua: a cada modificação, build e testes automatizados", como_demonstrar: "Pipeline (GitLab CI recomendado) disparado por push", origem: "p113 item 4; p107 2.1.4; p109 (GitLab CI)"}
+  - {id: R30, requisito: "Entrega contínua: empacotamento, validações finais e preparação de artefatos; deploy no orquestrador se testes passarem; verificação estática (linter/qualidade); rollback automatizado em falha de deploy", como_demonstrar: "Pipeline com lint, testes, build de imagem, push ao registry e deploy; demonstrar rollback", origem: "p113 item 4; p107 2.1.4"}
+  - {id: R31, requisito: "GitOps: repositório monitorado por ferramenta de sincronização que reflete mudanças no orquestrador", como_demonstrar: "ArgoCD sincronizando a partir do repositório", origem: "p113–p114 item 4; p109 (ArgoCD)"}
+  - {id: R32, requisito: "Pipelines declarativos e reprodutíveis (novos ambientes a partir dos mesmos arquivos versionados)", como_demonstrar: "Criar ambiente de teste/homologação a partir do repositório", origem: "p114 item 4"}
+  - {id: R33, requisito: "Monitoramento contínuo em tempo real (desempenho, disponibilidade, integridade)", como_demonstrar: "Prometheus + Grafana ativos (item crítico)", origem: "p114 item 4; p107 2.1.5; p116"}
+  - {id: R34, requisito: "Logs centralizados em ponto único de coleta, análise e auditoria", como_demonstrar: "Stack de logs (ex.: Loki, Fluentd/Elasticsearch, Elastic)", origem: "p114 item 4; p107 2.1.5; p110 obs.; p117"}
+  - {id: R35, requisito: "Tracing distribuído do caminho da solicitação", como_demonstrar: "Elastic APM ou Jaeger/OpenTelemetry mostrando trace SSO→API→worker", origem: "p114 item 4; p110 (Elastic APM); p117 (Jaeger)"}
+  - {id: R36, requisito: "Métricas: CPU, memória, tempo de resposta, requisições, taxa de erro, uso de recursos dos pods", como_demonstrar: "Painéis Grafana com RPS, latência, erros, CPU/memória de pods", origem: "p114 item 4; p107 2.1.5"}
+  - {id: R37, requisito: "Alertas com base em métricas e logs, notificando anomalias e falhas críticas", como_demonstrar: "Regra de alerta (ex.: CPU alta, serviço fora) disparando", origem: "p114 item 4; p107 2.1.5"}
+  - {id: R38, requisito: "Casos de teste para todas as funcionalidades dos sistemas da PoC", como_demonstrar: "Rastreabilidade requisito→caso de teste", origem: "p114 item 4"}
+  - {id: R39, requisito: "Documento de planejamento de testes", como_demonstrar: "Plano de testes em português", origem: "p114 item 4"}
+  - {id: R40, requisito: "Relatório de testes das funcionalidades", como_demonstrar: "Relatório gerado de execução real", origem: "p114 item 4"}
+  - {id: R41, requisito: "Testes de UI cobrem login no SSO, navegação pelas páginas principais, upload de arquivo e visualização de gráfico", como_demonstrar: "Suíte E2E (Cypress ou Robot recomendados)", origem: "p115 item 4; p107 2.1.6; p110"}
+  - {id: R42, requisito: "Testes de UI executáveis via script ou pipeline CI", como_demonstrar: "Job E2E na pipeline", origem: "p115 item 4"}
+  - {id: R43, requisito: "Todos os testes de UI passam (na pipeline ou na demonstração)", como_demonstrar: "Execução verde", origem: "p115 item 4"}
+  - {id: R44, requisito: "Testes automatizados de API/back-end", como_demonstrar: "Suíte de API", origem: "p115 item 4; p107 2.1.6"}
+  - {id: R45, requisito: "Testes de API cobrem as principais rotas e lógicas", como_demonstrar: "Cobertura das rotas principais", origem: "p115 item 4"}
+  - {id: R46, requisito: "Teste de upload via API verificando processamento e armazenamento", como_demonstrar: "Teste envia arquivo, aguarda ETL e consulta banco/API", origem: "p115 item 4"}
+  - {id: R47, requisito: "Teste de API para listar dados processados, validando conteúdo esperado", como_demonstrar: "Teste de listagem com asserção de conteúdo", origem: "p115 item 4"}
+  - {id: R48, requisito: "Testes do SSO via API (login/autenticação e verificação de token)", como_demonstrar: "Teste de obtenção e validação de token", origem: "p115 item 4"}
+  - {id: R49, requisito: "Testes verificam códigos HTTP e conteúdo de cada rota", como_demonstrar: "Asserções de status e corpo", origem: "p115 item 4"}
+  - {id: R50, requisito: "Testes asseguram tratamento de erros esperados (entradas inválidas → erro apropriado)", como_demonstrar: "Casos negativos (400/401/403/422)", origem: "p115 item 4"}
+  - {id: R51, requisito: "Testes de API executáveis automaticamente e todos passam; integrados à CI e bloqueando deploy se falharem", como_demonstrar: "Job de testes como gate de deploy", origem: "p115 item 4; p107 2.1.6"}
+  - {id: R52, requisito: "Documento de Arquitetura (componentes, diagramas de componentes e infraestrutura, decisões tecnológicas)", como_demonstrar: "ARQUITETURA em português com diagramas e ADRs", origem: "p115 item 4; p107 2.1.7"}
+  - {id: R53, requisito: "Guia de Implantação (DevOps): reproduzir o ambiente, deploy (pipelines e contêineres) e configuração do monitoramento", como_demonstrar: "Guia passo a passo reproduzível", origem: "p115–p116 item 4; p107–p108 2.1.7"}
+  - {id: R54, requisito: "Toda documentação em português e reproduzível por terceiros", como_demonstrar: "Revisão pela banca", origem: "p116 item 4; p107 2.1.7"}
+  - {id: R55, requisito: "Controle de acesso: não autenticados não acessam áreas/dados protegidos", como_demonstrar: "Acesso sem token → 401/redirecionamento", origem: "p116 item 4"}
+  - {id: R56, requisito: "Validação e sanitização de entradas (ex.: evitar injeção via dados de ETL)", como_demonstrar: "Arquivo malicioso rejeitado/neutralizado; consultas parametrizadas", origem: "p116 item 4"}
+  - {id: R57, requisito: "Medidas de segurança e privacidade documentadas (conformidade LGPD evidenciada)", como_demonstrar: "Documento de segurança/LGPD", origem: "p116 item 4; p105 item 2"}
+  # --- Objetivos específicos não repetidos literalmente na tabela (p107–p108) ---
+  - {id: R58, requisito: "Documento de Requisitos (funcionalidades, regras de negócio, RNF de desempenho, segurança e LGPD)", como_demonstrar: "Documento em português", origem: "p107 2.1.7"}
+  - {id: R59, requisito: "Manual de Usuário básico", como_demonstrar: "Manual em português", origem: "p107 2.1.7"}
+  - {id: R60, requisito: "LGPD: minimização, proteção em trânsito e repouso (criptografia se aplicável), controle de acesso rigoroso, direitos do titular (ex.: eliminação), anonimização/pseudonimização se houver dados pessoais", como_demonstrar: "TLS, criptografia/hash, função de eliminação de conta, pseudonimização de CPF em logs", origem: "p108 2.1.8"}
+  - {id: R61, requisito: "Somente tecnologias open-source", como_demonstrar: "Inventário de componentes e licenças", origem: "p104 item 1; p108 2.1.9; p110 obs."}
+  - {id: R62, requisito: "Pipelines automatizados em repositório implantado durante a PoC; versionamento e entrega contínua confiáveis; revisão de código", como_demonstrar: "Histórico de commits/merge requests na plataforma da Administração", origem: "p105 item 2"}
+  - {id: R63, requisito: "Relatório de incidentes (monitoramento ativo e relatório de incidentes)", como_demonstrar: "Registro de incidentes/alertas ocorridos", origem: "p105 item 2 (Desempenho técnico)"}
+
+poc_roteiro:
+  - {etapa: "1. Convocação", o_que_fazer: "Administração convoca formalmente a 1ª colocada já habilitada", tempo: "não menos de 5 dias úteis de antecedência", origem: "p118 item 3"}
+  - {etapa: "2. Indicação da equipe", o_que_fazer: "Empresa aponta a equipe executora; troca não justificada vedada", tempo: "antes/durante a sessão (não especificado)", origem: "p118 item 5"}
+  - {etapa: "3. Termos de sigilo", o_que_fazer: "Integrantes firmam termo de sigilo da PoC; observadores firmam termo próprio e concordam com gravação", tempo: "antes de iniciar", origem: "p119 item 7; p120 item 9"}
+  - {etapa: "4. Ingresso e isolamento", o_que_fazer: "Crachá temporário; guarda lacrada de aparelhos pessoais com recibo; estações ligadas só ao segmento reservado; conferência visual de IDEs com extensões de IA desligadas", tempo: "na entrada de cada turno", origem: "p119 item 8; p120 item 8.3"}
+  - {etapa: "5. Sorteio da versão", o_que_fazer: "Sorteio aberto de envelope (V1/V2/V3) por pessoa sem interesse; SHA-256 do envelope em ata aberta", tempo: "início da sessão", origem: "p121 item 10; p122 item 13"}
+  - {etapa: "6. Entrega das demandas", o_que_fazer: "Demandas entregues por inteiro (anexo sigiloso em envelope fechado e numerado)", tempo: "começo da sessão", origem: "p119 item 6; p121–p122 item 13"}
+  - {etapa: "7. Execução", o_que_fazer: "Construção manual, sem IA generativa, na plataforma de versionamento da Administração, com credenciais nominais auditadas; uso do orquestrador, IdP de teste e massas de dados fornecidos", tempo: "5 dias úteis; sem cronômetro por item, sem etapas parciais nem aferições intermediárias", origem: "p118 itens 3 e 4; p119 item 6; p120 itens 8.2 e 8.3"}
+  - {etapa: "8. Lacre diário", o_que_fazer: "Computadores ficam na sala sob lacre numerado firmado pela empresa e pelo secretário; reabertura no dia seguinte diante de ambos", tempo: "fim de cada jornada", origem: "p119 item 8"}
+  - {etapa: "9. Entrega final", o_que_fazer: "Entrega única dos artefatos", tempo: "ao fim do 5º dia útil", origem: "p119 item 6"}
+  - {etapa: "10. Encerramento de acesso", o_que_fazer: "Revogação de credenciais e declaração do responsável de ausência de cópia local", tempo: "ao final", origem: "p120 item 8.2"}
+  - {etapa: "11. Correção pela banca", o_que_fazer: "Banca apura cada item (binário; subsidiariamente escala objetiva), na apresentação e pela análise de artefatos; nota ponderada vs nota mínima", tempo: "não especificado", origem: "p116; p118–p119 itens 5 e 6"}
+  - {etapa: "12. Atas", o_que_fazer: "Ata aberta (desempenho por eixo/categoria, percentual ponderado, SHA-256) e ata reservada (enunciado, dados, código, razões de não atendimento)", tempo: "a cada sessão", origem: "p119 item 5; p121 item 12"}
+  - {etapa: "13. Resultado e recursos", o_que_fazer: "Aprovação ou reprovação fundamentada; se reprovada, convoca-se a seguinte; recursos com acesso ao enunciado e às razões", tempo: "após a PoC; sequência: PoC → recursos → homologação", origem: "p118 itens 2 e 3; p119 item 6; p121 item 12"}
+  - {etapa: "14. Tratamento dos artefatos", o_que_fazer: "Retenção probatória, descaracterização e eliminação em prazos certos; cópia criptografada à empresa, a pedido", tempo: "prazos certos (não informados), sobrestados se houver disputa", origem: "p121 item 11"}
+
+tecnologias_recomendadas:
+  - {nome: Django, categoria: "Framework back-end", obrigatoria_ou_recomendada: "recomendada (p117 repete 'back-end Django' no resumo)", origem: "p108 item 3; p117"}
+  - {nome: Next.js, categoria: "Framework front-end (React)", obrigatoria_ou_recomendada: recomendada, origem: "p108 item 3; p117"}
+  - {nome: Helm, categoria: "Gerenciador de pacotes Kubernetes", obrigatoria_ou_recomendada: recomendada, origem: "p108–p109 item 3"}
+  - {nome: PostgreSQL, categoria: "Banco relacional", obrigatoria_ou_recomendada: "recomendada (banco relacional é exigido em 2.1.2.2)", origem: "p109 item 3; p106 2.1.2.2"}
+  - {nome: Docker, categoria: "Conteinerização", obrigatoria_ou_recomendada: "recomendada (contêineres exigidos na tabela)", origem: "p109 item 3; p113"}
+  - {nome: Kubernetes, categoria: "Orquestração de contêineres", obrigatoria_ou_recomendada: "recomendada; orquestrador é fornecido pela Administração (p118) e citado como Kubernetes em p104/p117", origem: "p109 item 3; p104; p118 item 4"}
+  - {nome: ArgoCD, categoria: GitOps, obrigatoria_ou_recomendada: "recomendada (GitOps exigido na tabela)", origem: "p109 item 3; p113–p114"}
+  - {nome: "GitLab CE (on-premises)", categoria: "Repositório de código", obrigatoria_ou_recomendada: "recomendada; na prática, plataforma de versionamento da Administração é a única permitida", origem: "p109 item 3; p107 2.1.4; p120 item 8.2"}
+  - {nome: "GitLab CI", categoria: "CI/CD", obrigatoria_ou_recomendada: recomendada, origem: "p109 item 3"}
+  - {nome: Celery, categoria: "Fila de tarefas assíncronas", obrigatoria_ou_recomendada: "recomendada (fila distribuída exigida em 2.1.2.2)", origem: "p109 item 3; p106 2.1.2.2"}
+  - {nome: "Redis ou RabbitMQ", categoria: "Message broker", obrigatoria_ou_recomendada: "recomendada (componente adicional)", origem: "p109; p110 obs."}
+  - {nome: Prometheus, categoria: "Monitoramento de métricas", obrigatoria_ou_recomendada: "recomendada/preferida; tratada como item crítico ('monitoramento Prometheus/Grafana ativo') em p116", origem: "p109–p110 item 3; p116"}
+  - {nome: Grafana, categoria: "Dashboards e alertas", obrigatoria_ou_recomendada: "recomendada; item crítico em p116", origem: "p110 item 3; p116"}
+  - {nome: "Elastic APM", categoria: "Observabilidade, logs e tracing", obrigatoria_ou_recomendada: recomendada, origem: "p110 item 3"}
+  - {nome: "Cypress ou Robot Framework", categoria: "Testes automatizados de UI e APIs", obrigatoria_ou_recomendada: recomendada, origem: "p110 item 3; p107 2.1.6"}
+  - {nome: "Fluentd/Elasticsearch", categoria: "Centralização de logs", obrigatoria_ou_recomendada: "opcional (se necessário)", origem: "p110 obs."}
+  - {nome: Loki, categoria: "Centralização de logs", obrigatoria_ou_recomendada: "sugestão extra", origem: "p117"}
+  - {nome: Jaeger, categoria: "Tracing distribuído", obrigatoria_ou_recomendada: "sugestão extra (caso haja microsserviços)", origem: "p117"}
+  - {nome: "OWASP ZAP", categoria: "Varredura de segurança na CI", obrigatoria_ou_recomendada: "sugestão extra", origem: "p117"}
+
+avaliacao_da_fabrica:
+  base: >-
+    Projeto de referência projetos/gestao-documental: FastAPI + SQLAlchemy/Alembic + PostgreSQL, JWT próprio (pyjwt,
+    bcrypt), login por e-mail, perfis/permissões, auditoria, e-mail simulado (app/mail.py sem SMTP real), React 19 +
+    Vite (sem biblioteca de gráficos), testes pytest e vitest, Docker Compose, CI em GitHub Actions; Playwright usado
+    só para capturas de tela (fabrica/ferramentas/capturar_telas.cjs), não como suíte E2E. Não há Kubernetes, Helm,
+    ArgoCD, GitLab CI, fila de tarefas, Prometheus/Grafana, logs centralizados nem tracing.
+  restricao_transversal: >-
+    NÃO ATENDE como modelo operacional: a PoC proíbe IA generativa para gerar/sugerir/completar código, textos ou
+    artefatos (p120 item 8.3) e proíbe trazer código de fora (acervo só na plataforma da Administração, p120 item 8.2).
+    Agentes da fábrica, gerador de CRUD e esqueletos não podem ser usados durante a prova; o que vale é a equipe
+    humana treinada na stack. A fábrica só pode ajudar ANTES (treino/ensaio), sem levar artefatos para a sala.
+  itens:
+    - {id: R01, avaliacao: ATENDE PARCIAL, justificativa: "Há cadastro de usuários pelo admin; não há autocadastro nem aplicação SSO separada"}
+    - {id: R02, avaliacao: NÃO ATENDE, justificativa: "Login atual é por e-mail; não há login por CPF"}
+    - {id: R03, avaliacao: NÃO ATENDE, justificativa: "Autenticação embutida em um único sistema; sem SSO entre aplicações"}
+    - {id: R04, avaliacao: ATENDE, justificativa: "Perfis e permissões existentes (permissions.py)"}
+    - {id: R05, avaliacao: ATENDE, justificativa: "Criação, edição e desativação (campo ativo) em routers/usuarios.py"}
+    - {id: R06, avaliacao: NÃO ATENDE, justificativa: "JWT próprio, sem servidor/cliente OAuth2 (authorization code, introspecção) nem integração com IdP externo"}
+    - {id: R07, avaliacao: ATENDE PARCIAL, justificativa: "Existe upload de arquivos (MOD-003), mas não de datasets para processamento"}
+    - {id: R08, avaliacao: NÃO ATENDE, justificativa: "Não há ETL de Demografia"}
+    - {id: R09, avaliacao: NÃO ATENDE, justificativa: "Não há ETL de PIB/VAF"}
+    - {id: R10, avaliacao: NÃO ATENDE, justificativa: "Não há ETL de Indicadores Educacionais"}
+    - {id: R11, avaliacao: NÃO ATENDE, justificativa: "Sem fila/worker (Celery, Redis/RabbitMQ) na stack"}
+    - {id: R12, avaliacao: NÃO ATENDE, justificativa: "Sem máquina de estados de processamento de arquivos"}
+    - {id: R13, avaliacao: NÃO ATENDE, justificativa: "Sem reprocessamento"}
+    - {id: R14, avaliacao: ATENDE PARCIAL, justificativa: "Módulo de e-mail existe mas é simulado em dev/test e não envia em produção"}
+    - {id: R15, avaliacao: NÃO ATENDE, justificativa: "Não há fluxo de notificação de ETL"}
+    - {id: R16, avaliacao: NÃO ATENDE, justificativa: "Envio síncrono/simulado; sem tarefa em background"}
+    - {id: R17, avaliacao: NÃO ATENDE, justificativa: "SMTP não implementado (mail.py registra bloqueio)"}
+    - {id: R18, avaliacao: NÃO ATENDE, justificativa: "Sem envio real nem caixa de teste (ex.: MailHog/Mailpit)"}
+    - {id: R19, avaliacao: ATENDE PARCIAL, justificativa: "Há painel de indicadores (MOD-005), mas sem gráficos"}
+    - {id: R20, avaliacao: NÃO ATENDE, justificativa: "Sem gráficos de tendência/comparativos"}
+    - {id: R21, avaliacao: NÃO ATENDE, justificativa: "Nenhuma biblioteca de gráficos no front-end"}
+    - {id: R22, avaliacao: NÃO ATENDE, justificativa: "Sem filtros de dashboard"}
+    - {id: R23, avaliacao: ATENDE PARCIAL, justificativa: "Front React com acessibilidade; responsividade e compatibilidade Chrome/Firefox/Edge não comprovadas por teste"}
+    - {id: R24, avaliacao: ATENDE, justificativa: "Dockerfiles de backend e frontend"}
+    - {id: R25, avaliacao: NÃO ATENDE, justificativa: "Só Docker Compose; sem manifests Kubernetes/Helm"}
+    - {id: R26, avaliacao: NÃO ATENDE, justificativa: "Sem HPA/autoescala"}
+    - {id: R27, avaliacao: NÃO ATENDE, justificativa: "Sem probes/orquestrador (restart do Compose não equivale)"}
+    - {id: R28, avaliacao: NÃO ATENDE, justificativa: "Sem réplicas/Service/Ingress"}
+    - {id: R29, avaliacao: ATENDE PARCIAL, justificativa: "CI existe em GitHub Actions; plataforma da prova é a da Administração (GitLab recomendado); sem .gitlab-ci.yml"}
+    - {id: R30, avaliacao: NÃO ATENDE, justificativa: "Sem push de imagem, deploy automático, linter na CI do projeto nem rollback"}
+    - {id: R31, avaliacao: NÃO ATENDE, justificativa: "Sem ArgoCD/GitOps"}
+    - {id: R32, avaliacao: ATENDE PARCIAL, justificativa: "Pipeline declarativo (YAML) e Compose reprodutível; sem ambientes K8s parametrizados"}
+    - {id: R33, avaliacao: NÃO ATENDE, justificativa: "Sem Prometheus/Grafana (item crítico)"}
+    - {id: R34, avaliacao: NÃO ATENDE, justificativa: "Sem centralização de logs"}
+    - {id: R35, avaliacao: NÃO ATENDE, justificativa: "Sem tracing (OpenTelemetry/APM/Jaeger)"}
+    - {id: R36, avaliacao: NÃO ATENDE, justificativa: "Sem endpoint /metrics nem métricas de pods"}
+    - {id: R37, avaliacao: NÃO ATENDE, justificativa: "Sem regras de alerta"}
+    - {id: R38, avaliacao: ATENDE PARCIAL, justificativa: "Testes por módulo existem (test_modNNN_*), mas não para as funcionalidades da PoC"}
+    - {id: R39, avaliacao: ATENDE PARCIAL, justificativa: "Fábrica tem modelos de evidência; não há plano de testes formal nesse formato — e na prova deve ser escrito sem IA"}
+    - {id: R40, avaliacao: ATENDE PARCIAL, justificativa: "Fábrica gera relatório de testes a partir de JUnit; na prova, sem a CLI/IA, precisa ser produzido manualmente ou pela pipeline"}
+    - {id: R41, avaliacao: NÃO ATENDE, justificativa: "Sem suíte E2E (Playwright só captura telas; Cypress/Robot não usados)"}
+    - {id: R42, avaliacao: NÃO ATENDE, justificativa: "Sem job E2E na CI"}
+    - {id: R43, avaliacao: NÃO ATENDE, justificativa: "Depende de R41/R42"}
+    - {id: R44, avaliacao: ATENDE, justificativa: "Testes de API com pytest/TestClient e PostgreSQL na CI"}
+    - {id: R45, avaliacao: ATENDE PARCIAL, justificativa: "Cobre rotas do sistema atual, não as da PoC"}
+    - {id: R46, avaliacao: ATENDE PARCIAL, justificativa: "Há teste de upload (test_mod003_upload), sem verificação de ETL assíncrono"}
+    - {id: R47, avaliacao: ATENDE PARCIAL, justificativa: "Padrão de testes de listagem existe; sem dados processados"}
+    - {id: R48, avaliacao: ATENDE PARCIAL, justificativa: "Testes de login/token JWT (test_mod001_auth); sem OAuth2/SSO"}
+    - {id: R49, avaliacao: ATENDE, justificativa: "Testes verificam status HTTP e corpo"}
+    - {id: R50, avaliacao: ATENDE, justificativa: "Casos negativos (validação Pydantic, 401/403/422) presentes"}
+    - {id: R51, avaliacao: ATENDE PARCIAL, justificativa: "Testes rodam na CI, mas não há deploy para servir de gate"}
+    - {id: R52, avaliacao: ATENDE PARCIAL, justificativa: "Fábrica tem modelo de ARQUITETURA/ADR; diagramas de infraestrutura K8s inexistentes; na prova, redação manual"}
+    - {id: R53, avaliacao: ATENDE PARCIAL, justificativa: "Há MANUAL_PUBLICACAO para Compose; nada para K8s/pipeline/monitoramento"}
+    - {id: R54, avaliacao: ATENDE PARCIAL, justificativa: "Documentação da fábrica é em português, mas gerada com IA — vedado na prova"}
+    - {id: R55, avaliacao: ATENDE, justificativa: "Dependências de autenticação/permissão protegem rotas"}
+    - {id: R56, avaliacao: ATENDE PARCIAL, justificativa: "Validadores Pydantic e ORM parametrizado; sem sanitização específica de arquivos de ETL (CSV/XLSX, injeção de fórmula)"}
+    - {id: R57, avaliacao: ATENDE PARCIAL, justificativa: "Fábrica exige SEGURANCA.md por módulo; não há documento LGPD da PoC"}
+    - {id: R58, avaliacao: ATENDE PARCIAL, justificativa: "Skill especificar-modulo/REQUISITOS.md existem; na prova, redação manual"}
+    - {id: R59, avaliacao: NÃO ATENDE, justificativa: "Não há manual de usuário no projeto de referência"}
+    - {id: R60, avaliacao: ATENDE PARCIAL, justificativa: "Hash de senha, auditoria, CPF mascarado na fábrica; sem eliminação de dados do titular, TLS no ambiente ou pseudonimização em ETL"}
+    - {id: R61, avaliacao: ATENDE, justificativa: "Stack atual é toda open-source"}
+    - {id: R62, avaliacao: ATENDE PARCIAL, justificativa: "Disciplina de commits/revisão existe, mas centrada em GitHub e em agentes de IA"}
+    - {id: R63, avaliacao: NÃO ATENDE, justificativa: "Sem processo de relatório de incidentes ligado a monitoramento"}
+  resumo: "ATENDE 8; ATENDE PARCIAL 23; NÃO ATENDE 32 (de 63). Itens críticos de p116 (SSO, ingestão IPARDES, CI/CD operacional, Prometheus/Grafana): nenhum ATENDE."
+
+conflitos_ou_ambiguidades:
+  - {descricao: "Anexo I.I pede que a empresa DESENVOLVA a aplicação de SSO (cadastro, login CPF, OAuth2), mas o Roteiro diz que a Administração fornece 'provedor de identidade de teste' e libera a Internet para ele no fluxo OAuth2. Não está claro se é para construir um IdP próprio ou integrar com o fornecido.", paginas: "p105 2.1.1; p111; p118 item 4; p119 item 8"}
+  - {descricao: "Ingestão 'exclusivamente' com datasets públicos do IPARDES vs. massas de dados fictícias ou mascaradas fornecidas pela Administração e versões V1–V3 que variam dados; a saída à Internet não lista o site do IPARDES.", paginas: "p105 2.1.2.1; p118 item 4; p119 item 8; p121 item 10"}
+  - {descricao: "'A licitante deverá implantar um orquestrador' vs. 'A Administração provê ... o orquestrador de contêineres'.", paginas: "p106 2.1.3; p118 item 4"}
+  - {descricao: "Repositório 'implantado durante a PoC, sob responsabilidade da licitante' vs. 'instância on-premises fornecida' e plataforma de versionamento exclusiva da Administração.", paginas: "p105 item 2; p107 2.1.4; p118 item 4; p120 item 8.2"}
+  - {descricao: "Escolha de domínios para expor as aplicações 'para a internet' a critério da licitante vs. rede isolada com saída restrita a destinos liberados.", paginas: "p106 2.1.3.1; p119 item 8; p120 item 8.4"}
+  - {descricao: "'Sucesso condicionado ao atendimento completo' e itens 'críticos' vs. 'sem itens eliminatórios isolados' e aprovação por nota mínima ponderada.", paginas: "p111; p116; p119 item 6"}
+  - {descricao: "Roteiro afirma que eixos, pesos e nota mínima são conhecidos de antemão, mas esses valores não constam em p104–p122.", paginas: "p119 item 6"}
+  - {descricao: "Requisito não atendido 'deverá haver justificativa e plano para fase posterior' (sugere tolerância) vs. julgamento binário sem correção fracionada.", paginas: "p116; p119 item 6"}
+  - {descricao: "Anexo I.I descreve escopo detalhado, mas o 'conteúdo de prova propriamente dito' é anexo sigiloso entregue no momento, com variação de dados, campos, endpoint e contrato de interface; o Anexo I.I pode ser apenas indicativo.", paginas: "p118 intro; p121 item 10; p122 item 13"}
+  - {descricao: "'Pelo menos 500 UST de trabalho' na PoC sem indicar como serão medidas nem relação com a tabela de UST do contrato.", paginas: "p104 item 1"}
+  - {descricao: "Demonstrar recebimento efetivo de e-mail (SMTP funcional) sem destino SMTP na lista de saídas liberadas; correio pessoal/corporativo proibido na sala.", paginas: "p112; p119 item 8; p120 item 8.1"}
+  - {descricao: "Observabilidade a ser implantada pela licitante vs. 'ferramenta de observabilidade da prova' como destino externo liberado (sugere ferramenta fornecida).", paginas: "p107 2.1.5; p119 item 8"}
+  - {descricao: "Tracing 'em toda a cadeia de microserviços' como requisito da tabela vs. Jaeger apenas 'caso haja microsserviços'.", paginas: "p114; p117"}
+  - {descricao: "Tecnologias apenas 'recomendadas', mas o resumo diz que a equipe demonstrará 'back-end Django, front-end React/Next.js' e p116 exige 'Prometheus/Grafana ativo'. Não fica claro se FastAPI ou Playwright são aceitos sem perda de pontos.", paginas: "p108–p110 item 3; p116; p117"}
+  - {descricao: "Objetivos citam Manual de Usuário e Documento de Requisitos, mas a tabela de requisitos não os lista (lista Arquitetura, Guia de Implantação, plano e relatório de testes).", paginas: "p107 2.1.7; p114–p116"}
+  - {descricao: "Proibição de IA generativa abrange 'textos ou artefatos', inclusive documentação; também não há regra explícita sobre autocompletar não-IA, geradores de código determinísticos ou scaffolds trazidos de fora (estes conflitam com 8.2).", paginas: "p120 itens 8.2 e 8.3"}
+  - {descricao: "Prazos de retenção e eliminação de artefatos 'em prazos certos' não informados; teto de pessoas presentes não informado; composição/tamanho de equipe não informado.", paginas: "p118 item 5; p120 item 9; p121 item 11"}
+  - {descricao: "Erros de redação: 'população mundial municipal' (Demografia); 'visualizar a reenviar'; 'orquestrador de de PoC'.", paginas: "p106; p107; p112"}

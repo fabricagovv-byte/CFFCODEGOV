@@ -1,0 +1,51 @@
+{
+  "projeto": "SYS-03",
+  "servico": "Suporte técnico de 3º nível",
+  "descricao": "Diagnóstico local de sinais de infraestrutura e priorização",
+  "executado_em": "2026-11-05T15:03:42+00:00",
+  "positivo": {
+    "http": 201,
+    "entrada": {
+      "probes": [
+        {
+          "name": "cpu",
+          "value": 94,
+          "max": 80
+        },
+        {
+          "name": "memoria",
+          "value": 70,
+          "max": 85
+        }
+      ]
+    },
+    "resposta": {
+      "run_id": 1,
+      "service": "Suporte técnico de 3º nível",
+      "result": {
+        "probes_checked": 2,
+        "alerts": [
+          {
+            "name": "cpu",
+            "value": 94,
+            "max": 80,
+            "recommendation": "Inspecionar manualmente e confirmar a origem do alerta"
+          }
+        ],
+        "risk": "ATENCAO",
+        "note": "Não conecta com infraestrutura real."
+      },
+      "laboratory_only": true
+    }
+  },
+  "negativo": {
+    "http": 400,
+    "entrada": {
+      "invalid": true
+    },
+    "resposta": {
+      "error": "probes deve conter 1 a 50 sinais"
+    }
+  },
+  "historico_registros": 1
+}

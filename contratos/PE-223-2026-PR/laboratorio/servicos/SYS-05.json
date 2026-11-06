@@ -1,0 +1,59 @@
+{
+  "projeto": "SYS-05",
+  "servico": "Desenvolvimento de sistemas",
+  "descricao": "Geração segura de migração SQL e catálogo de endpoints",
+  "executado_em": "2026-11-05T15:03:42+00:00",
+  "positivo": {
+    "http": 201,
+    "entrada": {
+      "table": "pedidos",
+      "fields": [
+        {
+          "name": "numero",
+          "type": "text"
+        },
+        {
+          "name": "quantidade",
+          "type": "integer"
+        }
+      ]
+    },
+    "resposta": {
+      "run_id": 1,
+      "service": "Desenvolvimento de sistemas",
+      "result": {
+        "table": "pedidos",
+        "fields": [
+          {
+            "name": "numero",
+            "type": "text"
+          },
+          {
+            "name": "quantidade",
+            "type": "integer"
+          }
+        ],
+        "migration_sql": "CREATE TABLE IF NOT EXISTS \"pedidos\" (id INTEGER PRIMARY KEY AUTOINCREMENT, \"numero\" TEXT, \"quantidade\" INTEGER, created_at TEXT DEFAULT CURRENT_TIMESTAMP);",
+        "api_routes": [
+          "GET /api/pedidos",
+          "POST /api/pedidos",
+          "GET /api/pedidos/:id",
+          "PATCH /api/pedidos/:id",
+          "DELETE /api/pedidos/:id"
+        ],
+        "note": "Gerador de artefatos de projeto; rotas propostas não são automaticamente implementadas por este comando."
+      },
+      "laboratory_only": true
+    }
+  },
+  "negativo": {
+    "http": 400,
+    "entrada": {
+      "invalid": true
+    },
+    "resposta": {
+      "error": "table: texto entre 1 e 40 caracteres"
+    }
+  },
+  "historico_registros": 1
+}

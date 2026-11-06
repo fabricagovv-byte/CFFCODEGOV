@@ -1,0 +1,158 @@
+# G22 — Analista de Custos e Precificação
+# Fonte: edital PE 223/2026 (Paraná), protocolo 24.481.744-0. Páginas lidas integralmente:
+#   p133–p140, p143 (e p141, p142, p144 para completar as cláusulas 5–9 da minuta Anexo I.VI),
+#   p179–p183 (Anexo III do edital), p190–p209 (Anexo IX – minuta de contrato).
+# Regra: só consta o que está escrito. "não consta" = não encontrado nas páginas lidas.
+# Toda cifra abaixo é transcrição do edital; nenhuma é estimativa da fábrica.
+status: EXTRAIDO_DO_EDITAL (não é proposta comercial; requer revisão humana)
+paginas_lidas: [p133, p134, p135, p136, p137, p138, p139, p140, p141, p142, p143, p144, p179, p180, p181, p182, p183, p190, p191, p192, p193, p194, p195, p196, p197, p198, p199, p200, p201, p202, p203, p204, p205, p206, p207, p208, p209]
+
+proposta:
+  estrutura:
+    cabecalho_dados_do_prestador:
+      - "Inscrito no CAUF/PR: [ ] Sim [ ] Não (Cadastro Único de Fornecedores do Estado do Paraná)"
+      - CNPJ
+      - Inscrição Estadual
+      - Endereço, Bairro, CEP, Cidade, Estado
+      - Representante comercial
+      - Telefone
+      - e-mail
+      - Banco, Agência, Conta-corrente
+    declaracoes_numeradas: "Itens 1 a 8 (objeto; serviços na última página; validade 180 dias; responsabilidade por qualidade/garantia; preços com todos os custos; materiais inclusos; atesto das exigências técnicas do Anexo I; declaração do art. 63 §1º da Lei 14.133/2021)"
+    colunas_da_planilha:
+      - ID
+      - Serviço (Unidades de Serviço Técnico – UST)
+      - Métrica
+      - Qtd. Estimada (Ano)
+      - Fator de Complex
+      - Qtd. Ajustada pela Complex
+      - VALOR UNITÁRIO (R$)
+      - VALOR TOTAL (R$)
+    linhas: "15 serviços (ID 1 a 15) + linha Total 'USTs totais por ano'"
+    fechamento: "Local e data; Representante Legal"
+  unidade_de_preco: "UST (coluna 'Métrica' = UST para todos os 15 itens); preço informado em 'VALOR UNITÁRIO (R$)' por item"
+  como_preencher: >
+    Preencher os dados do prestador e, na planilha da última página, as colunas
+    'VALOR UNITÁRIO (R$)' e 'VALOR TOTAL (R$)' de cada item (as colunas de quantidade e fator
+    já vêm preenchidas pelo órgão). O edital NÃO diz expressamente se o VALOR TOTAL deve ser
+    calculado sobre a 'Qtd. Estimada (Ano)' ou sobre a 'Qtd. Ajustada pela Complex' (ver conflitos).
+  validade: "180 (cento e oitenta) dias (p134 item 3; p179 item 3)"
+  exigencias:
+    - "Preços cotados contemplam todos os custos diretos, indiretos e despesas, inclusive impostos e taxas (p134 item 5; p179 item 5)"
+    - "Quando for o caso, contemplam o fornecimento de materiais inerentes ao serviço (p134 item 6; p179 item 6)"
+    - "Empresa vencedora responde pela qualidade, inclusive no período de garantia; refaz às suas expensas serviços com vícios (p134 item 4; p179 item 4)"
+    - "Atestar o atendimento das exigências técnicas do Anexo I do Edital (p134 item 7; p179 item 7)"
+    - "Declarar que a proposta compreende a integralidade dos custos trabalhistas (art. 63 §1º Lei 14.133/2021; CF, leis, normas infralegais, convenções coletivas, TACs) (p134 item 8; p179 item 8)"
+    - "Indicar se é inscrito no CAUF/PR (p133; p179)"
+    - "Informar dados bancários (p133; p179); pagamentos condicionados à conta na instituição financeira contratada pelo Estado – Decreto Estadual 4.505/2016 (p193 item 9.2.1)"
+    - "Assinatura do representante legal com local e data (p134; p180)"
+  origem: "Anexo I.IV – Modelo de descritivo da proposta de preços (p133–p136) e Anexo III do Edital – Modelo de descritivo da proposta de preços (p179–p183)"
+
+itens_de_preco:
+  # valor_referencia: as colunas VALOR UNITÁRIO (R$) e VALOR TOTAL (R$) estão EM BRANCO em p135–p136 e p181–p183.
+  - {item: 1, descricao: "Suporte técnico de 1º Nível – atendimento remoto a usuários (hardware, software e rede)", unidade: UST, quantidade: 10000, fator_complexidade: 1, quantidade_ajustada: 10000, valor_referencia: "não consta (coluna em branco)", origem: "p135; p181; p139; p190"}
+  - {item: 2, descricao: "Suporte técnico de 2º Nível – atendimento presencial a usuários (hardware, software e rede)", unidade: UST, quantidade: 5000, fator_complexidade: 2, quantidade_ajustada: 10000, valor_referencia: "não consta (coluna em branco)", origem: "p135; p181; p139; p190"}
+  - {item: 3, descricao: "Suporte técnico de 3º Nível – administração de redes, segurança, servidores, nuvem, scripts, firewalls, análise de riscos, políticas de segurança, backup e testes de invasão", unidade: UST, quantidade: 10000, fator_complexidade: 3, quantidade_ajustada: 30000, valor_referencia: "não consta (coluna em branco)", origem: "p135; p181; p139; p190"}
+  - {item: 4, descricao: "Sustentação de Sistemas – manutenção preventiva e corretiva de sistemas e bancos de dados, ajustes legais e técnicos, monitoramento e suporte especializado", unidade: UST, quantidade: 20000, fator_complexidade: 2, quantidade_ajustada: 40000, valor_referencia: "não consta (coluna em branco)", origem: "p135; p181; p139; p190"}
+  - {item: 5, descricao: "Desenvolvimento de Sistemas – construção, integração com legados, modelagem de dados, automação, Java/PHP/React/Python etc.; inclui arquitetura e análise/qualidade de software", unidade: UST, quantidade: 10000, fator_complexidade: 3, quantidade_ajustada: 30000, valor_referencia: "não consta (coluna em branco)", origem: "p135; p181; p139; p190"}
+  - {item: 6, descricao: "Testes de Sistemas – planejamento, execução, automação de testes, gestão de defeitos, relatórios de qualidade e UAT", unidade: UST, quantidade: 5000, fator_complexidade: 2, quantidade_ajustada: 10000, valor_referencia: "não consta (coluna em branco)", origem: "p135; p181; p139; p190"}
+  - {item: 7, descricao: "Análise de Negócios e Processos – mapeamento, modelagem e redesenho de processos (BPMN)", unidade: UST, quantidade: 10000, fator_complexidade: 2, quantidade_ajustada: 20000, valor_referencia: "não consta (coluna em branco)", origem: "p135; p181; p139; p190"}
+  - {item: 8, descricao: "Implementação DevOps – ferramentas, processos e infraestrutura em containers e orquestração", unidade: UST, quantidade: 5000, fator_complexidade: 3, quantidade_ajustada: 15000, valor_referencia: "não consta (coluna em branco)", origem: "p135–p136; p181–p182; p139; p190"}
+  - {item: 9, descricao: "Business Intelligence e Ciência de Dados – BI, DW, Big Data, IA, algoritmos, visão computacional e redes neurais", unidade: UST, quantidade: 10000, fator_complexidade: 3, quantidade_ajustada: 30000, valor_referencia: "não consta (coluna em branco)", origem: "p135–p136; p182; p139; p190"}
+  - {item: 10, descricao: "Desenvolvimento de Inteligência Artificial – algoritmos e soluções de IA conforme demanda", unidade: UST, quantidade: 10000, fator_complexidade: 3, quantidade_ajustada: 30000, valor_referencia: "não consta (coluna em branco)", origem: "p136; p182; p139; p190"}
+  - {item: 11, descricao: "Gerenciamento de Projetos – apoio metodológico, acompanhamento de portfólio e relatórios gerenciais", unidade: UST, quantidade: 5000, fator_complexidade: 3, quantidade_ajustada: 15000, valor_referencia: "não consta (coluna em branco)", origem: "p136; p182; p139; p190"}
+  - {item: 12, descricao: "Serviços para Jornada do Cidadão – experiência digital, linguagem simples, transparência, acessibilidade digital", unidade: UST, quantidade: 5000, fator_complexidade: 2, quantidade_ajustada: 10000, valor_referencia: "não consta (coluna em branco)", origem: "p136; p182; p139; p190"}
+  - {item: 13, descricao: "Serviços de Governança de TI – COBIT, ITIL, CMMI, gestão de informação, auditoria, riscos e metodologias ágeis", unidade: UST, quantidade: 5000, fator_complexidade: 3, quantidade_ajustada: 15000, valor_referencia: "não consta (coluna em branco)", origem: "p136; p182; p139; p191"}
+  - {item: 14, descricao: "Serviços de Gestão de Segurança da Informação – (descrição no modelo: APIs, orquestração de dados, conectividade com legados, bancos SQL/NoSQL, BI, monitoramento e governança de integrações)", unidade: UST, quantidade: 10000, fator_complexidade: 3, quantidade_ajustada: 30000, valor_referencia: "não consta (coluna em branco)", origem: "p136; p182; p139; p191"}
+  - {item: 15, descricao: "Serviços de Integração de Sistemas e Soluções Correlatas – (descrição no modelo: Solução de Gestão de TIC/ITSM, Solução de Monitoramento, Solução de Gestão de Projetos de TIC, Solução de Gestão das Integrações low-code/APIs/LGPD)", unidade: UST, quantidade: 10000, fator_complexidade: 3, quantidade_ajustada: 30000, valor_referencia: "não consta (coluna em branco)", origem: "p136; p182–p183; p139; p191"}
+  - {item: Total, descricao: "USTs totais por ano", unidade: UST, quantidade: 130000, fator_complexidade: "-", quantidade_ajustada: 325000, valor_referencia: "não consta", origem: "p136; p183; p139; p191"}
+
+valor_estimado:
+  valor: "não consta nas páginas lidas"
+  base: >
+    A minuta traz 'O valor total do contrato é de R$ XXXXXXXX' (p140 item 3.2) / 'R$ XX,XX' (p191 item 3.2),
+    declarado 'meramente estimativo' (item 3.2.1). As colunas de valor da planilha estão em branco.
+    Quantitativos anuais escritos: 130.000 UST estimadas / 325.000 UST ajustadas pela complexidade (p136; p139; p191).
+    Valor estimado/orçamento de referência deve ser buscado em outras partes do processo (TR, pesquisa de preços) — não lido aqui.
+  dotacao: "Gestão/Unidade 130000 – Casa Civil do Estado do Paraná; Fonte 501/101; Elemento 3.3.90.40.04 (p192 item 7.1). Na minuta Anexo I.VI a dotação está em branco (p142 item 7.1)."
+  financiamento: "Projeto Paraná Eficiente (p204 item 17.3.4); cláusulas BIRD (p202–p204) e BID (p204–p209)"
+  origem: "p140 itens 3.2/3.2.1; p191 itens 3.2/3.2.1; p192 item 7.1"
+
+pagamento:
+  regra: >
+    O Contratante paga os preços unitários da proposta (3.1) apenas sobre os quantitativos de serviços
+    efetivamente prestados (3.2.1, 9.6, 10.2.7). Regime: Empreitada por Preço Unitário (6.1).
+    Notas Fiscais emitidas em conformidade com o RELATÓRIO MENSAL elaborado pelo Contratado e aprovado
+    pelo Contratante (10.1.19). Descontam-se glosas, notas de débito (9.1), multas não pagas (9.3.1),
+    retenções tributárias na fonte (9.5, 10.2.8) e valores de serviços não executados ou executados em
+    desacordo (10.1.12). Atraso não causado pelo Contratado: EM = I × N × VP, I = 6%/365 = 0,00016438 (9.4).
+  prazo: "Não superior a 30 (trinta) dias contados do atesto da Nota Fiscal (9.1). Prazo suspenso na hipótese do item 12.4.1 (9.3)."
+  recebimento: "Provisório em 30 dias mediante termo detalhado (6.4); definitivo em 60 dias contados do provisório (6.6); se não feito no prazo, reputa-se realizado (6.7)."
+  documentos_para_pagamento:
+    - "Nota Fiscal atestada, conforme Relatório Mensal aprovado pelo Contratante (9.1; 10.1.19)"
+    - "Comprovação de adimplemento de todas as obrigações (9.1)"
+    - "Certificado de Regularidade Fiscal (CRF) emitido no GMS: Fiscos Federal, Estadual (inclusive PR para sediados em outro Estado) e Municipal, FGTS, INSS e CNDT (9.1)"
+    - "Prévia informação de conta corrente na instituição financeira contratada pelo Estado – Decreto Estadual 4.505/2016 (9.2.1)"
+    - "Documentos exigidos e irregularidades sanadas na NF, na prestação e nas obrigações (9.2)"
+  origem: "Anexo I.VI p140 item 3, p141 item 6, p143–p144 item 9; Anexo IX p191 item 3, p192 item 6, p193–p194 item 9, p195 item 10.1.19, p196 itens 10.2.7–10.2.8"
+
+reajuste:
+  indice: "ICTI – Índice de Custos de Tecnologia da Informação (IPEA), ou outro que venha a substituí-lo, em harmonia com a cláusula de reajuste do TR"
+  periodicidade: "Anual (Lei Federal 10.192/2001); subsequentes contados do último reajuste (4.3)"
+  condicoes:
+    - "Pedido do Contratado por requerimento protocolado até 30 dias antes do fim de cada período de 12 meses (4.1.1)"
+    - "Assinar aditivo sem ressalva sobre reajuste importa renúncia às parcelas reajustáveis anteriores (4.1.2)"
+    - "Concedido por apostilamento – §6º art. 170 Decreto Estadual 10.086/2022 (4.2)"
+    - "Sem apostilamento com efeitos financeiros retroativos à data da assinatura; reajustes não pagos na época apurados por procedimento próprio (4.3.1, 4.3.1.1)"
+  data_base: "não consta nas páginas lidas (remete ao TR)"
+  origem: "p140 item 4; p191 item 4"
+
+minuta_contrato_pontos_criticos:
+  - {clausula: "3.2 / 3.2.1 / 9.6", resumo: "Valor do contrato meramente estimativo; pagamento só do efetivamente prestado", impacto_para_a_contratada: "Sem receita mínima garantida; equipe dimensionada pode ficar ociosa se as OS não forem emitidas", origem: "p140; p191; p144; p194"}
+  - {clausula: "3.3", resumo: "Preço inclui tributos, encargos, taxa de administração, frete, seguro e materiais", impacto_para_a_contratada: "Qualquer custo omitido na composição é absorvido pela contratada", origem: "p140; p191"}
+  - {clausula: "4.1.1 / 4.1.2 / 4.3.1", resumo: "Reajuste ICTI só a pedido até 30 dias antes dos 12 meses; renúncia por aditivo sem ressalva; sem retroatividade", impacto_para_a_contratada: "Perda do reajuste por prazo perdido ou aditivo assinado sem ressalva", origem: "p140; p191"}
+  - {clausula: "6.3", resumo: "Serviços prestados na sede da CONTRATADA, conforme Anexo VII", impacto_para_a_contratada: "Custos de infraestrutura/ambiente na conta da contratada; item 2 (2º nível) é 'presencial' (ver conflitos)", origem: "p141; p192"}
+  - {clausula: "6.4 / 6.6 / 6.9", resumo: "Recebimento provisório em 30 dias, definitivo em 60 dias; serviços podem ser rejeitados e refeitos à custa do contratado", impacto_para_a_contratada: "Ciclo de caixa longo e retrabalho não remunerado", origem: "p141–p142; p192"}
+  - {clausula: "9.1 / 9.2 / 9.3.1", resumo: "Pagamento em até 30 dias do atesto da NF, condicionado a CRF/GMS e adimplemento total; glosas e multas descontadas da fatura", impacto_para_a_contratada: "Qualquer pendência fiscal/obrigação trava o faturamento inteiro", origem: "p143; p193"}
+  - {clausula: "9.4", resumo: "Compensação por atraso de pagamento: 6% a.a. pro rata (I=0,00016438)", impacto_para_a_contratada: "Compensação baixa frente ao custo financeiro de capital de giro", origem: "p144; p193"}
+  - {clausula: "10.1.6 / 10.1.29 / 10.1.31", resumo: "Cessão de propriedade intelectual, código-fonte, modelos e bases de dados ao Estado", impacto_para_a_contratada: "Sem reaproveitamento comercial exclusivo dos artefatos", origem: "p194; p196"}
+  - {clausula: "10.1.10", resumo: "Alocar recursos quantos forem necessários para executar o objeto", impacto_para_a_contratada: "Risco de sobrecusto de equipe sem contrapartida de volume", origem: "p194"}
+  - {clausula: "10.1.12", resumo: "Contratante pode descontar da garantia ou dos pagamentos o valor de serviços não executados ou em desacordo", impacto_para_a_contratada: "Glosas diretas na fatura", origem: "p194"}
+  - {clausula: "10.1.26", resumo: "Contratada arca com o ônus de equívoco no dimensionamento dos quantitativos de sua proposta", impacto_para_a_contratada: "Erro de produtividade/UST na precificação é prejuízo próprio", origem: "p195"}
+  - {clausula: "10.1.28", resumo: "Transferência de conhecimento ao sucessor", impacto_para_a_contratada: "Custo de transição ao fim do contrato, sem item de preço específico", origem: "p196"}
+  - {clausula: "11.1 / 11.2 / 11.2.1 / 11.5.1 / 11.6", resumo: "Garantia de 5% do valor do contrato em 30 dias; multa 0,5% até 2% por atraso; >30 dias = rescisão; reforço proporcional em acréscimos; reposição em 22 dias úteis", impacto_para_a_contratada: "Custo financeiro da garantia (seguro/fiança/caução) desde a assinatura", origem: "p197–p198"}
+  - {clausula: "12.2 / 12.5", resumo: "Multas de 0,5% a 30% sobre valor total do lote ou do contrato; mora diária até 0,3% sobre valor global ou parcela, até 30 dias, depois compensatória", impacto_para_a_contratada: "Exposição financeira elevada (base pode ser o valor global)", origem: "p198–p199"}
+  - {clausula: "12.4 / 12.4.1 / 12.10", resumo: "Multas podem ser descontadas de pagamentos de outros contratos com o Estado; retenção não gera mora nem compensação", impacto_para_a_contratada: "Contaminação do caixa de outros contratos", origem: "p199"}
+  - {clausula: "13.2.17", resumo: "Atraso de pagamento superior a 2 meses permite à contratada optar por suspender obrigações", impacto_para_a_contratada: "Contratada deve suportar até 2 meses de atraso antes de poder suspender", origem: "p200"}
+  - {clausula: "14.1.1", resumo: "Obrigação de aceitar acréscimos ou supressões de até 25% do valor inicial atualizado", impacto_para_a_contratada: "Volume pode cair 25% unilateralmente", origem: "p201"}
+  - {clausula: "15.1", resumo: "Vedada a subcontratação do objeto", impacto_para_a_contratada: "Toda capacidade (inclusive soluções do item 15 e suporte presencial) com recursos próprios", origem: "p201"}
+  - {clausula: "16.10", resumo: "Contratada responde por danos de violação de segurança de dados (art. 46 LGPD)", impacto_para_a_contratada: "Passivo LGPD; custo de controles de segurança", origem: "p202"}
+  - {clausula: "18.4.11 a)", resumo: "Manter documentos e registros por 7 anos após a conclusão (exigência BID); auditorias BIRD/BID", impacto_para_a_contratada: "Custo de guarda e de atendimento a auditorias", origem: "p203; p207"}
+
+formula_mensalidade:
+  descricao: >
+    NÃO CONSTA fórmula explícita de valor mensal nas páginas lidas. O que está escrito:
+    (a) paga-se os preços unitários da proposta (3.1); (b) pagamentos dependem dos quantitativos
+    efetivamente prestados (3.2.1; 9.6; 10.2.7); (c) NF conforme RELATÓRIO MENSAL elaborado pelo
+    Contratado e aprovado pelo Contratante (10.1.19); (d) deduzem-se glosas, notas de débito (9.1),
+    multas (9.3.1) e retenções (9.5). Não está escrito se o valor unitário incide sobre UST da
+    'Qtd. Estimada' ou da 'Qtd. Ajustada pela Complex' (fator 1/2/3), nem como se mede a UST da OS.
+    Leitura literal possível (NÃO confirmada, depende do TR): valor do mês = Σ (UST efetivamente
+    prestadas e aprovadas no relatório mensal × valor unitário do item) − glosas − multas − retenções.
+  origem: "p140 itens 3.1/3.2.1; p143–p144 itens 9.1/9.3.1/9.5/9.6; p191 item 3; p193–p194 item 9; p195 item 10.1.19; p196 item 10.2.7"
+
+conflitos_ou_ambiguidades:
+  - {descricao: "Objeto diferente entre minutas: Anexo I.VI (p138) descreve 'Prestação de Serviços de TIC para suporte, sustentação, desenvolvimento, serviços de TI e governança'; Anexo IX (p190) descreve 'desenvolvimento de software personalizado (CSD), conforme estudos da Gartner... catálogo em UST'. Há duas minutas de contrato (Anexo I.VI e Anexo IX).", paginas: "p138; p190"}
+  - {descricao: "Não está definido se o VALOR TOTAL por item = valor unitário × Qtd. Estimada (130.000) ou × Qtd. Ajustada pela Complex (325.000). Diferença de 2,5× no valor global.", paginas: "p135–p136; p181–p183"}
+  - {descricao: "Item 14 'Gestão de Segurança da Informação' tem descrição de integração (APIs, orquestração, legados, SQL/NoSQL); item 15 'Integração de Sistemas' descreve soluções de software (ITSM, monitoramento, gestão de projetos, plataforma low-code). Descrições aparentam deslocadas; item 15 sugere fornecimento de software/licenças precificado em UST.", paginas: "p136; p182–p183"}
+  - {descricao: "Sobreposição entre item 9 (BI e Ciência de Dados inclui 'IA, algoritmos... redes neurais') e item 10 (Desenvolvimento de IA): risco de enquadramento duplo/divergente.", paginas: "p135–p136; p182"}
+  - {descricao: "Item 2 (2º nível) é 'atendimento presencial', mas cláusula 6.3 diz que os serviços serão prestados na sede da CONTRATADA conforme Anexo VII.", paginas: "p135; p141; p192"}
+  - {descricao: "Subcontratação vedada (15.1), mas a minuta menciona subcontratada/subcontratados (16.15; 17.2.1; 17.2.2).", paginas: "p201; p202; p203"}
+  - {descricao: "Item 9.3 remete ao 'item 12.4.1 das Condições Gerais do Pregão', mas o 12.4.1 citado está na própria minuta (retenção por multa).", paginas: "p143; p193; p199"}
+  - {descricao: "Dotação orçamentária em branco no Anexo I.VI e preenchida no Anexo IX; no Anexo IX 'Programa de Trabalho' repete o texto da Fonte de Recursos (501/101).", paginas: "p142; p192"}
+  - {descricao: "Item 6.2 truncado: 'O serviço terá início em com a assinatura do contrato'.", paginas: "p141; p192"}
+  - {descricao: "Garantia: 11.1 prazo de 30 dias; 11.1.1 para seguro-garantia prazo 'de, no mínimo, 01 (um) mês'. Base 'valor do Contrato' é estimativo e indefinido (R$ XX,XX).", paginas: "p197; p191"}
+  - {descricao: "Rodapé do Anexo IX: 'Minuta Padronizada... sem dedicação exclusiva de mão de obra - sem objeto definido'; ao mesmo tempo 10.1.10 exige alocar recursos quantos forem necessários.", paginas: "p190–p209; p194"}
+  - {descricao: "17.1.2 cita a Lei 12.846/2013 também como 'Lei contra a Lavagem de Dinheiro' (provável erro de referência).", paginas: "p202"}
+  - {descricao: "Proposta remete a 'serviços... constam na última página' (com erro 'posposta'); a planilha de valores do modelo não traz coluna de valor mensal nem forma de medição da UST — remete ao TR.", paginas: "p134; p179"}
+  - {descricao: "Reajuste 'em harmonia com a cláusula de reajuste do Termo de Referência' — data-base e marco inicial (data do orçamento/proposta) não constam nas páginas lidas.", paginas: "p140; p191"}

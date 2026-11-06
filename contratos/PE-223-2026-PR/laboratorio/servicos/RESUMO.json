@@ -1,0 +1,107 @@
+[
+  {
+    "projeto": "SYS-01",
+    "servico": "Suporte técnico de 1º nível",
+    "positivo_http": 201,
+    "negativo_http": 400,
+    "sha256": "b579fe8f6aa320fa"
+  },
+  {
+    "projeto": "SYS-02",
+    "servico": "Suporte técnico de 2º nível",
+    "positivo_http": 201,
+    "negativo_http": 400,
+    "sha256": "0aa69080bb106778"
+  },
+  {
+    "projeto": "SYS-03",
+    "servico": "Suporte técnico de 3º nível",
+    "positivo_http": 201,
+    "negativo_http": 400,
+    "sha256": "605b40e25ed8dfb4"
+  },
+  {
+    "projeto": "SYS-04",
+    "servico": "Sustentação de sistemas",
+    "positivo_http": 201,
+    "negativo_http": 400,
+    "sha256": "0e0e857acfcce35b"
+  },
+  {
+    "projeto": "SYS-05",
+    "servico": "Desenvolvimento de sistemas",
+    "positivo_http": 201,
+    "negativo_http": 400,
+    "sha256": "2ae4a24bffdf1115"
+  },
+  {
+    "projeto": "SYS-06",
+    "servico": "Testes de sistemas",
+    "positivo_http": 201,
+    "negativo_http": 400,
+    "sha256": "9a70f11f19cdfc4c"
+  },
+  {
+    "projeto": "SYS-07",
+    "servico": "Análise de negócios e processos",
+    "positivo_http": 201,
+    "negativo_http": 400,
+    "sha256": "2f9a16d68c8adcac"
+  },
+  {
+    "projeto": "SYS-08",
+    "servico": "Implementação DevOps",
+    "positivo_http": 201,
+    "negativo_http": 400,
+    "sha256": "3d5b2f5c127b6670"
+  },
+  {
+    "projeto": "SYS-09",
+    "servico": "Business Intelligence e Ciência de Dados",
+    "positivo_http": 201,
+    "negativo_http": 400,
+    "sha256": "606bb45192e2e660"
+  },
+  {
+    "projeto": "SYS-10",
+    "servico": "Desenvolvimento de IA",
+    "positivo_http": 201,
+    "negativo_http": 400,
+    "sha256": "d1f81e67407fdcd8"
+  },
+  {
+    "projeto": "SYS-11",
+    "servico": "Gerenciamento de projetos",
+    "positivo_http": 201,
+    "negativo_http": 400,
+    "sha256": "5c8fcb1ebb962356"
+  },
+  {
+    "projeto": "SYS-12",
+    "servico": "Serviços para Jornada do Cidadão",
+    "positivo_http": 201,
+    "negativo_http": 400,
+    "sha256": "f762d5903dc0a00e"
+  },
+  {
+    "projeto": "SYS-13",
+    "servico": "Serviços de Governança de TI",
+    "positivo_http": 201,
+    "negativo_http": 400,
+    "sha256": "0e9fc534dd839379"
+  },
+  {
+    "projeto": "SYS-14",
+    "servico": "Serviços de Gestão de Segurança da Informação",
+    "positivo_http": 201,
+    "negativo_http": 400,
+    "sha256": "058ca51e118b8eb3"
+  },
+  {
+    "projeto": "SYS-15",
+    "servico": "Serviços de Integração de Sistemas",
+    "positivo_http": 201,
+    "negativo_http": 400,
+    "sha256": "a078d5f113d24dbf"
+  }
+]

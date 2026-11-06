@@ -1,0 +1,69 @@
+# Preenchido a partir do edital PE 223/2026 (páginas citadas). Revisão humana pendente.
+id: PE-223-2026-PR
+contratante:
+  orgao: Estado do Paraná — SEAP/DECON/Departamento de Logística (p. 1)
+  esfera: estadual
+  cnpj: ''
+  gestor_contrato: ''
+  fiscal_tecnico: ''
+contrato:
+  numero: a definir (após homologação)
+  processo: Protocolo nº 24.481.744-0
+  edital: Pregão Eletrônico nº 223/2026 (nº interno GMS); nº Compras.gov 36/2026;
+    UASG 928658
+  modalidade_licitacao: Pregão Eletrônico, modo de disputa 'aberto' (lances públicos
+    e sucessivos com prorrogações)
+  regime_juridico: 'Lei Federal nº 14.133/2021, Decreto Estadual nº 10.086/2022 e
+    LC nº 123/2006. Serviço de natureza contínua, modelo de exaustão do saldo contratado,
+    medido em UST. Minuta padronizada PGE/PR para ''prestação de serviços sem dedicação
+    exclusiva de mão de obra''. Recursos com apoio do BIRD (Projeto Paraná Eficiente,
+    componente PforR). Consórcio e subcontratação vedados. Regime de execução (empreitada
+    etc.): não consta.'
+  objeto: Contratação de empresa especializada em serviços de desenvolvimento de software
+    personalizado (Custom Software Development – CSD), conforme estudos da Gartner,
+    abrangendo sustentação, desenvolvimento, manutenção e evolução de sistemas, em
+    modelo de catálogo de serviços estruturado em Unidades de Serviço Técnico (UST).
+    O TR descreve ainda suporte (1º, 2º e 3º níveis), infraestrutura, DevOps, BI/Ciência
+    de Dados, IA, gestão de projetos, jornada do cidadão, governança, segurança da
+    informação e integração (15 itens).
+  vigencia_inicio: ''
+  vigencia_fim: ''
+  prazo_execucao: 12 (doze) meses, prorrogável por interesse das partes com base nos
+    arts. 106 e 107 da Lei 14.133/2021
+  valor_global: não consta nas páginas lidas. O TR 9.1 informa que o valor estimado
+    foi 'detalhado em documento separado e classificado'.
+  aditivos: []
+ordens_servico: []
+medicao:
+  modalidade: UST
+  metodologia: UST base × fator de complexidade 1/2/3 por OS; catálogo detalhado a
+    pactuar (TR 1.3, 1.3.1, 1.3.2, p. 19-22)
+  formula: ''
+  valor_unitario: ''
+  quantidade_contratada: 325.000 UST ajustadas (130.000 base) — referencial, consumo
+    só por OS (p. 136)
+  tabela: TABELA_UST.csv
+  regra_medicao_parcial: consumo sob demanda por OS; sem volume mínimo (p. 59, 156)
+  glosas_e_sla: ''
+criterios_aceite: []
+equipe:
+  profissionais: PROFISSIONAIS.csv
+  exigencias_edital: []
+  preposto: ''
+tecnico:
+  tecnologias_obrigatorias: []
+  tecnologias_vedadas: []
+  repositorio: ''
+  banco_de_dados: ''
+  infraestrutura: ''
+  integracoes: []
+  ambiente_homologacao: ''
+  ambiente_producao: ''
+  requisitos_seguranca: []
+  acessibilidade: ''
+autorizacao_execucao:
+  autorizado: false
+  autorizado_por: ''
+  data: ''
+  documento: fase de licitação — sessão em 11/11/2026 10h (p. 1)
+  pode_publicar_producao: false

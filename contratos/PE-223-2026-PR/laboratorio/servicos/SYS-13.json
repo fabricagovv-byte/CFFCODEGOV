@@ -1,0 +1,46 @@
+{
+  "projeto": "SYS-13",
+  "servico": "Serviços de Governança de TI",
+  "descricao": "Matriz de riscos e controle de prioridade",
+  "executado_em": "2026-11-05T15:03:42+00:00",
+  "positivo": {
+    "http": 201,
+    "entrada": {
+      "risks": [
+        {
+          "name": "Exposição de dados",
+          "impact": 5,
+          "probability": 4
+        }
+      ]
+    },
+    "resposta": {
+      "run_id": 1,
+      "service": "Serviços de Governança de TI",
+      "result": {
+        "risk_register": [
+          {
+            "risk": "Exposição de dados",
+            "impact": 5,
+            "probability": 4,
+            "score": 20,
+            "level": "ALTO"
+          }
+        ],
+        "high_count": 1,
+        "method": "matriz interna 5x5, não padrão formal de auditoria"
+      },
+      "laboratory_only": true
+    }
+  },
+  "negativo": {
+    "http": 400,
+    "entrada": {
+      "invalid": true
+    },
+    "resposta": {
+      "error": "risks: 1 a 100 riscos"
+    }
+  },
+  "historico_registros": 1
+}

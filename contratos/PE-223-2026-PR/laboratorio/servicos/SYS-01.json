@@ -1,0 +1,39 @@
+{
+  "projeto": "SYS-01",
+  "servico": "Suporte técnico de 1º nível",
+  "descricao": "Triagem de chamados, severidade e prazo interno",
+  "executado_em": "2026-11-05T15:03:42+00:00",
+  "positivo": {
+    "http": 201,
+    "entrada": {
+      "title": "Usuário sem acesso",
+      "impact": 3,
+      "urgency": 2
+    },
+    "resposta": {
+      "run_id": 1,
+      "service": "Suporte técnico de 1º nível",
+      "result": {
+        "ticket": "Usuário sem acesso",
+        "priority": "P1",
+        "impact": 3,
+        "urgency": 2,
+        "score": 6,
+        "internal_target_hours": 4,
+        "route": "escalonar",
+        "note": "Meta de laboratório; não representa SLA do edital."
+      },
+      "laboratory_only": true
+    }
+  },
+  "negativo": {
+    "http": 400,
+    "entrada": {
+      "invalid": true
+    },
+    "resposta": {
+      "error": "impact: inteiro entre 1 e 3"
+    }
+  },
+  "historico_registros": 1
+}

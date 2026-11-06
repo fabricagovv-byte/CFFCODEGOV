@@ -1,0 +1,39 @@
+{
+  "projeto": "SYS-02",
+  "servico": "Suporte técnico de 2º nível",
+  "descricao": "Planejamento de visita técnica, janela e atendimento",
+  "executado_em": "2026-11-05T15:03:42+00:00",
+  "positivo": {
+    "http": 201,
+    "entrada": {
+      "requested_at": "2026-11-05T09:00:00",
+      "duration_minutes": 90,
+      "technician": "Técnico laboratório",
+      "location": "Unidade A"
+    },
+    "resposta": {
+      "run_id": 1,
+      "service": "Suporte técnico de 2º nível",
+      "result": {
+        "assigned_to": "Técnico laboratório",
+        "location": "Unidade A",
+        "start": "2026-11-05T09:00:00",
+        "end": "2026-11-05T10:30:00",
+        "duration_minutes": 90,
+        "onsite_required": true,
+        "note": "Agenda simulada; nenhum técnico foi realmente enviado."
+      },
+      "laboratory_only": true
+    }
+  },
+  "negativo": {
+    "http": 400,
+    "entrada": {
+      "invalid": true
+    },
+    "resposta": {
+      "error": "requested_at: texto entre 10 e 40 caracteres"
+    }
+  },
+  "historico_registros": 1
+}

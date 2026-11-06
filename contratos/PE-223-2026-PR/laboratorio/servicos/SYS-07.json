@@ -1,0 +1,41 @@
+{
+  "projeto": "SYS-07",
+  "servico": "Análise de negócios e processos",
+  "descricao": "Validador e gerador BPMN XML para fluxo sequencial",
+  "executado_em": "2026-11-05T15:03:42+00:00",
+  "positivo": {
+    "http": 201,
+    "entrada": {
+      "tasks": [
+        "Solicitar",
+        "Analisar",
+        "Responder"
+      ]
+    },
+    "resposta": {
+      "run_id": 1,
+      "service": "Análise de negócios e processos",
+      "result": {
+        "steps": [
+          "Solicitar",
+          "Analisar",
+          "Responder"
+        ],
+        "flows": 4,
+        "bpmn_xml": "<definitions xmlns=\"http://www.omg.org/spec/BPMN/20100524/MODEL\" id=\"Definitions_1\" targetNamespace=\"https://example.invalid/bpmn/lab\"><process id=\"Process_Lab\" isExecutable=\"false\"><startEvent id=\"Start\" /><task id=\"Task_1\" name=\"Solicitar\" /><task id=\"Task_2\" name=\"Analisar\" /><task id=\"Task_3\" name=\"Responder\" /><endEvent id=\"End\" /><sequenceFlow id=\"Flow_1\" sourceRef=\"Start\" targetRef=\"Task_1\" /><sequenceFlow id=\"Flow_2\" sourceRef=\"Task_1\" targetRef=\"Task_2\" /><sequenceFlow id=\"Flow_3\" sourceRef=\"Task_2\" targetRef=\"Task_3\" /><sequenceFlow id=\"Flow_4\" sourceRef=\"Task_3\" targetRef=\"End\" /></process></definitions>",
+        "note": "BPMN de sequência linear, sem decisões ou raias; edição avançada não implementada."
+      },
+      "laboratory_only": true
+    }
+  },
+  "negativo": {
+    "http": 400,
+    "entrada": {
+      "invalid": true
+    },
+    "resposta": {
+      "error": "tasks: lista de 1 a 30 etapas"
+    }
+  },
+  "historico_registros": 1
+}
