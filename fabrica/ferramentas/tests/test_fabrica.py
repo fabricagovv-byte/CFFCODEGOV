@@ -634,3 +634,34 @@ def test_participacao_word_preenchido_divide_ust_do_modulo(fab, monkeypatch):
     assert "| Ana | Desenvolvedora pleno Java | MOD-001 | 1 | 15 |" in md
     assert "| Beto | Desenvolvedor pleno Java | MOD-001 | 1 | 5 |" in md
     assert "Ana: 20 × 3 ÷ 4 = 15" in md
+
+
+def test_medicao_por_tabela_calcula_valor_pelo_valor_unitario(fab):
+    fab.novo_contrato("C1")
+    _os_minima(fab)
+    ct = fab.CONTRATOS / "C1" / "contrato.yaml"
+    dados = yaml.safe_load(ct.read_text())
+    dados["medicao"]["valor_unitario"] = "30.00"
+    ct.write_text(yaml.safe_dump(dados, allow_unicode=True))
+    fab.preparar_evidencias("C1", "OS1")
+    m = fab.medir("C1", "OS1")["itens"][0]
+    assert m["valor_previsto"] == 90.0  # 3 UST × R$ 30,00
+    assert m["tecnico"] == "REPROVADO"
+
+
+def test_relatorio_tecnico_ignora_exemplo_comentado_e_modulo_executado_sem_ust(fab):
+    c = fab.RAIZ / "contratos/C3"
+    for sub in ("os", "medicoes"):
+        (c / sub).mkdir(parents=True)
+    (c / "contrato.yaml").write_text(yaml.safe_dump({"contrato": {"numero": "C3"}, "medicao": {"modalidade": "UST", "quantidade_contratada": "100 UST"}}))
+    (c / "os/OS-1.yaml").write_text(yaml.safe_dump({"os": "OS-1", "modulos": [
+        {"id": "MOD-001", "nome": "Sessão", "item_tabela": "IT1"}, {"id": "MOD-002", "nome": "Correções", "item_tabela": "IT0"}]}))
+    (c / "medicoes/OS-1.json").write_text(json.dumps({"medido_em": "2026-11-06T10:00:00-03:00", "itens": [
+        {"modulo": "MOD-001", "item": "IT1", "previsto": 10, "comprovado": 10, "aceito": 0, "tecnico": "APROVADO", "valor_previsto": 300.0},
+        {"modulo": "MOD-002", "item": "IT0", "previsto": 0, "comprovado": 0, "aceito": 0, "tecnico": "APROVADO"}]}))
+    (c / "PLANEJAMENTO.csv").write_text("projeto,modulo,nome,area,servico,quantidade,inicio,fim,responsavel,prioridade,observacao\n"
+                                        "#SGD,MOD-101,Exemplo do modelo,BACKEND,SRV-CRUD-M,1,2026-11-03,2026-11-05,P01,ALTA,\n")
+    md = fab.relatorio_tecnico("C3", "2026-11-06").read_text()
+    assert "MOD-101" not in md
+    assert "| MOD-002 | Correções |" not in md  # executado (auditoria aprovada), só não gera UST
+    assert "R$ 300,00" in md

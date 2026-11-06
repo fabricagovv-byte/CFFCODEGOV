@@ -810,6 +810,7 @@ def medir(cid: str, osid: str) -> dict:
     o = carregar_os(cid, osid)
     tab = tabela_ust(cid)
     aud = {m["modulo"]: m for m in auditar(cid, osid)["modulos"]}
+    vu = numero(((ler_yaml(dir_contrato(cid) / "contrato.yaml") or {}).get("medicao") or {}).get("valor_unitario"))
     itens = []
     for m in o["modulos"]:
         calc = None
@@ -843,9 +844,14 @@ def medir(cid: str, osid: str) -> dict:
                       "previsto": prev, "comprovado": comprovado, "aceito": aceito,
                       "evidencias": rel(dir_mod(cid, osid, m["id"])), "memoria": memoria,
                       "horas": calc["horas"] if calc else None, "horas_por_perfil": calc["horas_por_perfil"] if calc else {},
-                      "valor_previsto": calc["valor"] if calc else None,
+                      "valor_previsto": calc["valor"] if calc else (round(prev * float(vu), 2) if vu is not None else None),
+                      "tecnico": a["tecnico"],
                       "responsavel": frontmatter(dir_mod(cid, osid, m["id"]) / "RESPONSAVEIS.md").get("responsavel_tecnico", "")})
     tot = {k: round(sum(i[k] for i in itens), 2) for k in ("previsto", "comprovado", "aceito")}
+    if vu is not None and not any(i["horas"] is not None for i in itens):
+        tot["valor_unitario"] = float(vu)
+        tot["valor_comprovado"] = round(tot["comprovado"] * float(vu), 2)
+        tot["valor_aceito"] = round(tot["aceito"] * float(vu), 2)
     if any(i["horas"] is not None for i in itens):
         tot["horas"] = round(sum(i["horas"] or 0 for i in itens), 2)
         tot["valor_previsto"] = round(sum(i["valor_previsto"] or 0 for i in itens), 2)
@@ -864,6 +870,10 @@ def medir(cid: str, osid: str) -> dict:
     for i in itens:
         linhas.append(f"| {i['modulo']} {i['nome']} | {i['item']} | {i['unidade']} | {i['previsto']:g} | {i['comprovado']:g} | {i['aceito']:g} | {i['responsavel'] or '—'} |")
     linhas.append(f"| **Total** | | | **{tot['previsto']:g}** | **{tot['comprovado']:g}** | **{tot['aceito']:g}** | |")
+    if "valor_comprovado" in tot:
+        linhas += ["", f"Valor pelo valor unitário do contrato ({brl(tot['valor_unitario'])} por UST): "
+                       f"comprovado {brl(tot['valor_comprovado'])} · aceito {brl(tot['valor_aceito'])}. "
+                       "Valor só é devido depois do aceite do contratante."]
     if tot.get("horas_por_perfil"):
         _, perfis_, _ = catalogo(cid)
         linhas += ["", "## Horas por perfil (catálogo do contrato)", "", "| Perfil | Horas | Valor/hora | Valor previsto |", "|---|---|---|---|"]
@@ -3336,6 +3346,7 @@ def relatorio_tecnico(cid: str, ref: str | None = None, sem_divisao: bool = Fals
                 "item": it.get("item") or m.get("item_tabela") or ", ".join(s.get("codigo", "") for s in m.get("servicos") or []),
                 "descricao_item": it.get("descricao_item", ""), "previsto": float(it.get("previsto") or 0),
                 "comprovado": float(it.get("comprovado") or 0), "aceito": float(it.get("aceito") or 0),
+                "tecnico": it.get("tecnico", ""),
                 "horas": it.get("horas"), "memoria": it.get("memoria", ""), "responsavel": it.get("responsavel") or "sem registro",
                 "valor": float(it.get("valor_previsto") or 0), "horas_por_perfil": it.get("horas_por_perfil") or {},
                 "medido_em": med.get("medido_em", ""), "medido": bool(it),
@@ -3350,30 +3361,30 @@ def relatorio_tecnico(cid: str, ref: str | None = None, sem_divisao: bool = Fals
     de_hoje = [m for m in modulos if m["medido"] and m["medido_em"][:10] == ref]
 
     # planejamento (datas e UST de cada módulo) -> a fazer e meta diária
-    feitos = {m["id"] for m in modulos if m["comprovado"] > 0}
+    # executado = auditoria técnica aprovada (pode valer 0 UST, ex.: correção sem item no catálogo)
+    feitos = {m["id"] for m in modulos if m["comprovado"] > 0 or m["tecnico"] == "APROVADO"}
     medidos = {m["id"]: m for m in modulos}
     plano_linhas, a_fazer = [], []
     plan = cdir / "PLANEJAMENTO.csv"
-    if plan.exists():
-        with open(plan, encoding="utf-8") as f:
-            for r in csv.DictReader(f):
-                if not r.get("modulo"):
-                    continue
-                est = None
-                if r["modulo"] in medidos and medidos[r["modulo"]]["previsto"]:
-                    est = medidos[r["modulo"]]["previsto"]
-                else:
-                    try:
-                        est = calcular_servicos(cid, [{"codigo": r.get("servico", ""), "quantidade": float(r.get("quantidade") or 1)}]).get("quantidade")
-                    except Exception:  # catálogo sem o item ou sem fórmula: fica sem estimativa
-                        est = None
-                lin = {"id": r["modulo"], "nome": r.get("nome", ""), "item": r.get("servico", ""), "ust": est,
-                       "inicio": r.get("inicio", ""), "prazo": r.get("fim", ""), "responsavel": r.get("responsavel") or "a definir"}
-                plano_linhas.append(lin)
-                if r["modulo"] not in feitos:
-                    a_fazer.append(lin)
+    if plan.exists():  # ler_tabela ignora as linhas de exemplo comentadas com "#"
+        for r in ler_tabela(plan):
+            if not r.get("modulo"):
+                continue
+            est = None
+            if r["modulo"] in medidos and medidos[r["modulo"]]["previsto"]:
+                est = medidos[r["modulo"]]["previsto"]
+            else:
+                try:
+                    est = calcular_servicos(cid, [{"codigo": r.get("servico", ""), "quantidade": float(r.get("quantidade") or 1)}]).get("quantidade")
+                except Exception:  # catálogo sem o item ou sem fórmula: fica sem estimativa
+                    est = None
+            lin = {"id": r["modulo"], "nome": r.get("nome", ""), "item": r.get("servico", ""), "ust": est,
+                   "inicio": r.get("inicio", ""), "prazo": r.get("fim", ""), "responsavel": r.get("responsavel") or "a definir"}
+            plano_linhas.append(lin)
+            if r["modulo"] not in feitos:
+                a_fazer.append(lin)
     for m in modulos:
-        if m["comprovado"] == 0 and m["id"] not in {x["id"] for x in a_fazer}:
+        if m["id"] not in feitos and m["id"] not in {x["id"] for x in a_fazer}:
             a_fazer.append({"id": m["id"], "nome": m["nome"], "item": m["item"], "ust": m["previsto"] or None,
                             "inicio": "", "prazo": "", "responsavel": m["responsavel"]})
     ust_a_fazer = sum(x["ust"] or 0 for x in a_fazer)
