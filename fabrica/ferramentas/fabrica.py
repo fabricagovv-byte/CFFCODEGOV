@@ -3337,6 +3337,7 @@ def relatorio_tecnico(cid: str, ref: str | None = None) -> Path:
                 "descricao_item": it.get("descricao_item", ""), "previsto": float(it.get("previsto") or 0),
                 "comprovado": float(it.get("comprovado") or 0), "aceito": float(it.get("aceito") or 0),
                 "horas": it.get("horas"), "memoria": it.get("memoria", ""), "responsavel": it.get("responsavel") or "sem registro",
+                "valor": float(it.get("valor_previsto") or 0), "horas_por_perfil": it.get("horas_por_perfil") or {},
                 "medido_em": med.get("medido_em", ""), "medido": bool(it),
                 "testes": (testes.get("resumo") or {}), "situacao_testes": testes.get("situacao") or "sem registro",
                 "testado_em": testes.get("executado_em", ""), "camadas": por_camada, "detalhes": _detalhes_modulo(arqs),
@@ -3348,61 +3349,119 @@ def relatorio_tecnico(cid: str, ref: str | None = None) -> Path:
     do_mes = [m for m in modulos if m["medido"] and mes_ini <= m["medido_em"][:10] <= ref]
     de_hoje = [m for m in modulos if m["medido"] and m["medido_em"][:10] == ref]
 
-    # a fazer: planejamento sem medição comprovada + módulos de OS ainda não comprovados
+    # planejamento (datas e UST de cada módulo) -> a fazer e meta diária
     feitos = {m["id"] for m in modulos if m["comprovado"] > 0}
-    a_fazer = []
+    medidos = {m["id"]: m for m in modulos}
+    plano_linhas, a_fazer = [], []
     plan = cdir / "PLANEJAMENTO.csv"
     if plan.exists():
         with open(plan, encoding="utf-8") as f:
             for r in csv.DictReader(f):
-                if r.get("modulo") and r["modulo"] not in feitos:
-                    est = None
+                if not r.get("modulo"):
+                    continue
+                est = None
+                if r["modulo"] in medidos and medidos[r["modulo"]]["previsto"]:
+                    est = medidos[r["modulo"]]["previsto"]
+                else:
                     try:
                         est = calcular_servicos(cid, [{"codigo": r.get("servico", ""), "quantidade": float(r.get("quantidade") or 1)}]).get("quantidade")
                     except Exception:  # catálogo sem o item ou sem fórmula: fica sem estimativa
                         est = None
-                    a_fazer.append({"id": r["modulo"], "nome": r.get("nome", ""), "item": r.get("servico", ""),
-                                    "ust": est, "prazo": r.get("fim", ""), "responsavel": r.get("responsavel") or "a definir"})
+                lin = {"id": r["modulo"], "nome": r.get("nome", ""), "item": r.get("servico", ""), "ust": est,
+                       "inicio": r.get("inicio", ""), "prazo": r.get("fim", ""), "responsavel": r.get("responsavel") or "a definir"}
+                plano_linhas.append(lin)
+                if r["modulo"] not in feitos:
+                    a_fazer.append(lin)
     for m in modulos:
         if m["comprovado"] == 0 and m["id"] not in {x["id"] for x in a_fazer}:
             a_fazer.append({"id": m["id"], "nome": m["nome"], "item": m["item"], "ust": m["previsto"] or None,
-                            "prazo": "", "responsavel": m["responsavel"]})
+                            "inicio": "", "prazo": "", "responsavel": m["responsavel"]})
     ust_a_fazer = sum(x["ust"] or 0 for x in a_fazer)
+
+    # pagamentos registrados pela empresa (PAGAMENTOS.csv: data, competencia, ust, valor, documento)
+    pagos = []
+    if (cdir / "PAGAMENTOS.csv").exists():
+        pagos = [r for r in ler_tabela(cdir / "PAGAMENTOS.csv") if r.get("documento")]
+    ust_pago = sum(float(numero(r.get("ust")) or 0) for r in pagos)
+    valor_pago = sum(float(numero(r.get("valor")) or 0) for r in pagos)
+    valor_exec = sum(m["valor"] for m in modulos if m["comprovado"] > 0)
+    valor_aceito = sum(m["valor"] * (m["aceito"] / m["previsto"]) for m in modulos if m["previsto"])
+
+    # meta diária: UST de cada módulo planejado dividida pelos dias úteis entre início e fim
+    def meta_do_dia(d: date) -> tuple[float, list[str]]:
+        total, quais = 0.0, []
+        for x in plano_linhas:
+            try:
+                ini_, fim_ = date.fromisoformat(x["inicio"]), date.fromisoformat(x["prazo"])
+            except ValueError:
+                continue
+            if x["ust"] and ini_ <= d <= fim_ and d.weekday() < 5 and dias_uteis(d, d):
+                total += x["ust"] / max(1, dias_uteis(ini_, fim_))
+                quais.append(x["id"])
+        return total, quais
+    executado_no_dia = lambda d: sum(m["comprovado"] for m in modulos if m["medido"] and m["medido_em"][:10] == d.isoformat())
+    vig_fim = None
+    try:
+        vig_fim = date.fromisoformat(str(ct.get("vigencia_fim") or ""))
+    except ValueError:
+        vig_fim = None
 
     projetos = list(dict.fromkeys(m["projeto"] for m in modulos if m["projeto"]))
     numero_doc = f"RT-{cid}-{d0.strftime('%Y%m%d')}"
     L = [f"# Relatório Técnico de Execução e Medição — {mes_nome}", ""]
 
-    # 1. resumo simples
+    # 1. situação do contrato: executa -> órgão aceita -> paga
     pct = (lambda v: f"{_n(100 * v / contratado)}%") if contratado else (lambda v: "—")
-    L += ["## 1. Resumo", ""]
-    L.append(f"- **Contratado:** {_n(contratado) + ' ' + unidade if contratado else 'sem registro no contrato.yaml'}.")
-    L.append(f"- **Feito e comprovado (acumulado):** {_n(comprovado)} {unidade} em {len(feitos)} módulo(s) — {pct(comprovado)} do contratado.")
-    L.append(f"- **Feito em {mes_nome}:** {_n(tot('comprovado', do_mes))} {unidade} em {len(do_mes)} módulo(s).")
-    L.append(f"- **Feito hoje ({d0.strftime('%d/%m/%Y')}):** {_n(tot('comprovado', de_hoje))} {unidade}.")
-    L.append(f"- **Aceito pelo órgão:** {_n(aceito)} {unidade}" + (" — aguardando documento de aceite do fiscal/gestor." if aceito < comprovado else "."))
+    falta_plan = max(0.0, (contratado or 0) - comprovado - ust_a_fazer) if contratado else None
+    rs = lambda v: brl(v) if v else "—"
+    L += ["## 1. Situação do contrato", "",
+          "O ciclo é: **a empresa executa → o órgão confere e aceita → o órgão paga**. Cada etapa só avança quando a anterior tem registro.", "",
+          f"| Etapa | {unidade} | Valor | Situação |", "|---|---|---|---|",
+          f"| Contratado | {_n(contratado) if contratado else 'sem registro'} | — | total do contrato |",
+          f"| Executado | {_n(comprovado)} | {rs(valor_exec)} | entregue, testado e auditado; vai para o aceite do órgão |",
+          f"| Aceito pelo órgão | {_n(aceito)} | {rs(valor_aceito)} | {'aceite registrado' if aceito else 'próxima etapa: o órgão confere o executado e emite o termo de aceite'} |",
+          f"| Pago | {_n(ust_pago)} | {rs(valor_pago)} | {'pagamento registrado' if pagos else 'depois do aceite (registre em PAGAMENTOS.csv)'} |"]
     if contratado:
-        L.append(f"- **Saldo do contrato:** {_n(contratado - comprovado)} {unidade} (contratado − comprovado); "
-                 f"{_n(contratado - aceito)} {unidade} considerando só o aceito.")
-    L.append(f"- **A fazer (planejado):** {len(a_fazer)} módulo(s), cerca de {_n(ust_a_fazer)} {unidade} (estimativa pelo catálogo).")
-    L += ["", f"| Indicador | {unidade} | % do contratado |", "|---|---|---|",
-          f"| Contratado | {_n(contratado)} | 100% |" if contratado else f"| Contratado | sem registro | — |",
-          f"| Previsto nas OS | {_n(previsto)} | {pct(previsto)} |",
-          f"| Comprovado (feito, testado e auditado) | {_n(comprovado)} | {pct(comprovado)} |",
-          f"| Aceito pelo órgão | {_n(aceito)} | {pct(aceito)} |",
-          f"| A fazer (estimativa) | {_n(ust_a_fazer)} | {pct(ust_a_fazer)} |"]
-    if contratado:
-        L.append(f"| Saldo (contratado − comprovado) | {_n(contratado - comprovado)} | {pct(contratado - comprovado)} |")
-    L += ["", f"> Comprovado = entregue com código no repositório, testes executados e evidências auditadas, medido pelo catálogo do contrato. "
-          f"Só passa a **aceito** com documento do órgão (termo, ofício ou e-mail do fiscal)."]
+        L += [f"| **Saldo para executar** | **{_n(contratado - comprovado)}** | | contratado − executado |",
+              f"| ↳ já planejado | {_n(ust_a_fazer)} | | {len(a_fazer)} módulo(s) com data (seção 9) |",
+              f"| ↳ ainda sem planejamento | {_n(falta_plan)} | | precisa de novas demandas/OS do órgão |"]
+    L += ["", f"Em uma frase: de {_n(contratado)} {unidade} contratadas, {_n(comprovado)} já foram executadas "
+          f"({pct(comprovado)}); {_n(ust_a_fazer)} estão planejadas e {_n(falta_plan)} ainda não têm demanda." if contratado else
+          f"Executado até agora: {_n(comprovado)} {unidade}."]
     for o in oss:
         if o["aviso"]:
             L.append(f"> {o['os']}: {o['aviso']}")
     L.append("")
 
+    # 2. meta diária
+    mh, quais = meta_do_dia(d0)
+    L += ["## 2. Meta diária", "",
+          f"- **Meta de hoje ({d0.strftime('%d/%m/%Y')}):** {_n(mh)} {unidade}" + (f" — módulos previstos para hoje: {', '.join(quais)}." if quais else " — nenhum módulo planejado para hoje."),
+          f"- **Executado hoje:** {_n(executado_no_dia(d0))} {unidade}."]
+    if contratado and vig_fim and vig_fim >= d0:
+        du = dias_uteis(d0, vig_fim)
+        L.append(f"- **Ritmo para executar todo o saldo até o fim da vigência ({vig_fim.strftime('%d/%m/%Y')}):** "
+                 f"{_n((contratado - comprovado) / max(1, du))} {unidade} por dia útil ({du} dias úteis).")
+    L += ["", "Como a meta é calculada: a UST de cada módulo do planejamento é dividida igualmente pelos dias úteis entre a data de início "
+          "e a de fim; a meta do dia é a soma dos módulos em andamento naquele dia. O executado entra no dia em que o módulo foi medido.", ""]
+    fim_mes = (d0.replace(day=28) + timedelta(days=4)).replace(day=1) - timedelta(days=1)
+    dias_mes = [d0.replace(day=1) + timedelta(days=i) for i in range((fim_mes - d0.replace(day=1)).days + 1)]
+    dias_mes = [d for d in dias_mes if dias_uteis(d, d)]
+    if plano_linhas or do_mes:
+        L += [f"| Dia | Meta ({unidade}) | Executado ({unidade}) | Meta acumulada | Executado acumulado |", "|---|---|---|---|---|"]
+        am = ae = 0.0
+        for d in dias_mes:
+            mt, _ = meta_do_dia(d)
+            ex = executado_no_dia(d) if d <= d0 else None
+            am += mt
+            ae += ex or 0
+            if mt or ex:
+                L.append(f"| {d.strftime('%d/%m')}{' (hoje)' if d == d0 else ''} | {_n(mt)} | {_n(ex) if ex is not None else 'a executar'} | {_n(am)} | {_n(ae) if d <= d0 else '—'} |")
+        L.append("")
+
     # 2. identificação
     emp = configuracao().get("empresa") or {}
-    L += ["## 2. Identificação", "", "| Campo | Informação |", "|---|---|",
+    L += ["## 3. Identificação", "", "| Campo | Informação |", "|---|---|",
           f"| Órgão | {_cel((contrato.get('contratante') or {}).get('orgao') or 'sem registro')} |",
           f"| Contrato | {_cel(ct.get('numero') or cid)} |",
           f"| Objeto | {_cel(ct.get('objeto') or 'sem registro')} |",
@@ -3413,8 +3472,8 @@ def relatorio_tecnico(cid: str, ref: str | None = None) -> Path:
           f"| Responsável técnico | {_cel(emp.get('responsavel_tecnico') or 'sem registro')} |", ""]
 
     # 3. o que foi feito
-    L += ["## 3. O que foi feito e quanto foi medido", "",
-          f"| Módulo | O que foi entregue | Item do contrato | {unidade} comprovada | Testes |", "|---|---|---|---|---|"]
+    L += ["## 4. O que foi feito e quanto foi medido", "",
+          f"| Módulo | O que foi entregue | Item do contrato | {unidade} executada | Testes |", "|---|---|---|---|---|"]
     for m in modulos:
         ent = ", ".join(k.split(" (")[0] for k in m["camadas"] if k not in ("Outros", "Especificação", "Documentação")) or "sem registro"
         t = m["testes"]
@@ -3445,7 +3504,7 @@ def relatorio_tecnico(cid: str, ref: str | None = None) -> Path:
                  f"{m['situacao_testes']}{' em ' + m['testado_em'][:10] if m['testado_em'] else ''}"
                  f"{f' ({tst[0]} arquivo(s) de teste, {tst[1]} linhas)' if tst else ''}." if t else "- **Testes:** sem registro.")
         L.append(f"- **Medição:** item {m['item']}{' — ' + m['descricao_item'] if m['descricao_item'] else ''}: "
-                 f"previsto {_n(m['previsto'])}, comprovado **{_n(m['comprovado'])}**, aceito {_n(m['aceito'])} {unidade}"
+                 f"previsto {_n(m['previsto'])}, executado **{_n(m['comprovado'])}**, aceito {_n(m['aceito'])} {unidade}"
                  f"{'; ' + _n(m['horas']) + ' h pelo catálogo' if m['horas'] else ''}.")
         if m["commits"]:
             L.append("- **Commits:** " + "; ".join(f"`{c['sha']}` {c['data']} {_cel(c['mensagem'])}" for c in m["commits"][:4])
@@ -3455,14 +3514,40 @@ def relatorio_tecnico(cid: str, ref: str | None = None) -> Path:
             L += ["", f"![{m['id']} — {img.stem.split('-', 1)[-1].replace('-', ' ')} (preview)]({os.path.relpath(img, cdir / 'relatorios')})"]
         L.append("")
 
+    # 5. de onde vêm os números
+    _, perfis_c, med_cfg = catalogo(cid)
+    formula = str(med_cfg.get("formula") or "").upper()
+    nome_perfil = lambda k: re.sub(r"\s*\(.*\)$", "", (perfis_c.get(k) or {}).get("descricao") or k.replace("_", " ").capitalize())
+    L += ["## 5. De onde vêm os números (memória de cálculo)", "",
+          "1. **O contrato define o catálogo de serviços** (`CATALOGO_SERVICOS.csv`): para cada serviço, quantas horas de cada perfil ele consome.",
+          "2. **Cada perfil tem um fator de UST por hora e um valor por hora** (`PERFIS.csv`)." if formula == "HORAS_X_FATOR" else
+          "2. **Cada serviço do catálogo tem uma quantidade fixa de UST** (`CATALOGO_SERVICOS.csv`)." if formula == "UST_POR_SERVICO" else
+          "2. **A quantidade de cada módulo está definida na OS / tabela do contrato** (`TABELA_UST.csv`).",
+          f"3. **A fórmula do contrato é `{formula or 'definida na OS'}`**" + (": UST do serviço = soma de (horas do perfil × fator do perfil)." if formula == "HORAS_X_FATOR" else "."),
+          "4. **A OS diz quais serviços cada módulo usa.**",
+          "5. **O módulo só conta como executado** quando o código está no git, os testes passaram e a auditoria das evidências aprovou. "
+          "Linhas de código não entram na conta.", "",
+          f"| Módulo | Serviço | Conta | {unidade} | Valor |", "|---|---|---|---|---|"]
+    for m in modulos:
+        hp = m["horas_por_perfil"]
+        if formula == "HORAS_X_FATOR" and hp:
+            conta = " + ".join(f"{_n(h)} h {nome_perfil(k)} × {_n(numero((perfis_c.get(k) or {}).get('fator_ust_por_hora')), 2).rstrip('0').rstrip(',')}"
+                               for k, h in hp.items())
+        elif m["memoria"]:
+            conta = m["memoria"].split(";")[0]
+        else:
+            conta = "sem registro de medição"
+        L.append(f"| {m['id']} | {_cel(m['item'])} | {_cel(conta)} | {_n(m['previsto'])} | {rs(m['valor'])} |")
+    L += ["", "Exemplo de leitura: \"4 h Analista × 1,2\" significa 4 horas do perfil Analista, que valem 1,2 UST por hora = 4,8 UST.", ""]
+
     # 4. tecnologias
-    L += ["## 4. Tecnologias utilizadas", "", "| Camada | Tecnologias | Fonte |", "|---|---|---|"]
+    L += ["## 6. Tecnologias utilizadas", "", "| Camada | Tecnologias | Fonte |", "|---|---|---|"]
     for camada, nomes, fonte in _tecnologias(cdir, contrato, projetos) or [("—", "sem registro", "—")]:
         L.append(f"| {camada} | {_cel(nomes)} | `{fonte}` |")
     L.append("")
 
     # 5. código do mês e de hoje / 6. código total
-    for titulo, ini in ((f"## 5. Código de {mes_nome}", mes_ini), (f"### Código de hoje ({d0.strftime('%d/%m/%Y')})", ref)):
+    for titulo, ini in ((f"## 7. Código de {mes_nome}", mes_ini), (f"### Código de hoje ({d0.strftime('%d/%m/%Y')})", ref)):
         L += [titulo, ""]
         for pj in projetos:
             cs = _commits([pj], ini, ref)
@@ -3479,7 +3564,7 @@ def relatorio_tecnico(cid: str, ref: str | None = None) -> Path:
                 if len(cs) > 40:
                     L.append(f"| … | | mais {len(cs) - 40} commit(s) no git |")
             L.append("")
-    L += ["## 6. Código total do sistema", ""]
+    L += ["## 8. Código total do sistema", ""]
     for pj in projetos:
         arqs = _arquivos_projeto(pj)
         por_c: dict[str, list[int]] = {}
@@ -3498,23 +3583,22 @@ def relatorio_tecnico(cid: str, ref: str | None = None) -> Path:
         L.append("")
     L += ["> Linhas de código e commits mostram o tamanho do trabalho; a quantidade medida vem do catálogo do contrato, não das linhas.", ""]
 
-    # 7. a fazer e saldo
-    L += ["## 7. A fazer e saldo", ""]
+    # 9. a fazer (planejado)
+    L += ["## 9. A fazer (planejado)", ""]
     if a_fazer:
-        L += [f"| Módulo | O que fazer | Item do contrato | {unidade} (estimativa) | Prazo | Responsável |", "|---|---|---|---|---|---|"]
-        L += [f"| {x['id']} | {_cel(x['nome'])} | {_cel(x['item'])} | {_n(x['ust'])} | {_cel(x['prazo']) or '—'} | {_cel(x['responsavel'])} |" for x in a_fazer]
+        L += [f"| Módulo | O que fazer | Item do contrato | {unidade} (estimativa) | Início | Fim | Responsável |", "|---|---|---|---|---|---|---|"]
+        L += [f"| {x['id']} | {_cel(x['nome'])} | {_cel(x['item'])} | {_n(x['ust'])} | {_cel(x['inicio']) or '—'} | {_cel(x['prazo']) or '—'} | {_cel(x['responsavel'])} |" for x in a_fazer]
+        L += ["", f"Total planejado: {_n(ust_a_fazer)} {unidade} (estimativa pelo catálogo; vira executado quando entregue e medido)."]
     else:
-        L.append("Nada planejado em PLANEJAMENTO.csv além do que já foi comprovado.")
-    if contratado:
-        L += ["", f"| Saldo | {unidade} |", "|---|---|", f"| Contratado | {_n(contratado)} |", f"| (−) Comprovado | {_n(comprovado)} |",
-              f"| (=) Saldo atual | {_n(contratado - comprovado)} |", f"| (−) A fazer (estimativa) | {_n(ust_a_fazer)} |",
-              f"| (=) Saldo depois do planejado | {_n(contratado - comprovado - ust_a_fazer)} |"]
+        L.append("Nenhum módulo planejado além do que já foi executado.")
     L.append("")
 
     # 8. pendências
     pend = []
     if aceito < comprovado:
-        pend.append(f"Aceite do órgão para {_n(comprovado - aceito)} {unidade} comprovadas (termo, ofício ou e-mail do fiscal).")
+        pend.append(f"Próxima etapa normal: enviar ao órgão os {_n(comprovado - aceito)} {unidade} executados para conferência e termo de aceite.")
+    if aceito > ust_pago:
+        pend.append(f"Faturar e acompanhar o pagamento de {_n(aceito - ust_pago)} {unidade} aceitos.")
     sem_resp = [m["id"] for m in modulos if m["responsavel"] in ("A CADASTRAR", "sem registro")]
     if sem_resp:
         pend.append(f"Responsável humano não registrado em: {', '.join(sem_resp)}.")
@@ -3524,13 +3608,14 @@ def relatorio_tecnico(cid: str, ref: str | None = None) -> Path:
     for o in oss:
         if not (o["autorizacao"] or {}).get("autorizado"):
             pend.append(f"{o['os']} sem autorização registrada.")
-    L += ["## 8. Pendências", ""] + [f"- {p}" for p in pend or ["Nenhuma pendência registrada."]] + [""]
-    L += ["## 9. Fonte dos números", "",
+    L += ["## 10. Próximas etapas e pendências", ""] + [f"- {p}" for p in pend or ["Nenhuma pendência registrada."]] + [""]
+    L += ["## 11. Arquivos de origem", "",
           "- UST: `medicoes/<OS>.json` (medição pelo catálogo do contrato) e `contrato.yaml`.",
           "- O que foi feito, código e commits: repositório git (`git log`, `git ls-files`).",
           "- Testes: `evidencias/<OS>/<MÓDULO>/TESTES.json` (execuções reais com JUnit).",
           "- Telas: capturas reais em `evidencias/<OS>/<MÓDULO>/SCREENSHOTS/`.",
-          "- A fazer: `PLANEJAMENTO.csv` (estimativa pelo catálogo).", ""]
+          "- A fazer e meta diária: `PLANEJAMENTO.csv` (estimativa pelo catálogo, datas de início e fim).",
+          "- Pagamentos: `PAGAMENTOS.csv` (data, competência, UST, valor e documento do pagamento).", ""]
 
     out = cdir / "relatorios" / f"RELATORIO_TECNICO_{ref}.md"
     out.parent.mkdir(parents=True, exist_ok=True)
@@ -3538,7 +3623,8 @@ def relatorio_tecnico(cid: str, ref: str | None = None) -> Path:
     gravar_json(out.with_suffix(".json"), {
         "contrato": cid, "data": ref, "numero": numero_doc, "unidade": unidade, "contratado": contratado, "previsto": previsto,
         "comprovado": comprovado, "aceito": aceito, "mes": tot("comprovado", do_mes), "hoje": tot("comprovado", de_hoje),
-        "a_fazer": ust_a_fazer, "saldo": (contratado - comprovado) if contratado else None,
+        "a_fazer": ust_a_fazer, "saldo": (contratado - comprovado) if contratado else None, "pago": ust_pago,
+        "meta_hoje": round(meta_do_dia(d0)[0], 2), "executado_hoje": executado_no_dia(d0),
         "modulos": [{k: m[k] for k in ("os", "id", "nome", "item", "previsto", "comprovado", "aceito")} for m in modulos]})
     exportar_word(out, cid, periodo=mes_nome, classificacao="Documento para o órgão", subtitulo="Tecnologias, UST, código e telas",
                   numero_doc=numero_doc, data_doc=ref, assinar=True)

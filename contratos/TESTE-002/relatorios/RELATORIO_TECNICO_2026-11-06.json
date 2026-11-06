@@ -11,6 +11,9 @@
   "hoje": 0,
   "a_fazer": 29.4,
   "saldo": 219.60000000000002,
+  "pago": 0,
+  "meta_hoje": 10.95,
+  "executado_hoje": 0,
   "modulos": [
     {
       "os": "OS-TESTE-002",

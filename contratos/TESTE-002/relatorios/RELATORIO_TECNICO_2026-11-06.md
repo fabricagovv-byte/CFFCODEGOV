@@ -1,28 +1,42 @@
 # Relatório Técnico de Execução e Medição — novembro de 2026
 
-## 1. Resumo
+## 1. Situação do contrato
 
-- **Contratado:** 300 UST.
-- **Feito e comprovado (acumulado):** 80,4 UST em 3 módulo(s) — 26,8% do contratado.
-- **Feito em novembro de 2026:** 80,4 UST em 3 módulo(s).
-- **Feito hoje (06/11/2026):** 0 UST.
-- **Aceito pelo órgão:** 0 UST — aguardando documento de aceite do fiscal/gestor.
-- **Saldo do contrato:** 219,6 UST (contratado − comprovado); 300 UST considerando só o aceito.
-- **A fazer (planejado):** 2 módulo(s), cerca de 29,4 UST (estimativa pelo catálogo).
+O ciclo é: **a empresa executa → o órgão confere e aceita → o órgão paga**. Cada etapa só avança quando a anterior tem registro.
 
-| Indicador | UST | % do contratado |
-|---|---|---|
-| Contratado | 300 | 100% |
-| Previsto nas OS | 80,4 | 26,8% |
-| Comprovado (feito, testado e auditado) | 80,4 | 26,8% |
-| Aceito pelo órgão | 0 | 0% |
-| A fazer (estimativa) | 29,4 | 9,8% |
-| Saldo (contratado − comprovado) | 219,6 | 73,2% |
+| Etapa | UST | Valor | Situação |
+|---|---|---|---|
+| Contratado | 300 | — | total do contrato |
+| Executado | 80,4 | R$ 7.800,00 | entregue, testado e auditado; vai para o aceite do órgão |
+| Aceito pelo órgão | 0 | — | próxima etapa: o órgão confere o executado e emite o termo de aceite |
+| Pago | 0 | — | depois do aceite (registre em PAGAMENTOS.csv) |
+| **Saldo para executar** | **219,6** | | contratado − executado |
+| ↳ já planejado | 29,4 | | 2 módulo(s) com data (seção 9) |
+| ↳ ainda sem planejamento | 190,2 | | precisa de novas demandas/OS do órgão |
 
-> Comprovado = entregue com código no repositório, testes executados e evidências auditadas, medido pelo catálogo do contrato. Só passa a **aceito** com documento do órgão (termo, ofício ou e-mail do fiscal).
+Em uma frase: de 300 UST contratadas, 80,4 já foram executadas (26,8%); 29,4 estão planejadas e 190,2 ainda não têm demanda.
 > OS-TESTE-002: UST FICTÍCIAS — catálogo, perfis e valores de demonstração; sem valor para faturamento.
 
-## 2. Identificação
+## 2. Meta diária
+
+- **Meta de hoje (06/11/2026):** 10,9 UST — módulos previstos para hoje: MOD-102.
+- **Executado hoje:** 0 UST.
+- **Ritmo para executar todo o saldo até o fim da vigência (31/03/2027):** 2,1 UST por dia útil (104 dias úteis).
+
+Como a meta é calculada: a UST de cada módulo do planejamento é dividida igualmente pelos dias úteis entre a data de início e a de fim; a meta do dia é a soma dos módulos em andamento naquele dia. O executado entra no dia em que o módulo foi medido.
+
+| Dia | Meta (UST) | Executado (UST) | Meta acumulada | Executado acumulado |
+|---|---|---|---|---|
+| 03/11 | 35,3 | 80,4 | 35,3 | 80,4 |
+| 04/11 | 23,1 | 0 | 58,5 | 80,4 |
+| 05/11 | 10,9 | 0 | 69,4 | 80,4 |
+| 06/11 (hoje) | 10,9 | 0 | 80,4 | 80,4 |
+| 09/11 | 4,9 | a executar | 85,3 | — |
+| 10/11 | 9,8 | a executar | 95,1 | — |
+| 11/11 | 9,8 | a executar | 104,9 | — |
+| 12/11 | 4,9 | a executar | 109,8 | — |
+
+## 3. Identificação
 
 | Campo | Informação |
 |---|---|
@@ -35,9 +49,9 @@
 | Contratada | V4 Tecnologia Brasil · DigitalGov — CNPJ 24.361.188/0001-61 |
 | Responsável técnico | Warley Luciano Costa Gomes |
 
-## 3. O que foi feito e quanto foi medido
+## 4. O que foi feito e quanto foi medido
 
-| Módulo | O que foi entregue | Item do contrato | UST comprovada | Testes |
+| Módulo | O que foi entregue | Item do contrato | UST executada | Testes |
 |---|---|---|---|---|
 | MOD-100 — Base modular para cadastros | API e regras de negócio, Banco de dados, Testes automatizados, Telas | SRV-BASE | 12,2 | 105 ok, 0 falha(s) |
 | MOD-101 — Cadastro de interessados | API e regras de negócio, Banco de dados, Testes automatizados, Telas | SRV-CRUD-M | 24,4 | 17 ok, 0 falha(s) |
@@ -50,7 +64,7 @@
 - **API (backend):** 2 rota(s): `GET /api/health`, `GET /api/health/db` — 4 arquivo(s), 190 linhas.
 - **Telas (frontend):** App — 1 arquivo(s), 62 linhas.
 - **Testes:** 105 executado(s), 0 falha(s) — APROVADO em 2026-11-03 (2 arquivo(s) de teste, 134 linhas).
-- **Medição:** item SRV-BASE — SRV-BASE × 1 (Estrutura base de módulos (FICTÍCIO); Catálogo fictício item 1): previsto 12,2, comprovado **12,2**, aceito 0 UST; 10 h pelo catálogo.
+- **Medição:** item SRV-BASE — SRV-BASE × 1 (Estrutura base de módulos (FICTÍCIO); Catálogo fictício item 1): previsto 12,2, executado **12,2**, aceito 0 UST; 10 h pelo catálogo.
 - **Commits:** `ea7f8f4` 2026-11-03 MOD-100: base modular — descoberta automática de módulos, validadores CPF/CNPJ e permissão por perfil; `e4e16a3` 2026-11-03 MOD-007: infraestrutura (Docker Compose, Nginx/TLS, backup/restauração), base da API, migrações e documentação.
 - **Responsável:** A CADASTRAR.
 
@@ -60,7 +74,7 @@
 - **API (backend):** 5 rota(s): `GET /api/interessados`, `GET /api/interessados/{rid}`, `POST /api/interessados`, `PATCH /api/interessados/{rid}`, `DELETE /api/interessados/{rid}` — 3 arquivo(s), 198 linhas.
 - **Telas (frontend):** InteressadoPagina — 2 arquivo(s), 124 linhas.
 - **Testes:** 17 executado(s), 0 falha(s) — APROVADO em 2026-11-03 (2 arquivo(s) de teste, 149 linhas).
-- **Medição:** item SRV-CRUD-M — SRV-CRUD-M × 1 (Cadastro completo média complexidade (FICTÍCIO); Catálogo fictício item 2): previsto 24,4, comprovado **24,4**, aceito 0 UST; 24 h pelo catálogo.
+- **Medição:** item SRV-CRUD-M — SRV-CRUD-M × 1 (Cadastro completo média complexidade (FICTÍCIO); Catálogo fictício item 2): previsto 24,4, executado **24,4**, aceito 0 UST; 24 h pelo catálogo.
 - **Commits:** `83e7978` 2026-11-03 MOD-101: cadastro de interessados (gerado da especificação: modelo, migração, API, auditoria, tela e testes).
 - **Responsável:** A CADASTRAR.
 
@@ -74,7 +88,7 @@
 - **API (backend):** 5 rota(s): `GET /api/protocolos`, `GET /api/protocolos/{rid}`, `POST /api/protocolos`, `PATCH /api/protocolos/{rid}`, `DELETE /api/protocolos/{rid}` — 3 arquivo(s), 197 linhas.
 - **Telas (frontend):** ProtocoloPagina — 2 arquivo(s), 131 linhas.
 - **Testes:** 18 executado(s), 0 falha(s) — APROVADO em 2026-11-03 (2 arquivo(s) de teste, 161 linhas).
-- **Medição:** item SRV-CRUD-A — SRV-CRUD-A × 1 (Cadastro completo alta complexidade com relacionamentos (FICTÍCIO); Catálogo fictício item 3): previsto 43,8, comprovado **43,8**, aceito 0 UST; 36 h pelo catálogo.
+- **Medição:** item SRV-CRUD-A — SRV-CRUD-A × 1 (Cadastro completo alta complexidade com relacionamentos (FICTÍCIO); Catálogo fictício item 3): previsto 43,8, executado **43,8**, aceito 0 UST; 36 h pelo catálogo.
 - **Commits:** `6e7928a` 2026-11-03 MOD-102: lista mostra o nome do interessado; mensagens de validação sem prefixo técnico (gerador corrigido); `7313248` 2026-11-03 MOD-102: cadastro de protocolos com relacionamento a interessados (gerado da especificação).
 - **Responsável:** A CADASTRAR.
 
@@ -82,7 +96,23 @@
 
 ![MOD-102 — protocolos busca (preview)](../evidencias/OS-TESTE-002/MOD-102/SCREENSHOTS/02-protocolos-busca.png)
 
-## 4. Tecnologias utilizadas
+## 5. De onde vêm os números (memória de cálculo)
+
+1. **O contrato define o catálogo de serviços** (`CATALOGO_SERVICOS.csv`): para cada serviço, quantas horas de cada perfil ele consome.
+2. **Cada perfil tem um fator de UST por hora e um valor por hora** (`PERFIS.csv`).
+3. **A fórmula do contrato é `HORAS_X_FATOR`**: UST do serviço = soma de (horas do perfil × fator do perfil).
+4. **A OS diz quais serviços cada módulo usa.**
+5. **O módulo só conta como executado** quando o código está no git, os testes passaram e a auditoria das evidências aprovou. Linhas de código não entram na conta.
+
+| Módulo | Serviço | Conta | UST | Valor |
+|---|---|---|---|---|
+| MOD-100 | SRV-BASE | 8 h Desenvolvedor sênior × 1,3 + 2 h Analista de testes × 0,9 | 12,2 | R$ 1.210,00 |
+| MOD-101 | SRV-CRUD-M | 4 h Analista de requisitos × 1,2 + 16 h Desenvolvedor pleno × 1 + 4 h Analista de testes × 0,9 | 24,4 | R$ 2.300,00 |
+| MOD-102 | SRV-CRUD-A | 6 h Analista de requisitos × 1,2 + 24 h Desenvolvedor sênior × 1,3 + 6 h Analista de testes × 0,9 | 43,8 | R$ 4.290,00 |
+
+Exemplo de leitura: "4 h Analista × 1,2" significa 4 horas do perfil Analista, que valem 1,2 UST por hora = 4,8 UST.
+
+## 6. Tecnologias utilizadas
 
 | Camada | Tecnologias | Fonte |
 |---|---|---|
@@ -94,7 +124,7 @@
 | Infraestrutura (contêineres) | nginx:1.27-alpine | `projetos/gestao-documental/docker-compose.prod.yml` |
 | Infraestrutura (contêineres) | postgres:16-alpine | `projetos/gestao-documental/docker-compose.yml` |
 
-## 5. Código de novembro de 2026
+## 7. Código de novembro de 2026
 
 **projetos/gestao-documental:** 11 commit(s), +4832 / −3 linhas.
 
@@ -127,7 +157,7 @@
 
 **projetos/gestao-documental:** 0 commit(s), +0 / −0 linhas.
 
-## 6. Código total do sistema
+## 8. Código total do sistema
 
 **projetos/gestao-documental:** 110 arquivo(s), 4829 linhas, 11 commit(s) desde o início.
 
@@ -160,31 +190,26 @@
 
 > Linhas de código e commits mostram o tamanho do trabalho; a quantidade medida vem do catálogo do contrato, não das linhas.
 
-## 7. A fazer e saldo
+## 9. A fazer (planejado)
 
-| Módulo | O que fazer | Item do contrato | UST (estimativa) | Prazo | Responsável |
-|---|---|---|---|---|---|
-| MOD-201 | Relatório de protocolos por período | SRV-REL | 14,7 | 2026-11-11 | a definir |
-| MOD-202 | Relatório de atendimento por canal | SRV-REL | 14,7 | 2026-11-12 | a definir |
+| Módulo | O que fazer | Item do contrato | UST (estimativa) | Início | Fim | Responsável |
+|---|---|---|---|---|---|---|
+| MOD-201 | Relatório de protocolos por período | SRV-REL | 14,7 | 2026-11-09 | 2026-11-11 | a definir |
+| MOD-202 | Relatório de atendimento por canal | SRV-REL | 14,7 | 2026-11-10 | 2026-11-12 | a definir |
 
-| Saldo | UST |
-|---|---|
-| Contratado | 300 |
-| (−) Comprovado | 80,4 |
-| (=) Saldo atual | 219,6 |
-| (−) A fazer (estimativa) | 29,4 |
-| (=) Saldo depois do planejado | 190,2 |
+Total planejado: 29,4 UST (estimativa pelo catálogo; vira executado quando entregue e medido).
 
-## 8. Pendências
+## 10. Próximas etapas e pendências
 
-- Aceite do órgão para 80,4 UST comprovadas (termo, ofício ou e-mail do fiscal).
+- Próxima etapa normal: enviar ao órgão os 80,4 UST executados para conferência e termo de aceite.
 - Responsável humano não registrado em: MOD-100, MOD-101, MOD-102.
 
-## 9. Fonte dos números
+## 11. Arquivos de origem
 
 - UST: `medicoes/<OS>.json` (medição pelo catálogo do contrato) e `contrato.yaml`.
 - O que foi feito, código e commits: repositório git (`git log`, `git ls-files`).
 - Testes: `evidencias/<OS>/<MÓDULO>/TESTES.json` (execuções reais com JUnit).
 - Telas: capturas reais em `evidencias/<OS>/<MÓDULO>/SCREENSHOTS/`.
-- A fazer: `PLANEJAMENTO.csv` (estimativa pelo catálogo).
+- A fazer e meta diária: `PLANEJAMENTO.csv` (estimativa pelo catálogo, datas de início e fim).
+- Pagamentos: `PAGAMENTOS.csv` (data, competência, UST, valor e documento do pagamento).
 

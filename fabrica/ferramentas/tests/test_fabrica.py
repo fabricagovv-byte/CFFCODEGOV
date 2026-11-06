@@ -567,12 +567,14 @@ def test_relatorio_tecnico_mostra_ust_feito_saldo_e_a_fazer(fab):
     (c / "PLANEJAMENTO.csv").write_text("projeto,modulo,nome,area,servico,quantidade,inicio,fim,responsavel,prioridade,observacao\n"
                                         "P,MOD-002,Relatório,BACKEND,SRV-9,1,2026-11-10,2026-11-12,,ALTA,\n")
     md = fab.relatorio_tecnico("C1", "2026-11-06").read_text()
-    assert "**Contratado:** 100 UST" in md
-    assert "**Feito e comprovado (acumulado):** 10 UST" in md
-    assert "**Saldo do contrato:** 90 UST" in md
+    assert "| Contratado | 100 |" in md
+    assert "| Executado | 10 |" in md
+    assert "| **Saldo para executar** | **90** |" in md
+    assert "## 2. Meta diária" in md and "**Meta de hoje (06/11/2026):** 0 UST" in md
+    assert "## 5. De onde vêm os números" in md
     assert "`pedidos`" in md and "`GET /api/pedidos`" in md
     assert "| MOD-002 | Relatório |" in md
-    assert "Aceite do órgão para 10 UST" in md
+    assert "termo de aceite" in md
     dados = json.loads((c / "relatorios/RELATORIO_TECNICO_2026-11-06.json").read_text())
     assert dados["saldo"] == 90 and dados["aceito"] == 0
 
