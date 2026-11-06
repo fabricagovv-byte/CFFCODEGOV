@@ -3295,7 +3295,7 @@ def _tecnologias(cdir: Path, contrato: dict, projetos: list[str]) -> list[tuple[
     return linhas
 
 
-def relatorio_tecnico(cid: str, ref: str | None = None) -> Path:
+def relatorio_tecnico(cid: str, ref: str | None = None, sem_divisao: bool = False) -> Path:
     """Relatório técnico único para o órgão: UST (contratado, feito, aceito, saldo, a fazer), o que foi feito por módulo
     e em qual item do contrato, tecnologias, código do dia/mês/total, testes, telas e pendências."""
     cdir = dir_contrato(cid)
@@ -3423,7 +3423,7 @@ def relatorio_tecnico(cid: str, ref: str | None = None) -> Path:
           f"| Pago | {_n(ust_pago)} | {rs(valor_pago)} | {'pagamento registrado' if pagos else 'depois do aceite (registre em PAGAMENTOS.csv)'} |"]
     if contratado:
         L += [f"| **Saldo para executar** | **{_n(contratado - comprovado)}** | | contratado − executado |",
-              f"| ↳ já planejado | {_n(ust_a_fazer)} | | {len(a_fazer)} módulo(s) com data (seção 10) |",
+              f"| ↳ já planejado | {_n(ust_a_fazer)} | | {len(a_fazer)} módulo(s) com data (seção 11) |",
               f"| ↳ ainda sem planejamento | {_n(falta_plan)} | | precisa de novas demandas/OS do órgão |"]
     L += ["", f"Em uma frase: de {_n(contratado)} {unidade} contratadas, {_n(comprovado)} já foram executadas "
           f"({pct(comprovado)}); {_n(ust_a_fazer)} estão planejadas e {_n(falta_plan)} ainda não têm demanda." if contratado else
@@ -3471,6 +3471,7 @@ def relatorio_tecnico(cid: str, ref: str | None = None) -> Path:
           f"| Contratada | {_cel(emp.get('razao_social') or 'sem registro')}{' — CNPJ ' + _cel(emp['cnpj']) if emp.get('cnpj') else ''} |",
           f"| Responsável técnico | {_cel(emp.get('responsavel_tecnico') or 'sem registro')} |", ""]
 
+    divisao = divisao_ust_modulos(cid, modulos)
     # 4. equipe técnica (pessoas) e agentes de IA
     equipe = carregar_profissionais(cid) if (cdir / "PROFISSIONAIS.csv").exists() else []
     partic = []
@@ -3551,6 +3552,10 @@ def relatorio_tecnico(cid: str, ref: str | None = None) -> Path:
             resp = (f"equipe técnica ({', '.join(pe['nome'] for pe in equipe)}); revisão individual deste módulo: sem registro"
                     if equipe else "sem registro")
         L.append(f"- **Responsável:** {resp}.")
+        dm = next((x for x in divisao["por_modulo"] if x["id"] == m["id"]), None)
+        if dm and dm["partes"] and not sem_divisao:
+            L.append("- **Divisão das UST deste módulo:** " + "; ".join(
+                f"{pt['nome']} {_n(pt['ust'])} ({pt['conta']})" for pt in dm["partes"]) + ".")
         for img in m["telas"]:
             L += ["", f"![{m['id']} — {img.stem.split('-', 1)[-1].replace('-', ' ')} (preview)]({os.path.relpath(img, cdir / 'relatorios')})"]
         L.append("")
@@ -3581,14 +3586,34 @@ def relatorio_tecnico(cid: str, ref: str | None = None) -> Path:
         L.append(f"| {m['id']} | {_cel(m['item'])} | {_cel(conta)} | {_n(m['previsto'])} | {rs(m['valor'])} |")
     L += ["", "Exemplo de leitura: \"4 h Analista × 1,2\" significa 4 horas do perfil Analista, que valem 1,2 UST por hora = 4,8 UST.", ""]
 
+    # 7. divisão das UST pela equipe
+    if not sem_divisao:
+        cfg_r = divisao["cfg"]
+        L += ["## 7. Divisão das UST executadas pela equipe", "",
+              "Regra: em cada módulo, as UST executadas são divididas entre as pessoas que participaram dele, na proporção do peso. "
+              "Peso = tipo de participação × senioridade. Tipos: " + ", ".join(f"{ROTULO_TIPO[t].split(' (')[0].lower()} {v}" for t, v in cfg_r["pesos_tipo"].items())
+              + "; senioridade: " + ", ".join(f"{k.lower()} ×{v}" for k, v in cfg_r["multiplicador_senioridade"].items()) + ". "
+              "Fonte: `PARTICIPACOES.csv` (preenchido pelo documento de participação). É divisão interna da empresa: não muda a medição nem o aceite.", ""]
+        if divisao["por_pessoa"]:
+            L += [f"| Pessoa | Função | Módulos | Participações | {unidade} atribuídas |", "|---|---|---|---|---|"]
+            for pid, pp in sorted(divisao["por_pessoa"].items(), key=lambda kv: -kv[1]["ust"]):
+                L.append(f"| {_cel(pp['nome'])} | {_cel(pp['funcao'])} | {', '.join(pp['modulos'])} | {pp['participacoes']} | {_n(pp['ust'])} |")
+            ex = next((x for x in divisao["por_modulo"] if len(x["partes"]) > 1), next((x for x in divisao["por_modulo"] if x["partes"]), None))
+            if ex:
+                n2 = lambda v: _n(v, 2).rstrip("0").rstrip(",")
+                L += ["", f"Exemplo ({ex['id']}, {_n(ex['ust'])} {unidade}): soma dos pesos = {n2(ex['soma'])}; " + "; ".join(
+                    f"{pt['nome']}: {_n(ex['ust'])} × {n2(pt['peso'])} ÷ {n2(ex['soma'])} = {_n(pt['ust'])}" for pt in ex["partes"]) + "."]
+        L += ["", f"Não atribuído (módulos sem participação registrada): {_n(divisao['nao_atribuido'])} {unidade}"
+              + (f" — {', '.join(x['id'] for x in divisao['por_modulo'] if not x['partes'] and x['ust'])}." if divisao["nao_atribuido"] else "."), ""]
+
     # 4. tecnologias
-    L += ["## 7. Tecnologias utilizadas", "", "| Camada | Tecnologias | Fonte |", "|---|---|---|"]
+    L += ["## 8. Tecnologias utilizadas", "", "| Camada | Tecnologias | Fonte |", "|---|---|---|"]
     for camada, nomes, fonte in _tecnologias(cdir, contrato, projetos) or [("—", "sem registro", "—")]:
         L.append(f"| {camada} | {_cel(nomes)} | `{fonte}` |")
     L.append("")
 
     # 5. código do mês e de hoje / 6. código total
-    for titulo, ini in ((f"## 8. Código de {mes_nome}", mes_ini), (f"### Código de hoje ({d0.strftime('%d/%m/%Y')})", ref)):
+    for titulo, ini in ((f"## 9. Código de {mes_nome}", mes_ini), (f"### Código de hoje ({d0.strftime('%d/%m/%Y')})", ref)):
         L += [titulo, ""]
         for pj in projetos:
             cs = _commits([pj], ini, ref)
@@ -3605,7 +3630,7 @@ def relatorio_tecnico(cid: str, ref: str | None = None) -> Path:
                 if len(cs) > 40:
                     L.append(f"| … | | mais {len(cs) - 40} commit(s) no git |")
             L.append("")
-    L += ["## 9. Código total do sistema", ""]
+    L += ["## 10. Código total do sistema", ""]
     for pj in projetos:
         arqs = _arquivos_projeto(pj)
         por_c: dict[str, list[int]] = {}
@@ -3625,7 +3650,7 @@ def relatorio_tecnico(cid: str, ref: str | None = None) -> Path:
     L += ["> Linhas de código e commits mostram o tamanho do trabalho; a quantidade medida vem do catálogo do contrato, não das linhas.", ""]
 
     # 9. a fazer (planejado)
-    L += ["## 10. A fazer (planejado)", ""]
+    L += ["## 11. A fazer (planejado)", ""]
     if a_fazer:
         L += [f"| Módulo | O que fazer | Item do contrato | {unidade} (estimativa) | Início | Fim | Responsável |", "|---|---|---|---|---|---|---|"]
         L += [f"| {x['id']} | {_cel(x['nome'])} | {_cel(x['item'])} | {_n(x['ust'])} | {_cel(x['inicio']) or '—'} | {_cel(x['prazo']) or '—'} | {_cel(x['responsavel'])} |" for x in a_fazer]
@@ -3653,8 +3678,8 @@ def relatorio_tecnico(cid: str, ref: str | None = None) -> Path:
     for o in oss:
         if not (o["autorizacao"] or {}).get("autorizado"):
             pend.append(f"{o['os']} sem autorização registrada.")
-    L += ["## 11. Próximas etapas e pendências", ""] + [f"- {p}" for p in pend or ["Nenhuma pendência registrada."]] + [""]
-    L += ["## 12. Arquivos de origem", "",
+    L += ["## 12. Próximas etapas e pendências", ""] + [f"- {p}" for p in pend or ["Nenhuma pendência registrada."]] + [""]
+    L += ["## 13. Arquivos de origem", "",
           "- UST: `medicoes/<OS>.json` (medição pelo catálogo do contrato) e `contrato.yaml`.",
           "- O que foi feito, código e commits: repositório git (`git log`, `git ls-files`).",
           "- Testes: `evidencias/<OS>/<MÓDULO>/TESTES.json` (execuções reais com JUnit).",
@@ -3874,6 +3899,162 @@ def sistema_preview(arquivo: Path, porta_api: int = 8100, porta_web: int = 5180)
     return {"telas": telas, "log": out.strip().splitlines()[-5:]}
 
 
+
+# ------------------------------------------------------- participação da equipe (documento para preencher)
+
+ROTULO_TIPO = {"CONDUCAO": "Condução (fez o trabalho)", "CORRECAO": "Correção", "REVISAO": "Revisão",
+               "ORIENTACAO": "Orientação", "APROVACAO": "Aprovação"}
+
+
+def _tipo_participacao(texto: str) -> str | None:
+    t = unicodedata.normalize("NFKD", str(texto or "")).encode("ascii", "ignore").decode().upper().strip()
+    for pref, tipo in (("COND", "CONDUCAO"), ("FEZ", "CONDUCAO"), ("CORR", "CORRECAO"), ("REV", "REVISAO"),
+                       ("ORI", "ORIENTACAO"), ("APR", "APROVACAO")):
+        if t.startswith(pref):
+            return tipo
+    return None
+
+
+def _modulos_contrato(cid: str) -> list[dict]:
+    """Módulos das OS (com data de medição) e do planejamento, para listar no documento de participação."""
+    d = dir_contrato(cid)
+    mods: dict[str, dict] = {}
+    for po in sorted((d / "os").glob("*.yaml")):
+        o = ler_yaml(po) or {}
+        oid = o.get("os") or po.stem
+        med = ler_json(d / "medicoes" / f"{oid}.json", {}) or {}
+        for m in o.get("modulos") or []:
+            mods[m["id"]] = {"os": oid, "id": m["id"], "nome": m.get("nome", ""), "data": str(med.get("medido_em") or "")[:10]}
+    if (d / "PLANEJAMENTO.csv").exists():
+        for r in ler_tabela(d / "PLANEJAMENTO.csv"):
+            if r.get("modulo") and r["modulo"] not in mods:
+                mods[r["modulo"]] = {"os": "", "id": r["modulo"], "nome": r.get("nome", ""), "data": r.get("inicio", "")}
+    return list(mods.values())
+
+
+def participacao_modelo(cid: str) -> Path:
+    """Documento (Word) para o gestor preencher quem fez o quê em cada módulo do contrato."""
+    d = dir_contrato(cid)
+    equipe = carregar_profissionais(cid) if (d / "PROFISSIONAIS.csv").exists() else []
+    if not equipe:
+        raise ErroFabrica(f"{cid}: cadastre a equipe antes (fabrica.py profissionais adicionar {cid} --nome ... --funcao ...)")
+    cfg = {**RATEIO_PADRAO, **((ler_yaml(d / "RATEIO.yaml") or {}) if (d / "RATEIO.yaml").exists() else {})}
+    mods = _modulos_contrato(cid)
+    L = [f"# Participação da equipe — {cid}", "",
+         "Preencha a coluna **O que fez** só nas linhas em que a pessoa participou (deixe em branco as outras). "
+         "Use: Condução, Correção, Revisão, Orientação ou Aprovação. Se precisar, corrija a data, escreva uma descrição "
+         "curta e a prova (commit, PR, ata, e-mail). Linhas em branco são ignoradas. Pode acrescentar linhas.", "",
+         "Depois de preencher, envie o arquivo e diga: **IMPORTAR PARTICIPAÇÃO " + cid + "**.", "",
+         "| O que fez | Peso na divisão das UST |", "|---|---|"]
+    L += [f"| {ROTULO_TIPO[t]} | {cfg['pesos_tipo'].get(t, 1)} |" for t in ("CONDUCAO", "CORRECAO", "REVISAO", "ORIENTACAO", "APROVACAO")]
+    L += ["", "Senioridade multiplica o peso: " + ", ".join(f"{k.capitalize()} × {v}" for k, v in cfg["multiplicador_senioridade"].items()) + ".",
+          "As UST executadas de cada módulo são divididas entre quem participou dele, na proporção do peso. "
+          "É divisão interna: não muda a medição nem o aceite do órgão.", ""]
+    for pe in equipe:
+        L += [f"## {pe['id']} · {pe['nome']} — {pe.get('funcao', '')}", "",
+              "| Pessoa | Data | Módulo | O que fez (condução, correção, revisão, orientação ou aprovação) | Descrição curta do que fez | Prova (commit, PR, ata, e-mail) | Horas |",
+              "|---|---|---|---|---|---|---|"]
+        for m in mods or [{"os": "", "id": "", "nome": "", "data": ""}]:
+            L.append(f"| {pe['id']} | {m['data']} | {m['id']} {('— ' + _cel(m['nome'])) if m['nome'] else ''} |  |  |  |  |")
+        L += [f"| {pe['id']} |  |  |  |  |  |  |", ""]
+    out = d / f"PARTICIPACAO_EQUIPE_{cid}.md"
+    out.write_text("\n".join(L) + "\n", encoding="utf-8")
+    exportar_word(out, cid, subtitulo="Quem fez o quê em cada módulo — para preencher", classificacao="Uso interno")
+    return out
+
+
+def participacao_importar(cid: str, arquivo: Path) -> dict:
+    """Lê o documento preenchido (Word ou CSV) e acrescenta as participações em PARTICIPACOES.csv."""
+    d = dir_contrato(cid)
+    linhas: list[dict] = []
+    if arquivo.suffix.lower() == ".docx":
+        ns = {"w": "http://schemas.openxmlformats.org/wordprocessingml/2006/main"}
+        with zipfile.ZipFile(arquivo) as z:
+            raiz = ET.fromstring(z.read("word/document.xml"))
+        for tbl in raiz.iter(f"{{{ns['w']}}}tbl"):
+            rows = [["".join(t.text or "" for t in tc.iter(f"{{{ns['w']}}}t")).strip() for tc in tr.findall("w:tc", ns)]
+                    for tr in tbl.findall("w:tr", ns)]
+            if rows and rows[0] and rows[0][0].lower() == "pessoa":
+                cab = []
+                for c in rows[0]:
+                    c = c.lower()
+                    cab.append(next((k for k in ("o que fez", "descrição", "prova", "módulo", "data", "pessoa", "horas", "os") if c.startswith(k)), c))
+                linhas += [dict(zip(cab, r)) for r in rows[1:]]
+    else:
+        linhas = [{k.lower(): v for k, v in r.items()} for r in ler_tabela(arquivo)]
+    profs = {p["id"]: p for p in carregar_profissionais(cid)}
+    arq = d / "PARTICIPACOES.csv"
+    campos = ["data", "profissional_id", "os", "modulo", "tipo", "descricao", "evidencia", "horas_declaradas"]
+    existentes = ler_tabela(arq) if arq.exists() else []
+    chaves = {(r.get("data"), r.get("profissional_id"), r.get("modulo"), r.get("tipo")) for r in existentes}
+    novos, erros = [], []
+    for n, r in enumerate(linhas, start=2):
+        tipo = _tipo_participacao(r.get("o que fez", ""))
+        if not str(r.get("o que fez", "")).strip():
+            continue
+        pid = (re.match(r"\s*(P\d+)", r.get("pessoa", "")) or [None, None])[1]
+        if not tipo:
+            erros.append(f"linha {n}: 'O que fez' = {r.get('o que fez')!r} não reconhecido"); continue
+        if pid not in profs:
+            erros.append(f"linha {n}: pessoa {r.get('pessoa')!r} não cadastrada"); continue
+        data = str(r.get("data", "")).strip()
+        m = re.fullmatch(r"(\d{2})/(\d{2})/(\d{4})", data)
+        data = f"{m[3]}-{m[2]}-{m[1]}" if m else data
+        try:
+            date.fromisoformat(data)
+        except ValueError:
+            erros.append(f"linha {n}: data inválida {r.get('data')!r}"); continue
+        modulo = (re.match(r"\s*(MOD-\d+)", r.get("módulo", r.get("modulo", ""))) or [None, ""])[1]
+        os_mod = r.get("os", "").strip() or next((x["os"] for x in _modulos_contrato(cid) if x["id"] == modulo), "")
+        reg = {"data": data, "profissional_id": pid, "os": os_mod, "modulo": modulo, "tipo": tipo,
+               "descricao": r.get("descrição", r.get("descricao", "")).strip() or ROTULO_TIPO[tipo],
+               "evidencia": r.get("prova", r.get("evidencia", "")).strip() or f"registro do gestor em {hoje()} ({arquivo.name})",
+               "horas_declaradas": str(numero(r.get("horas")) or "") if r.get("horas") else ""}
+        if (reg["data"], pid, modulo, tipo) in chaves:
+            continue
+        chaves.add((reg["data"], pid, modulo, tipo))
+        novos.append(reg)
+    if novos:
+        novo_arq = not arq.exists()
+        with open(arq, "a", encoding="utf-8", newline="") as f:
+            w = csv.DictWriter(f, fieldnames=campos)
+            if novo_arq:
+                w.writeheader()
+            w.writerows(novos)
+    return {"importadas": len(novos), "erros": erros, "arquivo": rel(arq)}
+
+
+def divisao_ust_modulos(cid: str, modulos: list[dict]) -> dict:
+    """Divide as UST executadas de cada módulo entre quem participou dele (peso do tipo × senioridade)."""
+    d = dir_contrato(cid)
+    cfg = {**RATEIO_PADRAO, **((ler_yaml(d / "RATEIO.yaml") or {}) if (d / "RATEIO.yaml").exists() else {})}
+    profs = {p["id"]: p for p in carregar_profissionais(cid)} if (d / "PROFISSIONAIS.csv").exists() else {}
+    partic = carregar_participacoes(cid)[0] if (d / "PARTICIPACOES.csv").exists() and profs else []
+    por_pessoa: dict[str, dict] = {}
+    por_modulo = []
+    for m in modulos:
+        regs = [p for p in partic if p.get("modulo") == m["id"]]
+        pesos: dict[str, float] = {}
+        contas: dict[str, list[str]] = {}
+        for p in regs:
+            pr = profs[p["profissional_id"]]
+            fs = float(cfg["multiplicador_senioridade"].get((pr.get("senioridade") or "").upper(), 1))
+            ft = float(cfg["pesos_tipo"].get(p["tipo"], 1))
+            pesos[pr["id"]] = pesos.get(pr["id"], 0) + ft * fs
+            contas.setdefault(pr["id"], []).append(f"{ROTULO_TIPO[p['tipo']].split(' (')[0].lower()} {ft:g}×{fs:g}")
+        soma = sum(pesos.values())
+        partes = []
+        for pid, w in sorted(pesos.items(), key=lambda kv: -kv[1]):
+            ust = m["comprovado"] * w / soma if soma else 0
+            partes.append({"id": pid, "nome": profs[pid]["nome"], "peso": w, "conta": " + ".join(contas[pid]), "ust": ust})
+            pp = por_pessoa.setdefault(pid, {"nome": profs[pid]["nome"], "funcao": profs[pid].get("funcao", ""),
+                                             "modulos": [], "participacoes": 0, "ust": 0.0})
+            pp["modulos"].append(m["id"]); pp["participacoes"] += len(contas[pid]); pp["ust"] += ust
+        por_modulo.append({"id": m["id"], "ust": m["comprovado"], "soma": soma, "partes": partes})
+    return {"por_modulo": por_modulo, "por_pessoa": por_pessoa,
+            "nao_atribuido": sum(x["ust"] for x in por_modulo if not x["partes"]), "cfg": cfg}
+
+
 def main(argv: list[str] | None = None) -> int:
     ap = argparse.ArgumentParser(prog="fabrica", description="Fábrica de Software Governamental — CLI")
     sp = ap.add_subparsers(dest="cmd", required=True)
@@ -3922,11 +4103,15 @@ def main(argv: list[str] | None = None) -> int:
     x = sp.add_parser("relatorio", help="RELATÓRIO DIÁRIO/SEMANAL/MENSAL/PROFISSIONAL")
     x.add_argument("tipo", choices=["diario", "semanal", "mensal", "profissional", "tecnico"]); x.add_argument("contrato")
     x.add_argument("--data"); x.add_argument("--profissional"); x.add_argument("--total-ust", type=float)
+    x.add_argument("--sem-divisao", action="store_true", help="relatório técnico sem a divisão interna das UST por pessoa")
 
     pf = sp.add_parser("profissionais", help="Equipe real (nome, função, CPF protegido)").add_subparsers(dest="sub", required=True)
     x = pf.add_parser("importar", help="Importa CSV/XLSX (aba PROFISSIONAIS)"); x.add_argument("contrato"); x.add_argument("arquivo")
     x = pf.add_parser("oficial", help="Documento simples Nome/CPF/Cargo em Word (pasta privada)"); x.add_argument("contrato")
     x = pf.add_parser("modelo", help="Modelo Word para preencher Nome/CPF/Cargo"); x.add_argument("destino")
+    pa = sp.add_parser("participacao", help="Documento de participação da equipe (preencher e importar)").add_subparsers(dest="sub", required=True)
+    x = pa.add_parser("modelo"); x.add_argument("contrato")
+    x = pa.add_parser("importar"); x.add_argument("contrato"); x.add_argument("arquivo")
     x = sp.add_parser("rateio", help="Divide o total de UST do período entre a equipe que trabalhou")
     x.add_argument("tipo", choices=["diario", "semanal", "mensal"]); x.add_argument("contrato")
     x.add_argument("--data"); x.add_argument("--total", type=float)
@@ -4047,7 +4232,7 @@ def main(argv: list[str] | None = None) -> int:
             if a.tipo == "profissional" and not a.profissional:
                 raise ErroFabrica("relatório por profissional exige --profissional")
             if a.tipo == "tecnico":
-                print(rel(relatorio_tecnico(a.contrato, a.data)))
+                print(rel(relatorio_tecnico(a.contrato, a.data, a.sem_divisao)))
             else:
                 print(rel(relatorio(a.contrato, a.tipo, a.data, a.profissional, a.total_ust)))
         elif a.cmd == "profissionais":
@@ -4059,6 +4244,11 @@ def main(argv: list[str] | None = None) -> int:
                 print(adicionar_profissional(a.contrato, a.nome, a.funcao, a.area, a.senioridade))
             else:
                 print(rel(equipe_oficial(a.contrato)))
+        elif a.cmd == "participacao":
+            if a.sub == "modelo":
+                print(rel(participacao_modelo(a.contrato)))
+            else:
+                print(json.dumps(participacao_importar(a.contrato, Path(a.arquivo)), ensure_ascii=False, indent=2))
         elif a.cmd == "rateio":
             r = rateio(a.contrato, a.tipo, a.data, a.total)
             print("\n".join(tabela_rateio_md(r)))

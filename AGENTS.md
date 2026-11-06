@@ -95,6 +95,7 @@ Cada comando tem uma skill em `.claude/skills/<nome>/SKILL.md` (Codex: leia o ar
 | PUBLICAR PRODUÇÃO | `publicar-producao` | exige autorização humana |
 | IMPORTAR PLANILHA / DOCUMENTO BASE | `importar-planilha` | `planilha importar`, `profissionais importar` |
 | RATEIO (diário/semanal/mensal) | `rateio-ust` | `rateio`, `relatorio ... --total-ust` |
+| PARTICIPAÇÃO DA EQUIPE (documento para preencher; divide as UST por módulo) | `participacao-equipe` | `participacao modelo|importar` |
 | NOVO REPOSITÓRIO / NOVO SISTEMA | `novo-repositorio` | `repositorio novo|lote`, `stacks listar`, `projeto verificar` |
 | CONFRONTAR EDITAL | `confrontar-edital` | `edital confrontar` |
 | FECHAMENTO DO DIA / SALDO | `fechamento-diario` | `fechamento`, `saldo`, `portfolio --data` |

@@ -598,3 +598,39 @@ def test_sistema_gerar_cria_modulos_do_formulario(fab, tmp_path):
     form.write_text(yaml.safe_dump({"sistema": {"nome": "X"}, "modulos": [{"id": "M1", "nome": "a"}]}))
     with pytest.raises(fab.ErroFabrica):
         fab.sistema_gerar(form, testar=False)
+
+
+def test_participacao_word_preenchido_divide_ust_do_modulo(fab, monkeypatch):
+    import docx as pydocx
+    monkeypatch.setenv("FABRICA_WORD", "1")
+    if shutil.which("node") is None:
+        pytest.skip("Node.js ausente")
+    c = fab.RAIZ / "contratos/C2"
+    for sub in ("os", "medicoes"):
+        (c / sub).mkdir(parents=True)
+    (c / "contrato.yaml").write_text(yaml.safe_dump({"contrato": {"numero": "C2"}, "medicao": {"modalidade": "UST", "quantidade_contratada": "100 UST"}}))
+    (c / "os/OS-1.yaml").write_text(yaml.safe_dump({"os": "OS-1", "modulos": [{"id": "MOD-001", "nome": "Pedidos"}]}))
+    (c / "medicoes/OS-1.json").write_text(json.dumps({"medido_em": "2026-11-05T10:00:00-03:00", "itens": [
+        {"modulo": "MOD-001", "item": "SRV-1", "previsto": 20, "comprovado": 20, "aceito": 0}]}))
+    (c / "PROFISSIONAIS.csv").write_text((fab.FAB / "templates/PROFISSIONAIS.csv").read_text().splitlines()[0] + "\n")
+    fab.adicionar_profissional("C2", "Ana", "Desenvolvedora pleno Java", "BACKEND", "PLENO")
+    fab.adicionar_profissional("C2", "Beto", "Desenvolvedor pleno Java", "BACKEND", "PLENO")
+    fab.participacao_modelo("C2")
+    arq = c / "PARTICIPACAO_EQUIPE_C2.docx"
+    assert arq.exists()
+    doc = pydocx.Document(arq)
+    for t in doc.tables:
+        if t.rows[0].cells[0].text.strip() == "Pessoa":
+            for r in t.rows[1:]:
+                if "MOD-001" in r.cells[2].text:
+                    r.cells[3].text = "Condução" if r.cells[0].text.strip() == "P01" else "revisão"
+    preenchido = c / "preenchido.docx"
+    doc.save(preenchido)
+    res = fab.participacao_importar("C2", preenchido)
+    assert res["importadas"] == 2 and res["erros"] == []
+    assert fab.participacao_importar("C2", preenchido)["importadas"] == 0  # não duplica
+    monkeypatch.setenv("FABRICA_WORD", "0")
+    md = fab.relatorio_tecnico("C2", "2026-11-06").read_text()
+    assert "| Ana | Desenvolvedora pleno Java | MOD-001 | 1 | 15 |" in md
+    assert "| Beto | Desenvolvedor pleno Java | MOD-001 | 1 | 5 |" in md
+    assert "Ana: 20 × 3 ÷ 4 = 15" in md

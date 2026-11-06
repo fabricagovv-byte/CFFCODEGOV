@@ -11,7 +11,7 @@ O ciclo é: **a empresa executa → o órgão confere e aceita → o órgão pag
 | Aceito pelo órgão | 0 | — | próxima etapa: o órgão confere o executado e emite o termo de aceite |
 | Pago | 0 | — | depois do aceite (registre em PAGAMENTOS.csv) |
 | **Saldo para executar** | **219,6** | | contratado − executado |
-| ↳ já planejado | 29,4 | | 2 módulo(s) com data (seção 10) |
+| ↳ já planejado | 29,4 | | 2 módulo(s) com data (seção 11) |
 | ↳ ainda sem planejamento | 190,2 | | precisa de novas demandas/OS do órgão |
 
 Em uma frase: de 300 UST contratadas, 80,4 já foram executadas (26,8%); 29,4 estão planejadas e 190,2 ainda não têm demanda.
@@ -138,7 +138,14 @@ Os agentes de IA executam as etapas técnicas; a equipe técnica responde por el
 
 Exemplo de leitura: "4 h Analista × 1,2" significa 4 horas do perfil Analista, que valem 1,2 UST por hora = 4,8 UST.
 
-## 7. Tecnologias utilizadas
+## 7. Divisão das UST executadas pela equipe
+
+Regra: em cada módulo, as UST executadas são divididas entre as pessoas que participaram dele, na proporção do peso. Peso = tipo de participação × senioridade. Tipos: condução 3, correção 2, revisão 1, orientação 1, aprovação 1; senioridade: especialista ×1.5, senior ×1.5, pleno ×1.0, junior ×0.7. Fonte: `PARTICIPACOES.csv` (preenchido pelo documento de participação). É divisão interna da empresa: não muda a medição nem o aceite.
+
+
+Não atribuído (módulos sem participação registrada): 80,4 UST — MOD-100, MOD-101, MOD-102.
+
+## 8. Tecnologias utilizadas
 
 | Camada | Tecnologias | Fonte |
 |---|---|---|
@@ -150,7 +157,7 @@ Exemplo de leitura: "4 h Analista × 1,2" significa 4 horas do perfil Analista, 
 | Infraestrutura (contêineres) | nginx:1.27-alpine | `projetos/gestao-documental/docker-compose.prod.yml` |
 | Infraestrutura (contêineres) | postgres:16-alpine | `projetos/gestao-documental/docker-compose.yml` |
 
-## 8. Código de novembro de 2026
+## 9. Código de novembro de 2026
 
 **projetos/gestao-documental:** 11 commit(s), +4832 / −3 linhas.
 
@@ -183,7 +190,7 @@ Exemplo de leitura: "4 h Analista × 1,2" significa 4 horas do perfil Analista, 
 
 **projetos/gestao-documental:** 0 commit(s), +0 / −0 linhas.
 
-## 9. Código total do sistema
+## 10. Código total do sistema
 
 **projetos/gestao-documental:** 110 arquivo(s), 4829 linhas, 11 commit(s) desde o início.
 
@@ -216,7 +223,7 @@ Exemplo de leitura: "4 h Analista × 1,2" significa 4 horas do perfil Analista, 
 
 > Linhas de código e commits mostram o tamanho do trabalho; a quantidade medida vem do catálogo do contrato, não das linhas.
 
-## 10. A fazer (planejado)
+## 11. A fazer (planejado)
 
 | Módulo | O que fazer | Item do contrato | UST (estimativa) | Início | Fim | Responsável |
 |---|---|---|---|---|---|---|
@@ -225,13 +232,13 @@ Exemplo de leitura: "4 h Analista × 1,2" significa 4 horas do perfil Analista, 
 
 Total planejado: 29,4 UST (estimativa pelo catálogo; vira executado quando entregue e medido).
 
-## 11. Próximas etapas e pendências
+## 12. Próximas etapas e pendências
 
 - Próxima etapa normal: enviar ao órgão os 80,4 UST executados para conferência e termo de aceite.
 - OS-TESTE-002: a equipe técnica verifica o checklist — 16 controle(s) crítico(s) aguardam verificação humana — verifique e rode de novo com --aprovado-por "Nome (cargo)".
 - Registrar a revisão de cada módulo por um membro da equipe (MOD-100, MOD-101, MOD-102) em PARTICIPACOES.csv (data, pessoa, módulo, tipo REVISAO/APROVACAO, evidência).
 
-## 12. Arquivos de origem
+## 13. Arquivos de origem
 
 - UST: `medicoes/<OS>.json` (medição pelo catálogo do contrato) e `contrato.yaml`.
 - O que foi feito, código e commits: repositório git (`git log`, `git ls-files`).
