@@ -1,0 +1,19 @@
+{
+  "contrato": "FIC-COM-2026-001",
+  "periodo": "mensal",
+  "inicio": "2026-11-01",
+  "fim": "2026-11-30",
+  "gerado_em": "2026-11-06T14:24:50-03:00",
+  "comprovado_periodo": 202.5,
+  "comprovado_acumulado": 202.5,
+  "aceito_acumulado": 0.0,
+  "valor_unitario": 30.0,
+  "itens": [
+    {
+      "os": "OS-FIC-002",
+      "modulo": "MOD-001",
+      "comprovado": 202.5,
+      "comprovado_em": "2026-11-06T14:24:29-03:00"
+    }
+  ]
+}

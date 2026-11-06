@@ -1,6 +1,6 @@
 # Parecer de auditoria de evidências — OS-FIC-002
 
-Gerado em 2026-11-06T14:18:45-03:00 pelo Auditor de Evidências (G17) via `fabrica.py auditar`.
+Gerado em 2026-11-06T14:24:29-03:00 pelo Auditor de Evidências (G17) via `fabrica.py auditar`.
 
 | Módulo | Técnico | Commits | Testes (ok/total) | Capturas | Pendências humanas |
 |---|---|---|---|---|---|

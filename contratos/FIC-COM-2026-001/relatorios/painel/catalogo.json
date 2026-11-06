@@ -1,0 +1,110 @@
+[
+ {
+  "codigo": "M01",
+  "modulo": "Identidade e segurança de acesso",
+  "ust_planejada": 810.0,
+  "ust_comprovada": 202.5
+ },
+ {
+  "codigo": "M02",
+  "modulo": "Canais de comunicação",
+  "ust_planejada": 810.0,
+  "ust_comprovada": 0
+ },
+ {
+  "codigo": "M03",
+  "modulo": "Mural feed e comunicados",
+  "ust_planejada": 300.0,
+  "ust_comprovada": 0
+ },
+ {
+  "codigo": "M04",
+  "modulo": "Aprovação editorial",
+  "ust_planejada": 810.0,
+  "ust_comprovada": 0
+ },
+ {
+  "codigo": "M05",
+  "modulo": "Campanhas e calendário",
+  "ust_planejada": 1170.0,
+  "ust_comprovada": 0
+ },
+ {
+  "codigo": "M06",
+  "modulo": "Audiências e públicos",
+  "ust_planejada": 480.0,
+  "ust_comprovada": 0
+ },
+ {
+  "codigo": "M07",
+  "modulo": "Contatos e consentimento",
+  "ust_planejada": 600.0,
+  "ust_comprovada": 0
+ },
+ {
+  "codigo": "M08",
+  "modulo": "Central de atendimento",
+  "ust_planejada": 1140.0,
+  "ust_comprovada": 0
+ },
+ {
+  "codigo": "M09",
+  "modulo": "Chat e mensagens",
+  "ust_planejada": 400.0,
+  "ust_comprovada": 0
+ },
+ {
+  "codigo": "M10",
+  "modulo": "Envio multicanal",
+  "ust_planejada": 400.0,
+  "ust_comprovada": 0
+ },
+ {
+  "codigo": "M11",
+  "modulo": "Portal do cidadão",
+  "ust_planejada": 600.0,
+  "ust_comprovada": 0
+ },
+ {
+  "codigo": "M12",
+  "modulo": "Acervo e documentos",
+  "ust_planejada": 480.0,
+  "ust_comprovada": 0
+ },
+ {
+  "codigo": "M13",
+  "modulo": "Eventos e agenda",
+  "ust_planejada": 660.0,
+  "ust_comprovada": 0
+ },
+ {
+  "codigo": "M14",
+  "modulo": "Pesquisa e feedback",
+  "ust_planejada": 540.0,
+  "ust_comprovada": 0
+ },
+ {
+  "codigo": "M15",
+  "modulo": "BI e relatórios",
+  "ust_planejada": 480.0,
+  "ust_comprovada": 0
+ },
+ {
+  "codigo": "M16",
+  "modulo": "Integrações e APIs",
+  "ust_planejada": 600.0,
+  "ust_comprovada": 0
+ },
+ {
+  "codigo": "M17",
+  "modulo": "LGPD e auditoria",
+  "ust_planejada": 400.0,
+  "ust_comprovada": 0
+ },
+ {
+  "codigo": "M18",
+  "modulo": "DevOps e transferência",
+  "ust_planejada": 1320.0,
+  "ust_comprovada": 0
+ }
+]

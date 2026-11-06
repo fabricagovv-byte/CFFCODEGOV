@@ -1,0 +1,58 @@
+[
+ {
+  "modulo": "MOD-001",
+  "os": "OS-FIC-002",
+  "nome": "Controle de sessão (TR M01, item 2 de 4)",
+  "item": "CAT-M01-SESSAO",
+  "ust_comprovada": 202.5,
+  "valor": 6075.0,
+  "testes": 35,
+  "falhas": 0,
+  "auditoria": "APROVADO",
+  "revisao_humana": "pendente",
+  "aceite": "PENDENTE",
+  "comprovado_em": "2026-11-06 14:24"
+ },
+ {
+  "modulo": "MOD-002",
+  "os": "OS-FIC-002",
+  "nome": "Correções de validação e privacidade (M03, M05, M07, M08)",
+  "item": "CORRETIVA-SEM-ITEM",
+  "ust_comprovada": 0.0,
+  "valor": 0.0,
+  "testes": 34,
+  "falhas": 0,
+  "auditoria": "APROVADO",
+  "revisao_humana": "pendente",
+  "aceite": "PENDENTE",
+  "comprovado_em": ""
+ },
+ {
+  "modulo": "MOD-003",
+  "os": "OS-FIC-002",
+  "nome": "Base técnica — migrações versionadas, cabeçalhos de segurança, dependências",
+  "item": "CORRETIVA-SEM-ITEM",
+  "ust_comprovada": 0.0,
+  "valor": 0.0,
+  "testes": 9,
+  "falhas": 0,
+  "auditoria": "APROVADO",
+  "revisao_humana": "pendente",
+  "aceite": "PENDENTE",
+  "comprovado_em": ""
+ },
+ {
+  "modulo": "MOD-004",
+  "os": "OS-FIC-002",
+  "nome": "Painel da fábrica — chave de acesso (ferramenta interna)",
+  "item": "INTERNO-FABRICA",
+  "ust_comprovada": 0.0,
+  "valor": 0.0,
+  "testes": 12,
+  "falhas": 0,
+  "auditoria": "APROVADO",
+  "revisao_humana": "pendente",
+  "aceite": "PENDENTE",
+  "comprovado_em": ""
+ }
+]

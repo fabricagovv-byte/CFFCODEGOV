@@ -46,6 +46,7 @@ equipe:
   preposto: ""
 
 tecnico:
+  commits_linha_de_base: ["f823f56b525bce1f451757907922cc0cd659fd36"]  # importação do código original do pacote DIGITALGOV: não é produção do contrato
   tecnologias_obrigatorias: []     # 17 Ex.: [Java 21, PostgreSQL 16]
   tecnologias_vedadas: []
   repositorio: ""                  # 18 URL do repositório (GitHub/GitLab do órgão ou do contratado)

@@ -1,6 +1,6 @@
 # Memória de cálculo — OS-FIC-002
 
-Gerado em 2026-11-06T14:18:45-03:00 pelo Medidor de UST (G15).
+Gerado em 2026-11-06T14:24:29-03:00 pelo Medidor de UST (G15).
 
 > **Catálogo PROPOSTO-V1 aprovado pelo responsável em 06/11/2026 (R$ 30,00/UST). A regra de medição parcial é PROPOSTA da fábrica e precisa de confirmação. O órgão contratante ainda não enviou contrato nem OS assinada: nada aqui é ACEITO.**
 

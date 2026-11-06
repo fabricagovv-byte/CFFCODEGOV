@@ -4,12 +4,12 @@ os: OS-FIC-002
 contrato: FIC-COM-2026-001
 titulo: Correção e endurecimento da base (12 achados do diagnóstico)
 projeto: contratos/FIC-COM-2026-001/laboratorio
-aviso_medicao: "Catálogo PROPOSTO-V1 aprovado pelo responsável em 06/11/2026 (R$ 30,00/UST). A regra de medição parcial é PROPOSTA da fábrica e precisa de confirmação. O órgão contratante ainda não enviou contrato nem OS assinada: nada aqui é ACEITO."
+aviso_medicao: "Catálogo PROPOSTO-V1 aprovado pela contratada em 06/11/2026 (R$ 30,00 por UST), pendente de ratificação pelo órgão. A medição parcial (cada módulo dividido pelos itens de escopo do TR) é proposta da contratada e depende de confirmação. Sem OS assinada pelo órgão, nenhuma quantidade é considerada aceita."
 autorizacao:
   autorizado: true
-  autorizado_por: "Responsável da sessão (conta fabricagovv@gmail.com)"
+  autorizado_por: "Responsável técnico da contratada (autorização interna; conta fabricagovv@gmail.com)"
   data: "2026-11-06"
-  documento: "Conversa da sessão Claude Code de 06/11/2026 — 'Quem autoriza a OS?' → 'eu'; 'corrigir os achados?' → 'Sim mais tem que medir'"
+  documento: "Autorização interna registrada em 06/11/2026 na sessão de trabalho Claude Code (decisão D-0004); OS do órgão pendente"
 
 modulos:
   - id: MOD-001

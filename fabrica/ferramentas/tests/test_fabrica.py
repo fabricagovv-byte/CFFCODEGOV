@@ -665,3 +665,75 @@ def test_relatorio_tecnico_ignora_exemplo_comentado_e_modulo_executado_sem_ust(f
     assert "MOD-101" not in md
     assert "| MOD-002 | Correções |" not in md  # executado (auditoria aprovada), só não gera UST
     assert "R$ 300,00" in md
+
+
+def _contrato_orgao(fab):
+    c = fab.RAIZ / "contratos/C4"
+    for sub in ("os", "medicoes"):
+        (c / sub).mkdir(parents=True)
+    (c / "contrato.yaml").write_text(yaml.safe_dump({
+        "contratante": {"orgao": "Prefeitura Teste"}, "contrato": {"numero": "C4/2026", "objeto": "Sistema X"},
+        "medicao": {"modalidade": "UST", "quantidade_contratada": "1000 UST", "valor_unitario": "30.00"},
+        "tecnico": {"commits_linha_de_base": ["aaaaaaa"]}}, allow_unicode=True))
+    (c / "TABELA_UST.csv").write_text("codigo,descricao,unidade,ust_por_unidade,complexidade,referencia_contratual,observacao\n"
+                                      "IT1,Login seguro,UST,10,ALTA,TR item 3,\nIT0,Correção,UST,0,—,—,\n")
+    (c / "os/OS-1.yaml").write_text(yaml.safe_dump({"os": "OS-1", "contrato": "C4", "projeto": "proj",
+        "autorizacao": {"autorizado": True, "autorizado_por": "Fiscal Y", "data": "2026-11-05", "documento": "OS nº 1"},
+        "modulos": [{"id": "MOD-001", "nome": "Sessão", "item_tabela": "IT1", "ust_previsto": 10},
+                    {"id": "MOD-002", "nome": "Painel interno", "item_tabela": "IT0", "ust_previsto": 0}]}, allow_unicode=True))
+    (c / "medicoes/OS-1.json").write_text(json.dumps({"medido_em": "2026-11-07T10:00:00-03:00", "itens": [
+        {"modulo": "MOD-001", "nome": "Sessão", "item": "IT1", "previsto": 10, "comprovado": 10, "aceito": 0,
+         "tecnico": "APROVADO", "comprovado_em": "2026-11-06T14:18:00-03:00"},
+        {"modulo": "MOD-002", "nome": "Painel interno", "item": "IT0", "previsto": 0, "comprovado": 0, "aceito": 0,
+         "tecnico": "APROVADO", "comprovado_em": ""}]}))
+    ev = c / "evidencias/OS-1/MOD-001"
+    (ev / "LOGS_TESTES").mkdir(parents=True)
+    (ev / "LOGS_TESTES/t.log").write_text("ok")
+    (ev / "TESTES.json").write_text(json.dumps({"situacao": "APROVADO", "executado_em": "2026-11-06T14:15:00-03:00",
+        "resumo": {"testes": 35, "falhas": 0, "erros": 0, "ignorados": 0},
+        "execucoes": [{"nome": "t", "log": "contratos/C4/evidencias/OS-1/MOD-001/LOGS_TESTES/t.log", "junit": "contratos/C4/evidencias/OS-1/MOD-001/LOGS_TESTES/t.log"}]}))
+    (ev / "COMMITS.json").write_text(json.dumps({"commits": [
+        {"sha": "bbbbbbbbbbbb", "data": "2026-11-06T17:14:00+00:00", "mensagem": "MOD-001: sessão"},
+        {"sha": "aaaaaaaaaaaa", "data": "2026-11-06T16:24:00+00:00", "mensagem": "importação do pacote"}]}))
+    (ev / "ACEITE.md").write_text("---\nstatus: PENDENTE\n---\n")
+    (ev / "REVISOES.md").write_text("---\nrevisao_humana: ''\n---\n")
+    return c
+
+
+def test_relatorio_orgao_mostra_so_medicao_comprovada_com_provas(fab):
+    import hashlib
+    c = _contrato_orgao(fab)
+    md = fab.relatorio_orgao("C4", "diario", "2026-11-06").read_text()
+    assert "Prefeitura Teste" in md and "C4/2026" in md
+    assert "MOD-001" in md and "Login seguro" in md and "R$ 300,00" in md
+    assert "MOD-002" not in md and "Painel interno" not in md      # 0 UST: não vai para o órgão
+    assert "bbbbbbbbbb" in md and "aaaaaaaaaa" not in md            # linha de base fora das provas
+    assert "2026-11-06 14:14" in md and "17:14" not in md           # horário de Brasília
+    sha = hashlib.sha256((c / "evidencias/OS-1/MOD-001/TESTES.json").read_bytes()).hexdigest()
+    assert sha in md
+    assert "35 testes" in md and "Fiscal Y" in md and "PENDENTE" in md
+    assert (c / "relatorios/orgao/RELATORIO_ORGAO_DIARIO_2026-11-06.json").exists()
+
+
+def test_relatorio_orgao_dia_sem_medicao_e_mensal(fab):
+    _contrato_orgao(fab)
+    md = fab.relatorio_orgao("C4", "diario", "2026-11-09").read_text()
+    assert "Nenhum item comprovado neste período" in md
+    assert "| Executado e comprovado (UST) | 0 | 10 |" in md
+    mes = fab.relatorio_orgao("C4", "mensal", "2026-11-20").read_text()
+    assert "novembro de 2026" in mes and "| Executado e comprovado (UST) | 10 | 10 |" in mes
+    assert "| Saldo a executar (UST) | — | 990 |" in mes
+
+
+def test_comprovado_em_nao_muda_quando_a_medicao_e_refeita(fab):
+    anterior = {"itens": [{"modulo": "M1", "comprovado": 3, "comprovado_em": "2026-11-06T10:00:00-03:00"}]}
+    itens = [{"modulo": "M1", "comprovado": 3}, {"modulo": "M2", "comprovado": 0}]
+    fab._datar_comprovacao(anterior, itens, "2026-11-08T09:00:00-03:00")
+    assert itens[0]["comprovado_em"] == "2026-11-06T10:00:00-03:00" and itens[1]["comprovado_em"] == ""
+    itens = [{"modulo": "M3", "comprovado": 5}]
+    fab._datar_comprovacao({}, itens, "2026-11-08T09:00:00-03:00")
+    assert itens[0]["comprovado_em"] == "2026-11-08T09:00:00-03:00"
+
+
+def test_hora_local_converte_utc(fab):
+    assert fab._hora_local("2026-11-06T17:14:00+00:00") == "2026-11-06 14:14"

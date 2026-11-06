@@ -1,7 +1,7 @@
 {
   "contrato": "FIC-COM-2026-001",
   "os": "OS-FIC-002",
-  "medido_em": "2026-11-06T14:18:45-03:00",
+  "medido_em": "2026-11-06T14:24:29-03:00",
   "agente": "G15",
   "aviso": "Catálogo PROPOSTO-V1 aprovado pelo responsável em 06/11/2026 (R$ 30,00/UST). A regra de medição parcial é PROPOSTA da fábrica e precisa de confirmação. O órgão contratante ainda não enviou contrato nem OS assinada: nada aqui é ACEITO.",
   "itens": [
@@ -21,7 +21,8 @@
       "horas_por_perfil": {},
       "valor_previsto": 6075.0,
       "tecnico": "APROVADO",
-      "responsavel": "A CADASTRAR"
+      "responsavel": "A CADASTRAR",
+      "comprovado_em": "2026-11-06T14:24:29-03:00"
     },
     {
       "modulo": "MOD-002",
@@ -39,7 +40,8 @@
       "horas_por_perfil": {},
       "valor_previsto": 0.0,
       "tecnico": "APROVADO",
-      "responsavel": "A CADASTRAR"
+      "responsavel": "A CADASTRAR",
+      "comprovado_em": ""
     },
     {
       "modulo": "MOD-003",
@@ -57,7 +59,8 @@
       "horas_por_perfil": {},
       "valor_previsto": 0.0,
       "tecnico": "APROVADO",
-      "responsavel": "A CADASTRAR"
+      "responsavel": "A CADASTRAR",
+      "comprovado_em": ""
     },
     {
       "modulo": "MOD-004",
@@ -75,7 +78,8 @@
       "horas_por_perfil": {},
       "valor_previsto": 0.0,
       "tecnico": "APROVADO",
-      "responsavel": "A CADASTRAR"
+      "responsavel": "A CADASTRAR",
+      "comprovado_em": ""
     }
   ],
   "totais": {

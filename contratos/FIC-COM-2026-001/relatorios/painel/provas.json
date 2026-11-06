@@ -1,0 +1,42 @@
+[
+ {
+  "arquivo": "OS-FIC-002/MOD-001/TESTES.json",
+  "modulo": "MOD-001",
+  "sha256": "da97df2d756dcc4c4f13f60338a9d3901874a4e2ed5e196c539ed46c95d9140a"
+ },
+ {
+  "arquivo": "OS-FIC-002/MOD-001/COMMITS.json",
+  "modulo": "MOD-001",
+  "sha256": "c11aea0e9b772d58db6096c30f3890394eadd4205d04f422eea5c51f8364ceb8"
+ },
+ {
+  "arquivo": "OS-FIC-002/MOD-001/LOGS_TESTES/sessao-20261106T141506.xml",
+  "modulo": "MOD-001",
+  "sha256": "f8912eccb8560155117b7bad5e46f661045a1c8449e996755051caee0e78a1b6"
+ },
+ {
+  "arquivo": "OS-FIC-002/MOD-001/LOGS_TESTES/sessao-20261106T141506.log",
+  "modulo": "MOD-001",
+  "sha256": "bdf420748a59c6de462e1e2f5d5e26e03ee1bf209036fd51e6c9d7dd9236a5c0"
+ },
+ {
+  "arquivo": "OS-FIC-002/MOD-001/LOGS_TESTES/regressao-comunicacao-20261106T141510.xml",
+  "modulo": "MOD-001",
+  "sha256": "bacf863f2baa16d005cdc28071f0efecedfd4ea2191141aeeea2fb29f25cfbcc"
+ },
+ {
+  "arquivo": "OS-FIC-002/MOD-001/LOGS_TESTES/regressao-comunicacao-20261106T141510.log",
+  "modulo": "MOD-001",
+  "sha256": "cc2782714feff08bcf88e9060f9baed71f17cb1ae7a290b3f1c0c9ddfb82e999"
+ },
+ {
+  "arquivo": "OS-FIC-002/MOD-001/SCREENSHOTS/MOD-001_01_apos_sair.png",
+  "modulo": "MOD-001",
+  "sha256": "557dff6bbd5026c6ffa34743d766abbaa64b34df2842d513b134fadd8ae230a9"
+ },
+ {
+  "arquivo": "OS-FIC-002/MOD-001/SCREENSHOTS/MOD-001_02_bloqueio_tentativas.png",
+  "modulo": "MOD-001",
+  "sha256": "87065ab9cd2766e75281c6ff00ac24be6c965fa4e5dca2b37be46cc9b7b7eca8"
+ }
+]

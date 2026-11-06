@@ -1844,6 +1844,70 @@
           "nota": ""
         }
       ]
+    },
+    {
+      "id": "T-0031",
+      "contrato": "FIC-COM-2026-001",
+      "os": "",
+      "modulo": "",
+      "agente": "G19",
+      "profissional": "",
+      "descricao": "Relatórios diário e mensal ao órgão (só medição comprovada com provas), painel de produção e prévia do sistema",
+      "prioridade": "ALTA",
+      "dependencias": [],
+      "arquivos": [],
+      "prazo": "",
+      "status": "DONE",
+      "resultado": "Relatório ao órgão diário 06/11 e mensal 11/2026 (202,5 UST comprovadas, R$ 6.075,00, 0 aceitas) com manifesto SHA-256; painel de produção publicado; prévia local nas portas 8765/8777",
+      "evidencias": [
+        "contratos/FIC-COM-2026-001/relatorios/orgao/RELATORIO_ORGAO_DIARIO_2026-11-06.md",
+        "contratos/FIC-COM-2026-001/relatorios/orgao/RELATORIO_ORGAO_MENSAL_2026-11.md"
+      ],
+      "pendencias": [],
+      "historico": [
+        {
+          "em": "2026-11-06T14:28:18-03:00",
+          "de": null,
+          "para": "BACKLOG",
+          "por": "Claude Code",
+          "nota": "criada"
+        },
+        {
+          "em": "2026-11-06T14:28:18-03:00",
+          "de": "BACKLOG",
+          "para": "READY",
+          "por": "Claude Code",
+          "nota": ""
+        },
+        {
+          "em": "2026-11-06T14:28:18-03:00",
+          "de": "READY",
+          "para": "IN_PROGRESS",
+          "por": "Claude Code",
+          "nota": ""
+        },
+        {
+          "em": "2026-11-06T14:28:18-03:00",
+          "de": "IN_PROGRESS",
+          "para": "IN_REVIEW",
+          "por": "Claude Code",
+          "nota": ""
+        },
+        {
+          "em": "2026-11-06T14:28:19-03:00",
+          "de": "IN_REVIEW",
+          "para": "TESTING",
+          "por": "Claude Code",
+          "nota": ""
+        },
+        {
+          "em": "2026-11-06T14:28:19-03:00",
+          "de": "TESTING",
+          "para": "DONE",
+          "por": "Claude Code",
+          "nota": ""
+        }
+      ]
     }
   ]
 }
