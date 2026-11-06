@@ -1,0 +1,82 @@
+[
+  {
+    "project": "SYS-01",
+    "exit": 0,
+    "elapsed_seconds": 1.2
+  },
+  {
+    "project": "SYS-02",
+    "exit": 0,
+    "elapsed_seconds": 1.17
+  },
+  {
+    "project": "SYS-03",
+    "exit": 0,
+    "elapsed_seconds": 1.17
+  },
+  {
+    "project": "SYS-04",
+    "exit": 0,
+    "elapsed_seconds": 1.18
+  },
+  {
+    "project": "SYS-05",
+    "exit": 0,
+    "elapsed_seconds": 1.17
+  },
+  {
+    "project": "SYS-06",
+    "exit": 0,
+    "elapsed_seconds": 1.17
+  },
+  {
+    "project": "SYS-07",
+    "exit": 0,
+    "elapsed_seconds": 1.17
+  },
+  {
+    "project": "SYS-08",
+    "exit": 0,
+    "elapsed_seconds": 1.16
+  },
+  {
+    "project": "SYS-09",
+    "exit": 0,
+    "elapsed_seconds": 1.18
+  },
+  {
+    "project": "SYS-10",
+    "exit": 0,
+    "elapsed_seconds": 1.17
+  },
+  {
+    "project": "SYS-11",
+    "exit": 0,
+    "elapsed_seconds": 1.17
+  },
+  {
+    "project": "SYS-12",
+    "exit": 0,
+    "elapsed_seconds": 1.16
+  },
+  {
+    "project": "SYS-13",
+    "exit": 0,
+    "elapsed_seconds": 1.2
+  },
+  {
+    "project": "SYS-14",
+    "exit": 0,
+    "elapsed_seconds": 1.27
+  },
+  {
+    "project": "SYS-15",
+    "exit": 0,
+    "elapsed_seconds": 1.18
+  },
+  {
+    "project": "CENTRAL",
+    "exit": 0,
+    "elapsed_seconds": 0.66
+  }
+]
