@@ -1,0 +1,21 @@
+{
+ "chamado_com_contato_inexistente": [
+  500,
+  "Internal Server Error"
+ ],
+ "campanha_com_canal_inexistente": [
+  201,
+  "{\"id\":2,\"status\":\"PLANEJADA\"}"
+ ],
+ "contato_email_invalido": [
+  201,
+  "{\"id\":2,\"consent\":false}"
+ ],
+ "csv_formula": [
+  201,
+  "{\"id\":2,\"status\":\"ABERTO\"}"
+ ],
+ "leitor_ve_chamados": 200,
+ "login_12_erros_sem_bloqueio": 12,
+ "cabecalhos_seguranca": {}
+}

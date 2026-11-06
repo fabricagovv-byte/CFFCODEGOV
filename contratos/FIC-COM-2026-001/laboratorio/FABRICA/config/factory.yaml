@@ -1,0 +1,40 @@
+factory:
+  name: DIGITALGOV Factory Control Center
+  version: 1.0.0-lab
+  contract_scope: one_contract_per_workspace
+  multi_projects_per_contract: true
+  logical_agent_slots_per_contract: 100
+  actual_concurrency: 0   # Somente após instalar e validar adaptador de execução Codex
+  require_interview: true
+  require_scope_approval: true
+  require_order_authorization: true
+  require_independent_review: true
+  forbid_fabricated_human_hours: true
+  forbid_fake_acceptance: true
+  count_agent_runtime_as_human_hours: false
+  daily_agent_budget_brl: null
+  monthly_agent_budget_brl: null
+  daily_task_limit: 50
+  monthly_task_limit: 500
+  scheduling:
+    timezone: America/Sao_Paulo
+    human_shift_template: '09:00-12:00;13:00-18:00'
+    human_shift_is_evidence: false
+    automate_when_authorized: true
+    daily_report_time: '18:00'
+    cron_configured: false
+  delivery:
+    separate_zip_per_system: true
+    source_code_required: true
+    database_migrations_required: true
+    backend_required: true
+    frontend_required_when_applicable: true
+    tests_evidence_required: true
+    reporting: [docx, pdf, xlsx, json]
+    minimum_technical_report_pages: 8
+  UST:
+    planned_is_executed: false
+    evidence_sha256_required: true
+    independent_review_required: true
+    external_acceptance_required: true
+    approved_service_catalog_required: true

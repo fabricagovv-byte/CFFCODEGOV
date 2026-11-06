@@ -1,0 +1,135 @@
+INFO:     Started server process [536]
+INFO:     Waiting for application startup.
+INFO:     Application startup complete.
+INFO:     Uvicorn running on http://127.0.0.1:8765 (Press CTRL+C to quit)
+INFO:     127.0.0.1:57270 - "GET /health HTTP/1.1" 200 OK
+INFO:     127.0.0.1:57280 - "GET /health HTTP/1.1" 200 OK
+INFO:     127.0.0.1:40224 - "GET /api/channels HTTP/1.1" 401 Unauthorized
+INFO:     127.0.0.1:40230 - "GET /api/channels HTTP/1.1" 401 Unauthorized
+INFO:     127.0.0.1:40242 - "POST /api/channels HTTP/1.1" 201 Created
+INFO:     127.0.0.1:40250 - "POST /api/channels HTTP/1.1" 403 Forbidden
+INFO:     127.0.0.1:40260 - "POST /api/posts HTTP/1.1" 201 Created
+INFO:     127.0.0.1:40268 - "POST /api/posts/1/publish HTTP/1.1" 409 Conflict
+INFO:     127.0.0.1:40282 - "POST /api/posts/1/submit HTTP/1.1" 200 OK
+INFO:     127.0.0.1:40296 - "POST /api/posts/1/approve HTTP/1.1" 403 Forbidden
+INFO:     127.0.0.1:40308 - "POST /api/posts/1/approve HTTP/1.1" 200 OK
+INFO:     127.0.0.1:40324 - "POST /api/posts/1/publish HTTP/1.1" 200 OK
+INFO:     127.0.0.1:40326 - "POST /api/posts HTTP/1.1" 201 Created
+INFO:     127.0.0.1:40328 - "POST /api/posts/2/submit HTTP/1.1" 200 OK
+INFO:     127.0.0.1:40330 - "POST /api/posts/2/approve HTTP/1.1" 409 Conflict
+INFO:     127.0.0.1:40344 - "POST /api/campaigns HTTP/1.1" 201 Created
+INFO:     127.0.0.1:40346 - "POST /api/contacts HTTP/1.1" 201 Created
+INFO:     127.0.0.1:40348 - "GET /api/contacts HTTP/1.1" 403 Forbidden
+INFO:     127.0.0.1:40350 - "POST /api/tickets HTTP/1.1" 201 Created
+INFO:     127.0.0.1:40362 - "POST /api/tickets HTTP/1.1" 422 Unprocessable Content
+INFO:     127.0.0.1:40374 - "PATCH /api/tickets/1/status HTTP/1.1" 200 OK
+INFO:     127.0.0.1:40376 - "GET /api/export/tickets.csv HTTP/1.1" 200 OK
+INFO:     127.0.0.1:40390 - "GET /api/export/tickets.csv HTTP/1.1" 403 Forbidden
+INFO:     127.0.0.1:40394 - "GET /api/audit HTTP/1.1" 200 OK
+INFO:     127.0.0.1:40398 - "GET /api/overview HTTP/1.1" 200 OK
+INFO:     127.0.0.1:40414 - "POST /api/users HTTP/1.1" 422 Unprocessable Content
+INFO:     127.0.0.1:42836 - "GET / HTTP/1.1" 200 OK
+INFO:     127.0.0.1:42836 - "GET /static/style.css HTTP/1.1" 200 OK
+INFO:     127.0.0.1:42844 - "GET /static/app.js HTTP/1.1" 200 OK
+INFO:     127.0.0.1:42844 - "GET /api/me HTTP/1.1" 200 OK
+INFO:     127.0.0.1:42844 - "GET /api/overview HTTP/1.1" 200 OK
+INFO:     127.0.0.1:42844 - "GET /api/channels HTTP/1.1" 200 OK
+INFO:     127.0.0.1:42836 - "GET /api/posts HTTP/1.1" 200 OK
+INFO:     127.0.0.1:42852 - "GET /api/campaigns HTTP/1.1" 200 OK
+INFO:     127.0.0.1:42866 - "GET /api/tickets HTTP/1.1" 200 OK
+INFO:     127.0.0.1:42866 - "GET /api/me HTTP/1.1" 200 OK
+INFO:     127.0.0.1:42866 - "GET /api/overview HTTP/1.1" 200 OK
+INFO:     127.0.0.1:42866 - "GET /api/posts HTTP/1.1" 200 OK
+INFO:     127.0.0.1:42866 - "GET /api/me HTTP/1.1" 200 OK
+INFO:     127.0.0.1:42866 - "GET /api/overview HTTP/1.1" 200 OK
+INFO:     127.0.0.1:42866 - "GET /api/tickets HTTP/1.1" 200 OK
+INFO:     127.0.0.1:42866 - "GET /api/me HTTP/1.1" 200 OK
+INFO:     127.0.0.1:42866 - "GET /api/overview HTTP/1.1" 200 OK
+INFO:     127.0.0.1:42866 - "GET /api/audit HTTP/1.1" 200 OK
+INFO:     127.0.0.1:43284 - "POST /api/tickets HTTP/1.1" 500 Internal Server Error
+ERROR:    Exception in ASGI application
+Traceback (most recent call last):
+  File "/tmp/claude-0/-home-user-CFFCODEGOV/967e6d0a-7c30-596d-96b7-83d47da1f103/scratchpad/venv/lib/python3.13/site-packages/uvicorn/protocols/http/h11_impl.py", line 411, in run_asgi
+    result = await app(  # type: ignore[func-returns-value]
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+        self.scope, self.receive, self.send
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "/tmp/claude-0/-home-user-CFFCODEGOV/967e6d0a-7c30-596d-96b7-83d47da1f103/scratchpad/venv/lib/python3.13/site-packages/uvicorn/middleware/proxy_headers.py", line 63, in __call__
+    return await self.app(scope, receive, send)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/tmp/claude-0/-home-user-CFFCODEGOV/967e6d0a-7c30-596d-96b7-83d47da1f103/scratchpad/venv/lib/python3.13/site-packages/fastapi/applications.py", line 1194, in __call__
+    await super().__call__(scope, receive, send)
+  File "/tmp/claude-0/-home-user-CFFCODEGOV/967e6d0a-7c30-596d-96b7-83d47da1f103/scratchpad/venv/lib/python3.13/site-packages/starlette/applications.py", line 96, in __call__
+    await self.middleware_stack(scope, receive, send)
+  File "/tmp/claude-0/-home-user-CFFCODEGOV/967e6d0a-7c30-596d-96b7-83d47da1f103/scratchpad/venv/lib/python3.13/site-packages/starlette/middleware/errors.py", line 186, in __call__
+    raise exc
+  File "/tmp/claude-0/-home-user-CFFCODEGOV/967e6d0a-7c30-596d-96b7-83d47da1f103/scratchpad/venv/lib/python3.13/site-packages/starlette/middleware/errors.py", line 164, in __call__
+    await self.app(scope, receive, _send)
+  File "/tmp/claude-0/-home-user-CFFCODEGOV/967e6d0a-7c30-596d-96b7-83d47da1f103/scratchpad/venv/lib/python3.13/site-packages/fastapi/telemetry/_asgi.py", line 151, in __call__
+    await self.app(scope, receive, send)
+  File "/tmp/claude-0/-home-user-CFFCODEGOV/967e6d0a-7c30-596d-96b7-83d47da1f103/scratchpad/venv/lib/python3.13/site-packages/starlette/middleware/exceptions.py", line 63, in __call__
+    await wrap_app_handling_exceptions(self.app, conn)(scope, receive, send)
+  File "/tmp/claude-0/-home-user-CFFCODEGOV/967e6d0a-7c30-596d-96b7-83d47da1f103/scratchpad/venv/lib/python3.13/site-packages/starlette/_exception_handler.py", line 53, in wrapped_app
+    raise exc
+  File "/tmp/claude-0/-home-user-CFFCODEGOV/967e6d0a-7c30-596d-96b7-83d47da1f103/scratchpad/venv/lib/python3.13/site-packages/starlette/_exception_handler.py", line 42, in wrapped_app
+    await app(scope, receive, sender)
+  File "/tmp/claude-0/-home-user-CFFCODEGOV/967e6d0a-7c30-596d-96b7-83d47da1f103/scratchpad/venv/lib/python3.13/site-packages/fastapi/middleware/asyncexitstack.py", line 18, in __call__
+    await self.app(scope, receive, send)
+  File "/tmp/claude-0/-home-user-CFFCODEGOV/967e6d0a-7c30-596d-96b7-83d47da1f103/scratchpad/venv/lib/python3.13/site-packages/starlette/routing.py", line 683, in __call__
+    await self.middleware_stack(scope, receive, send)
+  File "/tmp/claude-0/-home-user-CFFCODEGOV/967e6d0a-7c30-596d-96b7-83d47da1f103/scratchpad/venv/lib/python3.13/site-packages/fastapi/routing.py", line 2811, in app
+    await route.handle(scope, receive, send)
+  File "/tmp/claude-0/-home-user-CFFCODEGOV/967e6d0a-7c30-596d-96b7-83d47da1f103/scratchpad/venv/lib/python3.13/site-packages/fastapi/routing.py", line 1330, in handle
+    await super().handle(scope, receive, send)
+  File "/tmp/claude-0/-home-user-CFFCODEGOV/967e6d0a-7c30-596d-96b7-83d47da1f103/scratchpad/venv/lib/python3.13/site-packages/starlette/routing.py", line 289, in handle
+    await self.app(scope, receive, send)
+  File "/tmp/claude-0/-home-user-CFFCODEGOV/967e6d0a-7c30-596d-96b7-83d47da1f103/scratchpad/venv/lib/python3.13/site-packages/fastapi/routing.py", line 166, in app
+    await wrap_app_handling_exceptions(app, request)(scope, receive, send)
+  File "/tmp/claude-0/-home-user-CFFCODEGOV/967e6d0a-7c30-596d-96b7-83d47da1f103/scratchpad/venv/lib/python3.13/site-packages/starlette/_exception_handler.py", line 53, in wrapped_app
+    raise exc
+  File "/tmp/claude-0/-home-user-CFFCODEGOV/967e6d0a-7c30-596d-96b7-83d47da1f103/scratchpad/venv/lib/python3.13/site-packages/starlette/_exception_handler.py", line 42, in wrapped_app
+    await app(scope, receive, sender)
+  File "/tmp/claude-0/-home-user-CFFCODEGOV/967e6d0a-7c30-596d-96b7-83d47da1f103/scratchpad/venv/lib/python3.13/site-packages/fastapi/routing.py", line 152, in app
+    response = await f(request)
+               ^^^^^^^^^^^^^^^^
+  File "/tmp/claude-0/-home-user-CFFCODEGOV/967e6d0a-7c30-596d-96b7-83d47da1f103/scratchpad/venv/lib/python3.13/site-packages/fastapi/routing.py", line 745, in app
+    raw_response = await run_endpoint_function(
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    ...<3 lines>...
+    )
+    ^
+  File "/tmp/claude-0/-home-user-CFFCODEGOV/967e6d0a-7c30-596d-96b7-83d47da1f103/scratchpad/venv/lib/python3.13/site-packages/fastapi/routing.py", line 374, in run_endpoint_function
+    return await run_in_threadpool(
+           ^^^^^^^^^^^^^^^^^^^^^^^^
+        _run_sync_endpoint, function=dependant.call, arguments=values
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "/tmp/claude-0/-home-user-CFFCODEGOV/967e6d0a-7c30-596d-96b7-83d47da1f103/scratchpad/venv/lib/python3.13/site-packages/starlette/concurrency.py", line 34, in run_in_threadpool
+    return await anyio.to_thread.run_sync(func)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/tmp/claude-0/-home-user-CFFCODEGOV/967e6d0a-7c30-596d-96b7-83d47da1f103/scratchpad/venv/lib/python3.13/site-packages/anyio/to_thread.py", line 65, in run_sync
+    return await get_async_backend().run_sync_in_worker_thread(
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+        func, args, abandon_on_cancel=abandon_on_cancel, limiter=limiter
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "/tmp/claude-0/-home-user-CFFCODEGOV/967e6d0a-7c30-596d-96b7-83d47da1f103/scratchpad/venv/lib/python3.13/site-packages/anyio/_backends/_asyncio.py", line 2779, in run_sync_in_worker_thread
+    return await future
+           ^^^^^^^^^^^^
+  File "/tmp/claude-0/-home-user-CFFCODEGOV/967e6d0a-7c30-596d-96b7-83d47da1f103/scratchpad/venv/lib/python3.13/site-packages/anyio/_backends/_asyncio.py", line 1124, in run
+    result = context.run(func, *args)
+  File "/tmp/claude-0/-home-user-CFFCODEGOV/967e6d0a-7c30-596d-96b7-83d47da1f103/scratchpad/venv/lib/python3.13/site-packages/fastapi/telemetry/_api.py", line 244, in _run_sync_endpoint
+    return function(**arguments)
+  File "/tmp/claude-0/-home-user-CFFCODEGOV/967e6d0a-7c30-596d-96b7-83d47da1f103/scratchpad/pack/DIGITALGOV_PACK_FINAL_COMUNICACAO/PLATAFORMA_COMUNICACAO/app/main.py", line 166, in ticket_create
+    at=now();cur=c.execute('INSERT INTO tickets(contact_id,subject,description,priority,created_at,updated_at) VALUES(?,?,?,?,?,?)',(p.contact_id,p.subject,p.description,p.priority,at,at))
+                 ~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+sqlite3.IntegrityError: FOREIGN KEY constraint failed
+INFO:     127.0.0.1:43288 - "POST /api/campaigns HTTP/1.1" 201 Created
+INFO:     127.0.0.1:43302 - "POST /api/contacts HTTP/1.1" 201 Created
+INFO:     127.0.0.1:43314 - "POST /api/tickets HTTP/1.1" 201 Created
+INFO:     127.0.0.1:43320 - "GET /api/tickets HTTP/1.1" 200 OK
+INFO:     127.0.0.1:43410 - "GET / HTTP/1.1" 200 OK

@@ -1713,6 +1713,73 @@
           "nota": "Nenhum profissional informado: capacidade por perfil = 0 e responsáveis 'a cadastrar'"
         }
       ]
+    },
+    {
+      "id": "T-0029",
+      "contrato": "FIC-COM-2026-001",
+      "os": "",
+      "modulo": "",
+      "agente": "G01",
+      "profissional": "",
+      "descricao": "Auditar, instalar e testar o pacote DIGITALGOV (contrato fictício): integridade, testes, serviços locais, matriz dos 18 módulos, lacunas e perguntas para aprovação",
+      "prioridade": "ALTA",
+      "dependencias": [],
+      "arquivos": [
+        "contratos/FIC-COM-2026-001/DIAGNOSTICO_EXECUCAO.md",
+        "contratos/FIC-COM-2026-001/laboratorio"
+      ],
+      "prazo": "",
+      "status": "DONE",
+      "resultado": "Diagnóstico entregue: integridade 52/52, testes 2/2+1/1 (4/4 após correção do painel), API 30/30, matriz 18 módulos (0 completos, 8 parciais, 10 não), 13 achados; UST medidas 0; aguarda aprovação humana",
+      "evidencias": [
+        "contratos/FIC-COM-2026-001/DIAGNOSTICO_EXECUCAO.md",
+        "contratos/FIC-COM-2026-001/laboratorio/resultados/smoke.json"
+      ],
+      "pendencias": [],
+      "historico": [
+        {
+          "em": "2026-11-06T13:21:37-03:00",
+          "de": null,
+          "para": "BACKLOG",
+          "por": "Claude Code",
+          "nota": "criada"
+        },
+        {
+          "em": "2026-11-06T13:21:51-03:00",
+          "de": "BACKLOG",
+          "para": "READY",
+          "por": "Claude Code",
+          "nota": ""
+        },
+        {
+          "em": "2026-11-06T13:21:51-03:00",
+          "de": "READY",
+          "para": "IN_PROGRESS",
+          "por": "Claude Code",
+          "nota": ""
+        },
+        {
+          "em": "2026-11-06T13:24:42-03:00",
+          "de": "IN_PROGRESS",
+          "para": "IN_REVIEW",
+          "por": "Claude Code",
+          "nota": ""
+        },
+        {
+          "em": "2026-11-06T13:24:42-03:00",
+          "de": "IN_REVIEW",
+          "para": "TESTING",
+          "por": "Claude Code",
+          "nota": ""
+        },
+        {
+          "em": "2026-11-06T13:24:42-03:00",
+          "de": "TESTING",
+          "para": "DONE",
+          "por": "Claude Code",
+          "nota": ""
+        }
+      ]
     }
   ]
 }

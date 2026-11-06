@@ -1,0 +1,15 @@
+# Regra do rateio interno (divisão do total de UST do período entre quem trabalhou).
+# É atribuição gerencial: NÃO altera a medição contratual nem o aceite do órgão.
+modo: proporcional        # proporcional = divide por peso | senior_da_area = a parte da área vai toda para o mais sênior que participou
+pesos_tipo:               # peso de cada tipo de participação registrada em PARTICIPACOES.csv
+  CONDUCAO: 3
+  CORRECAO: 2
+  REVISAO: 1
+  ORIENTACAO: 1
+  APROVACAO: 1
+multiplicador_senioridade:
+  ESPECIALISTA: 1.5
+  SENIOR: 1.5
+  PLENO: 1.0
+  JUNIOR: 0.7
+areas_modulos: {}         # opcional, ex.: {MOD-001: BACKEND, MOD-005: FRONTEND}. Sem isso: campo "area" do módulo na OS ou área do profissional.

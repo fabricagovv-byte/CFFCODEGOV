@@ -1,0 +1,1306 @@
+{
+  "agent_slots": 100,
+  "agents": [
+    {
+      "id": "GOV-01",
+      "nucleus": "Editais e conformidade",
+      "role": "Analista de cláusulas",
+      "status": "CONFIGURED_NOT_RUNNING",
+      "output_required": [
+        "evidencia",
+        "resultado_de_teste",
+        "registro_de_tempo_agente"
+      ],
+      "allowed_to_record_human_hours": false,
+      "requires_review": true
+    },
+    {
+      "id": "GOV-02",
+      "nucleus": "Editais e conformidade",
+      "role": "Analista de TR",
+      "status": "CONFIGURED_NOT_RUNNING",
+      "output_required": [
+        "evidencia",
+        "resultado_de_teste",
+        "registro_de_tempo_agente"
+      ],
+      "allowed_to_record_human_hours": false,
+      "requires_review": true
+    },
+    {
+      "id": "GOV-03",
+      "nucleus": "Editais e conformidade",
+      "role": "Analista de OS",
+      "status": "CONFIGURED_NOT_RUNNING",
+      "output_required": [
+        "evidencia",
+        "resultado_de_teste",
+        "registro_de_tempo_agente"
+      ],
+      "allowed_to_record_human_hours": false,
+      "requires_review": true
+    },
+    {
+      "id": "GOV-04",
+      "nucleus": "Editais e conformidade",
+      "role": "Gestor de riscos contratuais",
+      "status": "CONFIGURED_NOT_RUNNING",
+      "output_required": [
+        "evidencia",
+        "resultado_de_teste",
+        "registro_de_tempo_agente"
+      ],
+      "allowed_to_record_human_hours": false,
+      "requires_review": true
+    },
+    {
+      "id": "GOV-05",
+      "nucleus": "Editais e conformidade",
+      "role": "Analista de SLA",
+      "status": "CONFIGURED_NOT_RUNNING",
+      "output_required": [
+        "evidencia",
+        "resultado_de_teste",
+        "registro_de_tempo_agente"
+      ],
+      "allowed_to_record_human_hours": false,
+      "requires_review": true
+    },
+    {
+      "id": "GOV-06",
+      "nucleus": "Editais e conformidade",
+      "role": "Especialista de aceite",
+      "status": "CONFIGURED_NOT_RUNNING",
+      "output_required": [
+        "evidencia",
+        "resultado_de_teste",
+        "registro_de_tempo_agente"
+      ],
+      "allowed_to_record_human_hours": false,
+      "requires_review": true
+    },
+    {
+      "id": "GOV-07",
+      "nucleus": "Editais e conformidade",
+      "role": "Especialista LGPD",
+      "status": "CONFIGURED_NOT_RUNNING",
+      "output_required": [
+        "evidencia",
+        "resultado_de_teste",
+        "registro_de_tempo_agente"
+      ],
+      "allowed_to_record_human_hours": false,
+      "requires_review": true
+    },
+    {
+      "id": "GOV-08",
+      "nucleus": "Editais e conformidade",
+      "role": "Auditor de evidências",
+      "status": "CONFIGURED_NOT_RUNNING",
+      "output_required": [
+        "evidencia",
+        "resultado_de_teste",
+        "registro_de_tempo_agente"
+      ],
+      "allowed_to_record_human_hours": false,
+      "requires_review": true
+    },
+    {
+      "id": "GOV-09",
+      "nucleus": "Editais e conformidade",
+      "role": "Analista de custos",
+      "status": "CONFIGURED_NOT_RUNNING",
+      "output_required": [
+        "evidencia",
+        "resultado_de_teste",
+        "registro_de_tempo_agente"
+      ],
+      "allowed_to_record_human_hours": false,
+      "requires_review": true
+    },
+    {
+      "id": "GOV-10",
+      "nucleus": "Editais e conformidade",
+      "role": "Revisor de conformidade",
+      "status": "CONFIGURED_NOT_RUNNING",
+      "output_required": [
+        "evidencia",
+        "resultado_de_teste",
+        "registro_de_tempo_agente"
+      ],
+      "allowed_to_record_human_hours": false,
+      "requires_review": true
+    },
+    {
+      "id": "PLAN-01",
+      "nucleus": "Planejamento",
+      "role": "Arquiteto principal",
+      "status": "CONFIGURED_NOT_RUNNING",
+      "output_required": [
+        "evidencia",
+        "resultado_de_teste",
+        "registro_de_tempo_agente"
+      ],
+      "allowed_to_record_human_hours": false,
+      "requires_review": true
+    },
+    {
+      "id": "PLAN-02",
+      "nucleus": "Planejamento",
+      "role": "Arquiteto de domínios",
+      "status": "CONFIGURED_NOT_RUNNING",
+      "output_required": [
+        "evidencia",
+        "resultado_de_teste",
+        "registro_de_tempo_agente"
+      ],
+      "allowed_to_record_human_hours": false,
+      "requires_review": true
+    },
+    {
+      "id": "PLAN-03",
+      "nucleus": "Planejamento",
+      "role": "Analista de requisitos",
+      "status": "CONFIGURED_NOT_RUNNING",
+      "output_required": [
+        "evidencia",
+        "resultado_de_teste",
+        "registro_de_tempo_agente"
+      ],
+      "allowed_to_record_human_hours": false,
+      "requires_review": true
+    },
+    {
+      "id": "PLAN-04",
+      "nucleus": "Planejamento",
+      "role": "Product Owner técnico",
+      "status": "CONFIGURED_NOT_RUNNING",
+      "output_required": [
+        "evidencia",
+        "resultado_de_teste",
+        "registro_de_tempo_agente"
+      ],
+      "allowed_to_record_human_hours": false,
+      "requires_review": true
+    },
+    {
+      "id": "PLAN-05",
+      "nucleus": "Planejamento",
+      "role": "Gerente de backlog",
+      "status": "CONFIGURED_NOT_RUNNING",
+      "output_required": [
+        "evidencia",
+        "resultado_de_teste",
+        "registro_de_tempo_agente"
+      ],
+      "allowed_to_record_human_hours": false,
+      "requires_review": true
+    },
+    {
+      "id": "PLAN-06",
+      "nucleus": "Planejamento",
+      "role": "Planejador de sprints",
+      "status": "CONFIGURED_NOT_RUNNING",
+      "output_required": [
+        "evidencia",
+        "resultado_de_teste",
+        "registro_de_tempo_agente"
+      ],
+      "allowed_to_record_human_hours": false,
+      "requires_review": true
+    },
+    {
+      "id": "PLAN-07",
+      "nucleus": "Planejamento",
+      "role": "Analista de dependências",
+      "status": "CONFIGURED_NOT_RUNNING",
+      "output_required": [
+        "evidencia",
+        "resultado_de_teste",
+        "registro_de_tempo_agente"
+      ],
+      "allowed_to_record_human_hours": false,
+      "requires_review": true
+    },
+    {
+      "id": "PLAN-08",
+      "nucleus": "Planejamento",
+      "role": "Gestor de configuração",
+      "status": "CONFIGURED_NOT_RUNNING",
+      "output_required": [
+        "evidencia",
+        "resultado_de_teste",
+        "registro_de_tempo_agente"
+      ],
+      "allowed_to_record_human_hours": false,
+      "requires_review": true
+    },
+    {
+      "id": "PLAN-09",
+      "nucleus": "Planejamento",
+      "role": "Planejador de releases",
+      "status": "CONFIGURED_NOT_RUNNING",
+      "output_required": [
+        "evidencia",
+        "resultado_de_teste",
+        "registro_de_tempo_agente"
+      ],
+      "allowed_to_record_human_hours": false,
+      "requires_review": true
+    },
+    {
+      "id": "PLAN-10",
+      "nucleus": "Planejamento",
+      "role": "Revisor de arquitetura",
+      "status": "CONFIGURED_NOT_RUNNING",
+      "output_required": [
+        "evidencia",
+        "resultado_de_teste",
+        "registro_de_tempo_agente"
+      ],
+      "allowed_to_record_human_hours": false,
+      "requires_review": true
+    },
+    {
+      "id": "DATA-01",
+      "nucleus": "Dados e banco",
+      "role": "Modelador relacional",
+      "status": "CONFIGURED_NOT_RUNNING",
+      "output_required": [
+        "evidencia",
+        "resultado_de_teste",
+        "registro_de_tempo_agente"
+      ],
+      "allowed_to_record_human_hours": false,
+      "requires_review": true
+    },
+    {
+      "id": "DATA-02",
+      "nucleus": "Dados e banco",
+      "role": "Especialista migrações",
+      "status": "CONFIGURED_NOT_RUNNING",
+      "output_required": [
+        "evidencia",
+        "resultado_de_teste",
+        "registro_de_tempo_agente"
+      ],
+      "allowed_to_record_human_hours": false,
+      "requires_review": true
+    },
+    {
+      "id": "DATA-03",
+      "nucleus": "Dados e banco",
+      "role": "Especialista índices",
+      "status": "CONFIGURED_NOT_RUNNING",
+      "output_required": [
+        "evidencia",
+        "resultado_de_teste",
+        "registro_de_tempo_agente"
+      ],
+      "allowed_to_record_human_hours": false,
+      "requires_review": true
+    },
+    {
+      "id": "DATA-04",
+      "nucleus": "Dados e banco",
+      "role": "Especialista segurança DB",
+      "status": "CONFIGURED_NOT_RUNNING",
+      "output_required": [
+        "evidencia",
+        "resultado_de_teste",
+        "registro_de_tempo_agente"
+      ],
+      "allowed_to_record_human_hours": false,
+      "requires_review": true
+    },
+    {
+      "id": "DATA-05",
+      "nucleus": "Dados e banco",
+      "role": "Especialista testes DB",
+      "status": "CONFIGURED_NOT_RUNNING",
+      "output_required": [
+        "evidencia",
+        "resultado_de_teste",
+        "registro_de_tempo_agente"
+      ],
+      "allowed_to_record_human_hours": false,
+      "requires_review": true
+    },
+    {
+      "id": "DATA-06",
+      "nucleus": "Dados e banco",
+      "role": "Analista de ETL",
+      "status": "CONFIGURED_NOT_RUNNING",
+      "output_required": [
+        "evidencia",
+        "resultado_de_teste",
+        "registro_de_tempo_agente"
+      ],
+      "allowed_to_record_human_hours": false,
+      "requires_review": true
+    },
+    {
+      "id": "DATA-07",
+      "nucleus": "Dados e banco",
+      "role": "Administrador de backups",
+      "status": "CONFIGURED_NOT_RUNNING",
+      "output_required": [
+        "evidencia",
+        "resultado_de_teste",
+        "registro_de_tempo_agente"
+      ],
+      "allowed_to_record_human_hours": false,
+      "requires_review": true
+    },
+    {
+      "id": "DATA-08",
+      "nucleus": "Dados e banco",
+      "role": "Especialista busca",
+      "status": "CONFIGURED_NOT_RUNNING",
+      "output_required": [
+        "evidencia",
+        "resultado_de_teste",
+        "registro_de_tempo_agente"
+      ],
+      "allowed_to_record_human_hours": false,
+      "requires_review": true
+    },
+    {
+      "id": "DATA-09",
+      "nucleus": "Dados e banco",
+      "role": "Engenheiro integridade",
+      "status": "CONFIGURED_NOT_RUNNING",
+      "output_required": [
+        "evidencia",
+        "resultado_de_teste",
+        "registro_de_tempo_agente"
+      ],
+      "allowed_to_record_human_hours": false,
+      "requires_review": true
+    },
+    {
+      "id": "DATA-10",
+      "nucleus": "Dados e banco",
+      "role": "Auditor de esquemas",
+      "status": "CONFIGURED_NOT_RUNNING",
+      "output_required": [
+        "evidencia",
+        "resultado_de_teste",
+        "registro_de_tempo_agente"
+      ],
+      "allowed_to_record_human_hours": false,
+      "requires_review": true
+    },
+    {
+      "id": "BACK-01",
+      "nucleus": "Backend",
+      "role": "Líder de API",
+      "status": "CONFIGURED_NOT_RUNNING",
+      "output_required": [
+        "evidencia",
+        "resultado_de_teste",
+        "registro_de_tempo_agente"
+      ],
+      "allowed_to_record_human_hours": false,
+      "requires_review": true
+    },
+    {
+      "id": "BACK-02",
+      "nucleus": "Backend",
+      "role": "Especialista autenticação",
+      "status": "CONFIGURED_NOT_RUNNING",
+      "output_required": [
+        "evidencia",
+        "resultado_de_teste",
+        "registro_de_tempo_agente"
+      ],
+      "allowed_to_record_human_hours": false,
+      "requires_review": true
+    },
+    {
+      "id": "BACK-03",
+      "nucleus": "Backend",
+      "role": "Especialista autorização",
+      "status": "CONFIGURED_NOT_RUNNING",
+      "output_required": [
+        "evidencia",
+        "resultado_de_teste",
+        "registro_de_tempo_agente"
+      ],
+      "allowed_to_record_human_hours": false,
+      "requires_review": true
+    },
+    {
+      "id": "BACK-04",
+      "nucleus": "Backend",
+      "role": "Especialista workflow",
+      "status": "CONFIGURED_NOT_RUNNING",
+      "output_required": [
+        "evidencia",
+        "resultado_de_teste",
+        "registro_de_tempo_agente"
+      ],
+      "allowed_to_record_human_hours": false,
+      "requires_review": true
+    },
+    {
+      "id": "BACK-05",
+      "nucleus": "Backend",
+      "role": "Especialista eventos",
+      "status": "CONFIGURED_NOT_RUNNING",
+      "output_required": [
+        "evidencia",
+        "resultado_de_teste",
+        "registro_de_tempo_agente"
+      ],
+      "allowed_to_record_human_hours": false,
+      "requires_review": true
+    },
+    {
+      "id": "BACK-06",
+      "nucleus": "Backend",
+      "role": "Especialista jobs",
+      "status": "CONFIGURED_NOT_RUNNING",
+      "output_required": [
+        "evidencia",
+        "resultado_de_teste",
+        "registro_de_tempo_agente"
+      ],
+      "allowed_to_record_human_hours": false,
+      "requires_review": true
+    },
+    {
+      "id": "BACK-07",
+      "nucleus": "Backend",
+      "role": "Especialista integrações",
+      "status": "CONFIGURED_NOT_RUNNING",
+      "output_required": [
+        "evidencia",
+        "resultado_de_teste",
+        "registro_de_tempo_agente"
+      ],
+      "allowed_to_record_human_hours": false,
+      "requires_review": true
+    },
+    {
+      "id": "BACK-08",
+      "nucleus": "Backend",
+      "role": "Especialista desempenho",
+      "status": "CONFIGURED_NOT_RUNNING",
+      "output_required": [
+        "evidencia",
+        "resultado_de_teste",
+        "registro_de_tempo_agente"
+      ],
+      "allowed_to_record_human_hours": false,
+      "requires_review": true
+    },
+    {
+      "id": "BACK-09",
+      "nucleus": "Backend",
+      "role": "Engenheiro observabilidade",
+      "status": "CONFIGURED_NOT_RUNNING",
+      "output_required": [
+        "evidencia",
+        "resultado_de_teste",
+        "registro_de_tempo_agente"
+      ],
+      "allowed_to_record_human_hours": false,
+      "requires_review": true
+    },
+    {
+      "id": "BACK-10",
+      "nucleus": "Backend",
+      "role": "Revisor backend",
+      "status": "CONFIGURED_NOT_RUNNING",
+      "output_required": [
+        "evidencia",
+        "resultado_de_teste",
+        "registro_de_tempo_agente"
+      ],
+      "allowed_to_record_human_hours": false,
+      "requires_review": true
+    },
+    {
+      "id": "FRONT-01",
+      "nucleus": "Frontend",
+      "role": "Líder frontend",
+      "status": "CONFIGURED_NOT_RUNNING",
+      "output_required": [
+        "evidencia",
+        "resultado_de_teste",
+        "registro_de_tempo_agente"
+      ],
+      "allowed_to_record_human_hours": false,
+      "requires_review": true
+    },
+    {
+      "id": "FRONT-02",
+      "nucleus": "Frontend",
+      "role": "Desenvolvedor componentes",
+      "status": "CONFIGURED_NOT_RUNNING",
+      "output_required": [
+        "evidencia",
+        "resultado_de_teste",
+        "registro_de_tempo_agente"
+      ],
+      "allowed_to_record_human_hours": false,
+      "requires_review": true
+    },
+    {
+      "id": "FRONT-03",
+      "nucleus": "Frontend",
+      "role": "Especialista formulários",
+      "status": "CONFIGURED_NOT_RUNNING",
+      "output_required": [
+        "evidencia",
+        "resultado_de_teste",
+        "registro_de_tempo_agente"
+      ],
+      "allowed_to_record_human_hours": false,
+      "requires_review": true
+    },
+    {
+      "id": "FRONT-04",
+      "nucleus": "Frontend",
+      "role": "Especialista navegação",
+      "status": "CONFIGURED_NOT_RUNNING",
+      "output_required": [
+        "evidencia",
+        "resultado_de_teste",
+        "registro_de_tempo_agente"
+      ],
+      "allowed_to_record_human_hours": false,
+      "requires_review": true
+    },
+    {
+      "id": "FRONT-05",
+      "nucleus": "Frontend",
+      "role": "Especialista acessibilidade",
+      "status": "CONFIGURED_NOT_RUNNING",
+      "output_required": [
+        "evidencia",
+        "resultado_de_teste",
+        "registro_de_tempo_agente"
+      ],
+      "allowed_to_record_human_hours": false,
+      "requires_review": true
+    },
+    {
+      "id": "FRONT-06",
+      "nucleus": "Frontend",
+      "role": "Especialista gráficos",
+      "status": "CONFIGURED_NOT_RUNNING",
+      "output_required": [
+        "evidencia",
+        "resultado_de_teste",
+        "registro_de_tempo_agente"
+      ],
+      "allowed_to_record_human_hours": false,
+      "requires_review": true
+    },
+    {
+      "id": "FRONT-07",
+      "nucleus": "Frontend",
+      "role": "Especialista internacionalização",
+      "status": "CONFIGURED_NOT_RUNNING",
+      "output_required": [
+        "evidencia",
+        "resultado_de_teste",
+        "registro_de_tempo_agente"
+      ],
+      "allowed_to_record_human_hours": false,
+      "requires_review": true
+    },
+    {
+      "id": "FRONT-08",
+      "nucleus": "Frontend",
+      "role": "Especialista segurança UI",
+      "status": "CONFIGURED_NOT_RUNNING",
+      "output_required": [
+        "evidencia",
+        "resultado_de_teste",
+        "registro_de_tempo_agente"
+      ],
+      "allowed_to_record_human_hours": false,
+      "requires_review": true
+    },
+    {
+      "id": "FRONT-09",
+      "nucleus": "Frontend",
+      "role": "Especialista PWA",
+      "status": "CONFIGURED_NOT_RUNNING",
+      "output_required": [
+        "evidencia",
+        "resultado_de_teste",
+        "registro_de_tempo_agente"
+      ],
+      "allowed_to_record_human_hours": false,
+      "requires_review": true
+    },
+    {
+      "id": "FRONT-10",
+      "nucleus": "Frontend",
+      "role": "Revisor frontend",
+      "status": "CONFIGURED_NOT_RUNNING",
+      "output_required": [
+        "evidencia",
+        "resultado_de_teste",
+        "registro_de_tempo_agente"
+      ],
+      "allowed_to_record_human_hours": false,
+      "requires_review": true
+    },
+    {
+      "id": "INT-01",
+      "nucleus": "Integrações e canais",
+      "role": "Arquiteto integrações",
+      "status": "CONFIGURED_NOT_RUNNING",
+      "output_required": [
+        "evidencia",
+        "resultado_de_teste",
+        "registro_de_tempo_agente"
+      ],
+      "allowed_to_record_human_hours": false,
+      "requires_review": true
+    },
+    {
+      "id": "INT-02",
+      "nucleus": "Integrações e canais",
+      "role": "Engenheiro e-mail",
+      "status": "CONFIGURED_NOT_RUNNING",
+      "output_required": [
+        "evidencia",
+        "resultado_de_teste",
+        "registro_de_tempo_agente"
+      ],
+      "allowed_to_record_human_hours": false,
+      "requires_review": true
+    },
+    {
+      "id": "INT-03",
+      "nucleus": "Integrações e canais",
+      "role": "Engenheiro SMS",
+      "status": "CONFIGURED_NOT_RUNNING",
+      "output_required": [
+        "evidencia",
+        "resultado_de_teste",
+        "registro_de_tempo_agente"
+      ],
+      "allowed_to_record_human_hours": false,
+      "requires_review": true
+    },
+    {
+      "id": "INT-04",
+      "nucleus": "Integrações e canais",
+      "role": "Engenheiro notificações",
+      "status": "CONFIGURED_NOT_RUNNING",
+      "output_required": [
+        "evidencia",
+        "resultado_de_teste",
+        "registro_de_tempo_agente"
+      ],
+      "allowed_to_record_human_hours": false,
+      "requires_review": true
+    },
+    {
+      "id": "INT-05",
+      "nucleus": "Integrações e canais",
+      "role": "Engenheiro webhook",
+      "status": "CONFIGURED_NOT_RUNNING",
+      "output_required": [
+        "evidencia",
+        "resultado_de_teste",
+        "registro_de_tempo_agente"
+      ],
+      "allowed_to_record_human_hours": false,
+      "requires_review": true
+    },
+    {
+      "id": "INT-06",
+      "nucleus": "Integrações e canais",
+      "role": "Engenheiro filas",
+      "status": "CONFIGURED_NOT_RUNNING",
+      "output_required": [
+        "evidencia",
+        "resultado_de_teste",
+        "registro_de_tempo_agente"
+      ],
+      "allowed_to_record_human_hours": false,
+      "requires_review": true
+    },
+    {
+      "id": "INT-07",
+      "nucleus": "Integrações e canais",
+      "role": "Engenheiro APIs legadas",
+      "status": "CONFIGURED_NOT_RUNNING",
+      "output_required": [
+        "evidencia",
+        "resultado_de_teste",
+        "registro_de_tempo_agente"
+      ],
+      "allowed_to_record_human_hours": false,
+      "requires_review": true
+    },
+    {
+      "id": "INT-08",
+      "nucleus": "Integrações e canais",
+      "role": "Engenheiro SSO",
+      "status": "CONFIGURED_NOT_RUNNING",
+      "output_required": [
+        "evidencia",
+        "resultado_de_teste",
+        "registro_de_tempo_agente"
+      ],
+      "allowed_to_record_human_hours": false,
+      "requires_review": true
+    },
+    {
+      "id": "INT-09",
+      "nucleus": "Integrações e canais",
+      "role": "Engenheiro intercâmbio de dados",
+      "status": "CONFIGURED_NOT_RUNNING",
+      "output_required": [
+        "evidencia",
+        "resultado_de_teste",
+        "registro_de_tempo_agente"
+      ],
+      "allowed_to_record_human_hours": false,
+      "requires_review": true
+    },
+    {
+      "id": "INT-10",
+      "nucleus": "Integrações e canais",
+      "role": "Revisor integrações",
+      "status": "CONFIGURED_NOT_RUNNING",
+      "output_required": [
+        "evidencia",
+        "resultado_de_teste",
+        "registro_de_tempo_agente"
+      ],
+      "allowed_to_record_human_hours": false,
+      "requires_review": true
+    },
+    {
+      "id": "QA-01",
+      "nucleus": "Qualidade",
+      "role": "Líder QA",
+      "status": "CONFIGURED_NOT_RUNNING",
+      "output_required": [
+        "evidencia",
+        "resultado_de_teste",
+        "registro_de_tempo_agente"
+      ],
+      "allowed_to_record_human_hours": false,
+      "requires_review": true
+    },
+    {
+      "id": "QA-02",
+      "nucleus": "Qualidade",
+      "role": "Engenheiro testes unitários",
+      "status": "CONFIGURED_NOT_RUNNING",
+      "output_required": [
+        "evidencia",
+        "resultado_de_teste",
+        "registro_de_tempo_agente"
+      ],
+      "allowed_to_record_human_hours": false,
+      "requires_review": true
+    },
+    {
+      "id": "QA-03",
+      "nucleus": "Qualidade",
+      "role": "Engenheiro testes integração",
+      "status": "CONFIGURED_NOT_RUNNING",
+      "output_required": [
+        "evidencia",
+        "resultado_de_teste",
+        "registro_de_tempo_agente"
+      ],
+      "allowed_to_record_human_hours": false,
+      "requires_review": true
+    },
+    {
+      "id": "QA-04",
+      "nucleus": "Qualidade",
+      "role": "Engenheiro E2E",
+      "status": "CONFIGURED_NOT_RUNNING",
+      "output_required": [
+        "evidencia",
+        "resultado_de_teste",
+        "registro_de_tempo_agente"
+      ],
+      "allowed_to_record_human_hours": false,
+      "requires_review": true
+    },
+    {
+      "id": "QA-05",
+      "nucleus": "Qualidade",
+      "role": "Engenheiro testes segurança",
+      "status": "CONFIGURED_NOT_RUNNING",
+      "output_required": [
+        "evidencia",
+        "resultado_de_teste",
+        "registro_de_tempo_agente"
+      ],
+      "allowed_to_record_human_hours": false,
+      "requires_review": true
+    },
+    {
+      "id": "QA-06",
+      "nucleus": "Qualidade",
+      "role": "Engenheiro testes carga",
+      "status": "CONFIGURED_NOT_RUNNING",
+      "output_required": [
+        "evidencia",
+        "resultado_de_teste",
+        "registro_de_tempo_agente"
+      ],
+      "allowed_to_record_human_hours": false,
+      "requires_review": true
+    },
+    {
+      "id": "QA-07",
+      "nucleus": "Qualidade",
+      "role": "Engenheiro testes acessibilidade",
+      "status": "CONFIGURED_NOT_RUNNING",
+      "output_required": [
+        "evidencia",
+        "resultado_de_teste",
+        "registro_de_tempo_agente"
+      ],
+      "allowed_to_record_human_hours": false,
+      "requires_review": true
+    },
+    {
+      "id": "QA-08",
+      "nucleus": "Qualidade",
+      "role": "Analista bugs",
+      "status": "CONFIGURED_NOT_RUNNING",
+      "output_required": [
+        "evidencia",
+        "resultado_de_teste",
+        "registro_de_tempo_agente"
+      ],
+      "allowed_to_record_human_hours": false,
+      "requires_review": true
+    },
+    {
+      "id": "QA-09",
+      "nucleus": "Qualidade",
+      "role": "Auditor regressão",
+      "status": "CONFIGURED_NOT_RUNNING",
+      "output_required": [
+        "evidencia",
+        "resultado_de_teste",
+        "registro_de_tempo_agente"
+      ],
+      "allowed_to_record_human_hours": false,
+      "requires_review": true
+    },
+    {
+      "id": "QA-10",
+      "nucleus": "Qualidade",
+      "role": "Revisor independente",
+      "status": "CONFIGURED_NOT_RUNNING",
+      "output_required": [
+        "evidencia",
+        "resultado_de_teste",
+        "registro_de_tempo_agente"
+      ],
+      "allowed_to_record_human_hours": false,
+      "requires_review": true
+    },
+    {
+      "id": "OPS-01",
+      "nucleus": "DevSecOps",
+      "role": "Líder DevOps",
+      "status": "CONFIGURED_NOT_RUNNING",
+      "output_required": [
+        "evidencia",
+        "resultado_de_teste",
+        "registro_de_tempo_agente"
+      ],
+      "allowed_to_record_human_hours": false,
+      "requires_review": true
+    },
+    {
+      "id": "OPS-02",
+      "nucleus": "DevSecOps",
+      "role": "Engenheiro pipelines",
+      "status": "CONFIGURED_NOT_RUNNING",
+      "output_required": [
+        "evidencia",
+        "resultado_de_teste",
+        "registro_de_tempo_agente"
+      ],
+      "allowed_to_record_human_hours": false,
+      "requires_review": true
+    },
+    {
+      "id": "OPS-03",
+      "nucleus": "DevSecOps",
+      "role": "Engenheiro containers",
+      "status": "CONFIGURED_NOT_RUNNING",
+      "output_required": [
+        "evidencia",
+        "resultado_de_teste",
+        "registro_de_tempo_agente"
+      ],
+      "allowed_to_record_human_hours": false,
+      "requires_review": true
+    },
+    {
+      "id": "OPS-04",
+      "nucleus": "DevSecOps",
+      "role": "Engenheiro infra",
+      "status": "CONFIGURED_NOT_RUNNING",
+      "output_required": [
+        "evidencia",
+        "resultado_de_teste",
+        "registro_de_tempo_agente"
+      ],
+      "allowed_to_record_human_hours": false,
+      "requires_review": true
+    },
+    {
+      "id": "OPS-05",
+      "nucleus": "DevSecOps",
+      "role": "Engenheiro monitoramento",
+      "status": "CONFIGURED_NOT_RUNNING",
+      "output_required": [
+        "evidencia",
+        "resultado_de_teste",
+        "registro_de_tempo_agente"
+      ],
+      "allowed_to_record_human_hours": false,
+      "requires_review": true
+    },
+    {
+      "id": "OPS-06",
+      "nucleus": "DevSecOps",
+      "role": "Engenheiro backup",
+      "status": "CONFIGURED_NOT_RUNNING",
+      "output_required": [
+        "evidencia",
+        "resultado_de_teste",
+        "registro_de_tempo_agente"
+      ],
+      "allowed_to_record_human_hours": false,
+      "requires_review": true
+    },
+    {
+      "id": "OPS-07",
+      "nucleus": "DevSecOps",
+      "role": "Especialista segredos",
+      "status": "CONFIGURED_NOT_RUNNING",
+      "output_required": [
+        "evidencia",
+        "resultado_de_teste",
+        "registro_de_tempo_agente"
+      ],
+      "allowed_to_record_human_hours": false,
+      "requires_review": true
+    },
+    {
+      "id": "OPS-08",
+      "nucleus": "DevSecOps",
+      "role": "Especialista SAST",
+      "status": "CONFIGURED_NOT_RUNNING",
+      "output_required": [
+        "evidencia",
+        "resultado_de_teste",
+        "registro_de_tempo_agente"
+      ],
+      "allowed_to_record_human_hours": false,
+      "requires_review": true
+    },
+    {
+      "id": "OPS-09",
+      "nucleus": "DevSecOps",
+      "role": "Especialista hardening",
+      "status": "CONFIGURED_NOT_RUNNING",
+      "output_required": [
+        "evidencia",
+        "resultado_de_teste",
+        "registro_de_tempo_agente"
+      ],
+      "allowed_to_record_human_hours": false,
+      "requires_review": true
+    },
+    {
+      "id": "OPS-10",
+      "nucleus": "DevSecOps",
+      "role": "Auditor de release",
+      "status": "CONFIGURED_NOT_RUNNING",
+      "output_required": [
+        "evidencia",
+        "resultado_de_teste",
+        "registro_de_tempo_agente"
+      ],
+      "allowed_to_record_human_hours": false,
+      "requires_review": true
+    },
+    {
+      "id": "DOC-01",
+      "nucleus": "Documentação e entrega",
+      "role": "Especialista manuais",
+      "status": "CONFIGURED_NOT_RUNNING",
+      "output_required": [
+        "evidencia",
+        "resultado_de_teste",
+        "registro_de_tempo_agente"
+      ],
+      "allowed_to_record_human_hours": false,
+      "requires_review": true
+    },
+    {
+      "id": "DOC-02",
+      "nucleus": "Documentação e entrega",
+      "role": "Redator técnico",
+      "status": "CONFIGURED_NOT_RUNNING",
+      "output_required": [
+        "evidencia",
+        "resultado_de_teste",
+        "registro_de_tempo_agente"
+      ],
+      "allowed_to_record_human_hours": false,
+      "requires_review": true
+    },
+    {
+      "id": "DOC-03",
+      "nucleus": "Documentação e entrega",
+      "role": "Documentador API",
+      "status": "CONFIGURED_NOT_RUNNING",
+      "output_required": [
+        "evidencia",
+        "resultado_de_teste",
+        "registro_de_tempo_agente"
+      ],
+      "allowed_to_record_human_hours": false,
+      "requires_review": true
+    },
+    {
+      "id": "DOC-04",
+      "nucleus": "Documentação e entrega",
+      "role": "Especialista diagramas",
+      "status": "CONFIGURED_NOT_RUNNING",
+      "output_required": [
+        "evidencia",
+        "resultado_de_teste",
+        "registro_de_tempo_agente"
+      ],
+      "allowed_to_record_human_hours": false,
+      "requires_review": true
+    },
+    {
+      "id": "DOC-05",
+      "nucleus": "Documentação e entrega",
+      "role": "Gerador de ZIP",
+      "status": "CONFIGURED_NOT_RUNNING",
+      "output_required": [
+        "evidencia",
+        "resultado_de_teste",
+        "registro_de_tempo_agente"
+      ],
+      "allowed_to_record_human_hours": false,
+      "requires_review": true
+    },
+    {
+      "id": "DOC-06",
+      "nucleus": "Documentação e entrega",
+      "role": "Auditor integridade",
+      "status": "CONFIGURED_NOT_RUNNING",
+      "output_required": [
+        "evidencia",
+        "resultado_de_teste",
+        "registro_de_tempo_agente"
+      ],
+      "allowed_to_record_human_hours": false,
+      "requires_review": true
+    },
+    {
+      "id": "DOC-07",
+      "nucleus": "Documentação e entrega",
+      "role": "Gerador changelog",
+      "status": "CONFIGURED_NOT_RUNNING",
+      "output_required": [
+        "evidencia",
+        "resultado_de_teste",
+        "registro_de_tempo_agente"
+      ],
+      "allowed_to_record_human_hours": false,
+      "requires_review": true
+    },
+    {
+      "id": "DOC-08",
+      "nucleus": "Documentação e entrega",
+      "role": "Gestor de tags",
+      "status": "CONFIGURED_NOT_RUNNING",
+      "output_required": [
+        "evidencia",
+        "resultado_de_teste",
+        "registro_de_tempo_agente"
+      ],
+      "allowed_to_record_human_hours": false,
+      "requires_review": true
+    },
+    {
+      "id": "DOC-09",
+      "nucleus": "Documentação e entrega",
+      "role": "Curador de evidências",
+      "status": "CONFIGURED_NOT_RUNNING",
+      "output_required": [
+        "evidencia",
+        "resultado_de_teste",
+        "registro_de_tempo_agente"
+      ],
+      "allowed_to_record_human_hours": false,
+      "requires_review": true
+    },
+    {
+      "id": "DOC-10",
+      "nucleus": "Documentação e entrega",
+      "role": "Revisor de documentação",
+      "status": "CONFIGURED_NOT_RUNNING",
+      "output_required": [
+        "evidencia",
+        "resultado_de_teste",
+        "registro_de_tempo_agente"
+      ],
+      "allowed_to_record_human_hours": false,
+      "requires_review": true
+    },
+    {
+      "id": "MEAS-01",
+      "nucleus": "Medição e auditoria",
+      "role": "Analista UST",
+      "status": "CONFIGURED_NOT_RUNNING",
+      "output_required": [
+        "evidencia",
+        "resultado_de_teste",
+        "registro_de_tempo_agente"
+      ],
+      "allowed_to_record_human_hours": false,
+      "requires_review": true
+    },
+    {
+      "id": "MEAS-02",
+      "nucleus": "Medição e auditoria",
+      "role": "Especialista PF",
+      "status": "CONFIGURED_NOT_RUNNING",
+      "output_required": [
+        "evidencia",
+        "resultado_de_teste",
+        "registro_de_tempo_agente"
+      ],
+      "allowed_to_record_human_hours": false,
+      "requires_review": true
+    },
+    {
+      "id": "MEAS-03",
+      "nucleus": "Medição e auditoria",
+      "role": "Analista HST",
+      "status": "CONFIGURED_NOT_RUNNING",
+      "output_required": [
+        "evidencia",
+        "resultado_de_teste",
+        "registro_de_tempo_agente"
+      ],
+      "allowed_to_record_human_hours": false,
+      "requires_review": true
+    },
+    {
+      "id": "MEAS-04",
+      "nucleus": "Medição e auditoria",
+      "role": "Gestor catálogos",
+      "status": "CONFIGURED_NOT_RUNNING",
+      "output_required": [
+        "evidencia",
+        "resultado_de_teste",
+        "registro_de_tempo_agente"
+      ],
+      "allowed_to_record_human_hours": false,
+      "requires_review": true
+    },
+    {
+      "id": "MEAS-05",
+      "nucleus": "Medição e auditoria",
+      "role": "Analista glosas",
+      "status": "CONFIGURED_NOT_RUNNING",
+      "output_required": [
+        "evidencia",
+        "resultado_de_teste",
+        "registro_de_tempo_agente"
+      ],
+      "allowed_to_record_human_hours": false,
+      "requires_review": true
+    },
+    {
+      "id": "MEAS-06",
+      "nucleus": "Medição e auditoria",
+      "role": "Analista indicadores",
+      "status": "CONFIGURED_NOT_RUNNING",
+      "output_required": [
+        "evidencia",
+        "resultado_de_teste",
+        "registro_de_tempo_agente"
+      ],
+      "allowed_to_record_human_hours": false,
+      "requires_review": true
+    },
+    {
+      "id": "MEAS-07",
+      "nucleus": "Medição e auditoria",
+      "role": "Auditor horas",
+      "status": "CONFIGURED_NOT_RUNNING",
+      "output_required": [
+        "evidencia",
+        "resultado_de_teste",
+        "registro_de_tempo_agente"
+      ],
+      "allowed_to_record_human_hours": false,
+      "requires_review": true
+    },
+    {
+      "id": "MEAS-08",
+      "nucleus": "Medição e auditoria",
+      "role": "Especialista relatórios",
+      "status": "CONFIGURED_NOT_RUNNING",
+      "output_required": [
+        "evidencia",
+        "resultado_de_teste",
+        "registro_de_tempo_agente"
+      ],
+      "allowed_to_record_human_hours": false,
+      "requires_review": true
+    },
+    {
+      "id": "MEAS-09",
+      "nucleus": "Medição e auditoria",
+      "role": "Reconciliador código-medida",
+      "status": "CONFIGURED_NOT_RUNNING",
+      "output_required": [
+        "evidencia",
+        "resultado_de_teste",
+        "registro_de_tempo_agente"
+      ],
+      "allowed_to_record_human_hours": false,
+      "requires_review": true
+    },
+    {
+      "id": "MEAS-10",
+      "nucleus": "Medição e auditoria",
+      "role": "Validador de aceite",
+      "status": "CONFIGURED_NOT_RUNNING",
+      "output_required": [
+        "evidencia",
+        "resultado_de_teste",
+        "registro_de_tempo_agente"
+      ],
+      "allowed_to_record_human_hours": false,
+      "requires_review": true
+    }
+  ],
+  "note": "Catálogo de posições lógicas. Não indica execução real."
+}

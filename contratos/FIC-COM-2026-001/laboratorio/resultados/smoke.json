@@ -1,0 +1,195 @@
+{
+"checks": [
+[
+"Login com senha errada",
+401,
+401,
+"PASSOU"
+],
+[
+"API sem token",
+401,
+401,
+"PASSOU"
+],
+[
+"Token adulterado",
+401,
+401,
+"PASSOU"
+],
+[
+"Editor cria canal",
+201,
+201,
+"PASSOU"
+],
+[
+"Leitor tenta criar canal",
+403,
+403,
+"PASSOU"
+],
+[
+"Editor cria publicação",
+201,
+201,
+"PASSOU"
+],
+[
+"Publicar sem aprovação",
+409,
+409,
+"PASSOU"
+],
+[
+"Enviar para revisão",
+200,
+200,
+"PASSOU"
+],
+[
+"Editor tenta aprovar",
+403,
+403,
+"PASSOU"
+],
+[
+"Revisor aprova (pessoa distinta)",
+200,
+200,
+"PASSOU"
+],
+[
+"Revisor publica",
+200,
+200,
+"PASSOU"
+],
+[
+"Envio externo não simulado",
+"NAO_EXECUTADA",
+"NAO_EXECUTADA",
+"PASSOU"
+],
+[
+"ADMIN autor tenta autoaprovar",
+409,
+409,
+"PASSOU"
+],
+[
+"Campanha",
+201,
+201,
+"PASSOU"
+],
+[
+"Contato com consentimento",
+201,
+201,
+"PASSOU"
+],
+[
+"Leitor lista contatos (dados pessoais)",
+403,
+403,
+"PASSOU"
+],
+[
+"Abrir chamado",
+201,
+201,
+"PASSOU"
+],
+[
+"Prioridade inválida",
+422,
+422,
+"PASSOU"
+],
+[
+"Resolver chamado",
+200,
+200,
+"PASSOU"
+],
+[
+"Exportar CSV (revisor)",
+200,
+200,
+"PASSOU"
+],
+[
+"Exportar CSV (leitor)",
+403,
+403,
+"PASSOU"
+],
+[
+"Trilha de auditoria",
+200,
+200,
+"PASSOU"
+],
+[
+"Painel: publicadas=1",
+1,
+1,
+"PASSOU"
+],
+[
+"Validação: senha curta em usuário",
+422,
+422,
+"PASSOU"
+],
+[
+"Fábrica: aprovação sem frase correta",
+409,
+409,
+"PASSOU"
+],
+[
+"Fábrica: START sem plano aprovado",
+409,
+409,
+"PASSOU"
+],
+[
+"Fábrica: 18 tarefas planejadas",
+18,
+18,
+"PASSOU"
+],
+[
+"Fábrica: soma planejada 12.000",
+12000,
+12000.0,
+"PASSOU"
+],
+[
+"Fábrica: 10 posições de equipe",
+10,
+10,
+"PASSOU"
+],
+[
+"Fábrica: painel acessível SEM login (lacuna)",
+200,
+200,
+"PASSOU"
+]
+],
+"eventos_auditoria": 11,
+"kpis": {
+"channels": 1,
+"posts": 2,
+"campaigns": 1,
+"contacts": 1,
+"tickets": 1,
+"deliveries": 0,
+"posts_published": 1,
+"tickets_open": 0
+}
+}

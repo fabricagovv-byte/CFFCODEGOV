@@ -1,0 +1,2 @@
+data,profissional_id,os,modulo,tipo,descricao,evidencia,horas_declaradas
+#2026-11-03,P01,OS-001,MOD-001,REVISAO,Revisou o código de autenticação e pediu ajuste,commit:abc1234 ou PR #12 ou ata,

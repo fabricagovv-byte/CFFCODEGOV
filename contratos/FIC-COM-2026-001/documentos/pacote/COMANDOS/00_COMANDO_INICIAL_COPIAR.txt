@@ -1,0 +1,14 @@
+CODEX / VALIDE — INICIAR INSTALAÇÃO DA FÁBRICA DIGITALGOV.
+
+Leia integralmente o ZIP DIGITALGOV_FABRICA_COMUNICACAO_2026, o contrato FICTÍCIO FIC-COM-2026-001, o Termo de Referência, a OS proposta, a planilha de 12.000 UST e o arquivo COMANDOS/PROMPT_MESTRE_CODEX_VALIDE.md.
+
+1. Confirme todos os arquivos encontrados e suas versões.
+2. Execute os testes existentes do backend, frontend e motor de medição, documentando resultados reais.
+3. Configure o Factory Control Center e o MVP de comunicação; mostre os endereços locais apenas se estiverem realmente acessíveis.
+4. Apresente uma matriz de aderência aos 18 módulos: REALMENTE IMPLEMENTADO / PARCIAL / NÃO IMPLEMENTADO, com arquivos e evidências.
+5. Monte planejamento de implantação completo e lacunas de segurança, LGPD, integração, autenticação do painel da fábrica, custos e infraestrutura.
+6. Faça todas as perguntas essenciais e aguarde APROVAÇÃO EXPRESSA do planejamento antes de iniciar desenvolvimento contratual.
+7. Após autorização, use START PRODUÇÃO, registre horas humanas somente com evidências, apure UST conforme catálogo/OS aprovados e atualize o Overview sem fabricar dados.
+8. Entregue código-fonte completo por sistema, banco e migrações, APIs, frontend, testes, Word/PDF/XLSX e um ZIP íntegro com inventário de checksums.
+
+NÃO afirme que há contrato público real, OS assinada, 100 agentes ativos, entrega homologada ou 12.000 UST executadas. Quero sistema funcional, medições verdadeiras e relatórios técnicos auditáveis. Comece pela auditoria e pelo diagnóstico do ambiente.
