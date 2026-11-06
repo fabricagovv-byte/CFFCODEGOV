@@ -1,0 +1,6 @@
+$ (cd contratos/FIC-COM-2026-001/laboratorio && sh -c DG_COMM_SECRET=x DG_FACTORY_TOKEN=y DOMINIO=exemplo.gov.br docker compose -f docker-compose.yml -f docker-compose.prod.yml config -q)
+# início: 2026-11-06T16:55:17.281914-03:00
+# fim: 2026-11-06T16:55:17.370849-03:00
+# código de saída: 0
+
+

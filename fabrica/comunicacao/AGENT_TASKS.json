@@ -1972,6 +1972,70 @@
           "nota": ""
         }
       ]
+    },
+    {
+      "id": "T-0033",
+      "contrato": "FIC-COM-2026-001",
+      "os": "OS-FIC-002",
+      "modulo": "",
+      "agente": "G01",
+      "profissional": "",
+      "descricao": "Fechar o dia: implantação e manuais, fluxo completo da OS, checklist, relatórios do dia e ao órgão, painel e pacote de entrega",
+      "prioridade": "ALTA",
+      "dependencias": [],
+      "arquivos": [],
+      "prazo": "",
+      "status": "DONE",
+      "resultado": "Fluxo da OS até o checklist: 97 verificações aprovadas, 4 módulos aprovados, 202,5 UST comprovadas; checklist sem crítico reprovado, 18 críticos aguardam conferência humana; relatórios do dia e ao órgão gerados; pacote do dia com 17 arquivos",
+      "evidencias": [
+        "contratos/FIC-COM-2026-001/checklist/ROTEIRO_CONFERENCIA_OS-FIC-002.md",
+        "contratos/FIC-COM-2026-001/entregas/dia-2026-11-06/MANIFESTO_SHA256.txt"
+      ],
+      "pendencias": [],
+      "historico": [
+        {
+          "em": "2026-11-06T16:58:30-03:00",
+          "de": null,
+          "para": "BACKLOG",
+          "por": "Claude Code",
+          "nota": "criada"
+        },
+        {
+          "em": "2026-11-06T16:58:30-03:00",
+          "de": "BACKLOG",
+          "para": "READY",
+          "por": "Claude Code",
+          "nota": ""
+        },
+        {
+          "em": "2026-11-06T16:58:30-03:00",
+          "de": "READY",
+          "para": "IN_PROGRESS",
+          "por": "Claude Code",
+          "nota": ""
+        },
+        {
+          "em": "2026-11-06T16:58:30-03:00",
+          "de": "IN_PROGRESS",
+          "para": "IN_REVIEW",
+          "por": "Claude Code",
+          "nota": ""
+        },
+        {
+          "em": "2026-11-06T16:58:30-03:00",
+          "de": "IN_REVIEW",
+          "para": "TESTING",
+          "por": "Claude Code",
+          "nota": ""
+        },
+        {
+          "em": "2026-11-06T16:58:31-03:00",
+          "de": "TESTING",
+          "para": "DONE",
+          "por": "Claude Code",
+          "nota": ""
+        }
+      ]
     }
   ]
 }

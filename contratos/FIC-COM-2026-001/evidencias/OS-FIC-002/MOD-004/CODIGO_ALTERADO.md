@@ -4,6 +4,7 @@ Gerado a partir do git. Cada linha é um arquivo realmente alterado.
 
 | Commit | Data | Status | Arquivo |
 |---|---|---|---|
+| `91613ad1a0` | 2026-11-06 | M | `contratos/FIC-COM-2026-001/laboratorio/FABRICA/requirements.txt` |
 | `de17ba03d9` | 2026-11-06 | M | `contratos/FIC-COM-2026-001/laboratorio/FABRICA/README.md` |
 | `de17ba03d9` | 2026-11-06 | M | `contratos/FIC-COM-2026-001/laboratorio/FABRICA/app/main.py` |
 | `de17ba03d9` | 2026-11-06 | M | `contratos/FIC-COM-2026-001/laboratorio/FABRICA/requirements.txt` |

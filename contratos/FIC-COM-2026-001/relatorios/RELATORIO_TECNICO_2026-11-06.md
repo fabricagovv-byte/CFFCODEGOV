@@ -60,29 +60,29 @@ Os agentes de IA executam as etapas técnicas; a equipe técnica responde por el
 | Etapa | Agente (papel na fábrica) | Resultado | Data | Situação |
 |---|---|---|---|---|
 | Código (banco, API, telas, testes) | G06/G07/G08 + gerador de cadastros | commits no git (autor: Claude) | 2026-11-06 | concluído |
-| Conferência da autorização | G03 Gestor Contratual | — | — | sem registro |
-| Execução dos testes | G12 Engenheiro de Testes | — | — | sem registro |
-| Registro dos commits | G17 Auditor de Evidências | — | — | sem registro |
-| Auditoria das evidências | G17 Auditor de Evidências | — | — | sem registro |
-| Medição | G15 Medidor de UST | — | — | sem registro |
-| Relatórios | G19 Gerador de Relatórios | — | — | sem registro |
-| Checklist de qualidade | G20 Homologador Técnico | — | — | sem registro |
-| Pacote de entrega | G20 Homologador Técnico | — | — | sem registro |
+| Conferência da autorização | G03 Gestor Contratual | autorização registrada | 2026-11-06 | concluído |
+| Execução dos testes | G12 Engenheiro de Testes | 97 verificações aprovadas | 2026-11-06 | concluído |
+| Registro dos commits | G17 Auditor de Evidências | 13 commits | 2026-11-06 | concluído |
+| Auditoria das evidências | G17 Auditor de Evidências | 4 módulos aprovados | 2026-11-06 | concluído |
+| Medição | G15 Medidor de UST | previsto 202.5 · comprovado 202.5 · aceito 0 | 2026-11-06 | concluído |
+| Relatórios | G19 Gerador de Relatórios | relatório diário e fechamento gerados | 2026-11-06 | concluído |
+| Checklist de qualidade | G20 Homologador Técnico | 18 controle(s) crítico(s) aguardam verificação humana — verifique e rode de novo com --aprovado-por "Nome (cargo)" | 2026-11-06 | aguardando a equipe |
+| Pacote de entrega | G20 Homologador Técnico | — | — | pendente |
 
 ## 5. O que foi feito e quanto foi medido
 
 | Módulo | O que foi entregue | Item do contrato | UST executada | Testes |
 |---|---|---|---|---|
-| MOD-001 — Controle de sessão (TR M01, item 2 de 4) | Banco de dados, Testes automatizados | CAT-M01-02 | 202,5 | 35 ok, 0 falha(s) |
-| MOD-002 — Correções de validação e privacidade (M03, M05, M07, M08) | Banco de dados, Testes automatizados | CORRETIVA-SEM-ITEM | 0 | 34 ok, 0 falha(s) |
-| MOD-003 — Base técnica — migrações versionadas, cabeçalhos de segurança, dependências | Banco de dados, Testes automatizados | CORRETIVA-SEM-ITEM | 0 | 9 ok, 0 falha(s) |
+| MOD-001 — Controle de sessão (TR M01, item 2 de 4) | Banco de dados, Testes automatizados | CAT-M01-02 | 202,5 | 37 ok, 0 falha(s) |
+| MOD-002 — Correções de validação e privacidade (M03, M05, M07, M08) | Banco de dados, Testes automatizados | CORRETIVA-SEM-ITEM | 0 | 36 ok, 0 falha(s) |
+| MOD-003 — Base técnica — migrações versionadas, cabeçalhos de segurança, dependências | Infraestrutura, Banco de dados, Testes automatizados | CORRETIVA-SEM-ITEM | 0 | 12 ok, 0 falha(s) |
 | MOD-004 — Painel da fábrica — chave de acesso (ferramenta interna) | Testes automatizados | INTERNO-FABRICA | 0 | 12 ok, 0 falha(s) |
 | **Total** | | | **202,5** | |
 
 ### MOD-001 — Controle de sessão (TR M01, item 2 de 4)
 
 - **Banco de dados:** estrutura e acesso a dados — 2 arquivo(s), 8 linhas.
-- **Testes:** 35 executado(s), 0 falha(s) — APROVADO em 2026-11-06 (1 arquivo(s) de teste, 68 linhas).
+- **Testes:** 37 executado(s), 0 falha(s) — APROVADO em 2026-11-06 (1 arquivo(s) de teste, 68 linhas).
 - **Medição:** item CAT-M01-02 — M01 entrega 2 de 4: Controle de sessão: previsto 202,5, executado **202,5**, aceito 0 UST.
 - **Commits:** `102fc9f` 2026-11-06 MOD-003: código da plataforma de comunicação organizado por camada e módulo; `532d886` 2026-11-06 MOD-001 MOD-002 MOD-003: sessão revogável, validações, privacidade e migrações (OS-FIC-002); `f823f56` 2026-11-06 fabrica: diagnóstico do pacote DIGITALGOV (contrato fictício FIC-COM-2026-001).
 - **Responsável:** equipe técnica (Jerlian, Ruan, Arthur Miguel, Warley, Werverton, João Miguel, Warley C.); revisão individual deste módulo: sem registro.
@@ -94,7 +94,7 @@ Os agentes de IA executam as etapas técnicas; a equipe técnica responde por el
 ### MOD-002 — Correções de validação e privacidade (M03, M05, M07, M08)
 
 - **Banco de dados:** estrutura e acesso a dados — 2 arquivo(s), 9 linhas.
-- **Testes:** 34 executado(s), 0 falha(s) — APROVADO em 2026-11-06 (1 arquivo(s) de teste, 74 linhas).
+- **Testes:** 36 executado(s), 0 falha(s) — APROVADO em 2026-11-06 (1 arquivo(s) de teste, 74 linhas).
 - **Medição:** item CORRETIVA-SEM-ITEM — Correção de defeito em código preexistente — sem item no catálogo: previsto 0, executado **0**, aceito 0 UST.
 - **Commits:** `102fc9f` 2026-11-06 MOD-003: código da plataforma de comunicação organizado por camada e módulo; `532d886` 2026-11-06 MOD-001 MOD-002 MOD-003: sessão revogável, validações, privacidade e migrações (OS-FIC-002); `f823f56` 2026-11-06 fabrica: diagnóstico do pacote DIGITALGOV (contrato fictício FIC-COM-2026-001).
 - **Responsável:** equipe técnica (Jerlian, Ruan, Arthur Miguel, Warley, Werverton, João Miguel, Warley C.); revisão individual deste módulo: sem registro.
@@ -106,16 +106,17 @@ Os agentes de IA executam as etapas técnicas; a equipe técnica responde por el
 ### MOD-003 — Base técnica — migrações versionadas, cabeçalhos de segurança, dependências
 
 - **Banco de dados:** estrutura e acesso a dados — 3 arquivo(s), 40 linhas.
-- **Testes:** 9 executado(s), 0 falha(s) — APROVADO em 2026-11-06 (2 arquivo(s) de teste, 113 linhas).
+- **Infraestrutura:** 8 arquivo(s), 234 linhas.
+- **Testes:** 12 executado(s), 0 falha(s) — APROVADO em 2026-11-06 (3 arquivo(s) de teste, 165 linhas).
 - **Medição:** item CORRETIVA-SEM-ITEM — Correção de defeito em código preexistente — sem item no catálogo: previsto 0, executado **0**, aceito 0 UST.
-- **Commits:** `102fc9f` 2026-11-06 MOD-003: código da plataforma de comunicação organizado por camada e módulo; `532d886` 2026-11-06 MOD-001 MOD-002 MOD-003: sessão revogável, validações, privacidade e migrações (OS-FIC-002); `f823f56` 2026-11-06 fabrica: diagnóstico do pacote DIGITALGOV (contrato fictício FIC-COM-2026-001).
+- **Commits:** `91613ad` 2026-11-06 MOD-003: implantação, backup, manuais e CI da plataforma de comunicação; `102fc9f` 2026-11-06 MOD-003: código da plataforma de comunicação organizado por camada e módulo; `532d886` 2026-11-06 MOD-001 MOD-002 MOD-003: sessão revogável, validações, privacidade e migrações (OS-FIC-002); `f823f56` 2026-11-06 fabrica: diagnóstico do pacote DIGITALGOV (contrato fictício FIC-COM-2026-001).
 - **Responsável:** equipe técnica (Jerlian, Ruan, Arthur Miguel, Warley, Werverton, João Miguel, Warley C.); revisão individual deste módulo: sem registro.
 
 ### MOD-004 — Painel da fábrica — chave de acesso (ferramenta interna)
 
 - **Testes:** 12 executado(s), 0 falha(s) — APROVADO em 2026-11-06 (3 arquivo(s) de teste, 130 linhas).
 - **Medição:** item INTERNO-FABRICA — Ferramenta interna da contratada (painel da fábrica) — não é entregável do contrato: previsto 0, executado **0**, aceito 0 UST.
-- **Commits:** `de17ba0` 2026-11-06 MOD-004: painel da fábrica exige chave de acesso (OS-FIC-002); `f823f56` 2026-11-06 fabrica: diagnóstico do pacote DIGITALGOV (contrato fictício FIC-COM-2026-001).
+- **Commits:** `91613ad` 2026-11-06 MOD-003: implantação, backup, manuais e CI da plataforma de comunicação; `de17ba0` 2026-11-06 MOD-004: painel da fábrica exige chave de acesso (OS-FIC-002); `f823f56` 2026-11-06 fabrica: diagnóstico do pacote DIGITALGOV (contrato fictício FIC-COM-2026-001).
 - **Responsável:** equipe técnica (Jerlian, Ruan, Arthur Miguel, Warley, Werverton, João Miguel, Warley C.); revisão individual deste módulo: sem registro.
 
 ![MOD-004 — 004_01_pede_chave (preview)](../evidencias/OS-FIC-002/MOD-004/SCREENSHOTS/MOD-004_01_pede_chave.png)
@@ -139,33 +140,29 @@ Os agentes de IA executam as etapas técnicas; a equipe técnica responde por el
 
 Exemplo de leitura: "4 h Analista × 1,2" significa 4 horas do perfil Analista, que valem 1,2 UST por hora = 4,8 UST.
 
-## 7. Divisão das UST executadas pela equipe
-
-Regra: em cada módulo, as UST executadas são divididas entre as pessoas que participaram dele, na proporção do peso. Peso = tipo de participação × senioridade. Tipos: condução 3, correção 2, revisão 1, orientação 1, aprovação 1; senioridade: especialista ×1.5, senior ×1.5, pleno ×1.0, junior ×0.7. Fonte: `PARTICIPACOES.csv` (preenchido pelo documento de participação). É divisão interna da empresa: não muda a medição nem o aceite.
-
-
-Não atribuído (módulos sem participação registrada): 202,5 UST — MOD-001.
-
 ## 8. Tecnologias utilizadas
 
 | Camada | Tecnologias | Fonte |
 |---|---|---|
-| Backend (Python) | fastapi, uvicorn, pytest, httpx, python-docx | `contratos/FIC-COM-2026-001/laboratorio/FABRICA/requirements.txt` |
-| Backend (Python) | fastapi, uvicorn, pydantic, httpx, pytest | `contratos/FIC-COM-2026-001/laboratorio/PLATAFORMA_COMUNICACAO/requirements.txt` |
+| Backend (Python) | fastapi, uvicorn, python-docx | `contratos/FIC-COM-2026-001/laboratorio/FABRICA/requirements.txt` |
+| Backend (Python) | fastapi, uvicorn, pydantic | `contratos/FIC-COM-2026-001/laboratorio/PLATAFORMA_COMUNICACAO/requirements.txt` |
+| Infraestrutura (contêineres) | nginx:1.27-alpine | `contratos/FIC-COM-2026-001/laboratorio/docker-compose.yml` |
 
 ## 9. Código de novembro de 2026
 
-**contratos/FIC-COM-2026-001/laboratorio:** 5 commit(s), +4784 / −396 linhas.
+**contratos/FIC-COM-2026-001/laboratorio:** 6 commit(s), +5276 / −400 linhas.
 
 | Camada | Arquivos alterados | Linhas adicionadas | Linhas removidas |
 |---|---|---|---|
-| Outros | 65 | 4167 | 367 |
-| Testes automatizados | 10 | 429 | 6 |
+| Outros | 70 | 4187 | 371 |
+| Testes automatizados | 11 | 481 | 6 |
+| Documentação | 9 | 263 | 1 |
+| Infraestrutura (Docker, proxy, CI) | 10 | 246 | 0 |
 | Banco de dados | 10 | 99 | 22 |
-| Documentação | 5 | 89 | 1 |
 
 | Commit | Data | Descrição |
 |---|---|---|
+| `91613ad` | 2026-11-06 | MOD-003: implantação, backup, manuais e CI da plataforma de comunicação |
 | `102fc9f` | 2026-11-06 | MOD-003: código da plataforma de comunicação organizado por camada e módulo |
 | `c650bf4` | 2026-11-06 | fabrica: OS-FIC-002 executada, auditada e medida (FIC-COM-2026-001) |
 | `de17ba0` | 2026-11-06 | MOD-004: painel da fábrica exige chave de acesso (OS-FIC-002) |
@@ -174,39 +171,43 @@ Não atribuído (módulos sem participação registrada): 202,5 UST — MOD-001.
 
 ### Código de hoje (06/11/2026)
 
-**contratos/FIC-COM-2026-001/laboratorio:** 5 commit(s), +4784 / −396 linhas.
+**contratos/FIC-COM-2026-001/laboratorio:** 6 commit(s), +5276 / −400 linhas.
 
 | Camada | Arquivos alterados | Linhas adicionadas | Linhas removidas |
 |---|---|---|---|
-| Outros | 65 | 4167 | 367 |
-| Testes automatizados | 10 | 429 | 6 |
+| Outros | 70 | 4187 | 371 |
+| Testes automatizados | 11 | 481 | 6 |
+| Documentação | 9 | 263 | 1 |
+| Infraestrutura (Docker, proxy, CI) | 10 | 246 | 0 |
 | Banco de dados | 10 | 99 | 22 |
-| Documentação | 5 | 89 | 1 |
 
 ## 10. Código total do sistema
 
-**contratos/FIC-COM-2026-001/laboratorio:** 69 arquivo(s), 4557 linhas, 5 commit(s) desde o início.
+**contratos/FIC-COM-2026-001/laboratorio:** 87 arquivo(s), 5045 linhas, 6 commit(s) desde o início.
 
 | Camada | Arquivos | Linhas |
 |---|---|---|
-| Outros | 50 | 3969 |
-| Testes automatizados | 8 | 423 |
-| Documentação | 3 | 88 |
+| Outros | 53 | 3985 |
+| Testes automatizados | 9 | 475 |
+| Documentação | 7 | 262 |
+| Infraestrutura (Docker, proxy, CI) | 10 | 246 |
 | Banco de dados | 8 | 77 |
 
 | Linguagem | Arquivos | Linhas |
 |---|---|---|
-| Python | 34 | 1649 |
+| Python | 35 | 1701 |
 | JSON | 4 | 1523 |
 | JavaScript | 5 | 418 |
+| Outros | 12 | 364 |
 | CSS | 2 | 357 |
-| Outros | 9 | 338 |
-| Markdown | 3 | 88 |
+| Markdown | 7 | 262 |
+| Shell | 3 | 94 |
+| YAML | 3 | 92 |
 | HTML | 2 | 78 |
-| YAML | 1 | 40 |
+| Configuração | 2 | 77 |
 | SQL | 6 | 34 |
-| Shell | 1 | 22 |
-| Texto | 2 | 10 |
+| Docker | 2 | 33 |
+| Texto | 4 | 12 |
 
 > Linhas de código e commits mostram o tamanho do trabalho; a quantidade medida vem do catálogo do contrato, não das linhas.
 
@@ -217,6 +218,7 @@ Nenhum módulo planejado além do que já foi executado.
 ## 12. Próximas etapas e pendências
 
 - Próxima etapa normal: enviar ao órgão os 202,5 UST executados para conferência e termo de aceite.
+- OS-FIC-002: a equipe técnica verifica o checklist — 18 controle(s) crítico(s) aguardam verificação humana — verifique e rode de novo com --aprovado-por "Nome (cargo)".
 - Registrar a revisão de cada módulo por um membro da equipe (MOD-001, MOD-002, MOD-003, MOD-004) em PARTICIPACOES.csv (data, pessoa, módulo, tipo REVISAO/APROVACAO, evidência).
 
 ## 13. Arquivos de origem

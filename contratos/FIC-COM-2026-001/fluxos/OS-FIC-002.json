@@ -1,54 +1,54 @@
 {
   "contrato": "FIC-COM-2026-001",
   "os": "OS-FIC-002",
-  "criado_em": "2026-11-06T16:50:00-03:00",
+  "criado_em": "2026-11-06T16:54:47-03:00",
   "nos": {
     "autorizacao": {
       "status": "CONCLUIDO",
-      "inicio": "2026-11-06T16:50:00-03:00",
-      "fim": "2026-11-06T16:50:00-03:00",
+      "inicio": "2026-11-06T16:54:47-03:00",
+      "fim": "2026-11-06T16:54:47-03:00",
       "resultado": "autorização registrada"
     },
     "testes": {
       "status": "CONCLUIDO",
-      "inicio": "2026-11-06T16:50:00-03:00",
-      "fim": "2026-11-06T16:50:23-03:00",
-      "resultado": "90 verificações aprovadas"
+      "inicio": "2026-11-06T16:54:47-03:00",
+      "fim": "2026-11-06T16:55:18-03:00",
+      "resultado": "97 verificações aprovadas"
     },
     "commits": {
       "status": "CONCLUIDO",
-      "inicio": "2026-11-06T16:50:23-03:00",
-      "fim": "2026-11-06T16:50:24-03:00",
-      "resultado": "11 commits"
+      "inicio": "2026-11-06T16:55:18-03:00",
+      "fim": "2026-11-06T16:55:18-03:00",
+      "resultado": "13 commits"
     },
     "auditoria": {
       "status": "CONCLUIDO",
-      "inicio": "2026-11-06T16:50:24-03:00",
-      "fim": "2026-11-06T16:50:24-03:00",
+      "inicio": "2026-11-06T16:55:18-03:00",
+      "fim": "2026-11-06T16:55:18-03:00",
       "resultado": "4 módulos aprovados"
     },
     "medicao": {
       "status": "CONCLUIDO",
-      "inicio": "2026-11-06T16:50:24-03:00",
-      "fim": "2026-11-06T16:50:25-03:00",
+      "inicio": "2026-11-06T16:55:18-03:00",
+      "fim": "2026-11-06T16:55:19-03:00",
       "resultado": "previsto 202.5 · comprovado 202.5 · aceito 0"
     },
     "relatorios": {
       "status": "CONCLUIDO",
-      "inicio": "2026-11-06T16:50:25-03:00",
-      "fim": "2026-11-06T16:50:25-03:00",
+      "inicio": "2026-11-06T16:55:19-03:00",
+      "fim": "2026-11-06T16:55:20-03:00",
       "resultado": "relatório diário e fechamento gerados"
     },
     "checklist": {
-      "status": "FALHOU",
-      "inicio": "2026-11-06T16:50:25-03:00",
-      "fim": "2026-11-06T16:50:26-03:00",
-      "resultado": "críticos reprovados: C021, C031, C036, C071, C072, C075, C078, C091, C092"
+      "status": "PAUSA",
+      "inicio": "2026-11-06T16:55:20-03:00",
+      "fim": "2026-11-06T16:55:20-03:00",
+      "resultado": "18 controle(s) crítico(s) aguardam verificação humana — verifique e rode de novo com --aprovado-por \"Nome (cargo)\""
     },
     "entrega": {
       "status": "PENDENTE"
     }
   },
-  "situacao": "PARADO em checklist: críticos reprovados: C021, C031, C036, C071, C072, C075, C078, C091, C092",
-  "atualizado_em": "2026-11-06T16:50:26-03:00"
+  "situacao": "PAUSADO em checklist (aguardando humano): 18 controle(s) crítico(s) aguardam verificação humana — verifique e rode de novo com --aprovado-por \"Nome (cargo)\"",
+  "atualizado_em": "2026-11-06T16:55:20-03:00"
 }

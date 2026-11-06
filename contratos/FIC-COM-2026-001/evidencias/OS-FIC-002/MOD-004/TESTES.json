@@ -1,7 +1,7 @@
 {
   "fonte": "execução real via fabrica.py testes executar",
   "modulo": "MOD-004",
-  "executado_em": "2026-11-06T16:50:23-03:00",
+  "executado_em": "2026-11-06T16:55:18-03:00",
   "resumo": {
     "testes": 12,
     "falhas": 0,
@@ -12,13 +12,13 @@
   "execucoes": [
     {
       "nome": "painel",
-      "comando": "sh -c ${DG_PYTHON:-python3} -m pytest -p no:cacheprovider tests -v --junitxml=/home/user/CFFCODEGOV/contratos/FIC-COM-2026-001/evidencias/OS-FIC-002/MOD-004/LOGS_TESTES/painel-20261106T165023.xml",
+      "comando": "sh -c ${DG_PYTHON:-python3} -m pytest -p no:cacheprovider tests -v --junitxml=/home/user/CFFCODEGOV/contratos/FIC-COM-2026-001/evidencias/OS-FIC-002/MOD-004/LOGS_TESTES/painel-20261106T165517.xml",
       "cwd": "contratos/FIC-COM-2026-001/laboratorio/FABRICA",
-      "inicio": "2026-11-06T16:50:23-03:00",
-      "fim": "2026-11-06T16:50:23-03:00",
+      "inicio": "2026-11-06T16:55:17-03:00",
+      "fim": "2026-11-06T16:55:18-03:00",
       "codigo_saida": 0,
-      "junit": "contratos/FIC-COM-2026-001/evidencias/OS-FIC-002/MOD-004/LOGS_TESTES/painel-20261106T165023.xml",
-      "log": "contratos/FIC-COM-2026-001/evidencias/OS-FIC-002/MOD-004/LOGS_TESTES/painel-20261106T165023.log",
+      "junit": "contratos/FIC-COM-2026-001/evidencias/OS-FIC-002/MOD-004/LOGS_TESTES/painel-20261106T165517.xml",
+      "log": "contratos/FIC-COM-2026-001/evidencias/OS-FIC-002/MOD-004/LOGS_TESTES/painel-20261106T165517.log",
       "testes": 12,
       "falhas": 0,
       "erros": 0,
@@ -27,43 +27,43 @@
         {
           "suite": "tests.test_factory",
           "nome": "test_workflow",
-          "tempo_s": 0.054,
+          "tempo_s": 0.065,
           "status": "PASSOU"
         },
         {
           "suite": "tests.test_factory",
           "nome": "test_human_hours",
-          "tempo_s": 0.003,
+          "tempo_s": 0.002,
           "status": "PASSOU"
         },
         {
           "suite": "tests.test_mod004_login_painel",
           "nome": "test_api_sem_chave_configurada_fica_fechada",
-          "tempo_s": 0.005,
+          "tempo_s": 0.006,
           "status": "PASSOU"
         },
         {
           "suite": "tests.test_mod004_login_painel",
           "nome": "test_chave_curta_nao_abre_a_api",
-          "tempo_s": 0.004,
+          "tempo_s": 0.005,
           "status": "PASSOU"
         },
         {
           "suite": "tests.test_mod004_login_painel",
           "nome": "test_api_exige_a_chave_certa",
-          "tempo_s": 0.015,
+          "tempo_s": 0.019,
           "status": "PASSOU"
         },
         {
           "suite": "tests.test_mod004_login_painel",
           "nome": "test_pagina_e_saude_abrem_sem_chave",
-          "tempo_s": 0.016,
+          "tempo_s": 0.017,
           "status": "PASSOU"
         },
         {
           "suite": "tests.test_mod004_login_painel",
           "nome": "test_cabecalhos_de_seguranca",
-          "tempo_s": 0.018,
+          "tempo_s": 0.017,
           "status": "PASSOU"
         },
         {
@@ -75,7 +75,7 @@
         {
           "suite": "tests.test_mod004_login_painel",
           "nome": "test_painel_envia_a_chave_nas_chamadas",
-          "tempo_s": 0.001,
+          "tempo_s": 0.0,
           "status": "PASSOU"
         },
         {
@@ -87,7 +87,7 @@
         {
           "suite": "tests.test_painel_js",
           "nome": "test_script_do_painel_compila",
-          "tempo_s": 0.029,
+          "tempo_s": 0.034,
           "status": "PASSOU"
         },
         {

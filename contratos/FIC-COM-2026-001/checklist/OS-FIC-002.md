@@ -1,12 +1,10 @@
 # Checklist de 100 controles — OS-FIC-002
 
-Gerado em 2026-11-06T16:50:25-03:00.
+Gerado em 2026-11-06T16:55:20-03:00.
 
-**Situação da entrega: BLOQUEADA**
+**Situação da entrega: PENDENTE_VERIFICACAO_HUMANA**
 
-Aprovados 23 · Reprovados 17 · Não aplicáveis 0 · Não verificados 60
-
-Críticos reprovados (bloqueiam): C021, C031, C036, C071, C072, C075, C078, C091, C092
+Aprovados 39 · Reprovados 1 · Não aplicáveis 0 · Não verificados 60
 
 Críticos aguardando verificação humana: C003, C009, C012, C024, C032, C037, C039, C041, C042, C043, C045, C047, C051, C052, C062, C087, C090, C099
 
@@ -32,20 +30,20 @@ Críticos aguardando verificação humana: C003, C009, C012, C024, C032, C037, C
 |---|---|---|---|---|---|
 | C011 | Arquitetura documentada | sim | APROVADO | ARQUITETURA.md em 4/4 módulos | G17 (automático) |
 | C012 | Tecnologias compatíveis com o contrato | sim | NAO_VERIFICADO | requer verificação humana |  |
-| C013 | Contratos de API documentados (OpenAPI) |  | REPROVADO | contratos/FIC-COM-2026-001/laboratorio/backend/app/main.py | G17 (automático) |
+| C013 | Contratos de API documentados (OpenAPI) |  | APROVADO | contratos/FIC-COM-2026-001/laboratorio/PLATAFORMA_COMUNICACAO/app/main.py | G17 (automático) |
 | C014 | Separação de camadas (rotas/serviços/modelos) |  | NAO_VERIFICADO | requer verificação humana |  |
 | C015 | Requisitos não funcionais endereçados |  | NAO_VERIFICADO | requer verificação humana |  |
 | C016 | Decisões técnicas registradas |  | NAO_VERIFICADO | requer verificação humana |  |
 | C017 | Escalabilidade compatível com a demanda |  | NAO_VERIFICADO | requer verificação humana |  |
-| C018 | Configuração externa por variáveis de ambiente |  | REPROVADO | contratos/FIC-COM-2026-001/laboratorio/.env.example | G17 (automático) |
-| C019 | Dependências declaradas e versionadas |  | REPROVADO | contratos/FIC-COM-2026-001/laboratorio/backend/requirements.txt | G17 (automático) |
+| C018 | Configuração externa por variáveis de ambiente |  | APROVADO | contratos/FIC-COM-2026-001/laboratorio/.env.example | G17 (automático) |
+| C019 | Dependências declaradas e versionadas |  | APROVADO | contratos/FIC-COM-2026-001/laboratorio/PLATAFORMA_COMUNICACAO/requirements.txt | G17 (automático) |
 | C020 | Interoperabilidade (Lei 14.129/2021) avaliada quando aplicável |  | NAO_VERIFICADO | requer verificação humana |  |
 
 ## Código-fonte
 
 | ID | Controle | Crítico | Resultado | Evidência | Responsável |
 |---|---|---|---|---|---|
-| C021 | Código existe no repositório | sim | REPROVADO | contratos/FIC-COM-2026-001/laboratorio/backend/app | G17 (automático) |
+| C021 | Código existe no repositório | sim | APROVADO | contratos/FIC-COM-2026-001/laboratorio/PLATAFORMA_COMUNICACAO/app | G17 (automático) |
 | C022 | Commits reais vinculados a cada módulo | sim | APROVADO | todos os módulos com commits reais | G17 (automático) |
 | C023 | Tratamento de erros consistente |  | NAO_VERIFICADO | requer verificação humana |  |
 | C024 | Validação de entradas em todas as APIs | sim | NAO_VERIFICADO | caso 'test_validacao_de_campos' não executado | G17 (automático) |
@@ -60,12 +58,12 @@ Críticos aguardando verificação humana: C003, C009, C012, C024, C032, C037, C
 
 | ID | Controle | Crítico | Resultado | Evidência | Responsável |
 |---|---|---|---|---|---|
-| C031 | Migrações versionadas | sim | REPROVADO | contratos/FIC-COM-2026-001/laboratorio/backend/migrations/versions | G17 (automático) |
+| C031 | Migrações versionadas | sim | APROVADO | contratos/FIC-COM-2026-001/laboratorio/PLATAFORMA_COMUNICACAO/migrations | G17 (automático) |
 | C032 | Migração aplicada em banco real | sim | NAO_VERIFICADO | caso 'verificar_ambiente' não executado | G17 (automático) |
 | C033 | Integridade referencial (FKs) definida |  | NAO_VERIFICADO | requer verificação humana |  |
 | C034 | Índices para consultas frequentes |  | NAO_VERIFICADO | requer verificação humana |  |
 | C035 | Usuário de aplicação com menor privilégio |  | NAO_VERIFICADO | requer verificação humana |  |
-| C036 | Rotina de backup documentada | sim | REPROVADO | contratos/FIC-COM-2026-001/laboratorio/infra/scripts/backup.sh | G17 (automático) |
+| C036 | Rotina de backup documentada | sim | APROVADO | contratos/FIC-COM-2026-001/laboratorio/infra/scripts/backup.sh | G17 (automático) |
 | C037 | Restauração testada | sim | NAO_VERIFICADO | caso 'verificar_ambiente' não executado | G17 (automático) |
 | C038 | Dicionário de dados |  | NAO_VERIFICADO | requer verificação humana |  |
 | C039 | Dados de demonstração fictícios | sim | NAO_VERIFICADO | requer verificação humana |  |
@@ -82,7 +80,7 @@ Críticos aguardando verificação humana: C003, C009, C012, C024, C032, C037, C
 | C045 | Trilha de auditoria de ações sensíveis | sim | NAO_VERIFICADO | caso 'test_acoes_sensiveis_sao_auditadas' não executado | G17 (automático) |
 | C046 | Inventário de dados pessoais e finalidade | sim | APROVADO | SEGURANCA.md em 4/4 módulos | G17 (automático) |
 | C047 | TLS em homologação/produção | sim | NAO_VERIFICADO | requer verificação humana |  |
-| C048 | Cabeçalhos de segurança HTTP |  | APROVADO | MOD-001/TESTES.json: 1 caso(s) 'test_cabecalhos_de_seguranca' (2026-11-06T16:50) | G17 (automático) |
+| C048 | Cabeçalhos de segurança HTTP |  | APROVADO | MOD-001/TESTES.json: 1 caso(s) 'test_cabecalhos_de_seguranca' (2026-11-06T16:55) | G17 (automático) |
 | C049 | Proteção contra força bruta no login |  | NAO_VERIFICADO | caso 'test_bloqueio_por_forca_bruta' não executado | G17 (automático) |
 | C050 | Plano de resposta a incidentes |  | NAO_VERIFICADO | requer verificação humana |  |
 
@@ -95,7 +93,7 @@ Críticos aguardando verificação humana: C003, C009, C012, C024, C032, C037, C
 | C053 | Resultados registrados por módulo | sim | APROVADO | TESTES.json em 4/4 módulos | G17 (automático) |
 | C054 | Logs de execução de testes anexados | sim | APROVADO | LOGS_TESTES em 4/4 módulos | G17 (automático) |
 | C055 | Testes de API cobrem casos de erro |  | NAO_VERIFICADO | requer verificação humana |  |
-| C056 | Testes de regressão no CI |  | REPROVADO | contratos/.github/workflows/ci.yml | G17 (automático) |
+| C056 | Testes de regressão no CI |  | APROVADO | .github/workflows/ci.yml | G17 (automático) |
 | C057 | Testes contra banco igual ao de produção (PostgreSQL) |  | NAO_VERIFICADO | caso 'test_trigger_impede' não executado | G17 (automático) |
 | C058 | Defeitos registrados e reexecutados |  | NAO_VERIFICADO | requer verificação humana |  |
 | C059 | Testes de interface (E2E/captura) |  | NAO_VERIFICADO | requer verificação humana |  |
@@ -120,15 +118,15 @@ Críticos aguardando verificação humana: C003, C009, C012, C024, C032, C037, C
 
 | ID | Controle | Crítico | Resultado | Evidência | Responsável |
 |---|---|---|---|---|---|
-| C071 | Dockerfiles presentes | sim | REPROVADO | contratos/FIC-COM-2026-001/laboratorio/backend/Dockerfile | G17 (automático) |
-| C072 | Docker Compose do ambiente | sim | REPROVADO | contratos/FIC-COM-2026-001/laboratorio/docker-compose.yml | G17 (automático) |
-| C073 | Pipeline CI/CD |  | REPROVADO | contratos/.github/workflows/ci.yml | G17 (automático) |
+| C071 | Dockerfiles presentes | sim | APROVADO | contratos/FIC-COM-2026-001/laboratorio/PLATAFORMA_COMUNICACAO/Dockerfile | G17 (automático) |
+| C072 | Docker Compose do ambiente | sim | APROVADO | contratos/FIC-COM-2026-001/laboratorio/docker-compose.yml | G17 (automático) |
+| C073 | Pipeline CI/CD |  | APROVADO | .github/workflows/ci.yml | G17 (automático) |
 | C074 | Ambientes dev/homologação/produção separados |  | NAO_VERIFICADO | requer verificação humana |  |
-| C075 | Proxy reverso com TLS documentado | sim | REPROVADO | contratos/FIC-COM-2026-001/laboratorio/infra/nginx | G17 (automático) |
+| C075 | Proxy reverso com TLS documentado | sim | APROVADO | contratos/FIC-COM-2026-001/laboratorio/infra/nginx | G17 (automático) |
 | C076 | Healthchecks configurados |  | NAO_VERIFICADO | caso 'test_health_e_banco' não executado | G17 (automático) |
 | C077 | Monitoramento e logs centralizáveis |  | NAO_VERIFICADO | requer verificação humana |  |
-| C078 | Procedimento de rollback | sim | REPROVADO | contratos/FIC-COM-2026-001/laboratorio/docs/MANUAL_PUBLICACAO.md | G17 (automático) |
-| C079 | Plano de recuperação de desastres |  | REPROVADO | contratos/FIC-COM-2026-001/laboratorio/docs/PLANO_CONTINUIDADE.md | G17 (automático) |
+| C078 | Procedimento de rollback | sim | APROVADO | contratos/FIC-COM-2026-001/laboratorio/docs/MANUAL_PUBLICACAO.md | G17 (automático) |
+| C079 | Plano de recuperação de desastres |  | APROVADO | contratos/FIC-COM-2026-001/laboratorio/docs/PLANO_CONTINUIDADE.md | G17 (automático) |
 | C080 | Imagens construídas e ambiente subido via Compose |  | NAO_VERIFICADO | caso 'verificar_ambiente' não executado | G17 (automático) |
 
 ## Evidências e medição
@@ -143,16 +141,16 @@ Críticos aguardando verificação humana: C003, C009, C012, C024, C032, C037, C
 | C086 | Separação previsto / comprovado / aceito | sim | APROVADO | contratos/FIC-COM-2026-001/medicoes/OS-FIC-002.json | G17 (automático) |
 | C087 | Nenhuma equivalência UST/PF/horas inventada | sim | NAO_VERIFICADO | requer verificação humana |  |
 | C088 | Capturas reais quando há interface |  | NAO_VERIFICADO | requer verificação humana |  |
-| C089 | Auditoria de evidências executada | sim | APROVADO | evidencias/OS-FIC-002/AUDITORIA.md (2026-11-06T16:50) | G17 (automático) |
+| C089 | Auditoria de evidências executada | sim | APROVADO | evidencias/OS-FIC-002/AUDITORIA.md (2026-11-06T16:55) | G17 (automático) |
 | C090 | Participação humana com origem registrada | sim | NAO_VERIFICADO | requer verificação humana |  |
 
 ## Documentação e homologação
 
 | ID | Controle | Crítico | Resultado | Evidência | Responsável |
 |---|---|---|---|---|---|
-| C091 | README de execução local | sim | REPROVADO | contratos/FIC-COM-2026-001/laboratorio/README.md | G17 (automático) |
-| C092 | Manual de publicação | sim | REPROVADO | contratos/FIC-COM-2026-001/laboratorio/docs/MANUAL_PUBLICACAO.md | G17 (automático) |
-| C093 | Manual de operação e manutenção |  | REPROVADO | contratos/FIC-COM-2026-001/laboratorio/docs/MANUAL_OPERACAO.md | G17 (automático) |
+| C091 | README de execução local | sim | APROVADO | contratos/FIC-COM-2026-001/laboratorio/README.md | G17 (automático) |
+| C092 | Manual de publicação | sim | APROVADO | contratos/FIC-COM-2026-001/laboratorio/docs/MANUAL_PUBLICACAO.md | G17 (automático) |
+| C093 | Manual de operação e manutenção |  | APROVADO | contratos/FIC-COM-2026-001/laboratorio/docs/MANUAL_OPERACAO.md | G17 (automático) |
 | C094 | Documentação de API |  | NAO_VERIFICADO | caso 'test_openapi_publicado' não executado | G17 (automático) |
 | C095 | PREVIEW.md por módulo |  | APROVADO | PREVIEW.md em 4/4 módulos | G17 (automático) |
 | C096 | IMPLANTACAO.md por módulo |  | APROVADO | IMPLANTACAO.md em 4/4 módulos | G17 (automático) |

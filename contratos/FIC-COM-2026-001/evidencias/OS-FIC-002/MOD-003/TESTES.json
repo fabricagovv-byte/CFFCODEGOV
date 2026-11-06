@@ -1,9 +1,9 @@
 {
   "fonte": "execução real via fabrica.py testes executar",
   "modulo": "MOD-003",
-  "executado_em": "2026-11-06T16:50:23-03:00",
+  "executado_em": "2026-11-06T16:55:17-03:00",
   "resumo": {
-    "testes": 9,
+    "testes": 12,
     "falhas": 0,
     "erros": 0,
     "ignorados": 0
@@ -12,14 +12,14 @@
   "execucoes": [
     {
       "nome": "base-tecnica",
-      "comando": "sh -c ${DG_PYTHON:-python3} -m pytest -p no:cacheprovider tests/test_mod003_base_tecnica.py -v --junitxml=/home/user/CFFCODEGOV/contratos/FIC-COM-2026-001/evidencias/OS-FIC-002/MOD-003/LOGS_TESTES/base-tecnica-20261106T165022.xml",
+      "comando": "sh -c ${DG_PYTHON:-python3} -m pytest -p no:cacheprovider tests/test_mod003_base_tecnica.py tests/test_backup.py -v --junitxml=/home/user/CFFCODEGOV/contratos/FIC-COM-2026-001/evidencias/OS-FIC-002/MOD-003/LOGS_TESTES/base-tecnica-20261106T165516.xml",
       "cwd": "contratos/FIC-COM-2026-001/laboratorio/PLATAFORMA_COMUNICACAO",
-      "inicio": "2026-11-06T16:50:22-03:00",
-      "fim": "2026-11-06T16:50:23-03:00",
+      "inicio": "2026-11-06T16:55:16-03:00",
+      "fim": "2026-11-06T16:55:17-03:00",
       "codigo_saida": 0,
-      "junit": "contratos/FIC-COM-2026-001/evidencias/OS-FIC-002/MOD-003/LOGS_TESTES/base-tecnica-20261106T165022.xml",
-      "log": "contratos/FIC-COM-2026-001/evidencias/OS-FIC-002/MOD-003/LOGS_TESTES/base-tecnica-20261106T165022.log",
-      "testes": 8,
+      "junit": "contratos/FIC-COM-2026-001/evidencias/OS-FIC-002/MOD-003/LOGS_TESTES/base-tecnica-20261106T165516.xml",
+      "log": "contratos/FIC-COM-2026-001/evidencias/OS-FIC-002/MOD-003/LOGS_TESTES/base-tecnica-20261106T165516.log",
+      "testes": 10,
       "falhas": 0,
       "erros": 0,
       "ignorados": 0,
@@ -27,7 +27,7 @@
         {
           "suite": "tests.test_mod003_base_tecnica",
           "nome": "test_migracoes_em_banco_vazio_e_reversao",
-          "tempo_s": 0.017,
+          "tempo_s": 0.021,
           "status": "PASSOU"
         },
         {
@@ -39,7 +39,7 @@
         {
           "suite": "tests.test_mod003_base_tecnica",
           "nome": "test_banco_antigo_do_pacote_e_reconhecido_sem_perder_dados",
-          "tempo_s": 0.015,
+          "tempo_s": 0.016,
           "status": "PASSOU"
         },
         {
@@ -51,13 +51,13 @@
         {
           "suite": "tests.test_mod003_base_tecnica",
           "nome": "test_cabecalhos_de_seguranca",
-          "tempo_s": 0.296,
+          "tempo_s": 0.327,
           "status": "PASSOU"
         },
         {
           "suite": "tests.test_mod003_base_tecnica",
           "nome": "test_api_nao_fica_em_cache",
-          "tempo_s": 0.013,
+          "tempo_s": 0.015,
           "status": "PASSOU"
         },
         {
@@ -71,6 +71,40 @@
           "nome": "test_dependencias_com_versao_fixa",
           "tempo_s": 0.0,
           "status": "PASSOU"
+        },
+        {
+          "suite": "tests.test_backup",
+          "nome": "test_backup_e_restauracao_devolvem_os_dados",
+          "tempo_s": 0.104,
+          "status": "PASSOU"
+        },
+        {
+          "suite": "tests.test_backup",
+          "nome": "test_restauracao_recusa_arquivo_alterado",
+          "tempo_s": 0.075,
+          "status": "PASSOU"
+        }
+      ]
+    },
+    {
+      "nome": "compose-valido",
+      "comando": "sh -c DG_COMM_SECRET=x DG_FACTORY_TOKEN=y DOMINIO=exemplo.gov.br docker compose -f docker-compose.yml -f docker-compose.prod.yml config -q",
+      "cwd": "contratos/FIC-COM-2026-001/laboratorio",
+      "inicio": "2026-11-06T16:55:17-03:00",
+      "fim": "2026-11-06T16:55:17-03:00",
+      "codigo_saida": 0,
+      "junit": "contratos/FIC-COM-2026-001/evidencias/OS-FIC-002/MOD-003/LOGS_TESTES/compose-valido-20261106T165517.log",
+      "log": "contratos/FIC-COM-2026-001/evidencias/OS-FIC-002/MOD-003/LOGS_TESTES/compose-valido-20261106T165517.log",
+      "testes": 1,
+      "falhas": 0,
+      "erros": 0,
+      "ignorados": 0,
+      "casos": [
+        {
+          "suite": "compose-valido",
+          "nome": "sh -c DG_COMM_SECRET=x DG_FACTORY_TOKEN=y DOMINIO=exemplo.gov.br docker compose -f docker-compose.yml -f docker-compose.prod.yml config -q",
+          "tempo_s": 0.088935,
+          "status": "PASSOU"
         }
       ]
     },
@@ -78,11 +112,11 @@
       "nome": "migracoes-ida-e-volta",
       "comando": "sh -c f=$(mktemp -d)/m.db && export DG_COMM_DB=$f && P=${DG_PYTHON:-python3} && $P -m app.cli init && $P -m app.cli rollback --to 1 && $P -m app.cli migrations | grep -q \"'atual': 1\" && $P -m app.cli init && $P -m app.cli migrations | grep -q \"'pendentes': \\[\\]\"",
       "cwd": "contratos/FIC-COM-2026-001/laboratorio/PLATAFORMA_COMUNICACAO",
-      "inicio": "2026-11-06T16:50:23-03:00",
-      "fim": "2026-11-06T16:50:23-03:00",
+      "inicio": "2026-11-06T16:55:17-03:00",
+      "fim": "2026-11-06T16:55:17-03:00",
       "codigo_saida": 0,
-      "junit": "contratos/FIC-COM-2026-001/evidencias/OS-FIC-002/MOD-003/LOGS_TESTES/migracoes-ida-e-volta-20261106T165023.log",
-      "log": "contratos/FIC-COM-2026-001/evidencias/OS-FIC-002/MOD-003/LOGS_TESTES/migracoes-ida-e-volta-20261106T165023.log",
+      "junit": "contratos/FIC-COM-2026-001/evidencias/OS-FIC-002/MOD-003/LOGS_TESTES/migracoes-ida-e-volta-20261106T165517.log",
+      "log": "contratos/FIC-COM-2026-001/evidencias/OS-FIC-002/MOD-003/LOGS_TESTES/migracoes-ida-e-volta-20261106T165517.log",
       "testes": 1,
       "falhas": 0,
       "erros": 0,
@@ -91,7 +125,7 @@
         {
           "suite": "migracoes-ida-e-volta",
           "nome": "sh -c f=$(mktemp -d)/m.db && export DG_COMM_DB=$f && P=${DG_PYTHON:-python3} && $P -m app.cli init && $P -m app.cli rollback --to 1 && $P -m app.cli migrations | grep -q \"'atual': 1\" && $P -m app.cli init && $P -m app.cli migrations | grep -q \"'pendentes': \\[\\]\"",
-          "tempo_s": 0.238954,
+          "tempo_s": 0.250805,
           "status": "PASSOU"
         }
       ]

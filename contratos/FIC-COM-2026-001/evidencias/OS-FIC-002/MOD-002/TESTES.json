@@ -1,9 +1,9 @@
 {
   "fonte": "execução real via fabrica.py testes executar",
   "modulo": "MOD-002",
-  "executado_em": "2026-11-06T16:50:22-03:00",
+  "executado_em": "2026-11-06T16:55:16-03:00",
   "resumo": {
-    "testes": 34,
+    "testes": 36,
     "falhas": 0,
     "erros": 0,
     "ignorados": 0
@@ -12,13 +12,13 @@
   "execucoes": [
     {
       "nome": "validacao-privacidade",
-      "comando": "sh -c ${DG_PYTHON:-python3} -m pytest -p no:cacheprovider tests/test_mod002_validacao_privacidade.py -v --junitxml=/home/user/CFFCODEGOV/contratos/FIC-COM-2026-001/evidencias/OS-FIC-002/MOD-002/LOGS_TESTES/validacao-privacidade-20261106T165011.xml",
+      "comando": "sh -c ${DG_PYTHON:-python3} -m pytest -p no:cacheprovider tests/test_mod002_validacao_privacidade.py -v --junitxml=/home/user/CFFCODEGOV/contratos/FIC-COM-2026-001/evidencias/OS-FIC-002/MOD-002/LOGS_TESTES/validacao-privacidade-20261106T165505.xml",
       "cwd": "contratos/FIC-COM-2026-001/laboratorio/PLATAFORMA_COMUNICACAO",
-      "inicio": "2026-11-06T16:50:11-03:00",
-      "fim": "2026-11-06T16:50:15-03:00",
+      "inicio": "2026-11-06T16:55:05-03:00",
+      "fim": "2026-11-06T16:55:08-03:00",
       "codigo_saida": 0,
-      "junit": "contratos/FIC-COM-2026-001/evidencias/OS-FIC-002/MOD-002/LOGS_TESTES/validacao-privacidade-20261106T165011.xml",
-      "log": "contratos/FIC-COM-2026-001/evidencias/OS-FIC-002/MOD-002/LOGS_TESTES/validacao-privacidade-20261106T165011.log",
+      "junit": "contratos/FIC-COM-2026-001/evidencias/OS-FIC-002/MOD-002/LOGS_TESTES/validacao-privacidade-20261106T165505.xml",
+      "log": "contratos/FIC-COM-2026-001/evidencias/OS-FIC-002/MOD-002/LOGS_TESTES/validacao-privacidade-20261106T165505.log",
       "testes": 8,
       "falhas": 0,
       "erros": 0,
@@ -27,173 +27,185 @@
         {
           "suite": "tests.test_mod002_validacao_privacidade",
           "nome": "test_leitor_ve_somente_publicadas",
-          "tempo_s": 0.689,
+          "tempo_s": 0.727,
           "status": "PASSOU"
         },
         {
           "suite": "tests.test_mod002_validacao_privacidade",
           "nome": "test_painel_do_leitor_conta_somente_publicadas",
-          "tempo_s": 0.416,
+          "tempo_s": 0.463,
           "status": "PASSOU"
         },
         {
           "suite": "tests.test_mod002_validacao_privacidade",
           "nome": "test_chamado_com_contato_inexistente_responde_404",
-          "tempo_s": 0.27,
+          "tempo_s": 0.277,
           "status": "PASSOU"
         },
         {
           "suite": "tests.test_mod002_validacao_privacidade",
           "nome": "test_campanha_com_canal_inexistente_responde_404",
-          "tempo_s": 0.256,
+          "tempo_s": 0.27,
           "status": "PASSOU"
         },
         {
           "suite": "tests.test_mod002_validacao_privacidade",
           "nome": "test_campanha_com_canal_valido",
-          "tempo_s": 0.264,
+          "tempo_s": 0.312,
           "status": "PASSOU"
         },
         {
           "suite": "tests.test_mod002_validacao_privacidade",
           "nome": "test_email_invalido_e_recusado",
-          "tempo_s": 0.306,
+          "tempo_s": 0.33,
           "status": "PASSOU"
         },
         {
           "suite": "tests.test_mod002_validacao_privacidade",
           "nome": "test_csv_neutraliza_formulas",
-          "tempo_s": 0.36,
+          "tempo_s": 0.356,
           "status": "PASSOU"
         },
         {
           "suite": "tests.test_mod002_validacao_privacidade",
           "nome": "test_leitor_nao_ve_descricao_nem_contato_dos_chamados",
-          "tempo_s": 0.336,
+          "tempo_s": 0.333,
           "status": "PASSOU"
         }
       ]
     },
     {
       "nome": "regressao-comunicacao",
-      "comando": "sh -c ${DG_PYTHON:-python3} -m pytest -p no:cacheprovider tests -q --junitxml=/home/user/CFFCODEGOV/contratos/FIC-COM-2026-001/evidencias/OS-FIC-002/MOD-002/LOGS_TESTES/regressao-comunicacao-20261106T165015.xml",
+      "comando": "sh -c ${DG_PYTHON:-python3} -m pytest -p no:cacheprovider tests -q --junitxml=/home/user/CFFCODEGOV/contratos/FIC-COM-2026-001/evidencias/OS-FIC-002/MOD-002/LOGS_TESTES/regressao-comunicacao-20261106T165508.xml",
       "cwd": "contratos/FIC-COM-2026-001/laboratorio/PLATAFORMA_COMUNICACAO",
-      "inicio": "2026-11-06T16:50:15-03:00",
-      "fim": "2026-11-06T16:50:22-03:00",
+      "inicio": "2026-11-06T16:55:08-03:00",
+      "fim": "2026-11-06T16:55:16-03:00",
       "codigo_saida": 0,
-      "junit": "contratos/FIC-COM-2026-001/evidencias/OS-FIC-002/MOD-002/LOGS_TESTES/regressao-comunicacao-20261106T165015.xml",
-      "log": "contratos/FIC-COM-2026-001/evidencias/OS-FIC-002/MOD-002/LOGS_TESTES/regressao-comunicacao-20261106T165015.log",
-      "testes": 26,
+      "junit": "contratos/FIC-COM-2026-001/evidencias/OS-FIC-002/MOD-002/LOGS_TESTES/regressao-comunicacao-20261106T165508.xml",
+      "log": "contratos/FIC-COM-2026-001/evidencias/OS-FIC-002/MOD-002/LOGS_TESTES/regressao-comunicacao-20261106T165508.log",
+      "testes": 28,
       "falhas": 0,
       "erros": 0,
       "ignorados": 0,
       "casos": [
         {
+          "suite": "tests.test_backup",
+          "nome": "test_backup_e_restauracao_devolvem_os_dados",
+          "tempo_s": 0.104,
+          "status": "PASSOU"
+        },
+        {
+          "suite": "tests.test_backup",
+          "nome": "test_restauracao_recusa_arquivo_alterado",
+          "tempo_s": 0.071,
+          "status": "PASSOU"
+        },
+        {
           "suite": "tests.test_comunicacao",
           "nome": "test_full_flow",
-          "tempo_s": 0.379,
-          "status": "PASSOU"
-        },
-        {
-          "suite": "tests.test_mod001_sessao",
-          "nome": "test_sair_revoga_o_token_no_servidor",
-          "tempo_s": 0.287,
-          "status": "PASSOU"
-        },
-        {
-          "suite": "tests.test_mod001_sessao",
-          "nome": "test_sair_encerra_somente_a_propria_sessao",
-          "tempo_s": 0.32,
-          "status": "PASSOU"
-        },
-        {
-          "suite": "tests.test_mod001_sessao",
-          "nome": "test_token_de_sessao_inexistente_e_recusado",
-          "tempo_s": 0.212,
-          "status": "PASSOU"
-        },
-        {
-          "suite": "tests.test_mod001_sessao",
-          "nome": "test_bloqueio_apos_cinco_erros_inclusive_com_senha_certa",
-          "tempo_s": 0.465,
-          "status": "PASSOU"
-        },
-        {
-          "suite": "tests.test_mod001_sessao",
-          "nome": "test_bloqueio_vale_por_usuario",
-          "tempo_s": 0.524,
-          "status": "PASSOU"
-        },
-        {
-          "suite": "tests.test_mod001_sessao",
-          "nome": "test_tentativas_antigas_nao_bloqueiam",
           "tempo_s": 0.407,
           "status": "PASSOU"
         },
         {
           "suite": "tests.test_mod001_sessao",
+          "nome": "test_sair_revoga_o_token_no_servidor",
+          "tempo_s": 0.307,
+          "status": "PASSOU"
+        },
+        {
+          "suite": "tests.test_mod001_sessao",
+          "nome": "test_sair_encerra_somente_a_propria_sessao",
+          "tempo_s": 0.369,
+          "status": "PASSOU"
+        },
+        {
+          "suite": "tests.test_mod001_sessao",
+          "nome": "test_token_de_sessao_inexistente_e_recusado",
+          "tempo_s": 0.208,
+          "status": "PASSOU"
+        },
+        {
+          "suite": "tests.test_mod001_sessao",
+          "nome": "test_bloqueio_apos_cinco_erros_inclusive_com_senha_certa",
+          "tempo_s": 0.568,
+          "status": "PASSOU"
+        },
+        {
+          "suite": "tests.test_mod001_sessao",
+          "nome": "test_bloqueio_vale_por_usuario",
+          "tempo_s": 0.543,
+          "status": "PASSOU"
+        },
+        {
+          "suite": "tests.test_mod001_sessao",
+          "nome": "test_tentativas_antigas_nao_bloqueiam",
+          "tempo_s": 0.288,
+          "status": "PASSOU"
+        },
+        {
+          "suite": "tests.test_mod001_sessao",
           "nome": "test_login_ok_e_falho_ficam_na_auditoria",
-          "tempo_s": 0.422,
+          "tempo_s": 0.446,
           "status": "PASSOU"
         },
         {
           "suite": "tests.test_mod001_sessao",
           "nome": "test_auditoria_de_falha_nao_guarda_senha",
-          "tempo_s": 0.308,
+          "tempo_s": 0.311,
           "status": "PASSOU"
         },
         {
           "suite": "tests.test_mod001_sessao",
           "nome": "test_bloqueio_fica_registrado_na_auditoria",
-          "tempo_s": 0.53,
+          "tempo_s": 0.556,
           "status": "PASSOU"
         },
         {
           "suite": "tests.test_mod002_validacao_privacidade",
           "nome": "test_leitor_ve_somente_publicadas",
-          "tempo_s": 0.435,
+          "tempo_s": 0.452,
           "status": "PASSOU"
         },
         {
           "suite": "tests.test_mod002_validacao_privacidade",
           "nome": "test_painel_do_leitor_conta_somente_publicadas",
-          "tempo_s": 0.433,
+          "tempo_s": 0.474,
           "status": "PASSOU"
         },
         {
           "suite": "tests.test_mod002_validacao_privacidade",
           "nome": "test_chamado_com_contato_inexistente_responde_404",
-          "tempo_s": 0.261,
+          "tempo_s": 0.264,
           "status": "PASSOU"
         },
         {
           "suite": "tests.test_mod002_validacao_privacidade",
           "nome": "test_campanha_com_canal_inexistente_responde_404",
-          "tempo_s": 0.254,
+          "tempo_s": 0.294,
           "status": "PASSOU"
         },
         {
           "suite": "tests.test_mod002_validacao_privacidade",
           "nome": "test_campanha_com_canal_valido",
-          "tempo_s": 0.279,
+          "tempo_s": 0.334,
           "status": "PASSOU"
         },
         {
           "suite": "tests.test_mod002_validacao_privacidade",
           "nome": "test_email_invalido_e_recusado",
-          "tempo_s": 0.286,
+          "tempo_s": 0.296,
           "status": "PASSOU"
         },
         {
           "suite": "tests.test_mod002_validacao_privacidade",
           "nome": "test_csv_neutraliza_formulas",
-          "tempo_s": 0.328,
+          "tempo_s": 0.356,
           "status": "PASSOU"
         },
         {
           "suite": "tests.test_mod002_validacao_privacidade",
           "nome": "test_leitor_nao_ve_descricao_nem_contato_dos_chamados",
-          "tempo_s": 0.354,
+          "tempo_s": 0.35,
           "status": "PASSOU"
         },
         {
@@ -211,7 +223,7 @@
         {
           "suite": "tests.test_mod003_base_tecnica",
           "nome": "test_banco_antigo_do_pacote_e_reconhecido_sem_perder_dados",
-          "tempo_s": 0.019,
+          "tempo_s": 0.014,
           "status": "PASSOU"
         },
         {
@@ -223,7 +235,7 @@
         {
           "suite": "tests.test_mod003_base_tecnica",
           "nome": "test_cabecalhos_de_seguranca",
-          "tempo_s": 0.027,
+          "tempo_s": 0.037,
           "status": "PASSOU"
         },
         {

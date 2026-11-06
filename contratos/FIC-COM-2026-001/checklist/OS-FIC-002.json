@@ -1,19 +1,9 @@
 {
   "contrato": "FIC-COM-2026-001",
   "os": "OS-FIC-002",
-  "gerado_em": "2026-11-06T16:50:25-03:00",
-  "situacao_entrega": "BLOQUEADA",
-  "criticos_reprovados": [
-    "C021",
-    "C031",
-    "C036",
-    "C071",
-    "C072",
-    "C075",
-    "C078",
-    "C091",
-    "C092"
-  ],
+  "gerado_em": "2026-11-06T16:55:20-03:00",
+  "situacao_entrega": "PENDENTE_VERIFICACAO_HUMANA",
+  "criticos_reprovados": [],
   "criticos_nao_verificados": [
     "C003",
     "C009",
@@ -35,8 +25,8 @@
     "C099"
   ],
   "contagem": {
-    "APROVADO": 23,
-    "REPROVADO": 17,
+    "APROVADO": 39,
+    "REPROVADO": 1,
     "NAO_APLICAVEL": 0,
     "NAO_VERIFICADO": 60
   },
@@ -179,8 +169,8 @@
       "descricao": "Contratos de API documentados (OpenAPI)",
       "metodo": "/api/openapi.json gerado",
       "critico": false,
-      "resultado": "REPROVADO",
-      "evidencia": "contratos/FIC-COM-2026-001/laboratorio/backend/app/main.py",
+      "resultado": "APROVADO",
+      "evidencia": "contratos/FIC-COM-2026-001/laboratorio/PLATAFORMA_COMUNICACAO/app/main.py",
       "responsavel": "G17 (automático)",
       "data": "2026-11-06"
     },
@@ -234,7 +224,7 @@
       "descricao": "Configuração externa por variáveis de ambiente",
       "metodo": ".env.example presente",
       "critico": false,
-      "resultado": "REPROVADO",
+      "resultado": "APROVADO",
       "evidencia": "contratos/FIC-COM-2026-001/laboratorio/.env.example",
       "responsavel": "G17 (automático)",
       "data": "2026-11-06"
@@ -245,8 +235,8 @@
       "descricao": "Dependências declaradas e versionadas",
       "metodo": "requirements/package.json",
       "critico": false,
-      "resultado": "REPROVADO",
-      "evidencia": "contratos/FIC-COM-2026-001/laboratorio/backend/requirements.txt",
+      "resultado": "APROVADO",
+      "evidencia": "contratos/FIC-COM-2026-001/laboratorio/PLATAFORMA_COMUNICACAO/requirements.txt",
       "responsavel": "G17 (automático)",
       "data": "2026-11-06"
     },
@@ -267,8 +257,8 @@
       "descricao": "Código existe no repositório",
       "metodo": "Arquivos versionados",
       "critico": true,
-      "resultado": "REPROVADO",
-      "evidencia": "contratos/FIC-COM-2026-001/laboratorio/backend/app",
+      "resultado": "APROVADO",
+      "evidencia": "contratos/FIC-COM-2026-001/laboratorio/PLATAFORMA_COMUNICACAO/app",
       "responsavel": "G17 (automático)",
       "data": "2026-11-06"
     },
@@ -377,8 +367,8 @@
       "descricao": "Migrações versionadas",
       "metodo": "Pasta de migrações",
       "critico": true,
-      "resultado": "REPROVADO",
-      "evidencia": "contratos/FIC-COM-2026-001/laboratorio/backend/migrations/versions",
+      "resultado": "APROVADO",
+      "evidencia": "contratos/FIC-COM-2026-001/laboratorio/PLATAFORMA_COMUNICACAO/migrations",
       "responsavel": "G17 (automático)",
       "data": "2026-11-06"
     },
@@ -432,7 +422,7 @@
       "descricao": "Rotina de backup documentada",
       "metodo": "Script de backup",
       "critico": true,
-      "resultado": "REPROVADO",
+      "resultado": "APROVADO",
       "evidencia": "contratos/FIC-COM-2026-001/laboratorio/infra/scripts/backup.sh",
       "responsavel": "G17 (automático)",
       "data": "2026-11-06"
@@ -565,7 +555,7 @@
       "metodo": "Teste automatizado",
       "critico": false,
       "resultado": "APROVADO",
-      "evidencia": "MOD-001/TESTES.json: 1 caso(s) 'test_cabecalhos_de_seguranca' (2026-11-06T16:50)",
+      "evidencia": "MOD-001/TESTES.json: 1 caso(s) 'test_cabecalhos_de_seguranca' (2026-11-06T16:55)",
       "responsavel": "G17 (automático)",
       "data": "2026-11-06"
     },
@@ -652,8 +642,8 @@
       "descricao": "Testes de regressão no CI",
       "metodo": "Workflow de CI",
       "critico": false,
-      "resultado": "REPROVADO",
-      "evidencia": "contratos/.github/workflows/ci.yml",
+      "resultado": "APROVADO",
+      "evidencia": ".github/workflows/ci.yml",
       "responsavel": "G17 (automático)",
       "data": "2026-11-06"
     },
@@ -817,8 +807,8 @@
       "descricao": "Dockerfiles presentes",
       "metodo": "Arquivos",
       "critico": true,
-      "resultado": "REPROVADO",
-      "evidencia": "contratos/FIC-COM-2026-001/laboratorio/backend/Dockerfile",
+      "resultado": "APROVADO",
+      "evidencia": "contratos/FIC-COM-2026-001/laboratorio/PLATAFORMA_COMUNICACAO/Dockerfile",
       "responsavel": "G17 (automático)",
       "data": "2026-11-06"
     },
@@ -828,7 +818,7 @@
       "descricao": "Docker Compose do ambiente",
       "metodo": "Arquivo",
       "critico": true,
-      "resultado": "REPROVADO",
+      "resultado": "APROVADO",
       "evidencia": "contratos/FIC-COM-2026-001/laboratorio/docker-compose.yml",
       "responsavel": "G17 (automático)",
       "data": "2026-11-06"
@@ -839,8 +829,8 @@
       "descricao": "Pipeline CI/CD",
       "metodo": "Workflow",
       "critico": false,
-      "resultado": "REPROVADO",
-      "evidencia": "contratos/.github/workflows/ci.yml",
+      "resultado": "APROVADO",
+      "evidencia": ".github/workflows/ci.yml",
       "responsavel": "G17 (automático)",
       "data": "2026-11-06"
     },
@@ -861,7 +851,7 @@
       "descricao": "Proxy reverso com TLS documentado",
       "metodo": "infra/nginx",
       "critico": true,
-      "resultado": "REPROVADO",
+      "resultado": "APROVADO",
       "evidencia": "contratos/FIC-COM-2026-001/laboratorio/infra/nginx",
       "responsavel": "G17 (automático)",
       "data": "2026-11-06"
@@ -894,7 +884,7 @@
       "descricao": "Procedimento de rollback",
       "metodo": "Manual de publicação",
       "critico": true,
-      "resultado": "REPROVADO",
+      "resultado": "APROVADO",
       "evidencia": "contratos/FIC-COM-2026-001/laboratorio/docs/MANUAL_PUBLICACAO.md",
       "responsavel": "G17 (automático)",
       "data": "2026-11-06"
@@ -905,7 +895,7 @@
       "descricao": "Plano de recuperação de desastres",
       "metodo": "Documento",
       "critico": false,
-      "resultado": "REPROVADO",
+      "resultado": "APROVADO",
       "evidencia": "contratos/FIC-COM-2026-001/laboratorio/docs/PLANO_CONTINUIDADE.md",
       "responsavel": "G17 (automático)",
       "data": "2026-11-06"
@@ -1016,7 +1006,7 @@
       "metodo": "fabrica.py auditar",
       "critico": true,
       "resultado": "APROVADO",
-      "evidencia": "evidencias/OS-FIC-002/AUDITORIA.md (2026-11-06T16:50)",
+      "evidencia": "evidencias/OS-FIC-002/AUDITORIA.md (2026-11-06T16:55)",
       "responsavel": "G17 (automático)",
       "data": "2026-11-06"
     },
@@ -1037,7 +1027,7 @@
       "descricao": "README de execução local",
       "metodo": "Arquivo",
       "critico": true,
-      "resultado": "REPROVADO",
+      "resultado": "APROVADO",
       "evidencia": "contratos/FIC-COM-2026-001/laboratorio/README.md",
       "responsavel": "G17 (automático)",
       "data": "2026-11-06"
@@ -1048,7 +1038,7 @@
       "descricao": "Manual de publicação",
       "metodo": "Arquivo",
       "critico": true,
-      "resultado": "REPROVADO",
+      "resultado": "APROVADO",
       "evidencia": "contratos/FIC-COM-2026-001/laboratorio/docs/MANUAL_PUBLICACAO.md",
       "responsavel": "G17 (automático)",
       "data": "2026-11-06"
@@ -1059,7 +1049,7 @@
       "descricao": "Manual de operação e manutenção",
       "metodo": "Arquivo",
       "critico": false,
-      "resultado": "REPROVADO",
+      "resultado": "APROVADO",
       "evidencia": "contratos/FIC-COM-2026-001/laboratorio/docs/MANUAL_OPERACAO.md",
       "responsavel": "G17 (automático)",
       "data": "2026-11-06"
