@@ -1,0 +1,55 @@
+{
+  "contrato": "FIC-COM-2026-001",
+  "data": "2026-11-06",
+  "numero": "RT-FIC-COM-2026-001-20261106",
+  "unidade": "UST",
+  "contratado": 12000.0,
+  "previsto": 202.5,
+  "comprovado": 202.5,
+  "aceito": 0.0,
+  "mes": 202.5,
+  "hoje": 202.5,
+  "a_fazer": 0,
+  "saldo": 11797.5,
+  "pago": 0,
+  "meta_hoje": 0.0,
+  "executado_hoje": 202.5,
+  "modulos": [
+    {
+      "os": "OS-FIC-002",
+      "id": "MOD-001",
+      "nome": "Controle de sessão (TR M01, item 2 de 4)",
+      "item": "CAT-M01-SESSAO",
+      "previsto": 202.5,
+      "comprovado": 202.5,
+      "aceito": 0.0
+    },
+    {
+      "os": "OS-FIC-002",
+      "id": "MOD-002",
+      "nome": "Correções de validação e privacidade (M03, M05, M07, M08)",
+      "item": "CORRETIVA-SEM-ITEM",
+      "previsto": 0.0,
+      "comprovado": 0.0,
+      "aceito": 0.0
+    },
+    {
+      "os": "OS-FIC-002",
+      "id": "MOD-003",
+      "nome": "Base técnica — migrações versionadas, cabeçalhos de segurança, dependências",
+      "item": "CORRETIVA-SEM-ITEM",
+      "previsto": 0.0,
+      "comprovado": 0.0,
+      "aceito": 0.0
+    },
+    {
+      "os": "OS-FIC-002",
+      "id": "MOD-004",
+      "nome": "Painel da fábrica — chave de acesso (ferramenta interna)",
+      "item": "INTERNO-FABRICA",
+      "previsto": 0.0,
+      "comprovado": 0.0,
+      "aceito": 0.0
+    }
+  ]
+}

@@ -1,0 +1,53 @@
+{
+  "fonte": "git log (gerado por fabrica.py evidencias commits)",
+  "gerado_em": "2026-11-06T14:15:32-03:00",
+  "caminhos": [
+    "contratos/FIC-COM-2026-001/laboratorio/FABRICA/app/main.py",
+    "contratos/FIC-COM-2026-001/laboratorio/FABRICA/static/index.html",
+    "contratos/FIC-COM-2026-001/laboratorio/FABRICA/static/painel.js",
+    "contratos/FIC-COM-2026-001/laboratorio/FABRICA/static/painel.css",
+    "contratos/FIC-COM-2026-001/laboratorio/FABRICA/requirements.txt",
+    "contratos/FIC-COM-2026-001/laboratorio/FABRICA/README.md",
+    "contratos/FIC-COM-2026-001/laboratorio/FABRICA/tests/test_mod004_login_painel.py",
+    "contratos/FIC-COM-2026-001/laboratorio/FABRICA/tests/test_painel_js.py",
+    "contratos/FIC-COM-2026-001/laboratorio/FABRICA/tests/test_factory.py",
+    "contratos/FIC-COM-2026-001/laboratorio/start_local.sh"
+  ],
+  "commits": [
+    {
+      "sha": "de17ba03d93e038c2214ea600d2e62af8ba0bb88",
+      "autor": "Claude",
+      "email_autor": "noreply@anthropic.com",
+      "data": "2026-11-06T17:14:28+00:00",
+      "mensagem": "MOD-004: painel da fábrica exige chave de acesso (OS-FIC-002)",
+      "arquivos": [
+        "M\tcontratos/FIC-COM-2026-001/laboratorio/FABRICA/README.md",
+        "M\tcontratos/FIC-COM-2026-001/laboratorio/FABRICA/app/main.py",
+        "M\tcontratos/FIC-COM-2026-001/laboratorio/FABRICA/requirements.txt",
+        "M\tcontratos/FIC-COM-2026-001/laboratorio/FABRICA/static/index.html",
+        "A\tcontratos/FIC-COM-2026-001/laboratorio/FABRICA/static/painel.css",
+        "A\tcontratos/FIC-COM-2026-001/laboratorio/FABRICA/static/painel.js",
+        "M\tcontratos/FIC-COM-2026-001/laboratorio/FABRICA/tests/test_factory.py",
+        "A\tcontratos/FIC-COM-2026-001/laboratorio/FABRICA/tests/test_mod004_login_painel.py",
+        "M\tcontratos/FIC-COM-2026-001/laboratorio/FABRICA/tests/test_painel_js.py",
+        "M\tcontratos/FIC-COM-2026-001/laboratorio/start_local.sh"
+      ]
+    },
+    {
+      "sha": "f823f56b525bce1f451757907922cc0cd659fd36",
+      "autor": "Claude",
+      "email_autor": "noreply@anthropic.com",
+      "data": "2026-11-06T16:24:59+00:00",
+      "mensagem": "fabrica: diagnóstico do pacote DIGITALGOV (contrato fictício FIC-COM-2026-001)",
+      "arquivos": [
+        "A\tcontratos/FIC-COM-2026-001/laboratorio/FABRICA/README.md",
+        "A\tcontratos/FIC-COM-2026-001/laboratorio/FABRICA/app/main.py",
+        "A\tcontratos/FIC-COM-2026-001/laboratorio/FABRICA/requirements.txt",
+        "A\tcontratos/FIC-COM-2026-001/laboratorio/FABRICA/static/index.html",
+        "A\tcontratos/FIC-COM-2026-001/laboratorio/FABRICA/tests/test_factory.py",
+        "A\tcontratos/FIC-COM-2026-001/laboratorio/FABRICA/tests/test_painel_js.py",
+        "A\tcontratos/FIC-COM-2026-001/laboratorio/start_local.sh"
+      ]
+    }
+  ]
+}

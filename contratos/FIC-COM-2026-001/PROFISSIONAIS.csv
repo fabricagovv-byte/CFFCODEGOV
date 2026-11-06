@@ -1,2 +1,8 @@
 id,nome,funcao,area,senioridade,cpf_mascarado,formacao,anos_experiencia,certificacoes,qualificacao,registro_ou_certificacao,responsabilidades,modulos,email_corporativo,inicio,fim
-#P01,Nome Completo,Desenvolvedor Backend,BACKEND,SENIOR,***.456.789-**,Ciência da Computação,8,Java OCP,,,APIs e revisão,MOD-001,nome@empresa.com.br,2026-01-01,
+P01,Jerlian,Programador,,SENIOR,,,,,,,,,,,
+P02,Ruan,Programador,,SENIOR,,,,,,,,,,,
+P03,Arthur Miguel,Programador,,SENIOR,,,,,,,,,,,
+P04,Warley,Programador,,SENIOR,,,,,,,,,,,
+P05,Werverton,Programador,,SENIOR,,,,,,,,,,,
+P06,João Miguel,Programador,,SENIOR,,,,,,,,,,,
+P07,Warley C.,Programador,,SENIOR,,,,,,,,,,,

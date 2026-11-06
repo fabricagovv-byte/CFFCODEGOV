@@ -1780,6 +1780,70 @@
           "nota": ""
         }
       ]
+    },
+    {
+      "id": "T-0030",
+      "contrato": "FIC-COM-2026-001",
+      "os": "OS-FIC-002",
+      "modulo": "",
+      "agente": "E02",
+      "profissional": "",
+      "descricao": "Executar OS-FIC-002: corrigir os 12 achados do diagnóstico (MOD-001 a MOD-004), testar, auditar e medir",
+      "prioridade": "ALTA",
+      "dependencias": [],
+      "arquivos": [],
+      "prazo": "",
+      "status": "DONE",
+      "resultado": "12 achados corrigidos; 4 módulos com auditoria técnica APROVADA; 90 execuções de teste sem falha; medição 202,5 UST comprovadas (R$ 6.075,00), 0 aceitas; revisão humana pendente",
+      "evidencias": [
+        "contratos/FIC-COM-2026-001/evidencias/OS-FIC-002/AUDITORIA.md",
+        "contratos/FIC-COM-2026-001/medicoes/OS-FIC-002.md"
+      ],
+      "pendencias": [],
+      "historico": [
+        {
+          "em": "2026-11-06T14:19:16-03:00",
+          "de": null,
+          "para": "BACKLOG",
+          "por": "Claude Code",
+          "nota": "criada"
+        },
+        {
+          "em": "2026-11-06T14:19:16-03:00",
+          "de": "BACKLOG",
+          "para": "READY",
+          "por": "Claude Code",
+          "nota": ""
+        },
+        {
+          "em": "2026-11-06T14:19:16-03:00",
+          "de": "READY",
+          "para": "IN_PROGRESS",
+          "por": "Claude Code",
+          "nota": ""
+        },
+        {
+          "em": "2026-11-06T14:19:16-03:00",
+          "de": "IN_PROGRESS",
+          "para": "IN_REVIEW",
+          "por": "Claude Code",
+          "nota": ""
+        },
+        {
+          "em": "2026-11-06T14:19:17-03:00",
+          "de": "IN_REVIEW",
+          "para": "TESTING",
+          "por": "Claude Code",
+          "nota": ""
+        },
+        {
+          "em": "2026-11-06T14:19:17-03:00",
+          "de": "TESTING",
+          "para": "DONE",
+          "por": "Claude Code",
+          "nota": ""
+        }
+      ]
     }
   ]
 }

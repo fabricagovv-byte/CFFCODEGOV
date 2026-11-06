@@ -1,0 +1,29 @@
+$ (cd contratos/FIC-COM-2026-001/laboratorio/PLATAFORMA_COMUNICACAO && sh -c ${DG_PYTHON:-python3} -m pytest -p no:cacheprovider tests/test_mod003_base_tecnica.py -v --junitxml=/home/user/CFFCODEGOV/contratos/FIC-COM-2026-001/evidencias/OS-FIC-002/MOD-003/LOGS_TESTES/base-tecnica-20261106T141528.xml)
+# início: 2026-11-06T14:15:28.565599-03:00
+# fim: 2026-11-06T14:15:29.290014-03:00
+# código de saída: 0
+
+============================= test session starts ==============================
+platform linux -- Python 3.13.18, pytest-9.2.0, pluggy-1.7.0 -- /tmp/claude-0/-home-user-CFFCODEGOV/967e6d0a-7c30-596d-96b7-83d47da1f103/scratchpad/venv/bin/python
+rootdir: /home/user/CFFCODEGOV/contratos/FIC-COM-2026-001/laboratorio/PLATAFORMA_COMUNICACAO
+plugins: anyio-4.16.0
+collecting ... collected 8 items
+
+tests/test_mod003_base_tecnica.py::test_migracoes_em_banco_vazio_e_reversao PASSED [ 12%]
+tests/test_mod003_base_tecnica.py::test_upgrade_e_idempotente PASSED     [ 25%]
+tests/test_mod003_base_tecnica.py::test_banco_antigo_do_pacote_e_reconhecido_sem_perder_dados PASSED [ 37%]
+tests/test_mod003_base_tecnica.py::test_campanha_tem_chave_estrangeira_para_canal PASSED [ 50%]
+tests/test_mod003_base_tecnica.py::test_cabecalhos_de_seguranca PASSED   [ 62%]
+tests/test_mod003_base_tecnica.py::test_api_nao_fica_em_cache PASSED     [ 75%]
+tests/test_mod003_base_tecnica.py::test_tela_nao_usa_estilo_inline_bloqueado_pela_csp PASSED [ 87%]
+tests/test_mod003_base_tecnica.py::test_dependencias_com_versao_fixa PASSED [100%]
+
+=============================== warnings summary ===============================
+tests/test_mod003_base_tecnica.py::test_cabecalhos_de_seguranca
+  /tmp/claude-0/-home-user-CFFCODEGOV/967e6d0a-7c30-596d-96b7-83d47da1f103/scratchpad/venv/lib/python3.13/site-packages/fastapi/testclient.py:1: StarletteDeprecationWarning: Using `httpx` with `starlette.testclient` is deprecated; install `httpx2` instead.
+    from starlette.testclient import TestClient as TestClient  # noqa
+
+-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+- generated xml file: /home/user/CFFCODEGOV/contratos/FIC-COM-2026-001/evidencias/OS-FIC-002/MOD-003/LOGS_TESTES/base-tecnica-20261106T141528.xml -
+========================= 8 passed, 1 warning in 0.37s =========================
+

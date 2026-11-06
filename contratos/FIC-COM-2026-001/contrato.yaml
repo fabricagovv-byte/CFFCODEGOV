@@ -4,10 +4,10 @@
 # Campos iniciados por "_" são comentários/ajuda e não são cobrados.
 
 id: FIC-COM-2026-001
-_aviso: "CONTRATO FICTÍCIO — minuta não assinada, sem órgão real (pacote DIGITALGOV 2026, cl. 1 e 20). Usado para treinar e validar a fábrica."
+_aviso: "O responsável informou em 06/11/2026 que o órgão contratante EXISTE. Nome do órgão, contrato assinado e OS do órgão ainda não foram enviados; até lá vale a minuta do pacote DIGITALGOV (FIC-COM-2026-001) e nada pode ser ACEITO."
 
 contratante:                       # 1
-  orgao: ""                        # Ex.: Prefeitura Municipal de ...
+  orgao: "[EXISTE — nome e documentos a enviar pelo responsável]"  # Ex.: Prefeitura Municipal de ...
   esfera: ""                       # federal | estadual | municipal | distrital
   cnpj: ""
   gestor_contrato: ""              # Nome e cargo do gestor do contrato (contratante)
@@ -32,10 +32,10 @@ medicao:
   modalidade: "UST"                # 9  UST | PF | HORAS | ENTREGAVEL | MISTA
   metodologia: "UST base elegível × fator de complexidade 1/2/3 da OS; catálogo PROPOSTO-V1 NÃO homologado (minuta cl. 12; protocolo de medição item 2)"                  # Ex.: catálogo de serviços do TR; IFPUG CPM 4.3; Roteiro SISP
   formula: ""                      # UST_POR_SERVICO | HORAS_X_FATOR | HORAS — como o CONTRATO calcula (ver PERFIS.csv e CATALOGO_SERVICOS.csv)
-  valor_unitario: "[A DEFINIR] (minuta cl. 17)"               # Valor da UST/PF conforme contrato
+  valor_unitario: "30.00"  # R$ 30,00 por UST — informado pelo responsável na conversa de 06/11/2026 (resposta "30 sim")               # Valor da UST/PF conforme contrato
   quantidade_contratada: "12000 UST ajustadas — META FICTÍCIA de planejamento, sem consumo automático (minuta cl. 12)"  # 10
   tabela: TABELA_UST.csv           # 11 (preencher o CSV na mesma pasta)
-  regra_medicao_parcial: ""        # O contrato permite medir parcialmente? Como?
+  regra_medicao_parcial: "PROPOSTA DA FÁBRICA (confirmar): cada módulo do catálogo é dividido em partes iguais pelos itens de escopo listados no TR, seção 3; um item conta quando está entregue, testado e com auditoria técnica APROVADA. Correção de defeito de código que já existia não é item de escopo e não é medida, salvo item corretivo no catálogo do órgão."        # O contrato permite medir parcialmente? Como?
   glosas_e_sla: ""                 # Indicadores e glosas previstos
 
 criterios_aceite: []               # 12  lista de critérios com cláusula de origem
@@ -58,8 +58,8 @@ tecnico:
   acessibilidade: ""               # Ex.: eMAG/WCAG 2.1 AA
 
 autorizacao_execucao:              # 25
-  autorizado: false                # true somente após OS assinada
-  autorizado_por: ""               # nome/cargo de quem autorizou
-  data: ""
-  documento: ""                    # Nº da OS / ofício / e-mail
+  autorizado: true                 # autorização interna do responsável; não é OS assinada pelo órgão
+  autorizado_por: "Responsável da sessão (conta fabricagovv@gmail.com)"
+  data: "2026-11-06"
+  documento: "Conversa da sessão Claude Code de 06/11/2026 — pergunta 'Quem autoriza a OS?', resposta 'eu'; catálogo PROPOSTO-V1 aprovado ('30 sim')"
   pode_publicar_producao: false    # publicação em produção exige autorização separada

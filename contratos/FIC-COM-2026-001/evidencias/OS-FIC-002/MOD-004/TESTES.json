@@ -1,0 +1,102 @@
+{
+  "fonte": "execução real via fabrica.py testes executar",
+  "modulo": "MOD-004",
+  "executado_em": "2026-11-06T14:15:31-03:00",
+  "resumo": {
+    "testes": 12,
+    "falhas": 0,
+    "erros": 0,
+    "ignorados": 0
+  },
+  "situacao": "APROVADO",
+  "execucoes": [
+    {
+      "nome": "painel",
+      "comando": "sh -c ${DG_PYTHON:-python3} -m pytest -p no:cacheprovider tests -v --junitxml=/home/user/CFFCODEGOV/contratos/FIC-COM-2026-001/evidencias/OS-FIC-002/MOD-004/LOGS_TESTES/painel-20261106T141531.xml",
+      "cwd": "contratos/FIC-COM-2026-001/laboratorio/FABRICA",
+      "inicio": "2026-11-06T14:15:31-03:00",
+      "fim": "2026-11-06T14:15:31-03:00",
+      "codigo_saida": 0,
+      "junit": "contratos/FIC-COM-2026-001/evidencias/OS-FIC-002/MOD-004/LOGS_TESTES/painel-20261106T141531.xml",
+      "log": "contratos/FIC-COM-2026-001/evidencias/OS-FIC-002/MOD-004/LOGS_TESTES/painel-20261106T141531.log",
+      "testes": 12,
+      "falhas": 0,
+      "erros": 0,
+      "ignorados": 0,
+      "casos": [
+        {
+          "suite": "tests.test_factory",
+          "nome": "test_workflow",
+          "tempo_s": 0.057,
+          "status": "PASSOU"
+        },
+        {
+          "suite": "tests.test_factory",
+          "nome": "test_human_hours",
+          "tempo_s": 0.002,
+          "status": "PASSOU"
+        },
+        {
+          "suite": "tests.test_mod004_login_painel",
+          "nome": "test_api_sem_chave_configurada_fica_fechada",
+          "tempo_s": 0.005,
+          "status": "PASSOU"
+        },
+        {
+          "suite": "tests.test_mod004_login_painel",
+          "nome": "test_chave_curta_nao_abre_a_api",
+          "tempo_s": 0.004,
+          "status": "PASSOU"
+        },
+        {
+          "suite": "tests.test_mod004_login_painel",
+          "nome": "test_api_exige_a_chave_certa",
+          "tempo_s": 0.02,
+          "status": "PASSOU"
+        },
+        {
+          "suite": "tests.test_mod004_login_painel",
+          "nome": "test_pagina_e_saude_abrem_sem_chave",
+          "tempo_s": 0.019,
+          "status": "PASSOU"
+        },
+        {
+          "suite": "tests.test_mod004_login_painel",
+          "nome": "test_cabecalhos_de_seguranca",
+          "tempo_s": 0.014,
+          "status": "PASSOU"
+        },
+        {
+          "suite": "tests.test_mod004_login_painel",
+          "nome": "test_pagina_sem_script_nem_estilo_embutido",
+          "tempo_s": 0.0,
+          "status": "PASSOU"
+        },
+        {
+          "suite": "tests.test_mod004_login_painel",
+          "nome": "test_painel_envia_a_chave_nas_chamadas",
+          "tempo_s": 0.0,
+          "status": "PASSOU"
+        },
+        {
+          "suite": "tests.test_mod004_login_painel",
+          "nome": "test_dependencias_com_versao_fixa",
+          "tempo_s": 0.0,
+          "status": "PASSOU"
+        },
+        {
+          "suite": "tests.test_painel_js",
+          "nome": "test_script_do_painel_compila",
+          "tempo_s": 0.033,
+          "status": "PASSOU"
+        },
+        {
+          "suite": "tests.test_painel_js",
+          "nome": "test_escape_html_cobre_apostrofo",
+          "tempo_s": 0.0,
+          "status": "PASSOU"
+        }
+      ]
+    }
+  ]
+}

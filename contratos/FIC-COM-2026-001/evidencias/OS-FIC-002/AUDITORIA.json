@@ -1,0 +1,156 @@
+{
+  "contrato": "FIC-COM-2026-001",
+  "os": "OS-FIC-002",
+  "auditado_em": "2026-11-06T14:18:45-03:00",
+  "agente": "G17",
+  "modulos": [
+    {
+      "modulo": "MOD-001",
+      "nome": "Controle de sessão (TR M01, item 2 de 4)",
+      "tecnico": "APROVADO",
+      "pendencias_humanas": [
+        {
+          "severidade": "PENDENCIA_HUMANA",
+          "item": "RESPONSAVEIS.md",
+          "texto": "profissional humano responsável não cadastrado"
+        },
+        {
+          "severidade": "PENDENCIA_HUMANA",
+          "item": "REVISOES.md",
+          "texto": "revisão humana não registrada"
+        }
+      ],
+      "achados": [
+        {
+          "severidade": "PENDENCIA_HUMANA",
+          "item": "RESPONSAVEIS.md",
+          "texto": "profissional humano responsável não cadastrado"
+        },
+        {
+          "severidade": "PENDENCIA_HUMANA",
+          "item": "REVISOES.md",
+          "texto": "revisão humana não registrada"
+        }
+      ],
+      "commits": 2,
+      "testes": {
+        "testes": 35,
+        "falhas": 0,
+        "erros": 0,
+        "ignorados": 0
+      },
+      "capturas": 2
+    },
+    {
+      "modulo": "MOD-002",
+      "nome": "Correções de validação e privacidade (M03, M05, M07, M08)",
+      "tecnico": "APROVADO",
+      "pendencias_humanas": [
+        {
+          "severidade": "PENDENCIA_HUMANA",
+          "item": "RESPONSAVEIS.md",
+          "texto": "profissional humano responsável não cadastrado"
+        },
+        {
+          "severidade": "PENDENCIA_HUMANA",
+          "item": "REVISOES.md",
+          "texto": "revisão humana não registrada"
+        }
+      ],
+      "achados": [
+        {
+          "severidade": "PENDENCIA_HUMANA",
+          "item": "RESPONSAVEIS.md",
+          "texto": "profissional humano responsável não cadastrado"
+        },
+        {
+          "severidade": "PENDENCIA_HUMANA",
+          "item": "REVISOES.md",
+          "texto": "revisão humana não registrada"
+        }
+      ],
+      "commits": 2,
+      "testes": {
+        "testes": 34,
+        "falhas": 0,
+        "erros": 0,
+        "ignorados": 0
+      },
+      "capturas": 3
+    },
+    {
+      "modulo": "MOD-003",
+      "nome": "Base técnica — migrações versionadas, cabeçalhos de segurança, dependências",
+      "tecnico": "APROVADO",
+      "pendencias_humanas": [
+        {
+          "severidade": "PENDENCIA_HUMANA",
+          "item": "RESPONSAVEIS.md",
+          "texto": "profissional humano responsável não cadastrado"
+        },
+        {
+          "severidade": "PENDENCIA_HUMANA",
+          "item": "REVISOES.md",
+          "texto": "revisão humana não registrada"
+        }
+      ],
+      "achados": [
+        {
+          "severidade": "PENDENCIA_HUMANA",
+          "item": "RESPONSAVEIS.md",
+          "texto": "profissional humano responsável não cadastrado"
+        },
+        {
+          "severidade": "PENDENCIA_HUMANA",
+          "item": "REVISOES.md",
+          "texto": "revisão humana não registrada"
+        }
+      ],
+      "commits": 2,
+      "testes": {
+        "testes": 9,
+        "falhas": 0,
+        "erros": 0,
+        "ignorados": 0
+      },
+      "capturas": 0
+    },
+    {
+      "modulo": "MOD-004",
+      "nome": "Painel da fábrica — chave de acesso (ferramenta interna)",
+      "tecnico": "APROVADO",
+      "pendencias_humanas": [
+        {
+          "severidade": "PENDENCIA_HUMANA",
+          "item": "RESPONSAVEIS.md",
+          "texto": "profissional humano responsável não cadastrado"
+        },
+        {
+          "severidade": "PENDENCIA_HUMANA",
+          "item": "REVISOES.md",
+          "texto": "revisão humana não registrada"
+        }
+      ],
+      "achados": [
+        {
+          "severidade": "PENDENCIA_HUMANA",
+          "item": "RESPONSAVEIS.md",
+          "texto": "profissional humano responsável não cadastrado"
+        },
+        {
+          "severidade": "PENDENCIA_HUMANA",
+          "item": "REVISOES.md",
+          "texto": "revisão humana não registrada"
+        }
+      ],
+      "commits": 2,
+      "testes": {
+        "testes": 12,
+        "falhas": 0,
+        "erros": 0,
+        "ignorados": 0
+      },
+      "capturas": 3
+    }
+  ]
+}

@@ -28,3 +28,12 @@ Consequência: migração 0002_versao_sessao; testes novos.
 Contexto: Docker Hub respondeu 429 (limite).
 Decisão: nesta sessão as imagens base foram obtidas de mirror.gcr.io e re-etiquetadas; Dockerfiles continuam apontando para as imagens oficiais.
 Consequência: em ambientes com o mesmo limite, usar espelho/cache de registro.
+
+## D-0004 — FIC-COM-2026-001: respostas do responsável em 06/11/2026
+
+- Data: 2026-11-06T14:19:17-03:00
+- Registrado por: Responsável da sessão
+
+- Tarefa: T-0030
+
+Órgão contratante existe (nome e documentos a enviar). Autorização da OS: o próprio responsável. Catálogo PROPOSTO-V1 aprovado com UST a R$ 30,00. Equipe: 7 programadores (P01-P07). Corrigir os 12 achados e medir. Regra de medição parcial proposta pela fábrica aguarda confirmação.

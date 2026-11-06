@@ -1,0 +1,100 @@
+{
+  "fonte": "execução real via fabrica.py testes executar",
+  "modulo": "MOD-003",
+  "executado_em": "2026-11-06T14:15:31-03:00",
+  "resumo": {
+    "testes": 9,
+    "falhas": 0,
+    "erros": 0,
+    "ignorados": 0
+  },
+  "situacao": "APROVADO",
+  "execucoes": [
+    {
+      "nome": "base-tecnica",
+      "comando": "sh -c ${DG_PYTHON:-python3} -m pytest -p no:cacheprovider tests/test_mod003_base_tecnica.py -v --junitxml=/home/user/CFFCODEGOV/contratos/FIC-COM-2026-001/evidencias/OS-FIC-002/MOD-003/LOGS_TESTES/base-tecnica-20261106T141528.xml",
+      "cwd": "contratos/FIC-COM-2026-001/laboratorio/PLATAFORMA_COMUNICACAO",
+      "inicio": "2026-11-06T14:15:28-03:00",
+      "fim": "2026-11-06T14:15:29-03:00",
+      "codigo_saida": 0,
+      "junit": "contratos/FIC-COM-2026-001/evidencias/OS-FIC-002/MOD-003/LOGS_TESTES/base-tecnica-20261106T141528.xml",
+      "log": "contratos/FIC-COM-2026-001/evidencias/OS-FIC-002/MOD-003/LOGS_TESTES/base-tecnica-20261106T141528.log",
+      "testes": 8,
+      "falhas": 0,
+      "erros": 0,
+      "ignorados": 0,
+      "casos": [
+        {
+          "suite": "tests.test_mod003_base_tecnica",
+          "nome": "test_migracoes_em_banco_vazio_e_reversao",
+          "tempo_s": 0.017,
+          "status": "PASSOU"
+        },
+        {
+          "suite": "tests.test_mod003_base_tecnica",
+          "nome": "test_upgrade_e_idempotente",
+          "tempo_s": 0.007,
+          "status": "PASSOU"
+        },
+        {
+          "suite": "tests.test_mod003_base_tecnica",
+          "nome": "test_banco_antigo_do_pacote_e_reconhecido_sem_perder_dados",
+          "tempo_s": 0.013,
+          "status": "PASSOU"
+        },
+        {
+          "suite": "tests.test_mod003_base_tecnica",
+          "nome": "test_campanha_tem_chave_estrangeira_para_canal",
+          "tempo_s": 0.006,
+          "status": "PASSOU"
+        },
+        {
+          "suite": "tests.test_mod003_base_tecnica",
+          "nome": "test_cabecalhos_de_seguranca",
+          "tempo_s": 0.285,
+          "status": "PASSOU"
+        },
+        {
+          "suite": "tests.test_mod003_base_tecnica",
+          "nome": "test_api_nao_fica_em_cache",
+          "tempo_s": 0.016,
+          "status": "PASSOU"
+        },
+        {
+          "suite": "tests.test_mod003_base_tecnica",
+          "nome": "test_tela_nao_usa_estilo_inline_bloqueado_pela_csp",
+          "tempo_s": 0.0,
+          "status": "PASSOU"
+        },
+        {
+          "suite": "tests.test_mod003_base_tecnica",
+          "nome": "test_dependencias_com_versao_fixa",
+          "tempo_s": 0.0,
+          "status": "PASSOU"
+        }
+      ]
+    },
+    {
+      "nome": "migracoes-ida-e-volta",
+      "comando": "sh -c f=$(mktemp -d)/m.db && export DG_COMM_DB=$f && P=${DG_PYTHON:-python3} && $P -m app.cli init && $P -m app.cli rollback --to 1 && $P -m app.cli migrations | grep -q \"'atual': 1\" && $P -m app.cli init && $P -m app.cli migrations | grep -q \"'pendentes': \\[\\]\"",
+      "cwd": "contratos/FIC-COM-2026-001/laboratorio/PLATAFORMA_COMUNICACAO",
+      "inicio": "2026-11-06T14:15:29-03:00",
+      "fim": "2026-11-06T14:15:31-03:00",
+      "codigo_saida": 0,
+      "junit": "contratos/FIC-COM-2026-001/evidencias/OS-FIC-002/MOD-003/LOGS_TESTES/migracoes-ida-e-volta-20261106T141529.log",
+      "log": "contratos/FIC-COM-2026-001/evidencias/OS-FIC-002/MOD-003/LOGS_TESTES/migracoes-ida-e-volta-20261106T141529.log",
+      "testes": 1,
+      "falhas": 0,
+      "erros": 0,
+      "ignorados": 0,
+      "casos": [
+        {
+          "suite": "migracoes-ida-e-volta",
+          "nome": "sh -c f=$(mktemp -d)/m.db && export DG_COMM_DB=$f && P=${DG_PYTHON:-python3} && $P -m app.cli init && $P -m app.cli rollback --to 1 && $P -m app.cli migrations | grep -q \"'atual': 1\" && $P -m app.cli init && $P -m app.cli migrations | grep -q \"'pendentes': \\[\\]\"",
+          "tempo_s": 1.802608,
+          "status": "PASSOU"
+        }
+      ]
+    }
+  ]
+}

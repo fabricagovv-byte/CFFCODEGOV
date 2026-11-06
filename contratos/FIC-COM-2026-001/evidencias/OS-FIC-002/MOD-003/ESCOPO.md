@@ -1,0 +1,20 @@
+# Escopo — MOD-003 Base técnica — migrações versionadas, cabeçalhos de segurança, dependências
+
+- Contrato: FIC-COM-2026-001 · OS: OS-FIC-002
+- Item contratual: CORRETIVA-SEM-ITEM · Previsto: 0
+
+## Descrição
+Base técnica pedida no TR (seção 6: migrações em banco vazio e plano de reversão; RNF-06 segurança) e achados 8, 9 e 13. Não é item de escopo dos 18 módulos; não é medido.
+
+## Funcionalidades
+- Migrações versionadas em `migrations/NNNN_nome.up.sql` com `.down.sql` de reversão; tabela `schema_migrations`.
+- Banco criado pela versão original do pacote é reconhecido como versão 1, sem perder dados.
+- Comandos `init`, `migrations` e `rollback --to N` na linha de comando.
+- Cabeçalhos CSP, X-Frame-Options, X-Content-Type-Options e Referrer-Policy; API sem cache.
+- Dependências com versão fixa em `requirements.txt`.
+
+## Fora do escopo
+- Troca do SQLite por PostgreSQL (aguarda decisão do responsável).
+- CI no GitHub, contêiner, backup e monitoramento (M18).
+
+Linha de base: o commit `f823f56` é a importação do código original do pacote DIGITALGOV (aparece no git porque os arquivos nasceram nele); não é trabalho desta OS e não é medido.

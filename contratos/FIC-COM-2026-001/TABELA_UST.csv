@@ -1,2 +1,22 @@
 codigo,descricao,unidade,ust_por_unidade,complexidade,referencia_contratual,observacao
-#UST-DEV-01,Desenvolvimento de funcionalidade de complexidade média,UST,8,MEDIA,TR item 5.3 tabela 2,Copiar exatamente do catálogo do TR
+CAT-M01,M01 Identidade e segurança de acesso (270 base × 3),UST,810,ALTA,TR seção 3 M01; catálogo PROPOSTO-V1,Aprovado pelo responsável em 06/11/2026
+CAT-M02,M02 Canais de comunicação (270 × 3),UST,810,ALTA,TR seção 3 M02,Aprovado em 06/11/2026
+CAT-M03,M03 Mural feed e comunicados (150 × 2),UST,300,MEDIA,TR seção 3 M03,Aprovado em 06/11/2026
+CAT-M04,M04 Aprovação editorial (270 × 3),UST,810,ALTA,TR seção 3 M04,Aprovado em 06/11/2026
+CAT-M05,M05 Campanhas e calendário (390 × 3),UST,1170,ALTA,TR seção 3 M05,Aprovado em 06/11/2026
+CAT-M06,M06 Audiências e públicos (160 × 3),UST,480,ALTA,TR seção 3 M06,Aprovado em 06/11/2026
+CAT-M07,M07 Contatos e consentimento (200 × 3),UST,600,ALTA,TR seção 3 M07,Aprovado em 06/11/2026
+CAT-M08,M08 Central de atendimento (380 × 3),UST,1140,ALTA,TR seção 3 M08,Aprovado em 06/11/2026
+CAT-M09,M09 Chat e mensagens (200 × 2),UST,400,MEDIA,TR seção 3 M09,Aprovado em 06/11/2026
+CAT-M10,M10 Envio multicanal (200 × 2),UST,400,MEDIA,TR seção 3 M10,Aprovado em 06/11/2026
+CAT-M11,M11 Portal do cidadão (200 × 3),UST,600,ALTA,TR seção 3 M11,Aprovado em 06/11/2026
+CAT-M12,M12 Acervo e documentos (240 × 2),UST,480,MEDIA,TR seção 3 M12,Aprovado em 06/11/2026
+CAT-M13,M13 Eventos e agenda (220 × 3),UST,660,ALTA,TR seção 3 M13,Aprovado em 06/11/2026
+CAT-M14,M14 Pesquisa e feedback (180 × 3),UST,540,ALTA,TR seção 3 M14,Aprovado em 06/11/2026
+CAT-M15,M15 BI e relatórios (240 × 2),UST,480,MEDIA,TR seção 3 M15,Aprovado em 06/11/2026
+CAT-M16,M16 Integrações e APIs (200 × 3),UST,600,ALTA,TR seção 3 M16,Aprovado em 06/11/2026
+CAT-M17,M17 LGPD e auditoria (200 × 2),UST,400,MEDIA,TR seção 3 M17,Aprovado em 06/11/2026
+CAT-M18,M18 DevOps e transferência (440 × 3),UST,1320,ALTA,TR seção 3 M18,Aprovado em 06/11/2026
+CAT-M01-SESSAO,M01 item 2 de 4: controle de sessão (810 ÷ 4),UST,202.5,ALTA,TR seção 3 M01 escopo: RBAC; controle de sessão; MFA/SSO; segregação editorial,Regra parcial PROPOSTA (contrato.yaml regra_medicao_parcial) — confirmar
+CORRETIVA-SEM-ITEM,Correção de defeito em código preexistente — sem item no catálogo,UST,0,—,Catálogo PROPOSTO-V1 não tem item corretivo,Executado e testado; não medido
+INTERNO-FABRICA,Ferramenta interna da contratada (painel da fábrica) — não é entregável do contrato,UST,0,—,Minuta cl. 2 (objeto),Executado e testado; não medido

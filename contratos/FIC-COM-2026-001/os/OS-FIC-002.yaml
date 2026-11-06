@@ -1,0 +1,69 @@
+# OS-FIC-002 — correção e endurecimento da base do pacote DIGITALGOV (12 achados do DIAGNOSTICO_EXECUCAO.md).
+# Os testes usam o Python indicado em DG_PYTHON (padrão: python3) com as dependências de requirements.txt.
+os: OS-FIC-002
+contrato: FIC-COM-2026-001
+titulo: Correção e endurecimento da base (12 achados do diagnóstico)
+projeto: contratos/FIC-COM-2026-001/laboratorio
+aviso_medicao: "Catálogo PROPOSTO-V1 aprovado pelo responsável em 06/11/2026 (R$ 30,00/UST). A regra de medição parcial é PROPOSTA da fábrica e precisa de confirmação. O órgão contratante ainda não enviou contrato nem OS assinada: nada aqui é ACEITO."
+autorizacao:
+  autorizado: true
+  autorizado_por: "Responsável da sessão (conta fabricagovv@gmail.com)"
+  data: "2026-11-06"
+  documento: "Conversa da sessão Claude Code de 06/11/2026 — 'Quem autoriza a OS?' → 'eu'; 'corrigir os achados?' → 'Sim mais tem que medir'"
+
+modulos:
+  - id: MOD-001
+    nome: Controle de sessão (TR M01, item 2 de 4)
+    area: BACKEND
+    item_tabela: CAT-M01-SESSAO
+    ust_previsto: 202.5
+    tem_interface: true
+    achados: [6, 7]
+    caminhos: [PLATAFORMA_COMUNICACAO/app/security.py, PLATAFORMA_COMUNICACAO/app/main.py,
+               PLATAFORMA_COMUNICACAO/migrations/0002_sessoes_e_tentativas.up.sql, PLATAFORMA_COMUNICACAO/migrations/0002_sessoes_e_tentativas.down.sql,
+               PLATAFORMA_COMUNICACAO/static/app.js, PLATAFORMA_COMUNICACAO/tests/test_mod001_sessao.py]
+    testes:
+      - {nome: sessao, cwd: PLATAFORMA_COMUNICACAO, cmd: [sh, -c, "${DG_PYTHON:-python3} -m pytest -p no:cacheprovider tests/test_mod001_sessao.py -v --junitxml={junit}"]}
+      - {nome: regressao-comunicacao, cwd: PLATAFORMA_COMUNICACAO, cmd: [sh, -c, "${DG_PYTHON:-python3} -m pytest -p no:cacheprovider tests -q --junitxml={junit}"]}
+  - id: MOD-002
+    nome: Correções de validação e privacidade (M03, M05, M07, M08)
+    area: BACKEND
+    item_tabela: CORRETIVA-SEM-ITEM
+    ust_previsto: 0
+    tem_interface: true
+    achados: [3, 4, 5, 10, 11, 12]
+    caminhos: [PLATAFORMA_COMUNICACAO/app/main.py, PLATAFORMA_COMUNICACAO/migrations/0003_campanha_canal_fk.up.sql,
+               PLATAFORMA_COMUNICACAO/migrations/0003_campanha_canal_fk.down.sql, PLATAFORMA_COMUNICACAO/static/app.js,
+               PLATAFORMA_COMUNICACAO/tests/test_mod002_validacao_privacidade.py]
+    testes:
+      - {nome: validacao-privacidade, cwd: PLATAFORMA_COMUNICACAO, cmd: [sh, -c, "${DG_PYTHON:-python3} -m pytest -p no:cacheprovider tests/test_mod002_validacao_privacidade.py -v --junitxml={junit}"]}
+      - {nome: regressao-comunicacao, cwd: PLATAFORMA_COMUNICACAO, cmd: [sh, -c, "${DG_PYTHON:-python3} -m pytest -p no:cacheprovider tests -q --junitxml={junit}"]}
+  - id: MOD-003
+    nome: Base técnica — migrações versionadas, cabeçalhos de segurança, dependências
+    area: DEVOPS
+    item_tabela: CORRETIVA-SEM-ITEM
+    ust_previsto: 0
+    tem_interface: false
+    achados: [8, 9, 13]
+    caminhos: [PLATAFORMA_COMUNICACAO/app/migrations.py, PLATAFORMA_COMUNICACAO/app/db.py, PLATAFORMA_COMUNICACAO/app/cli.py,
+               PLATAFORMA_COMUNICACAO/migrations/0001_inicial.up.sql, PLATAFORMA_COMUNICACAO/migrations/0001_inicial.down.sql,
+               PLATAFORMA_COMUNICACAO/requirements.txt, PLATAFORMA_COMUNICACAO/static/style.css, PLATAFORMA_COMUNICACAO/README.md,
+               PLATAFORMA_COMUNICACAO/tests/conftest.py, PLATAFORMA_COMUNICACAO/tests/test_mod003_base_tecnica.py]
+    testes:
+      - {nome: base-tecnica, cwd: PLATAFORMA_COMUNICACAO, cmd: [sh, -c, "${DG_PYTHON:-python3} -m pytest -p no:cacheprovider tests/test_mod003_base_tecnica.py -v --junitxml={junit}"]}
+      - nome: migracoes-ida-e-volta
+        tipo: comando
+        cwd: PLATAFORMA_COMUNICACAO
+        cmd: [sh, -c, "f=$(mktemp -d)/m.db && export DG_COMM_DB=$f && P=${DG_PYTHON:-python3} && $P -m app.cli init && $P -m app.cli rollback --to 1 && $P -m app.cli migrations | grep -q \"'atual': 1\" && $P -m app.cli init && $P -m app.cli migrations | grep -q \"'pendentes': \\[\\]\""]
+  - id: MOD-004
+    nome: Painel da fábrica — chave de acesso (ferramenta interna)
+    area: FRONTEND
+    item_tabela: INTERNO-FABRICA
+    ust_previsto: 0
+    tem_interface: true
+    achados: [1, 2]
+    caminhos: [FABRICA/app/main.py, FABRICA/static/index.html, FABRICA/static/painel.js, FABRICA/static/painel.css,
+               FABRICA/requirements.txt, FABRICA/README.md, FABRICA/tests/test_mod004_login_painel.py,
+               FABRICA/tests/test_painel_js.py, FABRICA/tests/test_factory.py, start_local.sh]
+    testes:
+      - {nome: painel, cwd: FABRICA, cmd: [sh, -c, "${DG_PYTHON:-python3} -m pytest -p no:cacheprovider tests -v --junitxml={junit}"]}
