@@ -700,29 +700,48 @@ def _contrato_orgao(fab):
     return c
 
 
-def test_relatorio_orgao_mostra_so_medicao_comprovada_com_provas(fab):
+def test_relatorio_orgao_basico_so_com_o_que_foi_medido(fab):
     import hashlib
     c = _contrato_orgao(fab)
+    (c / "TABELA_UST.csv").write_text((c / "TABELA_UST.csv").read_text() + "CAT-M01,M01 Identidade (270 × 3),UST,810,ALTA,TR,\n")
     md = fab.relatorio_orgao("C4", "diario", "2026-11-06").read_text()
-    assert "Prefeitura Teste" in md and "C4/2026" in md
-    assert "MOD-001" in md and "Login seguro" in md and "R$ 300,00" in md
+    assert "Prefeitura Teste" in md and "C4/2026" in md and "Sistema X" in md
+    assert "| OS-1 | Login seguro | Sessão | 10 | R$ 300,00 |" in md
     assert "MOD-002" not in md and "Painel interno" not in md      # 0 UST: não vai para o órgão
-    assert "bbbbbbbbbb" in md and "aaaaaaaaaa" not in md            # linha de base fora das provas
-    assert "2026-11-06 14:14" in md and "17:14" not in md           # horário de Brasília
+    texto = md.lower().replace("prefeitura teste", "")
+    for interno in ("sha-256", "teste", "auditoria", "verific", "commit", "evidência"):
+        assert interno not in texto, interno                       # nada de verificação no documento do órgão
+    assert "| 1.000 | 10 | 990 |" in md
+    dados = json.loads((c / "relatorios/orgao/RELATORIO_ORGAO_DIARIO_2026-11-06.json").read_text())
+    prova = dados["provas"][0]
+    assert [x["sha"] for x in prova["commits"]] == ["bbbbbbbbbbbb"] and prova["commits"][0]["data"] == "2026-11-06 14:14"
     sha = hashlib.sha256((c / "evidencias/OS-1/MOD-001/TESTES.json").read_bytes()).hexdigest()
-    assert sha in md
-    assert "35 testes" in md and "Fiscal Y" in md and "PENDENTE" in md
-    assert (c / "relatorios/orgao/RELATORIO_ORGAO_DIARIO_2026-11-06.json").exists()
+    assert any(a["sha256"] == sha for a in prova["arquivos"])
 
 
 def test_relatorio_orgao_dia_sem_medicao_e_mensal(fab):
     _contrato_orgao(fab)
     md = fab.relatorio_orgao("C4", "diario", "2026-11-09").read_text()
-    assert "Nenhum item comprovado neste período" in md
-    assert "| Executado e comprovado (UST) | 0 | 10 |" in md
+    assert "Não houve serviço medido neste período." in md and "| 1.000 | 10 | 990 |" in md
     mes = fab.relatorio_orgao("C4", "mensal", "2026-11-20").read_text()
-    assert "novembro de 2026" in mes and "| Executado e comprovado (UST) | 10 | 10 |" in mes
-    assert "| Saldo a executar (UST) | — | 990 |" in mes
+    assert "novembro de 2026" in mes and "**Total** | | | **10** | **R$ 300,00** |" in mes
+
+
+def test_relatorio_orgao_word_tem_as_duas_assinaturas(fab, monkeypatch):
+    import docx as pydocx
+    if shutil.which("node") is None:
+        pytest.skip("Node.js ausente")
+    monkeypatch.setenv("FABRICA_WORD", "1")
+    c = _contrato_orgao(fab)
+    ct = yaml.safe_load((c / "contrato.yaml").read_text())
+    ct["contratante"]["gestor_contrato"] = "Maria Gestora"
+    (c / "contrato.yaml").write_text(yaml.safe_dump(ct, allow_unicode=True))
+    monkeypatch.setattr(fab, "configuracao", lambda: {"empresa": {"razao_social": "Empresa X", "responsavel_tecnico": "João Responsável",
+                                                                  "cargo_responsavel": "Diretor"}})
+    fab.relatorio_orgao("C4", "mensal", "2026-11-06")
+    doc = pydocx.Document(c / "relatorios/orgao/RELATORIO_ORGAO_MENSAL_2026-11.docx")
+    textos = " ".join(cel.text for t in doc.tables for r in t.rows for cel in r.cells)
+    assert "João Responsável" in textos and "Maria Gestora" in textos and "Prefeitura Teste" in textos
 
 
 def test_comprovado_em_nao_muda_quando_a_medicao_e_refeita(fab):

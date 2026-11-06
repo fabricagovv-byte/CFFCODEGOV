@@ -14,12 +14,12 @@ contratante:                       # 1
   fiscal_tecnico: ""               # Nome e cargo do fiscal técnico
 
 contrato:
-  numero: "FIC-COM-2026-001 (referência fictícia)"  # 2
+  numero: ""                       # 2  número do contrato com o órgão: a informar (FIC-COM-2026-001 é só a referência interna)
   processo: ""                     # 3
   edital: ""                       # 4
   modalidade_licitacao: ""         # pregão eletrônico, concorrência, ...
   regime_juridico: ""              # Ex.: Lei 14.133/2021 (ou 8.666/93 em contratos antigos)
-  objeto: "Plataforma Integrada de Comunicação Institucional e Atendimento Digital, 18 módulos do TR (minuta cl. 2)"  # 5
+  objeto: "Plataforma Integrada de Comunicação Institucional e Atendimento Digital"  # 5  minuta cl. 2 (18 módulos do TR)
   vigencia_inicio: ""              # 6  AAAA-MM-DD
   vigencia_fim: ""
   prazo_execucao: "6 meses a partir de ordem de início autorizada (minuta cl. 11)"  # 7

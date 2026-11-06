@@ -3,17 +3,67 @@
   "periodo": "mensal",
   "inicio": "2026-11-01",
   "fim": "2026-11-30",
-  "gerado_em": "2026-11-06T14:24:50-03:00",
-  "comprovado_periodo": 202.5,
-  "comprovado_acumulado": 202.5,
-  "aceito_acumulado": 0.0,
+  "gerado_em": "2026-11-06T16:23:04-03:00",
+  "executado_periodo": 202.5,
+  "executado_acumulado": 202.5,
   "valor_unitario": 30.0,
-  "itens": [
+  "provas": [
     {
       "os": "OS-FIC-002",
       "modulo": "MOD-001",
       "comprovado": 202.5,
-      "comprovado_em": "2026-11-06T14:24:29-03:00"
+      "comprovado_em": "2026-11-06T14:24:29-03:00",
+      "testes": {
+        "testes": 35,
+        "falhas": 0,
+        "erros": 0,
+        "ignorados": 0
+      },
+      "commits": [
+        {
+          "sha": "532d8860105857988118fb05a23bae8a18ded2b2",
+          "data": "2026-11-06 14:14",
+          "mensagem": "MOD-001 MOD-002 MOD-003: sessão revogável, validações, privacidade e migrações (OS-FIC-002)"
+        }
+      ],
+      "arquivos": [
+        {
+          "arquivo": "contratos/FIC-COM-2026-001/evidencias/OS-FIC-002/MOD-001/TESTES.json",
+          "sha256": "da97df2d756dcc4c4f13f60338a9d3901874a4e2ed5e196c539ed46c95d9140a"
+        },
+        {
+          "arquivo": "contratos/FIC-COM-2026-001/evidencias/OS-FIC-002/MOD-001/COMMITS.json",
+          "sha256": "c11aea0e9b772d58db6096c30f3890394eadd4205d04f422eea5c51f8364ceb8"
+        },
+        {
+          "arquivo": "contratos/FIC-COM-2026-001/medicoes/OS-FIC-002.json",
+          "sha256": "27646167a59bf72622b8440f437fbb2d76b7f9cfb3b9a28072d67857d6c310d0"
+        },
+        {
+          "arquivo": "contratos/FIC-COM-2026-001/evidencias/OS-FIC-002/MOD-001/LOGS_TESTES/sessao-20261106T141506.xml",
+          "sha256": "f8912eccb8560155117b7bad5e46f661045a1c8449e996755051caee0e78a1b6"
+        },
+        {
+          "arquivo": "contratos/FIC-COM-2026-001/evidencias/OS-FIC-002/MOD-001/LOGS_TESTES/sessao-20261106T141506.log",
+          "sha256": "bdf420748a59c6de462e1e2f5d5e26e03ee1bf209036fd51e6c9d7dd9236a5c0"
+        },
+        {
+          "arquivo": "contratos/FIC-COM-2026-001/evidencias/OS-FIC-002/MOD-001/LOGS_TESTES/regressao-comunicacao-20261106T141510.xml",
+          "sha256": "bacf863f2baa16d005cdc28071f0efecedfd4ea2191141aeeea2fb29f25cfbcc"
+        },
+        {
+          "arquivo": "contratos/FIC-COM-2026-001/evidencias/OS-FIC-002/MOD-001/LOGS_TESTES/regressao-comunicacao-20261106T141510.log",
+          "sha256": "cc2782714feff08bcf88e9060f9baed71f17cb1ae7a290b3f1c0c9ddfb82e999"
+        },
+        {
+          "arquivo": "contratos/FIC-COM-2026-001/evidencias/OS-FIC-002/MOD-001/SCREENSHOTS/MOD-001_01_apos_sair.png",
+          "sha256": "557dff6bbd5026c6ffa34743d766abbaa64b34df2842d513b134fadd8ae230a9"
+        },
+        {
+          "arquivo": "contratos/FIC-COM-2026-001/evidencias/OS-FIC-002/MOD-001/SCREENSHOTS/MOD-001_02_bloqueio_tentativas.png",
+          "sha256": "87065ab9cd2766e75281c6ff00ac24be6c965fa4e5dca2b37be46cc9b7b7eca8"
+        }
+      ]
     }
   ]
 }

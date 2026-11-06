@@ -161,7 +161,7 @@ def rel(p: Path) -> str:
 
 def exportar_word(md: Path, cid: str | None = None, periodo: str = "", classificacao: str = "Uso interno",
                   subtitulo: str = "", saida: Path | None = None, capa: bool = True, numero_doc: str = "",
-                  data_doc: str = "", assinar: bool = False) -> Path | None:
+                  data_doc: str = "", assinar: bool = False, assinaturas: list[dict] | None = None) -> Path | None:
     """Gera a versão Word (.docx) de um documento Markdown da fábrica (capa, cabeçalho, rodapé, tabelas).
 
     Com empresa.papel_timbrado na configuração, todas as páginas usam o papel timbrado da empresa
@@ -179,6 +179,8 @@ def exportar_word(md: Path, cid: str | None = None, periodo: str = "", classific
                             "empresa": emp.get("razao_social", ""), "local": emp.get("cidade", "")}
         if assinar and emp.get("responsavel_tecnico"):
             meta["timbrado"]["assinatura"] = {"nome": emp["responsavel_tecnico"], "cargo": emp.get("cargo_responsavel", "")}
+    if assinaturas:
+        meta["assinaturas"] = assinaturas
     if cid and (CONTRATOS / cid / "contrato.yaml").exists():
         c = ler_yaml(CONTRATOS / cid / "contrato.yaml") or {}
         meta["orgao"] = (c.get("contratante") or {}).get("orgao", "")
@@ -3328,14 +3330,22 @@ def _datar_comprovacao(anterior: dict, itens: list[dict], momento: str) -> None:
 MESES = ["janeiro", "fevereiro", "março", "abril", "maio", "junho", "julho", "agosto", "setembro", "outubro", "novembro", "dezembro"]
 
 
+def _limpo(txt: Any, vazio: str) -> str:
+    """Campo do contrato para documento externo: placeholder '[...]' ou vazio vira o texto de preencher."""
+    s = str(txt or "").strip()
+    return vazio if not s or s.startswith("[") else s
+
+
 def relatorio_orgao(cid: str, periodo: str, ref: str | None = None) -> Path:
-    """Relatório para o órgão (diário ou mensal): só itens com medição COMPROVADA e as provas de cada um
-    (OS e autorização, commits, testes, auditoria, revisão, aceite e manifesto SHA-256). Item sem UST não entra."""
+    """Relatório de medição para o órgão (diário ou mensal), no formato básico: identificação, serviços executados
+    no período com quantidade e valor, situação do contrato e assinaturas (contratada e responsável do órgão).
+    Só entram itens com medição comprovada. As provas (testes, commits, SHA-256) ficam no .json e nas evidências."""
     if periodo not in ("diario", "mensal"):
         raise ErroFabrica("período do relatório ao órgão: diario | mensal")
     cdir = dir_contrato(cid)
     contrato = ler_yaml(cdir / "contrato.yaml") or {}
-    ct, med_c = contrato.get("contrato") or {}, contrato.get("medicao") or {}
+    ct, med_c, cte = contrato.get("contrato") or {}, contrato.get("medicao") or {}, contrato.get("contratante") or {}
+    emp = configuracao().get("empresa") or {}
     unidade = med_c.get("modalidade") or "UST"
     contratado = numero(med_c.get("quantidade_contratada"))
     vu = numero(med_c.get("valor_unitario"))
@@ -3343,14 +3353,14 @@ def relatorio_orgao(cid: str, periodo: str, ref: str | None = None) -> Path:
     d0 = date.fromisoformat(ref or hoje())
     if periodo == "diario":
         ini = fim = d0
-        titulo = f"Relatório diário de medição ao órgão — {d0.strftime('%d/%m/%Y')}"
-        rotulo = f"dia {d0.strftime('%d/%m/%Y')}"
+        titulo, rotulo = f"Relatório diário de medição — {d0.strftime('%d/%m/%Y')}", f"{d0.strftime('%d/%m/%Y')}"
+        numero_doc = f"MED {d0.strftime('%d/%m/%Y')}"
     else:
         ini = d0.replace(day=1); fim = (ini + timedelta(days=32)).replace(day=1) - timedelta(days=1)
-        titulo = f"Relatório mensal de medição ao órgão — {MESES[d0.month - 1]} de {d0.year}"
-        rotulo = f"{MESES[d0.month - 1]} de {d0.year}"
+        titulo, rotulo = f"Relatório mensal de medição — {MESES[d0.month - 1]} de {d0.year}", f"{MESES[d0.month - 1]} de {d0.year}"
+        numero_doc = f"MED {d0.strftime('%m/%Y')}"
     tab = tabela_ust(cid) if (cdir / "TABELA_UST.csv").exists() else {}
-    itens, acum = [], {"comprovado": 0.0, "aceito": 0.0}
+    itens, acum = [], 0.0
     for po in sorted((cdir / "os").glob("*.yaml")):
         o = ler_yaml(po) or {}
         oid = o.get("os") or po.stem
@@ -3360,113 +3370,70 @@ def relatorio_orgao(cid: str, periodo: str, ref: str | None = None) -> Path:
             comp = float(it.get("comprovado") or 0)
             if comp <= 0:
                 continue
-            acum["comprovado"] += comp; acum["aceito"] += float(it.get("aceito") or 0)
+            acum += comp
             quando = str(it.get("comprovado_em") or med.get("medido_em") or "")
-            if not (ini.isoformat() <= quando[:10] <= fim.isoformat()):
-                continue
-            itens.append({"os": oid, "o": o, "m": mods.get(it["modulo"], {}), "it": it, "quando": quando,
-                          "tab": tab.get(it.get("item", ""), {})})
-    no_per = sum(float(x["it"]["comprovado"]) for x in itens)
-    aceito_per = sum(float(x["it"].get("aceito") or 0) for x in itens)
-    pagos = [r for r in ler_tabela(cdir / "PAGAMENTOS.csv") if r.get("documento")] if (cdir / "PAGAMENTOS.csv").exists() else []
-    pago = sum(float(numero(r.get("ust")) or 0) for r in pagos)
+            if ini.isoformat() <= quando[:10] <= fim.isoformat():
+                itens.append({"os": oid, "m": mods.get(it["modulo"], {}), "it": it, "quando": quando})
+
+    def modulo_contrato(cod: str) -> str:
+        pai = re.match(r"^(CAT-M\d+)", cod or "")
+        d = (tab.get(pai.group(1)) if pai else None) or tab.get(cod) or {}
+        return re.sub(r"\s*\([^)]*\)\s*$", "", d.get("descricao", "")) or cod
+
+    def servico(x: dict) -> str:
+        return re.sub(r"\s*\([^)]*\)\s*$", "", x["m"].get("nome") or x["it"].get("nome", ""))
+
     v = lambda q: brl(q * float(vu)) if vu is not None else "—"  # noqa: E731
+    no_per = sum(float(x["it"]["comprovado"]) for x in itens)
+    orgao = _limpo(cte.get("orgao"), "[nome do órgão]")
     L = [f"# {titulo}", "",
-         "| Campo | Informação |", "|---|---|",
-         f"| Órgão | {_cel((contrato.get('contratante') or {}).get('orgao') or 'a informar')} |",
-         f"| Contrato | {_cel(ct.get('numero') or cid)} |",
-         f"| Objeto | {_cel(ct.get('objeto') or '—')} |",
-         f"| Período | {rotulo} |",
-         f"| Unidade de medição | {unidade}" + (f" · valor unitário {brl(float(vu))}" if vu is not None else "") + " |", "",
-         "## 1. Resumo da medição", "",
-         "| Indicador | No período | Acumulado no contrato |", "|---|---|---|",
-         f"| Executado e comprovado ({unidade}) | {_n(no_per)} | {_n(acum['comprovado'])} |",
-         f"| Valor correspondente | {v(no_per)} | {v(acum['comprovado'])} |",
-         f"| Aceito pelo órgão ({unidade}) | {_n(aceito_per)} | {_n(acum['aceito'])} |",
-         f"| Pago ({unidade}) | — | {_n(pago)} |",
-         f"| Saldo a executar ({unidade}) | — | {_n(contratado - acum['comprovado']) if contratado is not None else '—'} |", "",
-         "Comprovado = serviço entregue, com código versionado, testes executados sem falha e evidências aprovadas na auditoria. "
-         "A quantidade só é devida depois da conferência e do termo de aceite do órgão.", ""]
-    L += ["## 2. Itens medidos no período", ""]
-    if not itens:
-        L += ["Nenhum item comprovado neste período.", ""]
+         f"**Órgão:** {orgao}", "",
+         f"**Contrato:** {_limpo(ct.get('numero'), '[número do contrato]')}", "",
+         f"**Objeto:** {_limpo(ct.get('objeto'), '[objeto do contrato]')}", "",
+         f"**Contratada:** {emp.get('razao_social') or '—'}", "",
+         f"**Período:** {rotulo}", "",
+         f"Encaminhamos a medição dos serviços executados no período, para conferência e aceite.", "",
+         "## Serviços executados", ""]
+    if itens:
+        cab_valor = f"Valor ({unidade} × {brl(float(vu))})" if vu is not None else "Valor"
+        L += [f"| Ordem de serviço | Módulo do contrato | Serviço executado | {unidade} | {cab_valor} |", "|---|---|---|---|---|"]
+        for x in itens:
+            q = float(x["it"]["comprovado"])
+            L.append(f"| {x['os']} | {_cel(modulo_contrato(x['it'].get('item', '')))} | {_cel(servico(x))} | {_n(q)} | {v(q)} |")
+        L += [f"| **Total** | | | **{_n(no_per)}** | **{v(no_per)}** |", ""]
     else:
-        L += [f"| OS | Módulo | Item do catálogo | {unidade} | Valor | Comprovado em | Aceite |", "|---|---|---|---|---|---|---|"]
-        for x in itens:
-            it = x["it"]; ace = frontmatter(dir_mod(cid, x["os"], it["modulo"]) / "ACEITE.md")
-            L.append(f"| {x['os']} | {it['modulo']} {_cel(x['m'].get('nome') or it.get('nome', ''))} | {it.get('item', '')} | "
-                     f"{_n(float(it['comprovado']))} | {v(float(it['comprovado']))} | {_hora_local(x['quando'])} | {ace.get('status', 'PENDENTE')} |")
-        L += [f"| **Total** | | | **{_n(no_per)}** | **{v(no_per)}** | | |", ""]
-        L += ["## 3. Memória de cálculo", ""]
-        for x in itens:
-            it, t = x["it"], x["tab"]
-            L.append(f"- **{it['modulo']}** — item `{it.get('item', '')}` ({_cel(t.get('descricao', ''))}; referência: {_cel(t.get('referencia_contratual') or 'a confirmar')}): "
-                     f"{_n(float(it['comprovado']))} {unidade} conforme a OS {x['os']}" + (f" × {brl(float(vu))} = {v(float(it['comprovado']))}." if vu is not None else "."))
-        avisos = list(dict.fromkeys(x["o"].get("aviso_medicao") for x in itens if x["o"].get("aviso_medicao")))
-        if avisos:
-            L += ["", "**Observações da medição:**", "", *[f"- {a}" for a in avisos]]
-        L += ["", "## 4. Provas de cada item", ""]
-        manifesto = []
-        for x in itens:
-            it, m, o = x["it"], x["m"], x["o"]
-            ev = dir_mod(cid, x["os"], it["modulo"])
-            aut = o.get("autorizacao") or {}
-            tst = ler_json(ev / "TESTES.json", {}) or {}
-            rs = tst.get("resumo") or {}
-            commits = [c for c in (ler_json(ev / "COMMITS.json", {}) or {}).get("commits", [])
-                       if not any(str(c.get("sha", "")).startswith(b) for b in base)]
-            aud = next((a for a in (ler_json(cdir / "evidencias" / x["os"] / "AUDITORIA.json", {}) or {}).get("modulos", [])
-                        if a.get("modulo") == it["modulo"]), {})
-            aud_em = (ler_json(cdir / "evidencias" / x["os"] / "AUDITORIA.json", {}) or {}).get("auditado_em", "")
-            rev = frontmatter(ev / "REVISOES.md").get("revisao_humana") or "pendente — sem registro"
-            ace = frontmatter(ev / "ACEITE.md")
-            L += [f"### {it['modulo']} — {_cel(m.get('nome') or it.get('nome', ''))}", "",
-                  f"- **Ordem de serviço:** {x['os']}, autorizada por {_cel(aut.get('autorizado_por') or 'sem registro')} em {aut.get('data') or '—'} ({_cel(aut.get('documento') or 'sem documento')}).",
-                  f"- **Testes:** {rs.get('testes', 0)} testes executados, {rs.get('falhas', 0) + rs.get('erros', 0)} falha(s), em {_hora_local(tst.get('executado_em', ''))} — {tst.get('situacao', 'sem registro')}.",
-                  f"- **Auditoria das evidências:** {aud.get('tecnico', 'sem registro')}" + (f" em {_hora_local(aud_em)}." if aud_em else "."),
-                  f"- **Revisão humana:** {_cel(rev)}.",
-                  f"- **Aceite do órgão:** {ace.get('status', 'PENDENTE')}" + (f" — {_cel(ace.get('documento'))}" if ace.get('documento') else "") + ".", ""]
-            if commits:
-                L += ["| Commit | Data e hora | Descrição |", "|---|---|---|",
-                      *[f"| `{c['sha'][:10]}` | {_hora_local(c.get('data', ''))} | {_cel(c.get('mensagem', ''))} |" for c in commits], ""]
-            else:
-                L += ["Sem commit vinculado (além da linha de base).", ""]
-            if base:
-                L += [f"Linha de base excluída das provas (código que já existia): {', '.join('`' + b[:10] + '`' for b in base)}.", ""]
-            for img in sorted((ev / "SCREENSHOTS").glob("*.png"))[:2] if (ev / "SCREENSHOTS").exists() else []:
-                L += [f"![{it['modulo']} — {img.stem}]({os.path.relpath(img, cdir / 'relatorios' / 'orgao')})", ""]
-            arquivos = [ev / "TESTES.json", ev / "COMMITS.json", cdir / "medicoes" / f"{x['os']}.json"]
-            arquivos += [RAIZ / e[k] for e in tst.get("execucoes", []) for k in ("junit", "log")]
-            arquivos += sorted((ev / "SCREENSHOTS").glob("*.png")) if (ev / "SCREENSHOTS").exists() else []
-            for a in dict.fromkeys(arquivos):
-                if a.is_file():
-                    manifesto.append({"modulo": it["modulo"], "arquivo": rel(a), "sha256": hashlib.sha256(a.read_bytes()).hexdigest()})
-        L += ["## 5. Manifesto de provas (SHA-256)", "",
-              "Cada arquivo pode ser conferido recalculando o SHA-256; qualquer alteração muda o código.", "",
-              "| Módulo | Arquivo | SHA-256 |", "|---|---|---|",
-              *[f"| {p['modulo']} | `{p['arquivo'].split('/evidencias/')[-1]}` | `{p['sha256']}` |" for p in manifesto], ""]
-    pend = []
-    if acum["comprovado"] > acum["aceito"]:
-        pend.append(f"Conferência e termo de aceite do órgão para {_n(acum['comprovado'] - acum['aceito'])} {unidade} comprovados.")
-    if itens and any(not frontmatter(dir_mod(cid, x["os"], x["it"]["modulo"]) / "REVISOES.md").get("revisao_humana") for x in itens):
-        pend.append("Revisão humana dos itens pela equipe técnica (registro em andamento).")
-    L += ["## 6. Pendências para o aceite", "", *([f"- {p}" for p in pend] or ["- Nenhuma."]), "",
-          "## 7. Declaração", "",
-          "Declaramos que as quantidades deste relatório correspondem a serviços executados e comprovados por código versionado, "
-          "testes executados e evidências auditadas, listados acima com seus códigos de verificação. Nenhuma quantidade foi incluída "
-          "sem prova, e nenhuma quantidade é considerada aceita sem o termo do órgão.", ""]
+        L += ["Não houve serviço medido neste período.", ""]
+    L += ["## Situação do contrato", "",
+          f"| Contratado ({unidade}) | Executado até o período ({unidade}) | Saldo ({unidade}) |", "|---|---|---|",
+          f"| {_n(contratado)} | {_n(acum)} | {_n(contratado - acum) if contratado is not None else '—'} |", ""]
     dest = cdir / "relatorios" / "orgao"
     dest.mkdir(parents=True, exist_ok=True)
     nome = f"RELATORIO_ORGAO_DIARIO_{d0.isoformat()}" if periodo == "diario" else f"RELATORIO_ORGAO_MENSAL_{d0.strftime('%Y-%m')}"
     md = dest / f"{nome}.md"
     md.write_text("\n".join(L), encoding="utf-8")
+    # provas de cada item (para a fábrica e para quem pedir): commits, testes e SHA-256 dos arquivos
+    provas = []
+    for x in itens:
+        ev = dir_mod(cid, x["os"], x["it"]["modulo"])
+        tst = ler_json(ev / "TESTES.json", {}) or {}
+        arquivos = [ev / "TESTES.json", ev / "COMMITS.json", cdir / "medicoes" / f"{x['os']}.json"]
+        arquivos += [RAIZ / e[k] for e in tst.get("execucoes", []) for k in ("junit", "log")]
+        arquivos += sorted((ev / "SCREENSHOTS").glob("*.png")) if (ev / "SCREENSHOTS").exists() else []
+        provas.append({"os": x["os"], "modulo": x["it"]["modulo"], "comprovado": x["it"]["comprovado"],
+                       "comprovado_em": x["quando"], "testes": tst.get("resumo", {}),
+                       "commits": [{"sha": c["sha"], "data": _hora_local(c.get("data", "")), "mensagem": c.get("mensagem", "")}
+                                   for c in (ler_json(ev / "COMMITS.json", {}) or {}).get("commits", [])
+                                   if not any(str(c.get("sha", "")).startswith(b) for b in base)],
+                       "arquivos": [{"arquivo": rel(a), "sha256": hashlib.sha256(a.read_bytes()).hexdigest()}
+                                    for a in dict.fromkeys(arquivos) if a.is_file()]})
     gravar_json(dest / f"{nome}.json", {"contrato": cid, "periodo": periodo, "inicio": ini.isoformat(), "fim": fim.isoformat(),
-                                        "gerado_em": agora(), "comprovado_periodo": no_per, "comprovado_acumulado": acum["comprovado"],
-                                        "aceito_acumulado": acum["aceito"], "valor_unitario": vu,
-                                        "itens": [{"os": x["os"], "modulo": x["it"]["modulo"], "comprovado": x["it"]["comprovado"],
-                                                   "comprovado_em": x["quando"]} for x in itens]})
-    exportar_word(md, cid, periodo=rotulo, classificacao="Documento para o órgão",
-                  subtitulo="Medição comprovada e provas", numero_doc=nome.replace("RELATORIO_ORGAO_", "MED-"), assinar=True)
+                                        "gerado_em": agora(), "executado_periodo": no_per, "executado_acumulado": acum,
+                                        "valor_unitario": vu, "provas": provas})
+    assinaturas = [{"nome": emp.get("responsavel_tecnico", ""), "cargo": emp.get("cargo_responsavel", ""), "entidade": "Contratada"},
+                   {"nome": _limpo(cte.get("gestor_contrato") or cte.get("fiscal_tecnico"), ""),
+                    "cargo": "Nome e cargo do responsável", "entidade": orgao}]
+    exportar_word(md, cid, periodo=rotulo, classificacao="Documento para o órgão", capa=False,
+                  numero_doc=numero_doc, assinaturas=assinaturas)
     return md
 
 

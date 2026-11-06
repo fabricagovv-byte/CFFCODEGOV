@@ -5,7 +5,8 @@
 //
 // Uso: node fabrica/ferramentas/word.cjs <entrada.md> <saida.docx> [meta.json]
 //   meta: {titulo, subtitulo, orgao, contrato, periodo, gerado_em, classificacao, sem_capa,
-//          timbrado: {imagem, numero, data, empresa, local, assinatura: {nome, cargo}}}
+//          timbrado: {imagem, numero, data, empresa, local, assinatura: {nome, cargo}},
+//          assinaturas: [{nome, cargo, entidade}] (dois ou mais blocos lado a lado; nome vazio = linha para preencher)}
 //   Com "timbrado", cada página usa o papel timbrado da empresa como fundo (tema escuro e dourado).
 //   Imagens no Markdown: ![legenda](caminho.png) — caminho relativo ao arquivo .md.
 "use strict";
@@ -280,6 +281,31 @@ function assinatura() {
   ];
 }
 
+function assinaturas() {
+  const lista = Array.isArray(meta.assinaturas) ? meta.assinaturas : [];
+  if (!lista.length) return [];
+  const sem = { style: BorderStyle.NONE, size: 0, color: "FFFFFF" };
+  const larg = Math.floor(LARGURA / lista.length);
+  const local = TIMBRADO && TIMBRADO.local ? TIMBRADO.local + ", " : "";
+  const data = TIMBRADO && TIMBRADO.data ? dataExtenso(TIMBRADO.data) : "";
+  const celula = (a) => new TableCell({
+    width: { size: larg, type: WidthType.DXA }, borders: { top: sem, bottom: sem, left: sem, right: sem },
+    margins: { left: 160, right: 160 },
+    children: [
+      new Paragraph({ spacing: { before: 700 }, border: { top: { style: BorderStyle.SINGLE, size: 6, color: BORDA, space: 4 } },
+        children: runs(a.nome || " ", { bold: true }) }),
+      new Paragraph({ children: runs(a.cargo || "Nome e cargo", { color: CINZA }) }),
+      ...(a.entidade ? [new Paragraph({ children: runs(a.entidade, { color: CINZA }) })] : []),
+    ],
+  });
+  return [
+    ...(data ? [new Paragraph({ alignment: AlignmentType.RIGHT, keepNext: true, spacing: { before: 360, after: 60 }, children: runs(`${local}${data}.`) })] : []),
+    new Table({ width: { size: LARGURA, type: WidthType.DXA }, columnWidths: lista.map(() => larg),
+      borders: { top: sem, bottom: sem, left: sem, right: sem, insideHorizontal: sem, insideVertical: sem },
+      rows: [new TableRow({ cantSplit: true, children: lista.map(celula) })] }),
+  ];
+}
+
 // ---------------------------------------------------------------- documento
 const tituloCurto = (meta.titulo || (linhas.find((l) => l.startsWith("# ")) || "# Documento").slice(2)).slice(0, 90);
 const doc = new Document({
@@ -314,7 +340,7 @@ const doc = new Document({
       new TextRun({ text: " de ", color: CINZA, font: FONTE, size: 16 }),
       new TextRun({ children: [PageNumber.TOTAL_PAGES], color: CINZA, font: FONTE, size: 16 }),
     ] })] }) },
-    children: [...(meta.sem_capa ? [] : capa()), ...corpo(), ...assinatura()],
+    children: [...(meta.sem_capa ? [] : capa()), ...corpo(), ...(meta.assinaturas ? assinaturas() : assinatura())],
   }],
 });
 
