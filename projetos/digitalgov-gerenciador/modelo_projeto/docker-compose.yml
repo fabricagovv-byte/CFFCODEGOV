@@ -1,0 +1,19 @@
+# Projeto {{CODIGO}} com o próprio PostgreSQL (dados em volume isolado).
+services:
+  banco:
+    image: postgres:16-alpine
+    environment:
+      POSTGRES_DB: {{BANCO}}
+      POSTGRES_USER: {{USUARIO_BANCO}}
+      POSTGRES_PASSWORD: ${SENHA_BANCO:?defina SENHA_BANCO no .env}
+    volumes: [banco:/var/lib/postgresql/data]
+    healthcheck: {test: ["CMD-SHELL", "pg_isready -U {{USUARIO_BANCO}}"], interval: 5s, retries: 10}
+  app:
+    build: {context: ., dockerfile: backend/Dockerfile}
+    environment:
+      DATABASE_URL: postgresql+psycopg://{{USUARIO_BANCO}}:${SENHA_BANCO}@banco:5432/{{BANCO}}
+      GERENCIADOR_TOKEN: ${GERENCIADOR_TOKEN:?defina GERENCIADOR_TOKEN no .env}
+    depends_on: {banco: {condition: service_healthy}}
+    ports: ["127.0.0.1:{{PORTA}}:8000"]
+volumes:
+  banco:

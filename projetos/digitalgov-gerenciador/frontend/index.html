@@ -3,36 +3,34 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Gerenciador Central DigitalGov</title>
-  <link rel="stylesheet" href="/static/style.css">
+  <title>Gerenciador DigitalGov</title>
+  <link rel="stylesheet" href="/static/estilo.css">
 </head>
 <body>
-  <header class="topo">
-    <strong>Gerenciador Central DigitalGov</strong>
-    <button id="sair" type="button" hidden>Sair</button>
-  </header>
-  <main>
-    <section id="entrar" aria-labelledby="titulo-entrar">
-      <h1 id="titulo-entrar">Entrar</h1>
-      <form id="form-entrar">
-        <label for="login">Login</label>
-        <input id="login" name="login" autocomplete="username" required>
-        <label for="senha">Senha</label>
-        <input id="senha" name="senha" type="password" autocomplete="current-password" required>
-        <button type="submit">Entrar</button>
-        <p id="erro" role="alert" class="erro" hidden></p>
-      </form>
-    </section>
-    <section id="painel" hidden aria-labelledby="titulo-painel">
-      <h1 id="titulo-painel">Painel</h1>
-      <p class="aviso">Somente leitura. Números vêm do banco; zero significa "nenhum registro".</p>
-      <dl id="indicadores" class="indicadores"></dl>
-      <h2>Contratos</h2>
-      <div id="contratos"></div>
-      <h2>Últimos starts</h2>
-      <div id="starts"></div>
-    </section>
-  </main>
+  <section id="telaLogin" class="login" hidden>
+    <h1>Gerenciador DigitalGov</h1>
+    <form id="formLogin">
+      <label for="login">Usuário</label>
+      <input id="login" name="login" autocomplete="username" required>
+      <label for="senha">Senha</label>
+      <input id="senha" name="senha" type="password" autocomplete="current-password" required>
+      <button type="submit">Entrar</button>
+      <p id="erroLogin" class="erro" role="alert"></p>
+    </form>
+  </section>
+
+  <div id="app" class="app" hidden>
+    <aside>
+      <div class="marca">DIGITALGOV<small>Gerenciador central</small></div>
+      <nav id="menu" aria-label="Menu principal"></nav>
+      <div class="rodape"><span id="quem"></span><button type="button" id="sair" class="secundario">Sair</button></div>
+    </aside>
+    <main>
+      <header><h1 id="titulo">Painel</h1><div id="acoes"></div></header>
+      <div id="aviso" role="status" hidden></div>
+      <div id="conteudo"></div>
+    </main>
+  </div>
   <script src="/static/app.js"></script>
 </body>
 </html>

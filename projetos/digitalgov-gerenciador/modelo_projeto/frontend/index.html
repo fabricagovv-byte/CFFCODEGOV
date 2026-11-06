@@ -1,0 +1,26 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>{{NOME}}</title>
+  <link rel="stylesheet" href="/static/estilo.css">
+</head>
+<body>
+  <main>
+    <h1>{{NOME}}</h1>
+    <p class="nota">Projeto {{CODIGO}} · banco próprio · <span id="situacao">verificando…</span></p>
+    <form id="novo">
+      <label for="titulo">Título do registro</label>
+      <input id="titulo" name="titulo" required minlength="3">
+      <label for="descricao">Descrição</label>
+      <textarea id="descricao" name="descricao"></textarea>
+      <button type="submit">Gravar</button>
+      <p id="aviso" role="status"></p>
+    </form>
+    <h2>Registros gravados</h2>
+    <ul id="lista"></ul>
+  </main>
+  <script src="/static/app.js"></script>
+</body>
+</html>

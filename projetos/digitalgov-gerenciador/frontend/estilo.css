@@ -1,0 +1,49 @@
+:root {
+  --fundo: #f4f6f9; --painel: #ffffff; --texto: #1b2433; --suave: #5d6879; --linha: #dde2ea;
+  --primaria: #1f4e79; --primaria-clara: #e8eff6; --ok: #1d7a46; --alerta: #a35b00; --erro: #b42318;
+  font-family: "Segoe UI", system-ui, -apple-system, sans-serif; color: var(--texto); background: var(--fundo);
+}
+* { box-sizing: border-box; }
+body { margin: 0; background: var(--fundo); }
+.app { display: grid; grid-template-columns: 230px 1fr; min-height: 100vh; }
+aside { background: #13263f; color: #dfe7f1; padding: 20px 14px; display: flex; flex-direction: column; gap: 18px; }
+.marca { font-weight: 700; letter-spacing: .08em; }
+.marca small { display: block; font-weight: 400; letter-spacing: 0; color: #9fb2c9; margin-top: 4px; }
+nav { display: grid; gap: 2px; }
+nav button { text-align: left; background: none; border: 0; color: #c9d6e6; padding: 9px 10px; border-radius: 6px; cursor: pointer; font: inherit; }
+nav button:hover, nav button.ativo { background: #22406a; color: #fff; }
+.rodape { margin-top: auto; display: grid; gap: 8px; font-size: 13px; color: #9fb2c9; }
+main { padding: 24px clamp(16px, 3vw, 40px); min-width: 0; }
+header { display: flex; justify-content: space-between; align-items: center; gap: 12px; flex-wrap: wrap; margin-bottom: 16px; }
+h1 { margin: 0; font-size: 24px; }
+h2 { font-size: 17px; margin: 22px 0 10px; }
+.cartoes { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 12px; }
+.cartao { background: var(--painel); border: 1px solid var(--linha); border-radius: 10px; padding: 14px; }
+.cartao .num { font-size: 26px; font-weight: 700; font-variant-numeric: tabular-nums; }
+.cartao .rot { color: var(--suave); font-size: 13px; }
+.bloco { background: var(--painel); border: 1px solid var(--linha); border-radius: 10px; padding: 16px; margin-bottom: 16px; min-width: 0; }
+.grade { display: grid; grid-template-columns: minmax(0, 2fr) minmax(280px, 1fr); gap: 16px; align-items: start; }
+.rolagem { overflow-x: auto; }
+table { width: 100%; border-collapse: collapse; font-size: 13px; font-variant-numeric: tabular-nums; }
+th { text-align: left; color: var(--suave); font-weight: 600; border-bottom: 2px solid var(--linha); padding: 7px 8px; white-space: nowrap; }
+td { border-bottom: 1px solid var(--linha); padding: 7px 8px; vertical-align: top; }
+form { display: grid; gap: 8px; }
+label { font-size: 13px; color: var(--suave); display: grid; gap: 4px; }
+input, select, textarea { font: inherit; padding: 8px; border: 1px solid #c3cbd8; border-radius: 6px; background: #fff; width: 100%; }
+button { font: inherit; padding: 8px 14px; border: 0; border-radius: 6px; background: var(--primaria); color: #fff; cursor: pointer; }
+button.secundario { background: var(--primaria-clara); color: var(--primaria); }
+button:focus-visible, input:focus-visible, select:focus-visible { outline: 3px solid #7aa7d6; outline-offset: 1px; }
+.linha-botoes { display: flex; gap: 8px; flex-wrap: wrap; }
+.etq { display: inline-block; padding: 2px 8px; border-radius: 999px; font-size: 12px; font-weight: 600; background: #eef1f5; color: var(--suave); }
+.etq.OK, .etq.INICIADO, .etq.INICIADO_SEM_AGENTES, .etq.APROVADO { background: #e3f4ea; color: var(--ok); }
+.etq.BLOQUEADO, .etq.ERRO { background: #fde8e7; color: var(--erro); }
+.etq.PENDENTE, .etq.NAO_CONFIGURADO, .etq.SEM_HISTORICO { background: #fff3e0; color: var(--alerta); }
+.projetos { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 14px; }
+.etapas { list-style: none; padding: 0; margin: 8px 0 0; display: grid; gap: 4px; font-size: 13px; }
+.erro { color: var(--erro); }
+#aviso { padding: 10px 12px; border-radius: 8px; margin-bottom: 12px; background: #e3f4ea; color: var(--ok); }
+#aviso.erro { background: #fde8e7; color: var(--erro); }
+.login { max-width: 360px; margin: 12vh auto; background: var(--painel); border: 1px solid var(--linha); border-radius: 12px; padding: 24px; }
+.login h1 { margin-bottom: 16px; font-size: 20px; }
+.nota { color: var(--suave); font-size: 13px; }
+@media (max-width: 860px) { .app { grid-template-columns: 1fr; } aside { flex-direction: row; flex-wrap: wrap; } nav { display: flex; flex-wrap: wrap; } .grade { grid-template-columns: 1fr; } }
