@@ -1,0 +1,4 @@
+.env
+backups/
+infra/certs/
+.ca-extra.crt

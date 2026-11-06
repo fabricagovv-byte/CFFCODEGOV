@@ -1,0 +1,42 @@
+entidade: Cidadao
+tabela: cidadaos
+rotulo: Cidadãos
+modulo: MOD-102
+campos:
+- nome: nome
+  tipo: texto
+  max: 150
+  obrigatorio: true
+  busca: true
+- nome: cpf
+  rotulo: CPF
+  tipo: cpf_cnpj
+  obrigatorio: true
+  unico: true
+  busca: true
+  pessoal: true
+- nome: email
+  rotulo: E-mail
+  tipo: email
+  pessoal: true
+- nome: telefone
+  tipo: texto
+  max: 20
+  pessoal: true
+- nome: data_nascimento
+  rotulo: Data de nascimento
+  tipo: data
+  pessoal: true
+permissoes:
+  ler:
+  - ADMIN
+  - GESTOR
+  - OPERADOR
+  - CONSULTA
+  escrever:
+  - ADMIN
+  - GESTOR
+  - OPERADOR
+  excluir:
+  - ADMIN
+  - GESTOR

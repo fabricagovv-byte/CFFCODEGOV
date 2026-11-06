@@ -1,0 +1,35 @@
+entidade: Unidade
+tabela: unidades
+rotulo: Unidades
+modulo: MOD-101
+campos:
+- nome: nome
+  tipo: texto
+  max: 150
+  obrigatorio: true
+  busca: true
+- nome: sigla
+  tipo: texto
+  max: 20
+  obrigatorio: true
+  unico: true
+  busca: true
+- nome: municipio
+  rotulo: Município
+  tipo: texto
+  max: 100
+  obrigatorio: true
+- nome: telefone
+  tipo: texto
+  max: 20
+permissoes:
+  ler:
+  - ADMIN
+  - GESTOR
+  - OPERADOR
+  - CONSULTA
+  escrever:
+  - ADMIN
+  - GESTOR
+  excluir:
+  - ADMIN

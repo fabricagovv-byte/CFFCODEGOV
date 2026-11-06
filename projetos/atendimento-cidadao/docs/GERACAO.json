@@ -1,0 +1,138 @@
+{
+  "sistema": "Atendimento ao Cidadão",
+  "pasta": "projetos/atendimento-cidadao",
+  "base_criada": false,
+  "modulos": [
+    {
+      "id": "MOD-101",
+      "nome": "Unidades de atendimento",
+      "servico": "SRV-CRUD-M",
+      "o_que_faz": "cadastro das unidades onde o cidadão é atendido",
+      "situacao": "GERADO",
+      "caminhos": [
+        "backend/app/modulos/unidades",
+        "backend/migrations/versions/0003_unidades.py",
+        "backend/tests/test_mod101_unidades.py",
+        "frontend/src/modulos/unidades",
+        "especificacoes/unidades.yaml"
+      ],
+      "testes": [
+        {
+          "nome": "backend",
+          "cwd": "backend",
+          "cmd": [
+            "python3",
+            "-m",
+            "pytest",
+            "tests/test_mod101_unidades.py",
+            "-v",
+            "--junitxml={junit}"
+          ]
+        },
+        {
+          "nome": "frontend",
+          "cwd": "frontend",
+          "cmd": [
+            "npx",
+            "vitest",
+            "run",
+            "src/modulos/unidades/UnidadePagina.test.tsx",
+            "--reporter=default",
+            "--reporter=junit",
+            "--outputFile.junit={junit}"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "MOD-102",
+      "nome": "Cidadãos",
+      "servico": "SRV-CRUD-M",
+      "o_que_faz": "cadastro dos cidadãos atendidos, com CPF validado",
+      "situacao": "GERADO",
+      "caminhos": [
+        "backend/app/modulos/cidadaos",
+        "backend/migrations/versions/0004_cidadaos.py",
+        "backend/tests/test_mod102_cidadaos.py",
+        "frontend/src/modulos/cidadaos",
+        "especificacoes/cidadaos.yaml"
+      ],
+      "testes": [
+        {
+          "nome": "backend",
+          "cwd": "backend",
+          "cmd": [
+            "python3",
+            "-m",
+            "pytest",
+            "tests/test_mod102_cidadaos.py",
+            "-v",
+            "--junitxml={junit}"
+          ]
+        },
+        {
+          "nome": "frontend",
+          "cwd": "frontend",
+          "cmd": [
+            "npx",
+            "vitest",
+            "run",
+            "src/modulos/cidadaos/CidadaoPagina.test.tsx",
+            "--reporter=default",
+            "--reporter=junit",
+            "--outputFile.junit={junit}"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "MOD-103",
+      "nome": "Solicitações",
+      "servico": "SRV-CRUD-A",
+      "o_que_faz": "registro das solicitações do cidadão com protocolo, canal, prazo e situação",
+      "situacao": "GERADO",
+      "caminhos": [
+        "backend/app/modulos/solicitacoes",
+        "backend/migrations/versions/0005_solicitacoes.py",
+        "backend/tests/test_mod103_solicitacoes.py",
+        "frontend/src/modulos/solicitacoes",
+        "especificacoes/solicitacoes.yaml"
+      ],
+      "testes": [
+        {
+          "nome": "backend",
+          "cwd": "backend",
+          "cmd": [
+            "python3",
+            "-m",
+            "pytest",
+            "tests/test_mod103_solicitacoes.py",
+            "-v",
+            "--junitxml={junit}"
+          ]
+        },
+        {
+          "nome": "frontend",
+          "cwd": "frontend",
+          "cmd": [
+            "npx",
+            "vitest",
+            "run",
+            "src/modulos/solicitacoes/SolicitacaoPagina.test.tsx",
+            "--reporter=default",
+            "--reporter=junit",
+            "--outputFile.junit={junit}"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "MOD-104",
+      "nome": "Relatório de atendimentos por período",
+      "servico": "SRV-REL",
+      "o_que_faz": "total de solicitações por unidade, canal e situação no período",
+      "situacao": "PRECISA DE ESPECIFICAÇÃO (não é cadastro: relatório, integração ou regra especial)"
+    }
+  ],
+  "testes": {}
+}

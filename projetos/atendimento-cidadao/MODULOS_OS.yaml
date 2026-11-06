@@ -1,0 +1,98 @@
+# Módulos gerados do formulário, prontos para colar na OS AUTORIZADA (contratos/<C>/os/<OS>.yaml -> modulos).
+modulos:
+- id: MOD-101
+  nome: Unidades de atendimento
+  servicos:
+  - codigo: SRV-CRUD-M
+    quantidade: 1.0
+  tem_interface: true
+  caminhos:
+  - backend/app/modulos/unidades
+  - backend/migrations/versions/0003_unidades.py
+  - backend/tests/test_mod101_unidades.py
+  - frontend/src/modulos/unidades
+  - especificacoes/unidades.yaml
+  testes:
+  - nome: backend
+    cwd: backend
+    cmd:
+    - python3
+    - -m
+    - pytest
+    - tests/test_mod101_unidades.py
+    - -v
+    - --junitxml={junit}
+  - nome: frontend
+    cwd: frontend
+    cmd:
+    - npx
+    - vitest
+    - run
+    - src/modulos/unidades/UnidadePagina.test.tsx
+    - --reporter=default
+    - --reporter=junit
+    - --outputFile.junit={junit}
+- id: MOD-102
+  nome: Cidadãos
+  servicos:
+  - codigo: SRV-CRUD-M
+    quantidade: 1.0
+  tem_interface: true
+  caminhos:
+  - backend/app/modulos/cidadaos
+  - backend/migrations/versions/0004_cidadaos.py
+  - backend/tests/test_mod102_cidadaos.py
+  - frontend/src/modulos/cidadaos
+  - especificacoes/cidadaos.yaml
+  testes:
+  - nome: backend
+    cwd: backend
+    cmd:
+    - python3
+    - -m
+    - pytest
+    - tests/test_mod102_cidadaos.py
+    - -v
+    - --junitxml={junit}
+  - nome: frontend
+    cwd: frontend
+    cmd:
+    - npx
+    - vitest
+    - run
+    - src/modulos/cidadaos/CidadaoPagina.test.tsx
+    - --reporter=default
+    - --reporter=junit
+    - --outputFile.junit={junit}
+- id: MOD-103
+  nome: Solicitações
+  servicos:
+  - codigo: SRV-CRUD-A
+    quantidade: 1.0
+  tem_interface: true
+  caminhos:
+  - backend/app/modulos/solicitacoes
+  - backend/migrations/versions/0005_solicitacoes.py
+  - backend/tests/test_mod103_solicitacoes.py
+  - frontend/src/modulos/solicitacoes
+  - especificacoes/solicitacoes.yaml
+  testes:
+  - nome: backend
+    cwd: backend
+    cmd:
+    - python3
+    - -m
+    - pytest
+    - tests/test_mod103_solicitacoes.py
+    - -v
+    - --junitxml={junit}
+  - nome: frontend
+    cwd: frontend
+    cmd:
+    - npx
+    - vitest
+    - run
+    - src/modulos/solicitacoes/SolicitacaoPagina.test.tsx
+    - --reporter=default
+    - --reporter=junit
+    - --outputFile.junit={junit}

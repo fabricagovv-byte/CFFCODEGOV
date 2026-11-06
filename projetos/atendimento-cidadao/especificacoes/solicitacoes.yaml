@@ -1,0 +1,64 @@
+entidade: Solicitacao
+tabela: solicitacoes
+rotulo: Solicitações
+modulo: MOD-103
+campos:
+- nome: protocolo
+  tipo: texto
+  max: 30
+  obrigatorio: true
+  unico: true
+  busca: true
+- nome: cidadao_id
+  rotulo: Cidadão
+  tipo: referencia
+  alvo: cidadaos
+  obrigatorio: true
+- nome: unidade_id
+  rotulo: Unidade
+  tipo: referencia
+  alvo: unidades
+  obrigatorio: true
+- nome: canal
+  tipo: enum
+  opcoes:
+  - PRESENCIAL
+  - PORTAL
+  - TELEFONE
+  - WHATSAPP
+  obrigatorio: true
+- nome: assunto
+  tipo: texto
+  max: 200
+  obrigatorio: true
+  busca: true
+- nome: descricao
+  rotulo: Descrição
+  tipo: texto_longo
+- nome: situacao
+  rotulo: Situação
+  tipo: enum
+  opcoes:
+  - ABERTA
+  - EM_ATENDIMENTO
+  - CONCLUIDA
+  - CANCELADA
+  obrigatorio: true
+- nome: prazo
+  tipo: data
+- nome: prioritaria
+  rotulo: Prioritária
+  tipo: booleano
+permissoes:
+  ler:
+  - ADMIN
+  - GESTOR
+  - OPERADOR
+  - CONSULTA
+  escrever:
+  - ADMIN
+  - GESTOR
+  - OPERADOR
+  excluir:
+  - ADMIN
+  - GESTOR
