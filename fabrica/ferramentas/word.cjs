@@ -4,7 +4,10 @@
 // num documento com capa, cabeçalho, rodapé com "Página X de Y" e tabelas formatadas.
 //
 // Uso: node fabrica/ferramentas/word.cjs <entrada.md> <saida.docx> [meta.json]
-//   meta: {titulo, subtitulo, orgao, contrato, periodo, gerado_em, classificacao, sem_capa}
+//   meta: {titulo, subtitulo, orgao, contrato, periodo, gerado_em, classificacao, sem_capa,
+//          timbrado: {imagem, numero, data, empresa, local, assinatura: {nome, cargo}}}
+//   Com "timbrado", cada página usa o papel timbrado da empresa como fundo (tema escuro e dourado).
+//   Imagens no Markdown: ![legenda](caminho.png) — caminho relativo ao arquivo .md.
 "use strict";
 const fs = require("fs");
 const path = require("path");
@@ -22,6 +25,7 @@ try {
 const {
   AlignmentType, BorderStyle, Document, Footer, Header, HeadingLevel, LevelFormat, PageBreak, PageNumber,
   Packer, Paragraph, ShadingType, Table, TableCell, TableRow, TextRun, WidthType, VerticalAlign,
+  ImageRun, HorizontalPositionRelativeFrom, VerticalPositionRelativeFrom, TextWrappingType,
 } = docx;
 
 const [entrada, saida, metaArq] = process.argv.slice(2);
@@ -29,10 +33,50 @@ if (!entrada || !saida) { console.error("uso: word.cjs <entrada.md> <saida.docx>
 const meta = metaArq ? JSON.parse(fs.readFileSync(metaArq, "utf8")) : {};
 const linhas = fs.readFileSync(entrada, "utf8").replace(/\r/g, "").split("\n");
 
-// Paleta institucional
-const AZUL = "1351B4", AZUL_ESCURO = "0C326F", CINZA = "5F6B7A", FUNDO_CAB = "1351B4", ZEBRA = "F2F5FA", BORDA = "C5CEDB";
-const LARGURA = 9638; // A4 (11906) - margens de 2 cm (1134 x 2), em DXA
+const TIMBRADO = meta.timbrado && meta.timbrado.imagem && fs.existsSync(meta.timbrado.imagem) ? meta.timbrado : null;
+const BASE_MD = path.dirname(path.resolve(entrada));
+
+// Paleta: institucional (azul) ou papel timbrado (preto e dourado)
+const P = TIMBRADO
+  ? { AZUL: "D4A646", AZUL_ESCURO: "E9C877", CINZA: "B5AC98", TEXTO: "EFE9DC", FUNDO_CAB: "B98F3A", TEXTO_CAB: "0B0A08",
+      LINHA: "15130F", ZEBRA: "1F1B15", BORDA: "6B5527", CODIGO: "1A1814", CITACAO: "1E1A12", COR_CODIGO: "E9C877" }
+  : { AZUL: "1351B4", AZUL_ESCURO: "0C326F", CINZA: "5F6B7A", TEXTO: "1F2328", FUNDO_CAB: "1351B4", TEXTO_CAB: "FFFFFF",
+      LINHA: null, ZEBRA: "F2F5FA", BORDA: "C5CEDB", CODIGO: "F4F6F8", CITACAO: "EAF1FB", COR_CODIGO: "0C326F" };
+const { AZUL, AZUL_ESCURO, CINZA, FUNDO_CAB, ZEBRA, BORDA } = P;
+// Margens: 2 cm no padrão; no timbrado, a área de texto fica entre o cabeçalho e o selo do papel.
+const MARGEM = TIMBRADO ? { top: 2780, right: 1270, bottom: 3520, left: 1270, header: 1400, footer: 400 }
+  : { top: 1134, right: 1134, bottom: 1134, left: 1134 };
+const LARGURA = 11906 - MARGEM.left - MARGEM.right; // largura útil em DXA
 const FONTE = "Arial";
+
+// ---------------------------------------------------------------- imagens
+function tamanhoImagem(buf) {
+  if (buf[0] === 0x89 && buf[1] === 0x50) return { tipo: "png", w: buf.readUInt32BE(16), h: buf.readUInt32BE(20) };
+  if (buf[0] === 0xff && buf[1] === 0xd8) { // JPEG: procura o marcador SOF
+    let i = 2;
+    while (i < buf.length) {
+      if (buf[i] !== 0xff) { i++; continue; }
+      const m = buf[i + 1];
+      if (m >= 0xc0 && m <= 0xcf && ![0xc4, 0xc8, 0xcc].includes(m)) return { tipo: "jpg", w: buf.readUInt16BE(i + 7), h: buf.readUInt16BE(i + 5) };
+      i += 2 + buf.readUInt16BE(i + 2);
+    }
+  }
+  return null;
+}
+function imagemInline(caminho, legenda) {
+  const arq = path.isAbsolute(caminho) ? caminho : path.join(BASE_MD, caminho);
+  if (!fs.existsSync(arq)) return [new Paragraph({ children: runs(`[imagem não encontrada: ${caminho}]`, { italics: true, color: CINZA }) })];
+  const buf = fs.readFileSync(arq);
+  const t = tamanhoImagem(buf);
+  if (!t) return [new Paragraph({ children: runs(`[formato de imagem não suportado: ${caminho}]`, { italics: true, color: CINZA }) })];
+  const maxW = Math.floor(LARGURA / 15) - 10; // DXA -> px (96 dpi)
+  const w = Math.min(maxW, t.w), h = Math.round((t.h * w) / t.w);
+  const out = [new Paragraph({ alignment: AlignmentType.CENTER, spacing: { before: 120, after: 40 },
+    children: [new ImageRun({ type: t.tipo, data: buf, transformation: { width: w, height: Math.min(h, 520) } })] })];
+  if (legenda) out.push(new Paragraph({ alignment: AlignmentType.CENTER, spacing: { after: 160 },
+    children: runs(legenda, { italics: true, color: CINZA, size: 17 }) }));
+  return out;
+}
 
 // ---------------------------------------------------------------- texto inline
 function runs(texto, base = {}) {
@@ -40,9 +84,9 @@ function runs(texto, base = {}) {
   const limpo = texto.replace(/\[([^\]]+)\]\(([^)]+)\)/g, "$1"); // links -> texto
   const partes = limpo.split(/(\*\*[^*]+\*\*|`[^`]+`)/g).filter((p) => p !== "");
   for (const p of partes) {
-    if (p.startsWith("**") && p.endsWith("**")) out.push(new TextRun({ text: p.slice(2, -2), bold: true, font: FONTE, ...base }));
-    else if (p.startsWith("`") && p.endsWith("`")) out.push(new TextRun({ text: p.slice(1, -1), font: "Consolas", size: (base.size || 21) - 2, color: AZUL_ESCURO }));
-    else out.push(new TextRun({ text: p, font: FONTE, ...base }));
+    if (p.startsWith("**") && p.endsWith("**")) out.push(new TextRun({ text: p.slice(2, -2), bold: true, font: FONTE, color: P.TEXTO, ...base }));
+    else if (p.startsWith("`") && p.endsWith("`")) out.push(new TextRun({ text: p.slice(1, -1), font: "Consolas", size: (base.size || 21) - 2, color: P.COR_CODIGO }));
+    else out.push(new TextRun({ text: p, font: FONTE, color: P.TEXTO, ...base }));
   }
   return out.length ? out : [new TextRun({ text: "", font: FONTE })];
 }
@@ -93,10 +137,11 @@ function tabela(bloco) {
       verticalAlign: VerticalAlign.CENTER,
       margins: { top: 60, bottom: 60, left: 90, right: 90 },
       shading: ri === 0 ? { fill: FUNDO_CAB, type: ShadingType.CLEAR, color: "auto" }
-        : ri % 2 === 0 ? { fill: ZEBRA, type: ShadingType.CLEAR, color: "auto" } : undefined,
+        : ri % 2 === 0 ? { fill: ZEBRA, type: ShadingType.CLEAR, color: "auto" }
+        : P.LINHA ? { fill: P.LINHA, type: ShadingType.CLEAR, color: "auto" } : undefined,
       children: [new Paragraph({
         spacing: { before: 0, after: 0 },
-        children: runs(r[ci] || "", ri === 0 ? { bold: true, color: "FFFFFF", size: tam } : { size: tam }),
+        children: runs(r[ci] || "", ri === 0 ? { bold: true, color: P.TEXTO_CAB, size: tam } : { size: tam }),
       })],
     })),
   }));
@@ -114,8 +159,8 @@ function corpo() {
     if (l.trim().startsWith("```")) { emCodigo = !emCodigo; i++; continue; }
     if (emCodigo) {
       filhos.push(new Paragraph({
-        shading: { fill: "F4F6F8", type: ShadingType.CLEAR, color: "auto" }, spacing: { before: 0, after: 0 },
-        children: [new TextRun({ text: l || " ", font: "Consolas", size: 17 })],
+        shading: { fill: P.CODIGO, type: ShadingType.CLEAR, color: "auto" }, spacing: { before: 0, after: 0 },
+        children: [new TextRun({ text: l || " ", font: "Consolas", size: 17, color: P.TEXTO })],
       }));
       i++; continue;
     }
@@ -127,7 +172,9 @@ function corpo() {
       continue;
     }
     let m;
-    if ((m = l.match(/^# (.*)/))) {
+    if ((m = l.match(/^\s*!\[([^\]]*)\]\(([^)]+)\)\s*$/))) {
+      filhos.push(...imagemInline(m[2], m[1]));
+    } else if ((m = l.match(/^# (.*)/))) {
       if (primeiroH1 && !meta.sem_capa) { primeiroH1 = false; i++; continue; } // vai para a capa
       primeiroH1 = false;
       filhos.push(new Paragraph({ heading: HeadingLevel.HEADING_1, children: runs(m[1]) }));
@@ -139,7 +186,7 @@ function corpo() {
       filhos.push(new Paragraph({ numbering: { reference: "marcadores", level: m[1].length >= 2 ? 1 : 0 }, children: runs(m[2]) }));
     } else if ((m = l.match(/^>\s?(.*)/))) {
       filhos.push(new Paragraph({
-        shading: { fill: "EAF1FB", type: ShadingType.CLEAR, color: "auto" },
+        shading: { fill: P.CITACAO, type: ShadingType.CLEAR, color: "auto" },
         border: { left: { style: BorderStyle.SINGLE, size: 24, color: AZUL, space: 8 } },
         spacing: { before: 120, after: 120 }, indent: { left: 200 },
         children: runs(m[1], { italics: true, color: AZUL_ESCURO }),
@@ -170,14 +217,18 @@ function capa() {
         new TableCell({ width: { size: 2800, type: WidthType.DXA }, borders: { top: borda, left: borda, right: borda, bottom: { style: BorderStyle.SINGLE, size: 4, color: BORDA } },
           children: [new Paragraph({ children: [new TextRun({ text: k, bold: true, color: CINZA, font: FONTE, size: 20 })] })] }),
         new TableCell({ width: { size: LARGURA - 2800, type: WidthType.DXA }, borders: { top: borda, left: borda, right: borda, bottom: { style: BorderStyle.SINGLE, size: 4, color: BORDA } },
-          children: [new Paragraph({ children: [new TextRun({ text: String(v), font: FONTE, size: 20 })] })] }),
+          children: [new Paragraph({ children: [new TextRun({ text: String(v), font: FONTE, size: 20, color: P.TEXTO })] })] }),
       ],
     })),
   });
+  const faixa = TIMBRADO
+    ? new Paragraph({ spacing: { before: 600, after: 0 }, children: [new TextRun({
+        text: (TIMBRADO.empresa || "").toUpperCase(), bold: true, color: AZUL, font: FONTE, size: 18, characterSpacing: 60 })] })
+    : new Paragraph({ shading: { fill: AZUL, type: ShadingType.CLEAR, color: "auto" }, spacing: { before: 0, after: 0 },
+        children: [new TextRun({ text: " FÁBRICA DE SOFTWARE GOVERNAMENTAL", bold: true, color: "FFFFFF", font: FONTE, size: 20 })] });
   return [
-    new Paragraph({ shading: { fill: AZUL, type: ShadingType.CLEAR, color: "auto" }, spacing: { before: 0, after: 0 },
-      children: [new TextRun({ text: " FÁBRICA DE SOFTWARE GOVERNAMENTAL", bold: true, color: "FFFFFF", font: FONTE, size: 20 })] }),
-    new Paragraph({ spacing: { before: 2400, after: 240 }, children: [new TextRun({ text: titulo, bold: true, color: AZUL_ESCURO, font: FONTE, size: 44 })] }),
+    faixa,
+    new Paragraph({ spacing: { before: TIMBRADO ? 1500 : 2400, after: 240 }, children: [new TextRun({ text: titulo, bold: true, color: TIMBRADO ? "FFFFFF" : AZUL_ESCURO, font: FONTE, size: 44 })] }),
     ...(meta.subtitulo ? [new Paragraph({ spacing: { after: 600 }, children: [new TextRun({ text: meta.subtitulo, color: CINZA, font: FONTE, size: 26 })] })] : [new Paragraph({ spacing: { after: 600 }, children: [] })]),
     tab,
     new Paragraph({ spacing: { before: 1800 }, children: [new TextRun({
@@ -187,13 +238,55 @@ function capa() {
   ];
 }
 
+// ---------------------------------------------------------------- papel timbrado
+function dataExtenso(iso) {
+  const meses = ["janeiro", "fevereiro", "março", "abril", "maio", "junho", "julho", "agosto", "setembro", "outubro", "novembro", "dezembro"];
+  const m = String(iso || "").match(/^(\d{4})-(\d{2})-(\d{2})/);
+  return m ? `${Number(m[3])} de ${meses[Number(m[2]) - 1]} de ${m[1]}` : String(iso || "");
+}
+function cabecalhoTimbrado() {
+  const buf = fs.readFileSync(TIMBRADO.imagem);
+  const t = tamanhoImagem(buf) || { tipo: "jpg" };
+  const fundo = new ImageRun({
+    type: t.tipo, data: buf, transformation: { width: 794, height: 1123 },
+    floating: {
+      horizontalPosition: { relative: HorizontalPositionRelativeFrom.PAGE, offset: 0 },
+      verticalPosition: { relative: VerticalPositionRelativeFrom.PAGE, offset: 0 },
+      behindDocument: true, allowOverlap: true, lockAnchor: true, layoutInCell: true,
+      wrap: { type: TextWrappingType.NONE },
+    },
+  });
+  const pequeno = { color: CINZA, font: FONTE, size: 16 };
+  const dataBr = String(TIMBRADO.data || "").replace(/^(\d{4})-(\d{2})-(\d{2}).*/, "$3/$2/$1");
+  return new Header({ children: [
+    new Paragraph({ alignment: AlignmentType.RIGHT, spacing: { after: 20 }, children: [fundo,
+      new TextRun({ text: "Nº ", ...pequeno }), new TextRun({ text: TIMBRADO.numero || "—", ...pequeno, color: P.TEXTO, bold: true })] }),
+    new Paragraph({ alignment: AlignmentType.RIGHT, children: [
+      new TextRun({ text: "Data ", ...pequeno }), new TextRun({ text: dataBr || "—", ...pequeno, color: P.TEXTO }),
+      new TextRun({ text: "   ·   Página ", ...pequeno }), new TextRun({ children: [PageNumber.CURRENT], ...pequeno, color: P.TEXTO }),
+      new TextRun({ text: " de ", ...pequeno }), new TextRun({ children: [PageNumber.TOTAL_PAGES], ...pequeno, color: P.TEXTO })] }),
+  ] });
+}
+function assinatura() {
+  const a = TIMBRADO && TIMBRADO.assinatura;
+  if (!a || !a.nome) return [];
+  return [
+    new Paragraph({ alignment: AlignmentType.RIGHT, spacing: { before: 480, after: 240 },
+      children: runs(`${TIMBRADO.local ? TIMBRADO.local + ", " : ""}${dataExtenso(TIMBRADO.data)}.`) }),
+    new Paragraph({ keepNext: true, spacing: { after: 900 }, children: runs("Atenciosamente,") }),
+    new Paragraph({ keepNext: true, indent: { right: LARGURA - 4800 }, border: { top: { style: BorderStyle.SINGLE, size: 6, color: BORDA, space: 4 } },
+      children: runs(a.nome, { bold: true }) }),
+    new Paragraph({ children: runs(a.cargo || "", { color: CINZA }) }),
+  ];
+}
+
 // ---------------------------------------------------------------- documento
 const tituloCurto = (meta.titulo || (linhas.find((l) => l.startsWith("# ")) || "# Documento").slice(2)).slice(0, 90);
 const doc = new Document({
   creator: "Fábrica de Software Governamental",
   title: tituloCurto,
   styles: {
-    default: { document: { run: { font: FONTE, size: 21 } } },
+    default: { document: { run: { font: FONTE, size: 21, color: P.TEXTO } } },
     paragraphStyles: [
       { id: "Heading1", name: "Heading 1", basedOn: "Normal", next: "Normal", quickFormat: true,
         run: { size: 28, bold: true, font: FONTE, color: AZUL },
@@ -211,17 +304,17 @@ const doc = new Document({
     ] }],
   },
   sections: [{
-    properties: { page: { size: { width: 11906, height: 16838 }, margin: { top: 1134, right: 1134, bottom: 1134, left: 1134 } }, titlePage: !meta.sem_capa },
-    headers: { default: new Header({ children: [new Paragraph({ alignment: AlignmentType.RIGHT,
+    properties: { page: { size: { width: 11906, height: 16838 }, margin: MARGEM }, titlePage: !meta.sem_capa && !TIMBRADO },
+    headers: { default: TIMBRADO ? cabecalhoTimbrado() : new Header({ children: [new Paragraph({ alignment: AlignmentType.RIGHT,
       border: { bottom: { style: BorderStyle.SINGLE, size: 4, color: BORDA, space: 2 } },
       children: [new TextRun({ text: tituloCurto, color: CINZA, font: FONTE, size: 16 })] })] }) },
-    footers: { default: new Footer({ children: [new Paragraph({ alignment: AlignmentType.CENTER, children: [
+    footers: { default: TIMBRADO ? new Footer({ children: [new Paragraph({ children: [] })] }) : new Footer({ children: [new Paragraph({ alignment: AlignmentType.CENTER, children: [
       new TextRun({ text: `${meta.classificacao || "Uso interno"} · Fábrica de Software Governamental · Página `, color: CINZA, font: FONTE, size: 16 }),
       new TextRun({ children: [PageNumber.CURRENT], color: CINZA, font: FONTE, size: 16 }),
       new TextRun({ text: " de ", color: CINZA, font: FONTE, size: 16 }),
       new TextRun({ children: [PageNumber.TOTAL_PAGES], color: CINZA, font: FONTE, size: 16 }),
     ] })] }) },
-    children: [...(meta.sem_capa ? [] : capa()), ...corpo()],
+    children: [...(meta.sem_capa ? [] : capa()), ...corpo(), ...assinatura()],
   }],
 });
 

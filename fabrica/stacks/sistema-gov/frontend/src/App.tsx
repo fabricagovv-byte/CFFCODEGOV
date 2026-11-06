@@ -31,7 +31,7 @@ function Protegido({ permissao }: { permissao?: string }) {
         <button type="button" onClick={sair}>Sair</button>
       </header>
       <main id="conteudo" className="conteudo"><Outlet /></main>
-      <footer className="rodape">Ambiente de demonstração · OS TESTE-001 · dados fictícios</footer>
+      <footer className="rodape">{{NOME}} · ambiente de demonstração · dados fictícios</footer>
     </>
   );
 }

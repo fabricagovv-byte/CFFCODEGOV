@@ -1,0 +1,33 @@
+# =====================================================================
+# FORMULÁRIO DO SISTEMA — preencha e envie para a fábrica.
+# Para cada módulo que for CADASTRO, a fábrica gera: tabela + migração (banco), API validada com
+# auditoria e permissão por perfil (backend), tela com busca e formulário (frontend) e testes.
+# Depois: python3 fabrica/ferramentas/fabrica.py sistema gerar <este arquivo>
+#         python3 fabrica/ferramentas/fabrica.py sistema preview <este arquivo>   (telas reais)
+# =====================================================================
+
+sistema:
+  nome: ""                 # ex.: Atendimento ao Cidadão
+  pasta: ""                # opcional: pasta em projetos/ (padrão: nome sem acento, com hífen)
+  objetivo: ""             # o que o sistema resolve, em uma ou duas frases
+  orgao: ""                # órgão que vai usar
+  contrato: ""             # ID do contrato na fábrica, se houver (ex.: PE-223-2026-PR)
+  usuarios: ""             # quem usa (ex.: atendentes, gestores, cidadãos)
+  integracoes: []          # sistemas externos (ex.: gov.br, SEI, e-mail) — viram módulos próprios
+
+# Perfis já existentes na base: ADMIN, GESTOR, OPERADOR, CONSULTA
+
+modulos:
+  - id: MOD-101            # MOD-NNN, único
+    nome: ""               # ex.: Cidadãos
+    o_que_faz: ""          # ex.: cadastro dos cidadãos atendidos
+    servico: ""            # item do catálogo/edital que mede este módulo (ex.: SRV-CRUD-M)
+    cadastro:              # apague este bloco se o módulo não for cadastro (relatório, integração, regra especial)
+      entidade: ""         # nome no singular, sem acento, iniciando em maiúscula (ex.: Cidadao)
+      tabela: ""           # minúsculas com _ (ex.: cidadaos)
+      campos:
+        # tipos: texto, texto_longo, inteiro, decimal, data, booleano, email, cpf_cnpj, enum, referencia
+        # opções: obrigatorio, unico, busca (entra na pesquisa), pessoal (dado pessoal: mascarado na auditoria),
+        #         max (tamanho), min, opcoes (enum), alvo (referencia: tabela de outro módulo), rotulo (texto da tela)
+        - {nome: nome, tipo: texto, max: 150, obrigatorio: true, busca: true}
+      permissoes: {ler: [ADMIN, GESTOR, OPERADOR, CONSULTA], escrever: [ADMIN, GESTOR, OPERADOR], excluir: [ADMIN, GESTOR]}

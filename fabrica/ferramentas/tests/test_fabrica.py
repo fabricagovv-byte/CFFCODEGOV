@@ -533,3 +533,66 @@ def test_gec_completo_com_estimativa_e_real(fab):
                 "## 17. Pendências"):
         assert sec in md, sec
     assert "| 2026-11-02 | MOD-1 | 6.00 | 7.0 |" in md  # 12 UST / 2 dias úteis
+
+
+def test_camada_arquivo_classifica_o_codigo(fab):
+    c = fab.camada_arquivo
+    assert c("projetos/s/backend/migrations/versions/0003_x.py") == "Banco de dados"
+    assert c("projetos/s/backend/app/modulos/x/router.py") == "API e regras de negócio (backend)"
+    assert c("projetos/s/backend/tests/test_mod101_x.py") == "Testes automatizados"
+    assert c("projetos/s/frontend/src/modulos/x/XPagina.test.tsx") == "Testes automatizados"
+    assert c("projetos/s/frontend/src/modulos/x/XPagina.tsx") == "Telas (frontend)"
+    assert c("projetos/s/docker-compose.yml") == "Infraestrutura (Docker, proxy, CI)"
+
+
+def test_relatorio_tecnico_mostra_ust_feito_saldo_e_a_fazer(fab):
+    raiz = fab.RAIZ
+    pj = raiz / "projetos/sis/backend"
+    (pj / "migrations/versions").mkdir(parents=True)
+    (pj / "app").mkdir(parents=True)
+    (pj / "migrations/versions/0001_pedidos.py").write_text('op.create_table(\n    "pedidos",\n)\n')
+    (pj / "app/router.py").write_text('router = APIRouter(prefix="/api/pedidos")\n@router.get("")\ndef listar(): ...\n')
+    subprocess.run(["git", "add", "-A"], cwd=raiz, check=True)
+    subprocess.run(["git", "commit", "-qm", "MOD-001: pedidos"], cwd=raiz, check=True)
+    c = raiz / "contratos/C1"
+    for sub in ("os", "medicoes"):
+        (c / sub).mkdir(parents=True)
+    (c / "contrato.yaml").write_text(yaml.safe_dump({"contratante": {"orgao": "Órgão X"}, "contrato": {"numero": "C1"},
+                                                     "medicao": {"modalidade": "UST", "quantidade_contratada": "100 UST"}}))
+    (c / "os/OS-1.yaml").write_text(yaml.safe_dump({"os": "OS-1", "projeto": "projetos/sis", "autorizacao": {"autorizado": True},
+        "modulos": [{"id": "MOD-001", "nome": "Pedidos", "item_tabela": "SRV-1",
+                     "caminhos": ["backend/app/router.py", "backend/migrations/versions/0001_pedidos.py"]}]}))
+    (c / "medicoes/OS-1.json").write_text(json.dumps({"medido_em": "2026-11-05T10:00:00-03:00", "itens": [
+        {"modulo": "MOD-001", "item": "SRV-1", "previsto": 10, "comprovado": 10, "aceito": 0}]}))
+    (c / "PLANEJAMENTO.csv").write_text("projeto,modulo,nome,area,servico,quantidade,inicio,fim,responsavel,prioridade,observacao\n"
+                                        "P,MOD-002,Relatório,BACKEND,SRV-9,1,2026-11-10,2026-11-12,,ALTA,\n")
+    md = fab.relatorio_tecnico("C1", "2026-11-06").read_text()
+    assert "**Contratado:** 100 UST" in md
+    assert "**Feito e comprovado (acumulado):** 10 UST" in md
+    assert "**Saldo do contrato:** 90 UST" in md
+    assert "`pedidos`" in md and "`GET /api/pedidos`" in md
+    assert "| MOD-002 | Relatório |" in md
+    assert "Aceite do órgão para 10 UST" in md
+    dados = json.loads((c / "relatorios/RELATORIO_TECNICO_2026-11-06.json").read_text())
+    assert dados["saldo"] == 90 and dados["aceito"] == 0
+
+
+def test_sistema_gerar_cria_modulos_do_formulario(fab, tmp_path):
+    form = tmp_path / "SISTEMA.yaml"
+    form.write_text(yaml.safe_dump({"sistema": {"nome": "Sistema Teste", "pasta": "sistema-teste"}, "modulos": [
+        {"id": "MOD-101", "nome": "Unidades", "servico": "SRV-CRUD-M",
+         "cadastro": {"entidade": "Unidade", "tabela": "unidades", "campos": [{"nome": "nome", "tipo": "texto", "obrigatorio": True}]}},
+        {"id": "MOD-102", "nome": "Relatório", "servico": "SRV-REL"}]}, allow_unicode=True))
+    r = fab.sistema_gerar(form, testar=False)
+    pasta = fab.RAIZ / "projetos/sistema-teste"
+    assert [m["situacao"] for m in r["modulos"]][0] == "GERADO"
+    assert r["modulos"][1]["situacao"].startswith("PRECISA DE ESPECIFICAÇÃO")
+    for f in ("backend/app/modulos/unidades/router.py", "frontend/src/modulos/unidades/UnidadePagina.tsx",
+              "backend/tests/test_mod101_unidades.py", "MODULOS_OS.yaml", "docs/MODULOS.md"):
+        assert (pasta / f).exists(), f
+    assert (pasta / "README.md").read_text().startswith("# Sistema Teste")
+    mods = yaml.safe_load((pasta / "MODULOS_OS.yaml").read_text())["modulos"]
+    assert mods[0]["servicos"] == [{"codigo": "SRV-CRUD-M", "quantidade": 1.0}]
+    form.write_text(yaml.safe_dump({"sistema": {"nome": "X"}, "modulos": [{"id": "M1", "nome": "a"}]}))
+    with pytest.raises(fab.ErroFabrica):
+        fab.sistema_gerar(form, testar=False)

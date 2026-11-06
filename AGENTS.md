@@ -45,7 +45,7 @@ humanos reais, contratos, ordens de serviço (OS), evidências, medição (UST/P
 13. **Linguagem nova:** antes de usar uma stack sem perfil, crie `fabrica/stacks/<id>.yaml` + esqueleto com teste e rode `fabrica.py stacks verificar <id>`. Stack não verificada é declarada como tal.
 14. **O edital manda:** exigências e adaptações ficam em `contratos/<ID>/EDITAL.yaml` (títulos de documentos, seções obrigatórias, relatórios exigidos, unidade de medição, equipe, tecnologias). Se o edital pede diferente do padrão, mude ali — os geradores (PPJ, fechamento, relatórios) seguem. Depois rode `fabrica.py edital confrontar <ID>` e diga ao usuário o que atende, o que ajustar e o que falta.
 15. **Cadastro mínimo da equipe:** basta nome e função (`fabrica.py profissionais adicionar` ou aba PROFISSIONAIS do documento base). Os demais campos melhoram o confronto com o edital e o rateio.
-16. **Documentos em Word:** todo relatório, fechamento, PPJ, confronto, medição, checklist, auditoria e oportunidades sai em `.md` e `.docx` (capa, cabeçalho, rodapé com páginas, tabelas formatadas) via `fabrica/ferramentas/word.cjs`. Requer Node.js + `npm install --prefix fabrica/ferramentas`. Para converter qualquer `.md`: `fabrica.py word <arquivo>`.
+16. **Documentos em Word:** todo relatório, fechamento, PPJ, confronto, medição, checklist, auditoria e oportunidades sai em `.md` e `.docx` (capa, cabeçalho, rodapé com páginas, tabelas formatadas) via `fabrica/ferramentas/word.cjs`. Requer Node.js + `npm install --prefix fabrica/ferramentas`. Para converter qualquer `.md`: `fabrica.py word <arquivo>`. Com `empresa.papel_timbrado` em `CONFIGURACAO_FABRICA.yaml`, todas as páginas saem no papel timbrado da empresa (`FABRICA_TIMBRADO=0` desliga).
 17. **Aumentar a produção só com trabalho real:** para "gerar mais UST", use `fabrica.py oportunidades` (trabalho comprovado que pode corresponder a itens do catálogo ainda não medidos), mais capacidade e menos retrabalho. Nunca aumente quantidades sem trabalho executado, sem enquadramento no catálogo ou com dupla contagem.
 18. **O planejamento é do responsável:** o usuário define projetos, módulos, serviços, datas e responsáveis (PLANEJAMENTO.csv / aba PLANEJAMENTO). A fábrica calcula, alerta (capacidade, saldo, prazos do edital) e gera as OS; sempre releia o edital ao planejar.
 19. **Três relatórios por dia:** abertura (`fabrica.py abertura`), relatório diário (`relatorio diario`) e fechamento (`fechamento`), todos em Word.
@@ -88,6 +88,7 @@ Cada comando tem uma skill em `.claude/skills/<nome>/SKILL.md` (Codex: leia o ar
 | AUDITAR EVIDÊNCIAS / AUDITAR MÓDULO | `auditar-evidencias` | `evidencias commits`, `auditar` |
 | MEDIR PRODUÇÃO | `medir-producao` | `medir`, `producao estatisticas` |
 | RELATÓRIO DIÁRIO / GERAR RELATÓRIO | `relatorio-diario` | `relatorio diario|semanal|mensal|profissional` |
+| RELATÓRIO TÉCNICO / RELATÓRIO PARA O ÓRGÃO / MEDIÇÃO DO DIA | `relatorio-tecnico` | `relatorio tecnico` |
 | GERAR PREVIEW | `gerar-preview` | `node fabrica/ferramentas/capturar_telas.cjs` |
 | PREPARAR ENTREGA | `preparar-entrega` | `checklist`, `entrega` |
 | PREPARAR PUBLICAÇÃO | `preparar-publicacao` | — (manual de publicação do projeto) |
@@ -103,6 +104,7 @@ Cada comando tem uma skill em `.claude/skills/<nome>/SKILL.md` (Codex: leia o ar
 | ABERTURA DO DIA | `abertura-dia` | `abertura` |
 | PLANEJAMENTO (por projeto) | `planejamento-projetos` | `planejamento consolidar|gerar-os` |
 | GERAR CRUD / CADASTRO | `gerar-crud` | `crud gerar` |
+| GERAR SISTEMA (formulário → banco, API, telas, testes, preview) | `gerar-sistema` | `sistema gerar|preview` |
 | ANÁLISE INTEGRAL DO EDITAL | `analise-integral-edital` | `edital confrontar`, `gec` |
 | GEC (completo, Word) | `gec-completo` | `gec` |
 | QUANTO EU PRODUZO / CAPACIDADE | `capacidade-producao` | `capacidade [--simular]` |

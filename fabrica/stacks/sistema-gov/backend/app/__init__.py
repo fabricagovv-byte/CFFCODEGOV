@@ -1,1 +1,1 @@
-"""Gestão Documental Pública — backend (TESTE-001)."""
+"""{{NOME}} — backend."""

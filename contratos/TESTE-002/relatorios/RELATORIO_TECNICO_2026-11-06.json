@@ -1,0 +1,43 @@
+{
+  "contrato": "TESTE-002",
+  "data": "2026-11-06",
+  "numero": "RT-TESTE-002-20261106",
+  "unidade": "UST",
+  "contratado": 300.0,
+  "previsto": 80.39999999999999,
+  "comprovado": 80.39999999999999,
+  "aceito": 0.0,
+  "mes": 80.39999999999999,
+  "hoje": 0,
+  "a_fazer": 29.4,
+  "saldo": 219.60000000000002,
+  "modulos": [
+    {
+      "os": "OS-TESTE-002",
+      "id": "MOD-100",
+      "nome": "Base modular para cadastros",
+      "item": "SRV-BASE",
+      "previsto": 12.2,
+      "comprovado": 12.2,
+      "aceito": 0.0
+    },
+    {
+      "os": "OS-TESTE-002",
+      "id": "MOD-101",
+      "nome": "Cadastro de interessados",
+      "item": "SRV-CRUD-M",
+      "previsto": 24.4,
+      "comprovado": 24.4,
+      "aceito": 0.0
+    },
+    {
+      "os": "OS-TESTE-002",
+      "id": "MOD-102",
+      "nome": "Cadastro de protocolos",
+      "item": "SRV-CRUD-A",
+      "previsto": 43.8,
+      "comprovado": 43.8,
+      "aceito": 0.0
+    }
+  ]
+}

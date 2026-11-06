@@ -1,0 +1,65 @@
+# EXEMPLO PREENCHIDO do formulário do sistema (dados fictícios). Gere com:
+#   python3 fabrica/ferramentas/fabrica.py sistema gerar fabrica/templates/SISTEMA_EXEMPLO.yaml
+sistema:
+  nome: Atendimento ao Cidadão
+  pasta: atendimento-cidadao
+  objetivo: Registrar cidadãos, unidades de atendimento e solicitações, com protocolo, prazo e situação.
+  orgao: Órgão de demonstração (fictício)
+  contrato: ""
+  usuarios: atendentes, gestores e consulta
+  integracoes: []
+
+modulos:
+  - id: MOD-101
+    nome: Unidades de atendimento
+    o_que_faz: cadastro das unidades onde o cidadão é atendido
+    servico: SRV-CRUD-M
+    cadastro:
+      entidade: Unidade
+      tabela: unidades
+      rotulo: Unidades
+      campos:
+        - {nome: nome, tipo: texto, max: 150, obrigatorio: true, busca: true}
+        - {nome: sigla, tipo: texto, max: 20, obrigatorio: true, unico: true, busca: true}
+        - {nome: municipio, rotulo: "Município", tipo: texto, max: 100, obrigatorio: true}
+        - {nome: telefone, tipo: texto, max: 20}
+      permissoes: {ler: [ADMIN, GESTOR, OPERADOR, CONSULTA], escrever: [ADMIN, GESTOR], excluir: [ADMIN]}
+  - id: MOD-102
+    nome: Cidadãos
+    o_que_faz: cadastro dos cidadãos atendidos, com CPF validado
+    servico: SRV-CRUD-M
+    cadastro:
+      entidade: Cidadao
+      tabela: cidadaos
+      rotulo: Cidadãos
+      campos:
+        - {nome: nome, tipo: texto, max: 150, obrigatorio: true, busca: true}
+        - {nome: cpf, rotulo: CPF, tipo: cpf_cnpj, obrigatorio: true, unico: true, busca: true, pessoal: true}
+        - {nome: email, rotulo: "E-mail", tipo: email, pessoal: true}
+        - {nome: telefone, tipo: texto, max: 20, pessoal: true}
+        - {nome: data_nascimento, rotulo: "Data de nascimento", tipo: data, pessoal: true}
+      permissoes: {ler: [ADMIN, GESTOR, OPERADOR, CONSULTA], escrever: [ADMIN, GESTOR, OPERADOR], excluir: [ADMIN, GESTOR]}
+  - id: MOD-103
+    nome: Solicitações
+    o_que_faz: registro das solicitações do cidadão com protocolo, canal, prazo e situação
+    servico: SRV-CRUD-A
+    cadastro:
+      entidade: Solicitacao
+      tabela: solicitacoes
+      rotulo: Solicitações
+      campos:
+        - {nome: protocolo, tipo: texto, max: 30, obrigatorio: true, unico: true, busca: true}
+        - {nome: cidadao_id, rotulo: "Cidadão", tipo: referencia, alvo: cidadaos, obrigatorio: true}
+        - {nome: unidade_id, rotulo: Unidade, tipo: referencia, alvo: unidades, obrigatorio: true}
+        - {nome: canal, tipo: enum, opcoes: [PRESENCIAL, PORTAL, TELEFONE, WHATSAPP], obrigatorio: true}
+        - {nome: assunto, tipo: texto, max: 200, obrigatorio: true, busca: true}
+        - {nome: descricao, rotulo: "Descrição", tipo: texto_longo}
+        - {nome: situacao, rotulo: "Situação", tipo: enum, opcoes: [ABERTA, EM_ATENDIMENTO, CONCLUIDA, CANCELADA], obrigatorio: true}
+        - {nome: prazo, tipo: data}
+        - {nome: prioritaria, rotulo: "Prioritária", tipo: booleano}
+      permissoes: {ler: [ADMIN, GESTOR, OPERADOR, CONSULTA], escrever: [ADMIN, GESTOR, OPERADOR], excluir: [ADMIN, GESTOR]}
+  - id: MOD-104
+    nome: Relatório de atendimentos por período
+    o_que_faz: total de solicitações por unidade, canal e situação no período
+    servico: SRV-REL
+    # sem "cadastro": precisa de especificação própria (filtros, colunas, exportação)

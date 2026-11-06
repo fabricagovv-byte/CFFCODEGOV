@@ -45,6 +45,7 @@ RAIZ = Path(os.environ.get("FABRICA_RAIZ", Path(__file__).resolve().parents[2]))
 FAB = RAIZ / "fabrica"
 COM = FAB / "comunicacao"
 CONTRATOS = RAIZ / "contratos"
+PROJETOS = RAIZ / "projetos"
 
 ESTADOS = ["BACKLOG", "READY", "IN_PROGRESS", "IN_REVIEW", "TESTING", "BLOCKED", "DONE"]
 TRANSICOES = {
@@ -159,14 +160,25 @@ def rel(p: Path) -> str:
 # ------------------------------------------------------------------ Word
 
 def exportar_word(md: Path, cid: str | None = None, periodo: str = "", classificacao: str = "Uso interno",
-                  subtitulo: str = "", saida: Path | None = None, capa: bool = True) -> Path | None:
+                  subtitulo: str = "", saida: Path | None = None, capa: bool = True, numero_doc: str = "",
+                  data_doc: str = "", assinar: bool = False) -> Path | None:
     """Gera a versão Word (.docx) de um documento Markdown da fábrica (capa, cabeçalho, rodapé, tabelas).
 
-    Desligue com FABRICA_WORD=0. Sem Node/biblioteca docx, avisa e segue (o .md continua valendo)."""
-    if os.environ.get("FABRICA_WORD", "1") == "0" or configuracao().get("gerar_word") is False:
+    Com empresa.papel_timbrado na configuração, todas as páginas usam o papel timbrado da empresa
+    (desligue com FABRICA_TIMBRADO=0). assinar=True acrescenta local, data e assinatura do responsável.
+    Desligue o Word com FABRICA_WORD=0. Sem Node/biblioteca docx, avisa e segue (o .md continua valendo)."""
+    cfg = configuracao()
+    if os.environ.get("FABRICA_WORD", "1") == "0" or cfg.get("gerar_word") is False:
         return None
     meta = {"periodo": periodo, "classificacao": classificacao, "subtitulo": subtitulo, "gerado_em": agora()[:16].replace("T", " "),
             "sem_capa": not capa}
+    emp = cfg.get("empresa") or {}
+    papel = RAIZ / str(emp.get("papel_timbrado") or "")
+    if emp.get("papel_timbrado") and papel.is_file() and os.environ.get("FABRICA_TIMBRADO", "1") != "0":
+        meta["timbrado"] = {"imagem": str(papel), "numero": numero_doc, "data": data_doc or hoje(),
+                            "empresa": emp.get("razao_social", ""), "local": emp.get("cidade", "")}
+        if assinar and emp.get("responsavel_tecnico"):
+            meta["timbrado"]["assinatura"] = {"nome": emp["responsavel_tecnico"], "cargo": emp.get("cargo_responsavel", "")}
     if cid and (CONTRATOS / cid / "contrato.yaml").exists():
         c = ler_yaml(CONTRATOS / cid / "contrato.yaml") or {}
         meta["orgao"] = (c.get("contratante") or {}).get("orgao", "")
@@ -3132,6 +3144,605 @@ def iniciar() -> list[tuple[str, bool, str]]:
 
 # ------------------------------------------------------------------------- CLI
 
+
+# ------------------------------------------------------- relatório técnico (para o órgão)
+
+EXT_TEXTO = {".py": "Python", ".ts": "TypeScript", ".tsx": "TypeScript (React)", ".js": "JavaScript", ".cjs": "JavaScript",
+             ".mjs": "JavaScript", ".sql": "SQL", ".css": "CSS", ".html": "HTML", ".yml": "YAML", ".yaml": "YAML",
+             ".json": "JSON", ".md": "Markdown", ".sh": "Shell", ".conf": "Configuração", ".ini": "Configuração",
+             ".toml": "Configuração", ".txt": "Texto"}
+IGNORAR_CODIGO = ("package-lock.json", ".sha256", ".dump", ".tar.gz", ".png", ".jpg", ".pdf", ".zip")
+
+
+def camada_arquivo(f: str) -> str:
+    """Classifica um arquivo do sistema na camada que ele implementa."""
+    fl = f.lower()
+    nome = fl.rsplit("/", 1)[-1]
+    if "/tests/" in fl or nome.startswith("test_") or ".test." in nome or "/e2e/" in fl or nome == "conftest.py":
+        return "Testes automatizados"
+    if "/migrations/" in fl or nome.endswith(".sql") or nome in ("models.py", "db.py", "seed.py", "alembic.ini"):
+        return "Banco de dados"
+    if "/infra/" in fl or nome.startswith(("docker", ".docker")) or nome == "dockerfile" or "/.github/" in fl or nome.endswith(".conf"):
+        return "Infraestrutura (Docker, proxy, CI)"
+    if "/frontend/" in fl:
+        return "Telas (frontend)"
+    if "/backend/" in fl:
+        return "API e regras de negócio (backend)"
+    if "/especificacoes/" in fl:
+        return "Especificação"
+    if nome.endswith(".md") or "/docs/" in fl:
+        return "Documentação"
+    return "Outros"
+
+
+def _n(v: float | None, casas: int = 1) -> str:
+    if v is None:
+        return "—"
+    s = f"{v:,.{casas}f}".replace(",", "X").replace(".", ",").replace("X", ".")
+    return s[:-2] if casas == 1 and s.endswith(",0") else s
+
+
+def _cel(t: Any) -> str:
+    return str(t if t is not None else "").replace("|", "/").replace("\n", " ").strip()
+
+
+def _arquivos_projeto(projeto: str, caminhos: list[str] | None = None) -> list[str]:
+    alvos = [f"{projeto}/{c}" for c in caminhos] if caminhos else [projeto]
+    try:
+        out = git("ls-files", "--", *alvos)
+    except ErroFabrica:
+        return []
+    return [f for f in out.splitlines() if f and not f.endswith(IGNORAR_CODIGO)]
+
+
+def _linhas(f: str) -> int:
+    try:
+        with open(RAIZ / f, "rb") as h:
+            return sum(1 for _ in h)
+    except OSError:
+        return 0
+
+
+def _detalhes_modulo(arquivos: list[str]) -> dict:
+    """O que o módulo implementa, lido do próprio código: tabelas, rotas da API e telas."""
+    tabelas, rotas, telas = [], [], []
+    for f in arquivos:
+        try:
+            txt = (RAIZ / f).read_text(encoding="utf-8", errors="ignore")
+        except OSError:
+            continue
+        if f.endswith(".py"):
+            tabelas += re.findall(r"op\.create_table\(\s*[\"'](\w+)", txt)
+            tabelas += re.findall(r"__tablename__\s*=\s*[\"'](\w+)", txt)
+            pref = re.search(r"APIRouter\([^)]*prefix\s*=\s*[\"']([^\"']*)", txt)
+            for met, rota in re.findall(r"@\w+\.(get|post|put|patch|delete)\(\s*[\"']([^\"']*)", txt):
+                rotas.append(f"{met.upper()} {(pref.group(1) if pref else '') + rota or '/'}")
+        if f.endswith(".tsx") and ".test." not in f and "/frontend/" in f:
+            telas.append(Path(f).stem)
+    uniq = lambda xs: list(dict.fromkeys(xs))
+    return {"tabelas": uniq(tabelas), "rotas": uniq(rotas), "telas": uniq(telas)}
+
+
+def _commits(arquivos_ou_caminho: list[str], inicio: str | None = None, fim: str | None = None) -> list[dict]:
+    if not arquivos_ou_caminho:
+        return []
+    args = ["log", "--date=short", "--pretty=format:%h%x1f%ad%x1f%an%x1f%s"]
+    if inicio:
+        args.append(f"--since={inicio}T00:00:00")
+    if fim:
+        args.append(f"--until={fim}T23:59:59")
+    try:
+        out = git(*args, "--", *arquivos_ou_caminho)
+    except ErroFabrica:
+        return []
+    res = []
+    for l in out.splitlines():
+        p = l.split("\x1f")
+        if len(p) == 4:
+            res.append({"sha": p[0], "data": p[1], "autor": p[2], "mensagem": p[3]})
+    return res
+
+
+def _numstat(caminho: str, inicio: str, fim: str) -> dict[str, list[int]]:
+    """Linhas adicionadas/removidas por camada no período (git log --numstat)."""
+    por: dict[str, list[int]] = {}
+    try:
+        out = git("log", f"--since={inicio}T00:00:00", f"--until={fim}T23:59:59", "--numstat", "--pretty=format:", "--", caminho)
+    except ErroFabrica:
+        return por
+    for l in out.splitlines():
+        p = l.split("\t")
+        if len(p) != 3 or p[0] == "-" or p[2].endswith(IGNORAR_CODIGO):
+            continue
+        c = por.setdefault(camada_arquivo(p[2]), [0, 0, 0])
+        c[0] += int(p[0]); c[1] += int(p[1]); c[2] += 1
+    return por
+
+
+def _tecnologias(cdir: Path, contrato: dict, projetos: list[str]) -> list[tuple[str, str, str]]:
+    linhas = []
+    tec = contrato.get("tecnico") or {}
+    if tec.get("tecnologias_obrigatorias"):
+        linhas.append(("Exigidas no contrato", ", ".join(map(str, tec["tecnologias_obrigatorias"])), "contrato.yaml"))
+    if tec.get("banco_de_dados"):
+        linhas.append(("Banco de dados", str(tec["banco_de_dados"]), "contrato.yaml"))
+    for pj in projetos:
+        base = RAIZ / pj
+        for req in sorted(base.glob("**/requirements.txt")):
+            if "node_modules" in req.parts:
+                continue
+            nomes = [re.split(r"[<>=\[;~! ]", l.strip())[0] for l in req.read_text(encoding="utf-8").splitlines()
+                     if l.strip() and not l.startswith(("#", "-"))]
+            if nomes:
+                linhas.append(("Backend (Python)", ", ".join(nomes), rel(req)))
+        for pkg in sorted(base.glob("**/package.json")):
+            if "node_modules" in pkg.parts:
+                continue
+            try:
+                d = json.loads(pkg.read_text(encoding="utf-8"))
+            except ValueError:
+                continue
+            deps = list((d.get("dependencies") or {}).keys())
+            dev = list((d.get("devDependencies") or {}).keys())
+            if deps:
+                linhas.append(("Frontend (TypeScript/React)", ", ".join(deps), rel(pkg)))
+            if dev:
+                linhas.append(("Build e testes de tela", ", ".join(dev), rel(pkg)))
+        for dc in sorted(base.glob("docker-compose*.yml")):
+            imgs = re.findall(r"image:\s*([^\s#]+)", dc.read_text(encoding="utf-8"))
+            if imgs:
+                linhas.append(("Infraestrutura (contêineres)", ", ".join(dict.fromkeys(imgs)), rel(dc)))
+    return linhas
+
+
+def relatorio_tecnico(cid: str, ref: str | None = None) -> Path:
+    """Relatório técnico único para o órgão: UST (contratado, feito, aceito, saldo, a fazer), o que foi feito por módulo
+    e em qual item do contrato, tecnologias, código do dia/mês/total, testes, telas e pendências."""
+    cdir = dir_contrato(cid)
+    contrato = ler_yaml(cdir / "contrato.yaml") or {}
+    ref = ref or hoje()
+    d0 = date.fromisoformat(ref)
+    mes_ini = d0.replace(day=1).isoformat()
+    mes_nome = ["janeiro", "fevereiro", "março", "abril", "maio", "junho", "julho", "agosto", "setembro", "outubro",
+                "novembro", "dezembro"][d0.month - 1] + f" de {d0.year}"
+    ct = contrato.get("contrato") or {}
+    med_c = contrato.get("medicao") or {}
+    unidade = med_c.get("modalidade") or "UST"
+    contratado = numero(med_c.get("quantidade_contratada"))
+
+    # ordens de serviço e medições
+    oss, modulos = [], []
+    for osf in sorted((cdir / "os").glob("*.yaml")):
+        o = ler_yaml(osf) or {}
+        oid = o.get("os") or osf.stem
+        med = ler_json(cdir / "medicoes" / f"{oid}.json", {}) or {}
+        itens = {i.get("modulo"): i for i in med.get("itens") or []}
+        projeto = str(o.get("projeto") or "")
+        oss.append({"os": oid, "titulo": o.get("titulo", ""), "projeto": projeto, "medido_em": med.get("medido_em", ""),
+                    "aviso": med.get("aviso", ""), "autorizacao": o.get("autorizacao") or {}})
+        for m in o.get("modulos") or []:
+            mid = m.get("id")
+            it = itens.get(mid) or {}
+            ev = cdir / "evidencias" / oid / str(mid)
+            testes = ler_json(ev / "TESTES.json", {}) or {}
+            arqs = _arquivos_projeto(projeto, m.get("caminhos") or []) if projeto else []
+            por_camada: dict[str, list[int]] = {}
+            for f in arqs:
+                c = por_camada.setdefault(camada_arquivo(f), [0, 0])
+                c[0] += 1; c[1] += _linhas(f)
+            telas_img = sorted((ev / "SCREENSHOTS").glob("*.png"))[:2] if (ev / "SCREENSHOTS").exists() else []
+            modulos.append({
+                "os": oid, "id": mid, "nome": m.get("nome", ""), "projeto": projeto,
+                "item": it.get("item") or m.get("item_tabela") or ", ".join(s.get("codigo", "") for s in m.get("servicos") or []),
+                "descricao_item": it.get("descricao_item", ""), "previsto": float(it.get("previsto") or 0),
+                "comprovado": float(it.get("comprovado") or 0), "aceito": float(it.get("aceito") or 0),
+                "horas": it.get("horas"), "memoria": it.get("memoria", ""), "responsavel": it.get("responsavel") or "sem registro",
+                "medido_em": med.get("medido_em", ""), "medido": bool(it),
+                "testes": (testes.get("resumo") or {}), "situacao_testes": testes.get("situacao") or "sem registro",
+                "testado_em": testes.get("executado_em", ""), "camadas": por_camada, "detalhes": _detalhes_modulo(arqs),
+                "commits": _commits(arqs), "telas": telas_img,
+            })
+
+    tot = lambda k, ms=modulos: sum(m[k] for m in ms)
+    comprovado, aceito, previsto = tot("comprovado"), tot("aceito"), tot("previsto")
+    do_mes = [m for m in modulos if m["medido"] and mes_ini <= m["medido_em"][:10] <= ref]
+    de_hoje = [m for m in modulos if m["medido"] and m["medido_em"][:10] == ref]
+
+    # a fazer: planejamento sem medição comprovada + módulos de OS ainda não comprovados
+    feitos = {m["id"] for m in modulos if m["comprovado"] > 0}
+    a_fazer = []
+    plan = cdir / "PLANEJAMENTO.csv"
+    if plan.exists():
+        with open(plan, encoding="utf-8") as f:
+            for r in csv.DictReader(f):
+                if r.get("modulo") and r["modulo"] not in feitos:
+                    est = None
+                    try:
+                        est = calcular_servicos(cid, [{"codigo": r.get("servico", ""), "quantidade": float(r.get("quantidade") or 1)}]).get("quantidade")
+                    except Exception:  # catálogo sem o item ou sem fórmula: fica sem estimativa
+                        est = None
+                    a_fazer.append({"id": r["modulo"], "nome": r.get("nome", ""), "item": r.get("servico", ""),
+                                    "ust": est, "prazo": r.get("fim", ""), "responsavel": r.get("responsavel") or "a definir"})
+    for m in modulos:
+        if m["comprovado"] == 0 and m["id"] not in {x["id"] for x in a_fazer}:
+            a_fazer.append({"id": m["id"], "nome": m["nome"], "item": m["item"], "ust": m["previsto"] or None,
+                            "prazo": "", "responsavel": m["responsavel"]})
+    ust_a_fazer = sum(x["ust"] or 0 for x in a_fazer)
+
+    projetos = list(dict.fromkeys(m["projeto"] for m in modulos if m["projeto"]))
+    numero_doc = f"RT-{cid}-{d0.strftime('%Y%m%d')}"
+    L = [f"# Relatório Técnico de Execução e Medição — {mes_nome}", ""]
+
+    # 1. resumo simples
+    pct = (lambda v: f"{_n(100 * v / contratado)}%") if contratado else (lambda v: "—")
+    L += ["## 1. Resumo", ""]
+    L.append(f"- **Contratado:** {_n(contratado) + ' ' + unidade if contratado else 'sem registro no contrato.yaml'}.")
+    L.append(f"- **Feito e comprovado (acumulado):** {_n(comprovado)} {unidade} em {len(feitos)} módulo(s) — {pct(comprovado)} do contratado.")
+    L.append(f"- **Feito em {mes_nome}:** {_n(tot('comprovado', do_mes))} {unidade} em {len(do_mes)} módulo(s).")
+    L.append(f"- **Feito hoje ({d0.strftime('%d/%m/%Y')}):** {_n(tot('comprovado', de_hoje))} {unidade}.")
+    L.append(f"- **Aceito pelo órgão:** {_n(aceito)} {unidade}" + (" — aguardando documento de aceite do fiscal/gestor." if aceito < comprovado else "."))
+    if contratado:
+        L.append(f"- **Saldo do contrato:** {_n(contratado - comprovado)} {unidade} (contratado − comprovado); "
+                 f"{_n(contratado - aceito)} {unidade} considerando só o aceito.")
+    L.append(f"- **A fazer (planejado):** {len(a_fazer)} módulo(s), cerca de {_n(ust_a_fazer)} {unidade} (estimativa pelo catálogo).")
+    L += ["", f"| Indicador | {unidade} | % do contratado |", "|---|---|---|",
+          f"| Contratado | {_n(contratado)} | 100% |" if contratado else f"| Contratado | sem registro | — |",
+          f"| Previsto nas OS | {_n(previsto)} | {pct(previsto)} |",
+          f"| Comprovado (feito, testado e auditado) | {_n(comprovado)} | {pct(comprovado)} |",
+          f"| Aceito pelo órgão | {_n(aceito)} | {pct(aceito)} |",
+          f"| A fazer (estimativa) | {_n(ust_a_fazer)} | {pct(ust_a_fazer)} |"]
+    if contratado:
+        L.append(f"| Saldo (contratado − comprovado) | {_n(contratado - comprovado)} | {pct(contratado - comprovado)} |")
+    L += ["", f"> Comprovado = entregue com código no repositório, testes executados e evidências auditadas, medido pelo catálogo do contrato. "
+          f"Só passa a **aceito** com documento do órgão (termo, ofício ou e-mail do fiscal)."]
+    for o in oss:
+        if o["aviso"]:
+            L.append(f"> {o['os']}: {o['aviso']}")
+    L.append("")
+
+    # 2. identificação
+    emp = configuracao().get("empresa") or {}
+    L += ["## 2. Identificação", "", "| Campo | Informação |", "|---|---|",
+          f"| Órgão | {_cel((contrato.get('contratante') or {}).get('orgao') or 'sem registro')} |",
+          f"| Contrato | {_cel(ct.get('numero') or cid)} |",
+          f"| Objeto | {_cel(ct.get('objeto') or 'sem registro')} |",
+          f"| Ordens de serviço | {_cel(', '.join(o['os'] + ' — ' + str(o['titulo']) for o in oss) or 'nenhuma')} |",
+          f"| Sistema(s) | {_cel(', '.join(projetos) or 'sem registro')} |",
+          f"| Período | {mes_nome} (até {d0.strftime('%d/%m/%Y')}) |",
+          f"| Contratada | {_cel(emp.get('razao_social') or 'sem registro')}{' — CNPJ ' + _cel(emp['cnpj']) if emp.get('cnpj') else ''} |",
+          f"| Responsável técnico | {_cel(emp.get('responsavel_tecnico') or 'sem registro')} |", ""]
+
+    # 3. o que foi feito
+    L += ["## 3. O que foi feito e quanto foi medido", "",
+          f"| Módulo | O que foi entregue | Item do contrato | {unidade} comprovada | Testes |", "|---|---|---|---|---|"]
+    for m in modulos:
+        ent = ", ".join(k.split(" (")[0] for k in m["camadas"] if k not in ("Outros", "Especificação", "Documentação")) or "sem registro"
+        t = m["testes"]
+        tt = f"{t.get('testes', 0)} ok, {t.get('falhas', 0) + t.get('erros', 0)} falha(s)" if t else "sem registro"
+        L.append(f"| {m['id']} — {_cel(m['nome'])} | {_cel(ent)} | {_cel(m['item'])} | {_n(m['comprovado'])} | {tt} |")
+    L.append(f"| **Total** | | | **{_n(comprovado)}** | |")
+    L.append("")
+    for m in modulos:
+        L += [f"### {m['id']} — {m['nome']}", ""]
+        d = m["detalhes"]
+        if "Banco de dados" in m["camadas"]:
+            L.append(f"- **Banco de dados:** {('tabela(s) ' + ', '.join('`' + x + '`' for x in d['tabelas'])) if d['tabelas'] else 'estrutura e acesso a dados'}"
+                     f" — {m['camadas']['Banco de dados'][0]} arquivo(s), {m['camadas']['Banco de dados'][1]} linhas.")
+        api = m["camadas"].get("API e regras de negócio (backend)")
+        if api:
+            rotas = d["rotas"]
+            L.append(f"- **API (backend):** {len(rotas)} rota(s){': ' + ', '.join('`' + r + '`' for r in rotas[:8]) if rotas else ''}"
+                     f"{' e outras' if len(rotas) > 8 else ''} — {api[0]} arquivo(s), {api[1]} linhas.")
+        tel = m["camadas"].get("Telas (frontend)")
+        if tel:
+            L.append(f"- **Telas (frontend):** {', '.join(d['telas'][:8]) or 'componentes de tela'} — {tel[0]} arquivo(s), {tel[1]} linhas.")
+        inf = m["camadas"].get("Infraestrutura (Docker, proxy, CI)")
+        if inf:
+            L.append(f"- **Infraestrutura:** {inf[0]} arquivo(s), {inf[1]} linhas.")
+        tst = m["camadas"].get("Testes automatizados")
+        t = m["testes"]
+        L.append(f"- **Testes:** {t.get('testes', 0)} executado(s), {t.get('falhas', 0) + t.get('erros', 0)} falha(s) — "
+                 f"{m['situacao_testes']}{' em ' + m['testado_em'][:10] if m['testado_em'] else ''}"
+                 f"{f' ({tst[0]} arquivo(s) de teste, {tst[1]} linhas)' if tst else ''}." if t else "- **Testes:** sem registro.")
+        L.append(f"- **Medição:** item {m['item']}{' — ' + m['descricao_item'] if m['descricao_item'] else ''}: "
+                 f"previsto {_n(m['previsto'])}, comprovado **{_n(m['comprovado'])}**, aceito {_n(m['aceito'])} {unidade}"
+                 f"{'; ' + _n(m['horas']) + ' h pelo catálogo' if m['horas'] else ''}.")
+        if m["commits"]:
+            L.append("- **Commits:** " + "; ".join(f"`{c['sha']}` {c['data']} {_cel(c['mensagem'])}" for c in m["commits"][:4])
+                     + (f" (+{len(m['commits']) - 4})" if len(m["commits"]) > 4 else "") + ".")
+        L.append(f"- **Responsável:** {m['responsavel']}.")
+        for img in m["telas"]:
+            L += ["", f"![{m['id']} — {img.stem.split('-', 1)[-1].replace('-', ' ')} (preview)]({os.path.relpath(img, cdir / 'relatorios')})"]
+        L.append("")
+
+    # 4. tecnologias
+    L += ["## 4. Tecnologias utilizadas", "", "| Camada | Tecnologias | Fonte |", "|---|---|---|"]
+    for camada, nomes, fonte in _tecnologias(cdir, contrato, projetos) or [("—", "sem registro", "—")]:
+        L.append(f"| {camada} | {_cel(nomes)} | `{fonte}` |")
+    L.append("")
+
+    # 5. código do mês e de hoje / 6. código total
+    for titulo, ini in ((f"## 5. Código de {mes_nome}", mes_ini), (f"### Código de hoje ({d0.strftime('%d/%m/%Y')})", ref)):
+        L += [titulo, ""]
+        for pj in projetos:
+            cs = _commits([pj], ini, ref)
+            ns = _numstat(pj, ini, ref)
+            L.append(f"**{pj}:** {len(cs)} commit(s), +{sum(v[0] for v in ns.values())} / −{sum(v[1] for v in ns.values())} linhas.")
+            if ns:
+                L += ["", "| Camada | Arquivos alterados | Linhas adicionadas | Linhas removidas |", "|---|---|---|---|"]
+                for k, v in sorted(ns.items(), key=lambda kv: -kv[1][0]):
+                    L.append(f"| {k} | {v[2]} | {v[0]} | {v[1]} |")
+            if cs and ini == mes_ini:
+                L += ["", "| Commit | Data | Descrição |", "|---|---|---|"]
+                for c in cs[:40]:
+                    L.append(f"| `{c['sha']}` | {c['data']} | {_cel(c['mensagem'])[:110]} |")
+                if len(cs) > 40:
+                    L.append(f"| … | | mais {len(cs) - 40} commit(s) no git |")
+            L.append("")
+    L += ["## 6. Código total do sistema", ""]
+    for pj in projetos:
+        arqs = _arquivos_projeto(pj)
+        por_c: dict[str, list[int]] = {}
+        por_l: dict[str, list[int]] = {}
+        for f in arqs:
+            n = _linhas(f)
+            c = por_c.setdefault(camada_arquivo(f), [0, 0]); c[0] += 1; c[1] += n
+            lang = "Docker" if Path(f).name.lower().startswith("dockerfile") else EXT_TEXTO.get(Path(f).suffix.lower(), "Outros")
+            g = por_l.setdefault(lang, [0, 0]); g[0] += 1; g[1] += n
+        L += [f"**{pj}:** {len(arqs)} arquivo(s), {sum(v[1] for v in por_c.values())} linhas, "
+              f"{len(_commits([pj]))} commit(s) desde o início.", "",
+              "| Camada | Arquivos | Linhas |", "|---|---|---|"]
+        L += [f"| {k} | {v[0]} | {v[1]} |" for k, v in sorted(por_c.items(), key=lambda kv: -kv[1][1])]
+        L += ["", "| Linguagem | Arquivos | Linhas |", "|---|---|---|"]
+        L += [f"| {k} | {v[0]} | {v[1]} |" for k, v in sorted(por_l.items(), key=lambda kv: -kv[1][1])]
+        L.append("")
+    L += ["> Linhas de código e commits mostram o tamanho do trabalho; a quantidade medida vem do catálogo do contrato, não das linhas.", ""]
+
+    # 7. a fazer e saldo
+    L += ["## 7. A fazer e saldo", ""]
+    if a_fazer:
+        L += [f"| Módulo | O que fazer | Item do contrato | {unidade} (estimativa) | Prazo | Responsável |", "|---|---|---|---|---|---|"]
+        L += [f"| {x['id']} | {_cel(x['nome'])} | {_cel(x['item'])} | {_n(x['ust'])} | {_cel(x['prazo']) or '—'} | {_cel(x['responsavel'])} |" for x in a_fazer]
+    else:
+        L.append("Nada planejado em PLANEJAMENTO.csv além do que já foi comprovado.")
+    if contratado:
+        L += ["", f"| Saldo | {unidade} |", "|---|---|", f"| Contratado | {_n(contratado)} |", f"| (−) Comprovado | {_n(comprovado)} |",
+              f"| (=) Saldo atual | {_n(contratado - comprovado)} |", f"| (−) A fazer (estimativa) | {_n(ust_a_fazer)} |",
+              f"| (=) Saldo depois do planejado | {_n(contratado - comprovado - ust_a_fazer)} |"]
+    L.append("")
+
+    # 8. pendências
+    pend = []
+    if aceito < comprovado:
+        pend.append(f"Aceite do órgão para {_n(comprovado - aceito)} {unidade} comprovadas (termo, ofício ou e-mail do fiscal).")
+    sem_resp = [m["id"] for m in modulos if m["responsavel"] in ("A CADASTRAR", "sem registro")]
+    if sem_resp:
+        pend.append(f"Responsável humano não registrado em: {', '.join(sem_resp)}.")
+    sem_teste = [m["id"] for m in modulos if not m["testes"]]
+    if sem_teste:
+        pend.append(f"Módulos sem teste registrado: {', '.join(sem_teste)}.")
+    for o in oss:
+        if not (o["autorizacao"] or {}).get("autorizado"):
+            pend.append(f"{o['os']} sem autorização registrada.")
+    L += ["## 8. Pendências", ""] + [f"- {p}" for p in pend or ["Nenhuma pendência registrada."]] + [""]
+    L += ["## 9. Fonte dos números", "",
+          "- UST: `medicoes/<OS>.json` (medição pelo catálogo do contrato) e `contrato.yaml`.",
+          "- O que foi feito, código e commits: repositório git (`git log`, `git ls-files`).",
+          "- Testes: `evidencias/<OS>/<MÓDULO>/TESTES.json` (execuções reais com JUnit).",
+          "- Telas: capturas reais em `evidencias/<OS>/<MÓDULO>/SCREENSHOTS/`.",
+          "- A fazer: `PLANEJAMENTO.csv` (estimativa pelo catálogo).", ""]
+
+    out = cdir / "relatorios" / f"RELATORIO_TECNICO_{ref}.md"
+    out.parent.mkdir(parents=True, exist_ok=True)
+    out.write_text("\n".join(L) + "\n", encoding="utf-8")
+    gravar_json(out.with_suffix(".json"), {
+        "contrato": cid, "data": ref, "numero": numero_doc, "unidade": unidade, "contratado": contratado, "previsto": previsto,
+        "comprovado": comprovado, "aceito": aceito, "mes": tot("comprovado", do_mes), "hoje": tot("comprovado", de_hoje),
+        "a_fazer": ust_a_fazer, "saldo": (contratado - comprovado) if contratado else None,
+        "modulos": [{k: m[k] for k in ("os", "id", "nome", "item", "previsto", "comprovado", "aceito")} for m in modulos]})
+    exportar_word(out, cid, periodo=mes_nome, classificacao="Documento para o órgão", subtitulo="Tecnologias, UST, código e telas",
+                  numero_doc=numero_doc, data_doc=ref, assinar=True)
+    return out
+
+
+
+# ------------------------------------------------------- sistema (formulário -> código completo)
+
+PERMISSOES_PADRAO = {"ler": ["ADMIN", "GESTOR", "OPERADOR", "CONSULTA"], "escrever": ["ADMIN", "GESTOR", "OPERADOR"],
+                     "excluir": ["ADMIN", "GESTOR"]}
+
+
+def _ler_sistema(arquivo: Path) -> tuple[dict, Path]:
+    d = ler_yaml(arquivo) or {}
+    s = d.get("sistema") or {}
+    if not s.get("nome"):
+        raise ErroFabrica("formulário sem sistema.nome (veja fabrica/templates/SISTEMA.yaml)")
+    mods = d.get("modulos") or []
+    if not mods:
+        raise ErroFabrica("formulário sem módulos")
+    ids = [m.get("id") for m in mods]
+    for i in ids:
+        if not re.fullmatch(r"MOD-\d{3}", str(i or "")):
+            raise ErroFabrica(f"id de módulo inválido: {i!r} (use MOD-NNN)")
+    if len(set(ids)) != len(ids):
+        raise ErroFabrica("ids de módulo repetidos")
+    pasta = PROJETOS / (s.get("pasta") or slug(s["nome"]))
+    return d, pasta
+
+
+def _spec_modulo(m: dict) -> dict:
+    c = m["cadastro"]
+    return {"entidade": c.get("entidade"), "tabela": c.get("tabela"), "rotulo": c.get("rotulo") or m.get("nome"),
+            "modulo": m["id"], "campos": c.get("campos") or [], "permissoes": c.get("permissoes") or PERMISSOES_PADRAO}
+
+
+def _rodar(cmd: list[str], cwd: Path, env: dict | None = None, timeout: int = 900) -> tuple[int, str]:
+    r = subprocess.run(cmd, cwd=cwd, capture_output=True, text=True, timeout=timeout, env={**os.environ, **(env or {})})
+    return r.returncode, (r.stdout + r.stderr)
+
+
+def sistema_gerar(arquivo: Path, testar: bool = True) -> dict:
+    """Gera o sistema do formulário: base (login, perfis, auditoria, Docker) + um módulo completo por cadastro."""
+    sys.path.insert(0, str(Path(__file__).parent))
+    from gerador_crud import ErroGerador, gerar_crud, validar_spec
+    d, pasta = _ler_sistema(arquivo)
+    s = d["sistema"]
+    criado = False
+    if not (pasta / "backend" / "app" / "modulos" / "__init__.py").exists():
+        criar_componente("sistema-gov", pasta, s["nome"])
+        criado = True
+    (pasta / "SISTEMA.yaml").write_text(arquivo.read_text(encoding="utf-8"), encoding="utf-8")
+    res = {"sistema": s["nome"], "pasta": rel(pasta), "base_criada": criado, "modulos": [], "testes": {}}
+    for m in d["modulos"]:
+        item = {"id": m["id"], "nome": m.get("nome", ""), "servico": m.get("servico", ""), "o_que_faz": m.get("o_que_faz", "")}
+        if not m.get("cadastro"):
+            item["situacao"] = "PRECISA DE ESPECIFICAÇÃO (não é cadastro: relatório, integração ou regra especial)"
+            res["modulos"].append(item)
+            continue
+        spec = _spec_modulo(m)
+        try:
+            validar_spec(spec)
+        except ErroGerador as e:
+            raise ErroFabrica(f"{m['id']}: {e}")
+        if (pasta / "backend" / "app" / "modulos" / spec["tabela"]).exists():
+            item["situacao"] = "GERADO"
+        else:
+            sp = pasta / "especificacoes" / f"{spec['tabela']}.yaml"
+            sp.parent.mkdir(parents=True, exist_ok=True)
+            sp.write_text(yaml.safe_dump(spec, allow_unicode=True, sort_keys=False), encoding="utf-8")
+            try:
+                item["arquivos"] = gerar_crud(sp, pasta)
+            except ErroGerador as e:
+                raise ErroFabrica(f"{m['id']}: {e}")
+            item["situacao"] = "GERADO"
+        tab, ent = spec["tabela"], spec["entidade"]
+        item["caminhos"] = [f"backend/app/modulos/{tab}", *[str(p.relative_to(pasta)) for p in sorted((pasta / "backend" / "migrations" / "versions").glob(f"*_{tab}.py"))],
+                            f"backend/tests/test_{m['id'].lower().replace('-', '')}_{tab}.py", f"frontend/src/modulos/{tab}", f"especificacoes/{tab}.yaml"]
+        item["testes"] = [
+            {"nome": "backend", "cwd": "backend", "cmd": ["python3", "-m", "pytest", item["caminhos"][-3].removeprefix("backend/"), "-v", "--junitxml={junit}"]},
+            {"nome": "frontend", "cwd": "frontend", "cmd": ["npx", "vitest", "run", f"src/modulos/{tab}/{ent}Pagina.test.tsx",
+                                                          "--reporter=default", "--reporter=junit", "--outputFile.junit={junit}"]}]
+        res["modulos"].append(item)
+    # bloco pronto para a OS (medição liga módulo -> item do catálogo -> caminhos -> testes)
+    blocos = [{"id": m["id"], "nome": m["nome"], "servicos": [{"codigo": m["servico"], "quantidade": 1.0}] if m.get("servico") else [],
+               "tem_interface": True, "caminhos": m.get("caminhos", []), "testes": m.get("testes", [])}
+              for m in res["modulos"] if m.get("caminhos")]
+    (pasta / "MODULOS_OS.yaml").write_text(
+        "# Módulos gerados do formulário, prontos para colar na OS AUTORIZADA (contratos/<C>/os/<OS>.yaml -> modulos).\n"
+        + yaml.safe_dump({"modulos": blocos}, allow_unicode=True, sort_keys=False), encoding="utf-8")
+    if testar:
+        env = {"TEST_DATABASE_URL": os.environ["TEST_DATABASE_URL"]} if os.environ.get("TEST_DATABASE_URL") else {}
+        cod, out = _rodar([sys.executable, "-m", "pytest", "-q", "-o", "addopts="], pasta / "backend", env)
+        res["testes"]["backend"] = {"codigo_saida": cod, "resumo": next((l.strip("= ") for l in reversed(out.splitlines())
+                                                                     if re.search(r"\d+ (passed|failed)", l)), out.strip()[-200:]),
+                                    "banco": "PostgreSQL" if env else "SQLite"}
+        fe = pasta / "frontend"
+        if not (fe / "node_modules").exists():
+            cod_i, out_i = _rodar(["npm", "install", "--no-audit", "--no-fund"], fe, timeout=1800)
+            if cod_i:
+                res["testes"]["frontend"] = {"codigo_saida": cod_i, "resumo": "npm install falhou: " + out_i.strip()[-300:]}
+        if "frontend" not in res["testes"]:
+            cod, out = _rodar(["npx", "vitest", "run"], fe)
+            linha = [l for l in out.splitlines() if "Tests" in l and ("passed" in l or "failed" in l)]
+            res["testes"]["frontend"] = {"codigo_saida": cod, "resumo": (linha[-1].strip() if linha else out.strip()[-200:])}
+            cod, out = _rodar(["npm", "run", "build"], fe)
+            res["testes"]["build"] = {"codigo_saida": cod, "resumo": "build OK" if cod == 0 else out.strip()[-300:]}
+    # documentação dos módulos
+    L = [f"# {s['nome']} — módulos", "", f"{s.get('objetivo', '')}", "",
+         "| Módulo | O que faz | Item do catálogo | Situação |", "|---|---|---|---|"]
+    L += [f"| {m['id']} — {m['nome']} | {_cel(m['o_que_faz'])} | {m['servico'] or '—'} | {m['situacao']} |" for m in res["modulos"]]
+    if res["testes"]:
+        L += ["", "## Testes executados", "", "| Etapa | Resultado | Código de saída |", "|---|---|---|"]
+        L += [f"| {k} | {_cel(v['resumo'])} | {v['codigo_saida']} |" for k, v in res["testes"].items()]
+    (pasta / "docs").mkdir(exist_ok=True)
+    (pasta / "docs" / "MODULOS.md").write_text("\n".join(L) + "\n", encoding="utf-8")
+    # README do sistema a partir do formulário; mantém as instruções de execução da base
+    readme = pasta / "README.md"
+    base_txt = readme.read_text(encoding="utf-8") if readme.exists() else ""
+    cauda = base_txt[base_txt.find("## Opção A"):] if "## Opção A" in base_txt else ""
+    cauda = re.sub(r"projetos/[a-z0-9-]+", rel(pasta), cauda)
+    R = [f"# {s['nome']}", "", s.get("objetivo", ""), "", f"- Órgão: {s.get('orgao') or 'a definir'}",
+         f"- Contrato: {s.get('contrato') or 'a definir'}", f"- Usuários: {s.get('usuarios') or 'a definir'}", "",
+         "| Camada | Tecnologia |", "|---|---|", "| Frontend | React + TypeScript + Vite (servido por Nginx) |",
+         "| Backend | Python + FastAPI + SQLAlchemy 2 + Alembic |", "| Banco | PostgreSQL 16 |",
+         "| Infra | Docker Compose; Nginx com TLS para produção |", "",
+         "## Módulos", "", "| Módulo | O que faz | Situação |", "|---|---|---|",
+         "| Base | Login, perfis, usuários, auditoria, documentos, pesquisa e painel | pronta (stack sistema-gov) |"]
+    R += [f"| {m['id']} — {m['nome']} | {_cel(m['o_que_faz'])} | {m['situacao']} |" for m in res["modulos"]]
+    R += ["", "Formulário de origem: `SISTEMA.yaml`. Detalhes e testes: `docs/MODULOS.md`. Telas: `docs/PREVIEW.md`.", ""]
+    readme.write_text("\n".join(R) + "\n" + cauda, encoding="utf-8")
+    gravar_json(pasta / "docs" / "GERACAO.json", res)
+    return res
+
+
+def sistema_preview(arquivo: Path, porta_api: int = 8100, porta_web: int = 5180) -> dict:
+    """Sobe o sistema com dados fictícios, cria registros pela tela e captura as telas reais de cada módulo."""
+    sys.path.insert(0, str(Path(__file__).parent))
+    from gerador_crud import _valor
+    import secrets
+    import tempfile
+    import time
+    import urllib.request
+    d, pasta = _ler_sistema(arquivo)
+    be, fe = pasta / "backend", pasta / "frontend"
+    if not (be / "app" / "modulos").exists():
+        raise ErroFabrica("gere o sistema antes: fabrica.py sistema gerar <formulário>")
+    tmp = Path(tempfile.mkdtemp(prefix="preview-"))
+    db_url = os.environ.get("PREVIEW_DATABASE_URL") or f"sqlite:///{tmp / 'preview.db'}"
+    email, senha = "admin@demo.gov.br", "Prev" + secrets.token_hex(6) + "9a"
+    env = {"DATABASE_URL": db_url, "APP_ENV": "dev", "ADMIN_EMAIL": email, "ADMIN_SENHA": senha, "DEMO": "1",
+           "UPLOAD_DIR": str(tmp / "uploads"), "CORS_ORIGINS": f"http://127.0.0.1:{porta_web}"}
+    for cmd in ([sys.executable, "-m", "alembic", "upgrade", "head"], [sys.executable, "-m", "app.seed"]):
+        cod, out = _rodar(cmd, be, env)
+        if cod:
+            raise ErroFabrica(f"preview: {' '.join(cmd[2:])} falhou: {out.strip()[-400:]}")
+    mods = []
+    for m in d["modulos"]:
+        if not m.get("cadastro"):
+            continue
+        sp = _spec_modulo(m)
+        mods.append({"id": m["id"], "rotulo": sp["rotulo"], "tabela": sp["tabela"],
+                     "campos": [{"id": f"{sp['tabela']}-{c['nome']}", "tipo": c["tipo"], "obrigatorio": bool(c.get("obrigatorio")),
+                                 "valores": [_valor(c, i) for i in range(2)]} for c in sp["campos"]]})
+    plano = tmp / "plano.json"
+    plano.write_text(json.dumps({"modulos": mods}, ensure_ascii=False), encoding="utf-8")
+    destino = pasta / "docs" / "preview"
+    destino.mkdir(parents=True, exist_ok=True)
+    api = subprocess.Popen([sys.executable, "-m", "uvicorn", "app.main:app", "--host", "127.0.0.1", "--port", str(porta_api)],
+                           cwd=be, env={**os.environ, **env}, stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
+    web = subprocess.Popen(["npx", "vite", "--host", "127.0.0.1", "--port", str(porta_web), "--strictPort"], cwd=fe,
+                           env={**os.environ, "API_URL": f"http://127.0.0.1:{porta_api}"}, stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
+    try:
+        for url in (f"http://127.0.0.1:{porta_api}/api/health", f"http://127.0.0.1:{porta_web}/"):
+            for _ in range(120):
+                try:
+                    urllib.request.urlopen(url, timeout=2)
+                    break
+                except Exception:
+                    time.sleep(0.5)
+            else:
+                raise ErroFabrica(f"preview: {url} não respondeu")
+        cod, out = _rodar(["node", str(FAB / "ferramentas" / "preview_sistema.cjs"), f"http://127.0.0.1:{porta_web}", str(plano),
+                           str(destino), email, senha], RAIZ, timeout=600)
+    finally:
+        for p in (api, web):
+            p.terminate()
+        for p in (api, web):
+            try:
+                p.wait(timeout=10)
+            except subprocess.TimeoutExpired:
+                p.kill()
+        shutil.rmtree(tmp, ignore_errors=True)
+    if cod:
+        raise ErroFabrica(f"preview: captura falhou: {out.strip()[-600:]}")
+    telas = sorted(str(p.relative_to(RAIZ)) for p in destino.glob("*.png"))
+    L = [f"# Preview — {d['sistema']['nome']}", "", "Telas reais capturadas com o sistema rodando localmente, com dados fictícios",
+         f"(registros criados pela própria tela). URL publicada: NÃO PUBLICADA.", ""]
+    L += [f"![{Path(t).stem}](preview/{Path(t).name})" for t in telas]
+    (pasta / "docs" / "PREVIEW.md").write_text("\n".join(L) + "\n", encoding="utf-8")
+    return {"telas": telas, "log": out.strip().splitlines()[-5:]}
+
+
 def main(argv: list[str] | None = None) -> int:
     ap = argparse.ArgumentParser(prog="fabrica", description="Fábrica de Software Governamental — CLI")
     sp = ap.add_subparsers(dest="cmd", required=True)
@@ -3178,7 +3789,7 @@ def main(argv: list[str] | None = None) -> int:
         x = sp.add_parser(nome, help=h); x.add_argument("contrato"); x.add_argument("os")
 
     x = sp.add_parser("relatorio", help="RELATÓRIO DIÁRIO/SEMANAL/MENSAL/PROFISSIONAL")
-    x.add_argument("tipo", choices=["diario", "semanal", "mensal", "profissional"]); x.add_argument("contrato")
+    x.add_argument("tipo", choices=["diario", "semanal", "mensal", "profissional", "tecnico"]); x.add_argument("contrato")
     x.add_argument("--data"); x.add_argument("--profissional"); x.add_argument("--total-ust", type=float)
 
     pf = sp.add_parser("profissionais", help="Equipe real (nome, função, CPF protegido)").add_subparsers(dest="sub", required=True)
@@ -3224,6 +3835,10 @@ def main(argv: list[str] | None = None) -> int:
     x = pj.add_parser("consolidar"); x.add_argument("contrato"); x.add_argument("--horas-dia", type=float, default=8.0)
     x = pj.add_parser("gerar-os"); x.add_argument("contrato"); x.add_argument("--projeto", required=True); x.add_argument("--os", required=True)
     x.add_argument("--caminho", required=True, help="pasta do código do projeto, ex.: projetos/gestao-documental")
+    ss = sp.add_parser("sistema", help="Formulário do sistema -> código completo (banco, API, telas, testes) e preview").add_subparsers(dest="sub", required=True)
+    x = ss.add_parser("gerar"); x.add_argument("formulario"); x.add_argument("--sem-testes", action="store_true")
+    x = ss.add_parser("preview"); x.add_argument("formulario"); x.add_argument("--porta-api", type=int, default=8100)
+    x.add_argument("--porta-web", type=int, default=5180)
     x = sp.add_parser("crud", help="Gera CRUD completo (banco, API, testes, tela) a partir de uma especificação")
     x.add_argument("sub", choices=["gerar"]); x.add_argument("especificacao"); x.add_argument("--projeto", required=True)
     x = pf.add_parser("adicionar", help="Cadastro mínimo: nome e função"); x.add_argument("contrato"); x.add_argument("--nome", required=True)
@@ -3300,7 +3915,10 @@ def main(argv: list[str] | None = None) -> int:
         elif a.cmd == "relatorio":
             if a.tipo == "profissional" and not a.profissional:
                 raise ErroFabrica("relatório por profissional exige --profissional")
-            print(rel(relatorio(a.contrato, a.tipo, a.data, a.profissional, a.total_ust)))
+            if a.tipo == "tecnico":
+                print(rel(relatorio_tecnico(a.contrato, a.data)))
+            else:
+                print(rel(relatorio(a.contrato, a.tipo, a.data, a.profissional, a.total_ust)))
         elif a.cmd == "profissionais":
             if a.sub == "importar":
                 print(json.dumps(importar_profissionais(a.contrato, Path(a.arquivo)), ensure_ascii=False, indent=2))
@@ -3376,6 +3994,11 @@ def main(argv: list[str] | None = None) -> int:
                 print(rel(planejamento(a.contrato, a.horas_dia)))
             else:
                 print(rel(gerar_os_do_plano(a.contrato, a.projeto, a.os, a.caminho)))
+        elif a.cmd == "sistema":
+            if a.sub == "gerar":
+                print(json.dumps(sistema_gerar(Path(a.formulario), testar=not a.sem_testes), ensure_ascii=False, indent=2))
+            else:
+                print(json.dumps(sistema_preview(Path(a.formulario), a.porta_api, a.porta_web), ensure_ascii=False, indent=2))
         elif a.cmd == "crud":
             sys.path.insert(0, str(Path(__file__).parent))
             from gerador_crud import ErroGerador, gerar_crud

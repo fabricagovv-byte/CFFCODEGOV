@@ -4,10 +4,13 @@
 # =====================================================================
 
 empresa:                       # dados da contratada (também podem vir do Documento Base)
-  razao_social: ""
-  cnpj: ""
-  responsavel_tecnico: ""      # nome do responsável técnico da fábrica
-  contato: ""
+  razao_social: "V4 Tecnologia Brasil · DigitalGov"    # do papel timbrado enviado pelo usuário
+  cnpj: "24.361.188/0001-61"
+  responsavel_tecnico: "Warley Luciano Costa Gomes"    # assina os relatórios para o órgão
+  cargo_responsavel: "Administrador e Gerente Geral · DigitalGov"
+  contato: "(31) 99827-7323 · fabricagovv@gmail.com"
+  cidade: "Alvorada de Minas"
+  papel_timbrado: fabrica/identidade/papel_timbrado.jpg  # fundo de todas as páginas Word (FABRICA_TIMBRADO=0 desliga)
 
 fuso_horario: America/Sao_Paulo
 

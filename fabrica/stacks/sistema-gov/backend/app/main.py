@@ -1,4 +1,4 @@
-"""Aplicação FastAPI — Gestão Documental Pública (TESTE-001)."""
+"""Aplicação FastAPI — {{NOME}}."""
 from __future__ import annotations
 
 import logging
@@ -19,7 +19,7 @@ logging.basicConfig(level=logging.INFO, format="%(asctime)s %(levelname)s %(name
 log = logging.getLogger("gd.http")
 
 app = FastAPI(title="Gestão Documental Pública", version="0.1.0",
-              description="Sistema de demonstração da OS TESTE-001 (dados fictícios).",
+              description="{{NOME}} — API do sistema.",
               docs_url=None if config.env == "prod" else "/api/docs",
               openapi_url=None if config.env == "prod" else "/api/openapi.json", redoc_url=None)
 
