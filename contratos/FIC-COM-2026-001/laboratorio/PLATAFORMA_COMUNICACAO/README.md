@@ -22,6 +22,23 @@ uvicorn app.main:app --host 127.0.0.1 --port 8765
 
 Acesse http://127.0.0.1:8765. Em produção use HTTPS, IAM corporativo, sessão com cookies HttpOnly, CSRF, SGBD gerenciado, rotinas de backup, controles de privacidade, pentest e implantação supervisionada. Não use as senhas do exemplo em ambiente real.
 
+## Banco e migrações (OS-FIC-002)
+
+O banco é criado e atualizado por migrações versionadas em `migrations/NNNN_nome.up.sql`, cada uma com o `.down.sql` de reversão:
+
+```bash
+python -m app.cli init               # aplica as pendentes (banco antigo do pacote é reconhecido como versão 1)
+python -m app.cli migrations         # mostra versão atual e pendentes
+python -m app.cli rollback --to 1    # desfaz até a versão 1
+```
+
+## Sessão e acesso (OS-FIC-002)
+
+- Cada login cria uma sessão no servidor; **Sair** revoga a sessão (`POST /api/logout`).
+- Após 5 senhas erradas em 15 minutos o usuário é bloqueado por 15 minutos (20 por IP). Login certo, errado e bloqueado vão para a auditoria, sem a senha.
+- Leitor (VIEWER) vê só publicações publicadas e não vê descrição nem contato dos chamados.
+- Respostas com CSP, `X-Frame-Options: DENY`, `nosniff` e `Referrer-Policy`; a API não fica em cache.
+
 ## Testes
 `pytest -q tests`
 
