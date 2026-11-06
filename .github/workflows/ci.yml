@@ -59,3 +59,31 @@ jobs:
         env: {POSTGRES_PASSWORD: x, JWT_SECRET: x, DOMINIO: exemplo.gov.br}
       - run: docker compose build
         env: {POSTGRES_PASSWORD: x, JWT_SECRET: x}
+
+  comunicacao:
+    runs-on: ubuntu-latest
+    defaults: {run: {working-directory: contratos/FIC-COM-2026-001/laboratorio}}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with: {python-version: "3.13"}
+      - uses: actions/setup-node@v4
+        with: {node-version: "22"}
+      - run: pip install -r PLATAFORMA_COMUNICACAO/requirements-dev.txt -r FABRICA/requirements-dev.txt
+      - name: Testes da plataforma de comunicação
+        working-directory: contratos/FIC-COM-2026-001/laboratorio/PLATAFORMA_COMUNICACAO
+        run: python -m pytest -q tests
+      - name: Testes do painel da fábrica
+        working-directory: contratos/FIC-COM-2026-001/laboratorio/FABRICA
+        run: python -m pytest -q tests
+      - name: Migrações ida e volta
+        working-directory: contratos/FIC-COM-2026-001/laboratorio/PLATAFORMA_COMUNICACAO
+        run: |
+          export DG_COMM_DB=$(mktemp -d)/ci.db
+          python -m app.cli init && python -m app.cli rollback --to 1 && python -m app.cli init
+      - name: Docker Compose válido
+        run: docker compose -f docker-compose.yml -f docker-compose.prod.yml config -q
+        env: {DG_COMM_SECRET: x, DG_FACTORY_TOKEN: y, DOMINIO: exemplo.gov.br}
+      - name: Imagens
+        run: docker compose build
+        env: {DG_COMM_SECRET: x, DG_FACTORY_TOKEN: y}

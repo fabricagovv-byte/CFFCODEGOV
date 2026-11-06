@@ -808,3 +808,19 @@ def test_relatorio_orgao_recusa_item_com_ust_diferente_do_catalogo(fab):
                                       "CAT-M01-02,M01 Sessão,UST,7,ALTA,TR,\n")
     with pytest.raises(fab.ErroFabrica, match="CAT-M01-02"):
         fab.relatorio_orgao("C4", "diario", "2026-11-06")
+
+
+def test_checklist_usa_o_mapa_de_caminhos_da_os(fab):
+    fab.novo_contrato("C1")
+    _os_minima(fab)
+    proj = fab.RAIZ / "proj"
+    (proj / "servico/app").mkdir(parents=True)
+    os_yaml = fab.CONTRATOS / "C1" / "os/OS1.yaml"
+    o = yaml.safe_load(os_yaml.read_text())
+    ck = lambda: {c["id"]: c["resultado"] for c in fab.checklist("C1", "OS1")["controles"]}  # noqa: E731
+    assert ck()["C021"] == "REPROVADO"                       # procura backend/app por padrão
+    o["caminhos_checklist"] = {"backend/app": "servico/app"}
+    os_yaml.write_text(yaml.safe_dump(o))
+    resultado = fab.checklist("C1", "OS1")
+    c021 = next(c for c in resultado["controles"] if c["id"] == "C021")
+    assert c021["resultado"] == "APROVADO" and c021["evidencia"].endswith("proj/servico/app")

@@ -11,6 +11,15 @@ autorizacao:
   data: "2026-11-06"
   documento: "Autorização interna registrada em 06/11/2026 na sessão de trabalho Claude Code (decisão D-0004); OS do órgão pendente"
 
+# O projeto não segue o arranjo backend/ frontend/ do modelo da fábrica: onde o checklist encontra cada item.
+caminhos_checklist:
+  backend/app: PLATAFORMA_COMUNICACAO/app
+  backend/app/main.py: PLATAFORMA_COMUNICACAO/app/main.py
+  backend/migrations/versions: PLATAFORMA_COMUNICACAO/migrations
+  backend/requirements.txt: PLATAFORMA_COMUNICACAO/requirements.txt
+  backend/Dockerfile: PLATAFORMA_COMUNICACAO/Dockerfile
+  ../../.github/workflows/ci.yml: ../../../.github/workflows/ci.yml
+
 modulos:
   - id: MOD-001
     nome: Controle de sessão (TR M01, item 2 de 4)
@@ -63,9 +72,17 @@ modulos:
     caminhos: [PLATAFORMA_COMUNICACAO/app/migrations.py, PLATAFORMA_COMUNICACAO/app/db.py, PLATAFORMA_COMUNICACAO/app/cli.py,
                PLATAFORMA_COMUNICACAO/migrations/0001_inicial.up.sql, PLATAFORMA_COMUNICACAO/migrations/0001_inicial.down.sql,
                PLATAFORMA_COMUNICACAO/requirements.txt, PLATAFORMA_COMUNICACAO/static/style.css, PLATAFORMA_COMUNICACAO/README.md,
-               PLATAFORMA_COMUNICACAO/tests/conftest.py, PLATAFORMA_COMUNICACAO/tests/test_mod003_base_tecnica.py]
+               PLATAFORMA_COMUNICACAO/tests/conftest.py, PLATAFORMA_COMUNICACAO/tests/test_mod003_base_tecnica.py,
+               PLATAFORMA_COMUNICACAO/tests/test_backup.py, PLATAFORMA_COMUNICACAO/requirements-dev.txt,
+               PLATAFORMA_COMUNICACAO/Dockerfile, FABRICA/Dockerfile, docker-compose.yml, docker-compose.prod.yml,
+               infra/nginx/default.conf, infra/nginx/prod-tls.conf, infra/scripts/backup.sh, infra/scripts/restore.sh,
+               .env.example, README.md, docs/MANUAL_PUBLICACAO.md, docs/MANUAL_OPERACAO.md, docs/PLANO_CONTINUIDADE.md]
     testes:
-      - {nome: base-tecnica, cwd: PLATAFORMA_COMUNICACAO, cmd: [sh, -c, "${DG_PYTHON:-python3} -m pytest -p no:cacheprovider tests/test_mod003_base_tecnica.py -v --junitxml={junit}"]}
+      - {nome: base-tecnica, cwd: PLATAFORMA_COMUNICACAO, cmd: [sh, -c, "${DG_PYTHON:-python3} -m pytest -p no:cacheprovider tests/test_mod003_base_tecnica.py tests/test_backup.py -v --junitxml={junit}"]}
+      - nome: compose-valido
+        tipo: comando
+        cwd: .
+        cmd: [sh, -c, "DG_COMM_SECRET=x DG_FACTORY_TOKEN=y DOMINIO=exemplo.gov.br docker compose -f docker-compose.yml -f docker-compose.prod.yml config -q"]
       - nome: migracoes-ida-e-volta
         tipo: comando
         cwd: PLATAFORMA_COMUNICACAO

@@ -1,0 +1,9 @@
+$ (cd contratos/FIC-COM-2026-001/laboratorio/PLATAFORMA_COMUNICACAO && sh -c f=$(mktemp -d)/m.db && export DG_COMM_DB=$f && P=${DG_PYTHON:-python3} && $P -m app.cli init && $P -m app.cli rollback --to 1 && $P -m app.cli migrations | grep -q "'atual': 1" && $P -m app.cli init && $P -m app.cli migrations | grep -q "'pendentes': \[\]")
+# início: 2026-11-06T16:50:23.010336-03:00
+# fim: 2026-11-06T16:50:23.249290-03:00
+# código de saída: 0
+
+Banco de dados criado/atualizado (migrações: 3 ) sem usuários ou conteúdo
+Migrações desfeitas: [3, 2]
+Banco de dados criado/atualizado (migrações: 3 ) sem usuários ou conteúdo
+

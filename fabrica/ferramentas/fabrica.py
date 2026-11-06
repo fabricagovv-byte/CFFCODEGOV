@@ -936,7 +936,9 @@ def checklist(cid: str, osid: str) -> dict:
             a = c.get("auto")
             if a:
                 if "arquivo" in a:
-                    p = (proj / a["arquivo"]) if not a["arquivo"].endswith((".yaml", "RASTREABILIDADE.md", "GEC.md")) else (cdir / a["arquivo"])
+                    # o projeto pode ter outro arranjo de pastas: a OS informa onde fica cada item (caminhos_checklist)
+                    alvo = (o.get("caminhos_checklist") or {}).get(a["arquivo"], a["arquivo"])
+                    p = (proj / alvo) if not a["arquivo"].endswith((".yaml", "RASTREABILIDADE.md", "GEC.md")) else (cdir / a["arquivo"])
                     ok = p.exists()
                     res, evid = ("APROVADO" if ok else "REPROVADO"), rel(p)
                 elif "evidencia" in a:

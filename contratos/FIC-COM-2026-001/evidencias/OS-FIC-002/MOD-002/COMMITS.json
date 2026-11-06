@@ -1,6 +1,6 @@
 {
   "fonte": "git log (gerado por fabrica.py evidencias commits)",
-  "gerado_em": "2026-11-06T14:15:32-03:00",
+  "gerado_em": "2026-11-06T16:50:24-03:00",
   "caminhos": [
     "contratos/FIC-COM-2026-001/laboratorio/PLATAFORMA_COMUNICACAO/app/main.py",
     "contratos/FIC-COM-2026-001/laboratorio/PLATAFORMA_COMUNICACAO/migrations/0003_campanha_canal_fk.up.sql",
@@ -9,6 +9,17 @@
     "contratos/FIC-COM-2026-001/laboratorio/PLATAFORMA_COMUNICACAO/tests/test_mod002_validacao_privacidade.py"
   ],
   "commits": [
+    {
+      "sha": "102fc9fd133b98a504dc884dc0a08f59a03fce09",
+      "autor": "Claude",
+      "email_autor": "noreply@anthropic.com",
+      "data": "2026-11-06T19:45:56+00:00",
+      "mensagem": "MOD-003: código da plataforma de comunicação organizado por camada e módulo",
+      "arquivos": [
+        "M\tcontratos/FIC-COM-2026-001/laboratorio/PLATAFORMA_COMUNICACAO/app/main.py",
+        "M\tcontratos/FIC-COM-2026-001/laboratorio/PLATAFORMA_COMUNICACAO/static/app.js"
+      ]
+    },
     {
       "sha": "532d8860105857988118fb05a23bae8a18ded2b2",
       "autor": "Claude",

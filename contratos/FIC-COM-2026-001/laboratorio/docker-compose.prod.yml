@@ -1,0 +1,12 @@
+# Homologação/produção: Nginx de borda com TLS (portas 80 e 443).
+# Uso: docker compose -f docker-compose.yml -f docker-compose.prod.yml up -d --build
+services:
+  proxy:
+    ports: !override
+      - "80:80"
+      - "443:443"
+    environment:
+      DOMINIO: ${DOMINIO:?defina DOMINIO no .env}
+    volumes: !override
+      - ./infra/nginx/prod-tls.conf:/etc/nginx/templates/default.conf.template:ro
+      - ${CERTS_DIR:-./infra/certs}:/etc/nginx/certs:ro

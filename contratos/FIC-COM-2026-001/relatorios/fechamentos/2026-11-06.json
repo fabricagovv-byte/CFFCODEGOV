@@ -1,0 +1,28 @@
+{
+  "contrato": "FIC-COM-2026-001",
+  "data": "2026-11-06",
+  "gerado_em": "2026-11-06T16:50:25-03:00",
+  "trabalharam": [],
+  "participacoes": [],
+  "commits": 5,
+  "tarefas_concluidas": [
+    "T-0029",
+    "T-0030",
+    "T-0031",
+    "T-0032"
+  ],
+  "testes": 90,
+  "falhas": 0,
+  "producao_informada": null,
+  "rateio": [],
+  "saldo": {
+    "contratado": 12000.0,
+    "previsto": 202.5,
+    "comprovado": 202.5,
+    "aceito": 0.0,
+    "saldo_oficial": 12000.0,
+    "saldo_projetado": 11797.5,
+    "consumo_aceito_pct": 0.0,
+    "unidade": "UST"
+  }
+}

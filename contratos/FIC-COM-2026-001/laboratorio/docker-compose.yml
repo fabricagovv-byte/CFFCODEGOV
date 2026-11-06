@@ -1,0 +1,40 @@
+# Ambiente completo: plataforma de comunicação atrás do Nginx; painel da fábrica só no próprio servidor.
+# Uso: cp .env.example .env (preencha) && docker compose up -d --build
+services:
+  comunicacao:
+    build: ./PLATAFORMA_COMUNICACAO
+    environment:
+      DG_COMM_SECRET: ${DG_COMM_SECRET:?defina DG_COMM_SECRET no .env}
+      FORWARDED_ALLOW_IPS: "*"
+    volumes:
+      - dados_comunicacao:/dados
+    restart: unless-stopped
+    networks: [interna]
+
+  fabrica:
+    build: ./FABRICA
+    environment:
+      DG_FACTORY_TOKEN: ${DG_FACTORY_TOKEN:?defina DG_FACTORY_TOKEN no .env}
+    volumes:
+      - dados_fabrica:/dados
+    ports:
+      - "127.0.0.1:8777:8777"   # só acessível no próprio servidor
+    restart: unless-stopped
+    networks: [interna]
+
+  proxy:
+    image: nginx:1.27-alpine
+    depends_on: [comunicacao]
+    ports:
+      - "${PORTA_HTTP:-8080}:80"
+    volumes:
+      - ./infra/nginx/default.conf:/etc/nginx/conf.d/default.conf:ro
+    restart: unless-stopped
+    networks: [interna]
+
+volumes:
+  dados_comunicacao:
+  dados_fabrica:
+
+networks:
+  interna:
