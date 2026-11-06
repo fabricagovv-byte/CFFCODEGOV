@@ -130,7 +130,7 @@ function tabela(bloco) {
   larguras[ncol - 1] += LARGURA - larguras.reduce((a, b) => a + b, 0);
   const borda = { style: BorderStyle.SINGLE, size: 4, color: BORDA };
   const bordas = { top: borda, bottom: borda, left: borda, right: borda };
-  const linhasDocx = dados.map((r, ri) => new TableRow({
+  const linhasDocx = dados.map((r, ri) => new TableRow({ cantSplit: true,
     tableHeader: ri === 0,
     children: Array.from({ length: ncol }, (_, ci) => new TableCell({
       width: { size: larguras[ci], type: WidthType.DXA },

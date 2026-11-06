@@ -3,7 +3,7 @@
   "modulo": "MOD-001",
   "os": "OS-FIC-002",
   "nome": "Controle de sessão (TR M01, item 2 de 4)",
-  "item": "CAT-M01-SESSAO",
+  "item": "CAT-M01-02",
   "ust_comprovada": 202.5,
   "valor": 6075.0,
   "testes": 35,

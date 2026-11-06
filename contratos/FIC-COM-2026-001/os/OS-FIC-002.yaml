@@ -15,10 +15,25 @@ modulos:
   - id: MOD-001
     nome: Controle de sessão (TR M01, item 2 de 4)
     area: BACKEND
-    item_tabela: CAT-M01-SESSAO
+    item_tabela: CAT-M01-02
     ust_previsto: 202.5
     tem_interface: true
     achados: [6, 7]
+    perfis: [PROG_SR_BD, PROG_SR_BACK, PROG_SR_FRONT, PROG_SR_TESTES]
+    entrega:
+      banco_de_dados:
+        - "Tabela de sessões (sessions): cada acesso com validade de 8 horas e data de encerramento"
+        - "Tabela de tentativas de acesso (login_attempts), com índices por usuário e por IP"
+        - "Migração 0002 com reversão"
+      back_end:
+        - "Login cria a sessão no servidor (POST /api/login)"
+        - "Saída encerra a sessão no servidor (POST /api/logout)"
+        - "Toda rota protegida confere se a sessão existe, não foi encerrada e não venceu"
+        - "Bloqueio após 5 senhas erradas em 15 minutos por usuário (20 por IP)"
+        - "Registro de acesso, falha, bloqueio e saída na auditoria"
+      front_end:
+        - "Botão Sair encerra a sessão no servidor"
+        - "Mensagem de bloqueio na tela de acesso"
     caminhos: [PLATAFORMA_COMUNICACAO/app/security.py, PLATAFORMA_COMUNICACAO/app/main.py,
                PLATAFORMA_COMUNICACAO/migrations/0002_sessoes_e_tentativas.up.sql, PLATAFORMA_COMUNICACAO/migrations/0002_sessoes_e_tentativas.down.sql,
                PLATAFORMA_COMUNICACAO/static/app.js, PLATAFORMA_COMUNICACAO/tests/test_mod001_sessao.py]

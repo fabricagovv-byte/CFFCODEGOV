@@ -1,7 +1,7 @@
 # Escopo — MOD-001 Controle de sessão (TR M01, item 2 de 4)
 
 - Contrato: FIC-COM-2026-001 · OS: OS-FIC-002
-- Item contratual: CAT-M01-SESSAO · Previsto: 202.5
+- Item contratual: CAT-M01-02 (M01 entrega 2 de 4: controle de sessão) · Previsto: 202.5
 
 ## Descrição
 Completa o item **controle de sessão** do módulo M01 do TR (escopo: RBAC por perfil, controle de sessão, MFA/SSO, segregação editorial). Corrige os achados 6 e 7 do diagnóstico.

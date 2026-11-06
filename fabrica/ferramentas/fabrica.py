@@ -3195,6 +3195,14 @@ def _n(v: float | None, casas: int = 1) -> str:
     return s[:-2] if casas == 1 and s.endswith(",0") else s
 
 
+def _u(v: float | None) -> str:
+    """Quantidade com até 2 casas, sem zeros sobrando: 202.5 -> '202,5'; 3.333 -> '3,33'; 10 -> '10'."""
+    if v is None:
+        return "—"
+    s = _n(round(float(v), 2), 2)
+    return s[:-3] if s.endswith(",00") else (s[:-1] if s.endswith("0") and "," in s else s)
+
+
 def _cel(t: Any) -> str:
     return str(t if t is not None else "").replace("|", "/").replace("\n", " ").strip()
 
@@ -3336,6 +3344,27 @@ def _limpo(txt: Any, vazio: str) -> str:
     return vazio if not s or s.startswith("[") else s
 
 
+def catalogo_entregas(cid: str) -> dict:
+    """CATALOGO_ENTREGAS.csv: cada módulo do contrato (UST base × fator) dividido pelas entregas do TR.
+    UST por entrega = total do módulo ÷ número de entregas, em centésimos; a última entrega fecha o total do módulo."""
+    p = dir_contrato(cid) / "CATALOGO_ENTREGAS.csv"
+    if not p.exists():
+        return {}
+    mods: dict[str, dict] = {}
+    for r in ler_tabela(p):
+        m = mods.setdefault(r["modulo"], {"modulo": r["modulo"], "nome": r.get("nome_modulo", ""), "base": numero(r.get("ust_base")) or 0,
+                                          "fator": numero(r.get("fator")) or 0, "entregas": []})
+        m["entregas"].append({"codigo": r["codigo"], "entrega": r.get("entrega", ""), "exige": r.get("exige", ""),
+                              "referencia": r.get("referencia", "")})
+    for m in mods.values():
+        m["total"] = round(m["base"] * m["fator"], 2)
+        n = len(m["entregas"]); por = round(m["total"] / n, 2)
+        for k, e in enumerate(m["entregas"], 1):
+            e.update({"indice": k, "de": n, "ust": por if k < n else round(m["total"] - por * (n - 1), 2)})
+        m["ust_por_entrega"] = por
+    return mods
+
+
 def relatorio_orgao(cid: str, periodo: str, ref: str | None = None) -> Path:
     """Relatório de medição para o órgão (diário ou mensal), no formato básico: identificação, serviços executados
     no período com quantidade e valor, situação do contrato e assinaturas (contratada e responsável do órgão).
@@ -3360,6 +3389,15 @@ def relatorio_orgao(cid: str, periodo: str, ref: str | None = None) -> Path:
         titulo, rotulo = f"Relatório mensal de medição — {MESES[d0.month - 1]} de {d0.year}", f"{MESES[d0.month - 1]} de {d0.year}"
         numero_doc = f"MED {d0.strftime('%m/%Y')}"
     tab = tabela_ust(cid) if (cdir / "TABELA_UST.csv").exists() else {}
+    cat = catalogo_entregas(cid)
+    por_codigo = {e["codigo"]: (m, e) for m in cat.values() for e in m["entregas"]}
+    for cod, r in tab.items():  # a tabela usada na medição tem de bater com o catálogo de entregas
+        if cod in por_codigo and abs((numero(r.get("ust_por_unidade")) or 0) - por_codigo[cod][1]["ust"]) > 0.005:
+            raise ErroFabrica(f"{cod}: TABELA_UST.csv tem {r.get('ust_por_unidade')} UST, mas o CATALOGO_ENTREGAS.csv dá "
+                              f"{_u(por_codigo[cod][1]['ust'])} UST. Corrija antes de enviar ao órgão.")
+    perfis_desc = {r["perfil"]: r.get("descricao") or r["perfil"] for r in ler_tabela(cdir / "PERFIS.csv")} if (cdir / "PERFIS.csv").exists() else {}
+    horas = {(r.get("os"), r.get("modulo"), r.get("perfil")): r.get("horas", "")
+             for r in ler_tabela(cdir / "HORAS_PERFIS.csv")} if (cdir / "HORAS_PERFIS.csv").exists() else {}
     itens, acum = [], 0.0
     for po in sorted((cdir / "os").glob("*.yaml")):
         o = ler_yaml(po) or {}
@@ -3376,6 +3414,9 @@ def relatorio_orgao(cid: str, periodo: str, ref: str | None = None) -> Path:
                 itens.append({"os": oid, "m": mods.get(it["modulo"], {}), "it": it, "quando": quando})
 
     def modulo_contrato(cod: str) -> str:
+        if cod in por_codigo:
+            m, e = por_codigo[cod]
+            return f"{m['modulo']} {m['nome']} — entrega {e['indice']} de {e['de']}: {e['entrega']}"
         pai = re.match(r"^(CAT-M\d+)", cod or "")
         d = (tab.get(pai.group(1)) if pai else None) or tab.get(cod) or {}
         return re.sub(r"\s*\([^)]*\)\s*$", "", d.get("descricao", "")) or cod
@@ -3396,16 +3437,52 @@ def relatorio_orgao(cid: str, periodo: str, ref: str | None = None) -> Path:
          "## Serviços executados", ""]
     if itens:
         cab_valor = f"Valor ({unidade} × {brl(float(vu))})" if vu is not None else "Valor"
-        L += [f"| Ordem de serviço | Módulo do contrato | Serviço executado | {unidade} | {cab_valor} |", "|---|---|---|---|---|"]
+        L += [f"| Ordem de serviço | Onde estão as {unidade} (módulo e entrega do contrato) | {unidade} | {cab_valor} |", "|---|---|---|---|"]
         for x in itens:
             q = float(x["it"]["comprovado"])
-            L.append(f"| {x['os']} | {_cel(modulo_contrato(x['it'].get('item', '')))} | {_cel(servico(x))} | {_n(q)} | {v(q)} |")
-        L += [f"| **Total** | | | **{_n(no_per)}** | **{v(no_per)}** |", ""]
+            L.append(f"| {x['os']} | {_cel(modulo_contrato(x['it'].get('item', '')))} | {_u(q)} | {v(q)} |")
+        L += [f"| **Total** | | **{_u(no_per)}** | **{v(no_per)}** |", ""]
+        L += [f"## Como as {unidade} foram calculadas", ""]
+        for x in itens:
+            q, cod = float(x["it"]["comprovado"]), x["it"].get("item", "")
+            if cod in por_codigo:
+                m, e = por_codigo[cod]
+                L.append(f"- **{m['modulo']} {m['nome']}:** {_n(m['base'])} {unidade} base × fator {_n(m['fator'])} = {_n(m['total'])} {unidade}. "
+                         f"O módulo tem {e['de']} entregas: {_n(m['total'])} ÷ {e['de']} entregas = {_u(e['ust'])} {unidade} por entrega. "
+                         f"Entregue: entrega {e['indice']}, {e['entrega']} = {_u(q)} {unidade}" + (f" × {brl(float(vu))} = {v(q)}." if vu is not None else "."))
+            else:
+                L.append(f"- **{_cel(modulo_contrato(cod))}:** {_u(q)} {unidade} conforme a ordem de serviço {x['os']}" + (f" × {brl(float(vu))} = {v(q)}." if vu is not None else "."))
+        L += ["", "## O que foi entregue", ""]
+        nomes_camada = (("banco_de_dados", "Banco de dados"), ("back_end", "Back-end"), ("front_end", "Front-end"))
+        for x in itens:
+            ent = x["m"].get("entrega") or {}
+            L += [f"### {_cel(modulo_contrato(x['it'].get('item', '')))}", ""]
+            for chave, rotulo_c in nomes_camada:
+                L.append(f"- **{rotulo_c}:** " + ("; ".join(ent.get(chave) or []) or "não se aplica a esta entrega") + ".")
+            L.append("")
+        L += ["## Perfis e horas", "", "Horas trabalhadas em cada perfil, preenchidas pela contratada.", "",
+              "| Item | Perfil | Horas |", "|---|---|---|"]
+        for x in itens:
+            for pf in x["m"].get("perfis") or []:
+                L.append(f"| {x['it']['modulo']} | {_cel(perfis_desc.get(pf, pf))} | {_cel(horas.get((x['os'], x['it']['modulo'], pf), ''))} |")
+        L.append("")
     else:
         L += ["Não houve serviço medido neste período.", ""]
     L += ["## Situação do contrato", "",
           f"| Contratado ({unidade}) | Executado até o período ({unidade}) | Saldo ({unidade}) |", "|---|---|---|",
           f"| {_n(contratado)} | {_n(acum)} | {_n(contratado - acum) if contratado is not None else '—'} |", ""]
+    if cat:
+        L += ["## Regra de medição do contrato", "",
+              f"Cada módulo do contrato é pago pelas suas entregas. Uma entrega só é medida quando está completa, com o que a última coluna "
+              f"indica (em geral banco de dados, back-end e front-end funcionando). Para receber o módulo inteiro, todas as entregas do módulo "
+              f"precisam ser feitas: se o módulo tem 6 entregas, são as 6. Quando a divisão não é exata, o valor é arredondado em centésimos "
+              f"e a última entrega do módulo fecha o total.", "",
+              f"| Módulo | {unidade} do módulo | Nº de entregas | Entregas | {unidade} por entrega | Cada entrega exige |", "|---|---|---|---|---|---|"]
+        for m in cat.values():
+            exige = "; ".join(dict.fromkeys(e["exige"] for e in m["entregas"] if e["exige"]))
+            L.append(f"| {m['modulo']} {_cel(m['nome'])} | {_n(m['total'])} | {len(m['entregas'])} | "
+                     f"{_cel('; '.join(e['entrega'] for e in m['entregas']))} | {_u(m['ust_por_entrega'])} | {_cel(exige)} |")
+        L.append("")
     dest = cdir / "relatorios" / "orgao"
     dest.mkdir(parents=True, exist_ok=True)
     nome = f"RELATORIO_ORGAO_DIARIO_{d0.isoformat()}" if periodo == "diario" else f"RELATORIO_ORGAO_MENSAL_{d0.strftime('%Y-%m')}"

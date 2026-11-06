@@ -706,7 +706,7 @@ def test_relatorio_orgao_basico_so_com_o_que_foi_medido(fab):
     (c / "TABELA_UST.csv").write_text((c / "TABELA_UST.csv").read_text() + "CAT-M01,M01 Identidade (270 × 3),UST,810,ALTA,TR,\n")
     md = fab.relatorio_orgao("C4", "diario", "2026-11-06").read_text()
     assert "Prefeitura Teste" in md and "C4/2026" in md and "Sistema X" in md
-    assert "| OS-1 | Login seguro | Sessão | 10 | R$ 300,00 |" in md
+    assert "| OS-1 | Login seguro | 10 | R$ 300,00 |" in md
     assert "MOD-002" not in md and "Painel interno" not in md      # 0 UST: não vai para o órgão
     texto = md.lower().replace("prefeitura teste", "")
     for interno in ("sha-256", "teste", "auditoria", "verific", "commit", "evidência"):
@@ -724,7 +724,7 @@ def test_relatorio_orgao_dia_sem_medicao_e_mensal(fab):
     md = fab.relatorio_orgao("C4", "diario", "2026-11-09").read_text()
     assert "Não houve serviço medido neste período." in md and "| 1.000 | 10 | 990 |" in md
     mes = fab.relatorio_orgao("C4", "mensal", "2026-11-20").read_text()
-    assert "novembro de 2026" in mes and "**Total** | | | **10** | **R$ 300,00** |" in mes
+    assert "novembro de 2026" in mes and "**Total** | | **10** | **R$ 300,00** |" in mes
 
 
 def test_relatorio_orgao_word_tem_as_duas_assinaturas(fab, monkeypatch):
@@ -756,3 +756,55 @@ def test_comprovado_em_nao_muda_quando_a_medicao_e_refeita(fab):
 
 def test_hora_local_converte_utc(fab):
     assert fab._hora_local("2026-11-06T17:14:00+00:00") == "2026-11-06 14:14"
+
+
+def _catalogo_entregas(c):
+    (c / "CATALOGO_ENTREGAS.csv").write_text(
+        "codigo,modulo,nome_modulo,ust_base,fator,entrega,exige,referencia\n"
+        "CAT-M01-01,M01,Identidade,10,1,RBAC,Banco + back-end + front-end,TR\n"
+        "CAT-M01-02,M01,Identidade,10,1,Sessão,Banco + back-end + front-end,TR\n"
+        "CAT-M05-01,M05,Campanhas,10,1,Briefing,Banco + back-end + front-end,TR\n"
+        "CAT-M05-02,M05,Campanhas,10,1,Metas,Banco + back-end + front-end,TR\n"
+        "CAT-M05-03,M05,Campanhas,10,1,Peças,Banco + back-end + front-end,TR\n")
+
+
+def test_catalogo_de_entregas_divide_o_modulo_e_fecha_o_total(fab):
+    c = _contrato_orgao(fab)
+    _catalogo_entregas(c)
+    cat = fab.catalogo_entregas("C4")
+    assert [e["ust"] for e in cat["M01"]["entregas"]] == [5.0, 5.0]
+    assert [e["ust"] for e in cat["M05"]["entregas"]] == [3.33, 3.33, 3.34]   # a última fecha o total do módulo
+    assert cat["M05"]["total"] == 10
+
+
+def test_relatorio_orgao_explica_ust_camadas_perfis_e_regra(fab):
+    c = _contrato_orgao(fab)
+    _catalogo_entregas(c)
+    (c / "TABELA_UST.csv").write_text("codigo,descricao,unidade,ust_por_unidade,complexidade,referencia_contratual,observacao\n"
+                                      "CAT-M01-02,M01 Sessão,UST,5,ALTA,TR,\nIT0,Correção,UST,0,—,—,\n")
+    (c / "PERFIS.csv").write_text("perfil,descricao,valor_hora,fator_ust_por_hora,referencia\n"
+                                  "PROG_BD,Programador Sênior — Banco de dados,,,\nPROG_BACK,Programador Sênior — Back-end,,,\n")
+    o = yaml.safe_load((c / "os/OS-1.yaml").read_text())
+    o["modulos"][0].update({"item_tabela": "CAT-M01-02", "perfis": ["PROG_BD", "PROG_BACK"],
+                            "entrega": {"banco_de_dados": ["Tabela sessions"], "back_end": ["POST /api/logout"], "front_end": ["Botão Sair"]}})
+    (c / "os/OS-1.yaml").write_text(yaml.safe_dump(o, allow_unicode=True))
+    med = json.loads((c / "medicoes/OS-1.json").read_text())
+    med["itens"][0].update({"item": "CAT-M01-02", "comprovado": 5})
+    (c / "medicoes/OS-1.json").write_text(json.dumps(med))
+    (c / "HORAS_PERFIS.csv").write_text("os,modulo,perfil,horas\nOS-1,MOD-001,PROG_BD,3\n")
+    md = fab.relatorio_orgao("C4", "diario", "2026-11-06").read_text()
+    assert "M01 Identidade — entrega 2 de 2: Sessão" in md
+    assert "10 UST base × fator 1 = 10 UST" in md and "10 ÷ 2 entregas = 5 UST" in md
+    assert "Tabela sessions" in md and "POST /api/logout" in md and "Botão Sair" in md
+    assert "| Programador Sênior — Banco de dados | 3 |" in md
+    assert "| Programador Sênior — Back-end |  |" in md                  # em branco para o responsável preencher
+    assert "| M05 Campanhas | 10 | 3 | Briefing; Metas; Peças |" in md   # regra: 3 entregas para o módulo inteiro
+
+
+def test_relatorio_orgao_recusa_item_com_ust_diferente_do_catalogo(fab):
+    c = _contrato_orgao(fab)
+    _catalogo_entregas(c)
+    (c / "TABELA_UST.csv").write_text("codigo,descricao,unidade,ust_por_unidade,complexidade,referencia_contratual,observacao\n"
+                                      "CAT-M01-02,M01 Sessão,UST,7,ALTA,TR,\n")
+    with pytest.raises(fab.ErroFabrica, match="CAT-M01-02"):
+        fab.relatorio_orgao("C4", "diario", "2026-11-06")

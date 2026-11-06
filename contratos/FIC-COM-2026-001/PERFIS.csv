@@ -1,2 +1,6 @@
 perfil,descricao,valor_hora,fator_ust_por_hora,referencia
 #ANALISTA_SENIOR,Analista de sistemas sênior,120.00,1.0,TR Anexo II tabela 3
+PROG_SR_BD,Programador Sênior — Banco de dados,,,Equipe informada pelo responsável (06/11/2026)
+PROG_SR_BACK,Programador Sênior — Back-end,,,Equipe informada pelo responsável (06/11/2026)
+PROG_SR_FRONT,Programador Sênior — Front-end,,,Equipe informada pelo responsável (06/11/2026)
+PROG_SR_TESTES,Programador Sênior — Testes,,,Equipe informada pelo responsável (06/11/2026)

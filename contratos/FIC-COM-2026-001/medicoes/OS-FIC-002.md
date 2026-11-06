@@ -1,12 +1,12 @@
 # Memória de cálculo — OS-FIC-002
 
-Gerado em 2026-11-06T14:24:29-03:00 pelo Medidor de UST (G15).
+Gerado em 2026-11-06T16:28:53-03:00 pelo Medidor de UST (G15).
 
-> **Catálogo PROPOSTO-V1 aprovado pelo responsável em 06/11/2026 (R$ 30,00/UST). A regra de medição parcial é PROPOSTA da fábrica e precisa de confirmação. O órgão contratante ainda não enviou contrato nem OS assinada: nada aqui é ACEITO.**
+> **Catálogo PROPOSTO-V1 aprovado pela contratada em 06/11/2026 (R$ 30,00 por UST), pendente de ratificação pelo órgão. A medição parcial (cada módulo dividido pelos itens de escopo do TR) é proposta da contratada e depende de confirmação. Sem OS assinada pelo órgão, nenhuma quantidade é considerada aceita.**
 
 | Módulo | Item | Unid. | Previsto | Comprovado | Aceito | Responsável |
 |---|---|---|---|---|---|---|
-| MOD-001 Controle de sessão (TR M01, item 2 de 4) | CAT-M01-SESSAO | UST | 202.5 | 202.5 | 0 | A CADASTRAR |
+| MOD-001 Controle de sessão (TR M01, item 2 de 4) | CAT-M01-02 | UST | 202.5 | 202.5 | 0 | A CADASTRAR |
 | MOD-002 Correções de validação e privacidade (M03, M05, M07, M08) | CORRETIVA-SEM-ITEM | UST | 0 | 0 | 0 | A CADASTRAR |
 | MOD-003 Base técnica — migrações versionadas, cabeçalhos de segurança, dependências | CORRETIVA-SEM-ITEM | UST | 0 | 0 | 0 | A CADASTRAR |
 | MOD-004 Painel da fábrica — chave de acesso (ferramenta interna) | INTERNO-FABRICA | UST | 0 | 0 | 0 | A CADASTRAR |
@@ -16,7 +16,7 @@ Valor pelo valor unitário do contrato (R$ 30,00 por UST): comprovado R$ 6.075,0
 
 ## Memória por item
 
-- **MOD-001**: previsto=202.5 UST (OS OS-FIC-002, item CAT-M01-SESSAO); comprovado=202.5 pois auditoria técnica=APROVADO; aceito=0 (sem aceite registrado)
+- **MOD-001**: previsto=202.5 UST (OS OS-FIC-002, item CAT-M01-02); comprovado=202.5 pois auditoria técnica=APROVADO; aceito=0 (sem aceite registrado)
 - **MOD-002**: previsto=0 UST (OS OS-FIC-002, item CORRETIVA-SEM-ITEM); comprovado=0 pois auditoria técnica=APROVADO (regra: integral somente com evidências completas); aceito=0 (sem aceite registrado)
 - **MOD-003**: previsto=0 UST (OS OS-FIC-002, item CORRETIVA-SEM-ITEM); comprovado=0 pois auditoria técnica=APROVADO (regra: integral somente com evidências completas); aceito=0 (sem aceite registrado)
 - **MOD-004**: previsto=0 UST (OS OS-FIC-002, item INTERNO-FABRICA); comprovado=0 pois auditoria técnica=APROVADO (regra: integral somente com evidências completas); aceito=0 (sem aceite registrado)
