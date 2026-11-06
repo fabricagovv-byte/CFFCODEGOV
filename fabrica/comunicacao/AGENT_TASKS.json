@@ -1908,6 +1908,70 @@
           "nota": ""
         }
       ]
+    },
+    {
+      "id": "T-0032",
+      "contrato": "FIC-COM-2026-001",
+      "os": "OS-FIC-002",
+      "modulo": "",
+      "agente": "E18",
+      "profissional": "",
+      "descricao": "Reorganizar o código da plataforma de comunicação por camada e módulo (back-end em rotas, esquemas e acesso; front-end legível), sem mudar o comportamento",
+      "prioridade": "ALTA",
+      "dependencias": [],
+      "arquivos": [],
+      "prazo": "",
+      "status": "DONE",
+      "resultado": "Back-end dividido em comum, db, security, esquemas, acesso e 7 rotas; front-end reescrito (sem innerHTML com dados, botões só para quem pode usar); 26 testes passaram; telas conferidas no navegador sem erro",
+      "evidencias": [
+        "contratos/FIC-COM-2026-001/laboratorio/PLATAFORMA_COMUNICACAO/app/main.py",
+        "contratos/FIC-COM-2026-001/laboratorio/PLATAFORMA_COMUNICACAO/static/app.js"
+      ],
+      "pendencias": [],
+      "historico": [
+        {
+          "em": "2026-11-06T16:45:55-03:00",
+          "de": null,
+          "para": "BACKLOG",
+          "por": "Claude Code",
+          "nota": "criada"
+        },
+        {
+          "em": "2026-11-06T16:45:55-03:00",
+          "de": "BACKLOG",
+          "para": "READY",
+          "por": "Claude Code",
+          "nota": ""
+        },
+        {
+          "em": "2026-11-06T16:45:56-03:00",
+          "de": "READY",
+          "para": "IN_PROGRESS",
+          "por": "Claude Code",
+          "nota": ""
+        },
+        {
+          "em": "2026-11-06T16:45:56-03:00",
+          "de": "IN_PROGRESS",
+          "para": "IN_REVIEW",
+          "por": "Claude Code",
+          "nota": ""
+        },
+        {
+          "em": "2026-11-06T16:45:56-03:00",
+          "de": "IN_REVIEW",
+          "para": "TESTING",
+          "por": "Claude Code",
+          "nota": ""
+        },
+        {
+          "em": "2026-11-06T16:45:56-03:00",
+          "de": "TESTING",
+          "para": "DONE",
+          "por": "Claude Code",
+          "nota": ""
+        }
+      ]
     }
   ]
 }
