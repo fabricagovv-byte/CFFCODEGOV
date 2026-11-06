@@ -19,7 +19,7 @@
       "os": "OS-FIC-002",
       "id": "MOD-001",
       "nome": "Controle de sessão (TR M01, item 2 de 4)",
-      "item": "CAT-M01-SESSAO",
+      "item": "CAT-M01-02",
       "previsto": 202.5,
       "comprovado": 202.5,
       "aceito": 0.0
