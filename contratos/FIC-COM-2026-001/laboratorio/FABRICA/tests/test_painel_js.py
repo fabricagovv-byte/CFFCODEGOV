@@ -1,13 +1,11 @@
 """O script do painel precisa ser JavaScript válido; com erro de sintaxe a tela abre vazia."""
-import re, shutil, subprocess, pathlib, pytest
+import shutil, subprocess, pathlib, pytest
 
-HTML = pathlib.Path(__file__).resolve().parents[1] / 'static' / 'index.html'
+JS = pathlib.Path(__file__).resolve().parents[1] / 'static' / 'painel.js'
 
 
 def _script() -> str:
-    m = re.search(r'<script>(.*?)</script>', HTML.read_text(encoding='utf-8'), re.S)
-    assert m, 'index.html sem <script>'
-    return m.group(1)
+    return JS.read_text(encoding='utf-8')
 
 
 @pytest.mark.skipif(shutil.which('node') is None, reason='Node.js não instalado')

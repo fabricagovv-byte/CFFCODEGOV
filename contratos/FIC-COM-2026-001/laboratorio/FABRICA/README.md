@@ -7,12 +7,13 @@ cd FABRICA
 pip install -r requirements.txt
 python -m app.cli init
 python -m app.cli seed-fiction
+export DG_FACTORY_TOKEN=$(python -c 'import secrets;print(secrets.token_urlsafe(48))')  # chave do painel; guarde-a
 uvicorn app.main:app --host 127.0.0.1 --port 8777
 ```
 
 Acesse http://127.0.0.1:8777.
 
-**Segurança:** interface de fábrica **não tem autenticação** nesta versão local. Execute SOMENTE em `127.0.0.1`; nunca exponha esse serviço à internet nem dados reais sem adicionar autenticação/RBAC, HTTPS, logs protegidos, segredos e autorizações. O botão START não chama 100 agentes Codex. Ele requer confirmação expressa e gera prompts por tarefa em `data/codex_inbox` para execução real via interface/CLI do Codex. O conector externo e a fila distribuída ainda não estão implementados. Não há emissão oficial de aceite.
+**Segurança:** desde a OS-FIC-002 (06/11/2026) toda a API do painel exige a chave `DG_FACTORY_TOKEN` (32+ caracteres, enviada como `Authorization: Bearer`); sem a variável a API fica fechada (HTTP 503). É uma chave única, sem perfis por pessoa. Execute SOMENTE em `127.0.0.1`; nunca exponha esse serviço à internet nem dados reais sem adicionar autenticação/RBAC, HTTPS, logs protegidos, segredos e autorizações. O botão START não chama 100 agentes Codex. Ele requer confirmação expressa e gera prompts por tarefa em `data/codex_inbox` para execução real via interface/CLI do Codex. O conector externo e a fila distribuída ainda não estão implementados. Não há emissão oficial de aceite.
 
 ## Testes
 `pytest -q tests`

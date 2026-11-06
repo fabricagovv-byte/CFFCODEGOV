@@ -1,8 +1,9 @@
+import hmac,os
 from pathlib import Path
 from contextlib import asynccontextmanager
-from fastapi import FastAPI,HTTPException
+from fastapi import FastAPI,HTTPException,Request
 from fastapi.staticfiles import StaticFiles
-from fastapi.responses import FileResponse
+from fastapi.responses import FileResponse,JSONResponse
 from pydantic import BaseModel
 from .db import init,connect
 from . import core
@@ -11,6 +12,25 @@ BASE=Path(__file__).resolve().parents[1]
 async def lifespan(app):init();yield
 app=FastAPI(title='Digitalgov Factory Control Center',version='1.0.0-lab',lifespan=lifespan)
 app.mount('/static',StaticFiles(directory=str(BASE/'static')),name='static')
+
+CSP="default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self' data:; connect-src 'self'; frame-ancestors 'none'; base-uri 'none'; form-action 'self'"
+
+@app.middleware('http')
+async def acesso_e_cabecalhos(request:Request,call_next):
+    """API só com a chave DG_FACTORY_TOKEN (32+ caracteres); sem chave configurada, a API fica fechada."""
+    path=request.url.path
+    if path.startswith('/api'):
+        esperado=os.getenv('DG_FACTORY_TOKEN','')
+        if len(esperado)<32:resp=JSONResponse({'detail':'Painel bloqueado: defina DG_FACTORY_TOKEN (32+ caracteres) no servidor'},status_code=503)
+        else:
+            dado=request.headers.get('authorization','')
+            ok=dado.startswith('Bearer ') and hmac.compare_digest(dado[7:].encode(),esperado.encode())
+            resp=await call_next(request) if ok else JSONResponse({'detail':'Chave de acesso inválida ou ausente'},status_code=401)
+    else:resp=await call_next(request)
+    if not path.startswith(('/docs','/redoc','/openapi.json')):resp.headers['Content-Security-Policy']=CSP
+    resp.headers['X-Content-Type-Options']='nosniff';resp.headers['X-Frame-Options']='DENY';resp.headers['Referrer-Policy']='no-referrer'
+    if path.startswith('/api') or path=='/health':resp.headers['Cache-Control']='no-store'
+    return resp
 @app.get('/')
 def index():return FileResponse(BASE/'static'/'index.html')
 @app.get('/health')

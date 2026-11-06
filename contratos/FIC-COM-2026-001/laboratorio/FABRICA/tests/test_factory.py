@@ -1,13 +1,15 @@
 import os,tempfile,pathlib
 path=pathlib.Path(tempfile.mkdtemp())
 os.environ['DG_FACTORY_DB']=str(path/'f.db')
+os.environ['DG_FACTORY_TOKEN']='K'*40
+CHAVE={'Authorization':'Bearer '+'K'*40}
 from fastapi.testclient import TestClient
 from app.main import app
 from app import core
 from app.db import connect
 
 def test_workflow():
-    with TestClient(app) as client:
+    with TestClient(app,headers=CHAVE) as client:
         assert core.seed()
         dash=client.get('/api/overview').json()
         assert dash['ust_target']==12000 and dash['ust_verified']==0 and dash['agents_running']==0
