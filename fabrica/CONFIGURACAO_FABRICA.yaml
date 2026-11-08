@@ -43,3 +43,9 @@ conhecimento_externo:          # bibliotecas absorvidas (fabrica/conhecimento/)
   spec_kit: true
   anthropic_skills_apache: true
   langgraph_conceitos: true
+
+ia:                            # IA gratuita local (FreeLLMAPI): bash fabrica/integracoes/freellmapi/iniciar.sh
+  url: http://127.0.0.1:3001/v1
+  chave_arquivo: ~/.fabrica/freellmapi/chave_unificada   # fora do git
+  modelo: auto                 # auto = o roteador escolhe o melhor modelo gratuito disponível
+  timeout: 150

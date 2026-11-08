@@ -824,3 +824,45 @@ def test_checklist_usa_o_mapa_de_caminhos_da_os(fab):
     resultado = fab.checklist("C1", "OS1")
     c021 = next(c for c in resultado["controles"] if c["id"] == "C021")
     assert c021["resultado"] == "APROVADO" and c021["evidencia"].endswith("proj/servico/app")
+
+
+def test_ia_bloqueia_dado_pessoal_e_registra_uso_sem_conteudo(fab, tmp_path, monkeypatch):
+    import http.server
+    import threading
+    assert fab.dados_sensiveis("CPF 529.982.247-25") == ["CPF"]
+    assert "CNPJ" in fab.dados_sensiveis("CNPJ 11.222.333/0001-81")
+    assert "e-mail" in fab.dados_sensiveis("fale com ana@orgao.gov.br")
+    assert fab.dados_sensiveis("Data 2026-11-06, OS-TESTE-002, 80,4 UST") == []
+    recebido = {}
+
+    class H(http.server.BaseHTTPRequestHandler):
+        def do_POST(self):
+            recebido["auth"] = self.headers.get("authorization")
+            recebido["corpo"] = json.loads(self.rfile.read(int(self.headers["content-length"])))
+            out = json.dumps({"model": "modelo-teste", "choices": [{"message": {"content": "resposta"}}],
+                              "usage": {"prompt_tokens": 5, "completion_tokens": 2}}).encode()
+            self.send_response(200); self.send_header("content-type", "application/json")
+            self.send_header("content-length", str(len(out))); self.end_headers(); self.wfile.write(out)
+
+        def log_message(self, *a):
+            pass
+
+    srv = http.server.HTTPServer(("127.0.0.1", 0), H)
+    threading.Thread(target=srv.serve_forever, daemon=True).start()
+    monkeypatch.setenv("FABRICA_IA_URL", f"http://127.0.0.1:{srv.server_port}/v1")
+    monkeypatch.setenv("FABRICA_IA_CHAVE", "chave-teste")
+    try:
+        with pytest.raises(fab.ErroFabrica, match="dado pessoal"):
+            fab.ia_perguntar("o CPF dele é 52998224725")
+        priv = tmp_path / "privado" / "x.txt"
+        priv.parent.mkdir(); priv.write_text("texto")
+        with pytest.raises(fab.ErroFabrica, match="privado"):
+            fab.ia_perguntar("", priv)
+        assert recebido == {}
+        r = fab.ia_perguntar("Explique UST em uma frase.")
+        assert r["resposta"] == "resposta" and r["modelo"] == "modelo-teste"
+        assert recebido["auth"] == "Bearer chave-teste" and recebido["corpo"]["model"] == "auto"
+        log = (fab.FAB / "comunicacao" / "IA_USO.jsonl").read_text()
+        assert "modelo-teste" in log and "Explique UST" not in log
+    finally:
+        srv.shutdown()

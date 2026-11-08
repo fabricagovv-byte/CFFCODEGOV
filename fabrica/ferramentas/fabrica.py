@@ -4277,6 +4277,89 @@ def divisao_ust_modulos(cid: str, modulos: list[dict]) -> dict:
             "nao_atribuido": sum(x["ust"] for x in por_modulo if not x["partes"]), "cfg": cfg}
 
 
+
+# ------------------------------------------------------- IA gratuita (FreeLLMAPI, fabrica/integracoes/freellmapi)
+
+PADROES_SENSIVEIS = [
+    ("CPF", r"(?<!\d)\d{3}\.?\d{3}\.?\d{3}-?\d{2}(?!\d)"),
+    ("CNPJ", r"(?<!\d)\d{2}\.?\d{3}\.?\d{3}/?\d{4}-?\d{2}(?!\d)"),
+    ("e-mail", r"[\w.+-]+@[\w-]+\.[\w.-]+"),
+    ("telefone", r"\(\d{2}\)\s?9?\d{4}-?\d{4}"),
+]
+
+
+def dados_sensiveis(texto: str) -> list[str]:
+    """Tipos de dado pessoal encontrados no texto (bloqueiam o envio a provedores externos de IA)."""
+    return [nome for nome, rx in PADROES_SENSIVEIS if re.search(rx, texto or "")]
+
+
+def ia_config() -> dict:
+    c = {"url": "http://127.0.0.1:3001/v1", "chave_arquivo": "~/.fabrica/freellmapi/chave_unificada", "modelo": "auto",
+         "timeout": 150, **(configuracao().get("ia") or {})}
+    c["url"] = os.environ.get("FABRICA_IA_URL") or c["url"]
+    chave = os.environ.get("FABRICA_IA_CHAVE", "")
+    arq = Path(os.path.expanduser(str(c["chave_arquivo"])))
+    if not chave and arq.is_file():
+        chave = arq.read_text(encoding="utf-8").strip()
+    c["chave"] = chave
+    return c
+
+
+def _ia_http(c: dict, metodo: str, caminho: str, corpo: dict | None = None) -> dict:
+    import urllib.error
+    import urllib.request
+    req = urllib.request.Request(c["url"].rstrip("/") + caminho, method=metodo,
+                                 data=json.dumps(corpo).encode() if corpo is not None else None,
+                                 headers={"authorization": f"Bearer {c['chave']}", "content-type": "application/json"})
+    try:
+        with urllib.request.urlopen(req, timeout=float(c["timeout"])) as r:
+            return json.loads(r.read().decode())
+    except urllib.error.HTTPError as e:
+        try:
+            msg = json.loads(e.read().decode()).get("error", {}).get("message", "")
+        except ValueError:
+            msg = ""
+        raise ErroFabrica(f"IA: {e.code} {msg or e.reason}")
+    except (urllib.error.URLError, OSError) as e:
+        raise ErroFabrica(f"IA fora do ar em {c['url']} ({e}). Ligue com: bash fabrica/integracoes/freellmapi/iniciar.sh")
+
+
+def ia_status() -> dict:
+    c = ia_config()
+    if not c["chave"]:
+        raise ErroFabrica("IA sem chave: rode bash fabrica/integracoes/freellmapi/iniciar.sh")
+    modelos = _ia_http(c, "GET", "/models").get("data", [])
+    return {"url": c["url"], "modelos": len(modelos), "exemplos": [m.get("id") for m in modelos[:8]]}
+
+
+def ia_perguntar(texto: str, arquivo: Path | None = None, modelo: str | None = None) -> dict:
+    """Pergunta à IA gratuita. Recusa dados pessoais e arquivos privados; registra o uso sem guardar o conteúdo."""
+    if arquivo:
+        partes = {p.lower() for p in arquivo.resolve().parts}
+        if "privado" in partes or arquivo.name.startswith(".env"):
+            raise ErroFabrica("arquivo privado ou de segredos: não pode ser enviado a IA externa")
+        texto = (texto + "\n\n" if texto else "") + arquivo.read_text(encoding="utf-8")
+    achados = dados_sensiveis(texto)
+    if achados:
+        raise ErroFabrica(f"texto com dado pessoal ({', '.join(achados)}): não enviado a IA externa (LGPD). "
+                          "Remova ou troque por dado fictício.")
+    c = ia_config()
+    if not c["chave"]:
+        raise ErroFabrica("IA sem chave: rode bash fabrica/integracoes/freellmapi/iniciar.sh")
+    r = _ia_http(c, "POST", "/chat/completions", {"model": modelo or c["modelo"],
+                                                   "messages": [{"role": "user", "content": texto}]})
+    resposta = ((r.get("choices") or [{}])[0].get("message") or {}).get("content") or ""
+    uso = r.get("usage") or {}
+    reg = {"em": agora(), "modelo": r.get("model", ""), "pedido_sha256": hashlib.sha256(texto.encode()).hexdigest(),
+           "caracteres": len(texto), "tokens_entrada": uso.get("prompt_tokens"), "tokens_saida": uso.get("completion_tokens")}
+    log = FAB / "comunicacao" / "IA_USO.jsonl"
+    log.parent.mkdir(parents=True, exist_ok=True)
+    with open(log, "a", encoding="utf-8") as f:
+        f.write(json.dumps(reg, ensure_ascii=False) + "\n")
+    return {"modelo": r.get("model", ""), "resposta": resposta,
+            "aviso": "Rascunho gerado por IA gratuita: confira antes de usar; não é registro de trabalho nem medição."}
+
+
 def main(argv: list[str] | None = None) -> int:
     ap = argparse.ArgumentParser(prog="fabrica", description="Fábrica de Software Governamental — CLI")
     sp = ap.add_subparsers(dest="cmd", required=True)
@@ -4331,6 +4414,9 @@ def main(argv: list[str] | None = None) -> int:
     x = pf.add_parser("importar", help="Importa CSV/XLSX (aba PROFISSIONAIS)"); x.add_argument("contrato"); x.add_argument("arquivo")
     x = pf.add_parser("oficial", help="Documento simples Nome/CPF/Cargo em Word (pasta privada)"); x.add_argument("contrato")
     x = pf.add_parser("modelo", help="Modelo Word para preencher Nome/CPF/Cargo"); x.add_argument("destino")
+    ia = sp.add_parser("ia", help="IA gratuita (FreeLLMAPI): status e perguntas, sem dados pessoais").add_subparsers(dest="sub", required=True)
+    ia.add_parser("status")
+    x = ia.add_parser("perguntar"); x.add_argument("texto", nargs="?", default=""); x.add_argument("--arquivo"); x.add_argument("--modelo")
     pa = sp.add_parser("participacao", help="Documento de participação da equipe (preencher e importar)").add_subparsers(dest="sub", required=True)
     x = pa.add_parser("modelo"); x.add_argument("contrato")
     x = pa.add_parser("importar"); x.add_argument("contrato"); x.add_argument("arquivo")
@@ -4468,6 +4554,12 @@ def main(argv: list[str] | None = None) -> int:
                 print(adicionar_profissional(a.contrato, a.nome, a.funcao, a.area, a.senioridade))
             else:
                 print(rel(equipe_oficial(a.contrato)))
+        elif a.cmd == "ia":
+            if a.sub == "status":
+                print(json.dumps(ia_status(), ensure_ascii=False, indent=2))
+            else:
+                r = ia_perguntar(a.texto, Path(a.arquivo) if a.arquivo else None, a.modelo)
+                print(f"[{r['modelo']}] {r['resposta']}\n\n({r['aviso']})")
         elif a.cmd == "participacao":
             if a.sub == "modelo":
                 print(rel(participacao_modelo(a.contrato)))

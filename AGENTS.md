@@ -106,6 +106,7 @@ Cada comando tem uma skill em `.claude/skills/<nome>/SKILL.md` (Codex: leia o ar
 | PLANEJAMENTO (por projeto) | `planejamento-projetos` | `planejamento consolidar|gerar-os` |
 | GERAR CRUD / CADASTRO | `gerar-crud` | `crud gerar` |
 | GERAR SISTEMA (formulário → banco, API, telas, testes, preview) | `gerar-sistema` | `sistema gerar|preview` |
+| IA GRATUITA (FreeLLMAPI; sem dados pessoais) | `ia-gratuita` | `ia status|perguntar` |
 | ANÁLISE INTEGRAL DO EDITAL | `analise-integral-edital` | `edital confrontar`, `gec` |
 | GEC (completo, Word) | `gec-completo` | `gec` |
 | QUANTO EU PRODUZO / CAPACIDADE | `capacidade-producao` | `capacidade [--simular]` |
