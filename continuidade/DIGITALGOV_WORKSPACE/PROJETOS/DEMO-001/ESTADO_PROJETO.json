@@ -1,0 +1,18 @@
+{
+  "id": "DEMO-001",
+  "nome": "Projeto de demonstração (FICTÍCIO)",
+  "contrato_id": null,
+  "tipo_servico": "CONSULTORIA",
+  "fase": "ESCOPAR",
+  "gate": "PENDENTE",
+  "autorizacao_os": "NAO_COMPROVADA",
+  "ultima_atualizacao": "2026-11-07T23:08:57-03:00",
+  "ultimo_dia_fechado": "2026-11-07",
+  "ultimo_passo": "Aguardar edital/contrato e a definição do sistema para ESCOPAR",
+  "pendencias": [
+    "Anexar fonte contratual e identificar autorização da OS."
+  ],
+  "horas_humanas_registradas": 0,
+  "ust_executadas_verificadas": 0,
+  "observacao": "Projeto criado; nenhum serviço executado automaticamente."
+}

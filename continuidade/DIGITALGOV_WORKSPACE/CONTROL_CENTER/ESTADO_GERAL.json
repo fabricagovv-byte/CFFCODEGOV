@@ -1,0 +1,12 @@
+{
+  "versao": "1.0",
+  "criado_em": "2026-11-07T23:08:56-03:00",
+  "projetos": [
+    {
+      "id": "DEMO-001",
+      "nome": "Projeto de demonstração (FICTÍCIO)",
+      "contrato_id": null
+    }
+  ],
+  "observacao": "Sem trabalhos executados ou horas apontadas."
+}

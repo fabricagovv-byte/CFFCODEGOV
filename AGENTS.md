@@ -107,6 +107,7 @@ Cada comando tem uma skill em `.claude/skills/<nome>/SKILL.md` (Codex: leia o ar
 | GERAR CRUD / CADASTRO | `gerar-crud` | `crud gerar` |
 | GERAR SISTEMA (formulário → banco, API, telas, testes, preview) | `gerar-sistema` | `sistema gerar|preview` |
 | IA GRATUITA (FreeLLMAPI; sem dados pessoais) | `ia-gratuita` | `ia status|perguntar` |
+| ABRIR DIA / FECHAR DIA / CONTINUAR PROJETO (continuidade entre dias e chats) | `continuidade-diaria` | `continuidade/dg_control.py abrir-dia|registrar|fechar-dia|kit-handoff` |
 | ANÁLISE INTEGRAL DO EDITAL | `analise-integral-edital` | `edital confrontar`, `gec` |
 | GEC (completo, Word) | `gec-completo` | `gec` |
 | QUANTO EU PRODUZO / CAPACIDADE | `capacidade-producao` | `capacidade [--simular]` |
