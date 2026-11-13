@@ -1,0 +1,82 @@
+{
+  "contrato": "TESTE-001",
+  "data": "2026-11-13",
+  "numero": "RT-TESTE-001-20261113",
+  "unidade": "UST",
+  "contratado": 10.0,
+  "previsto": 10.0,
+  "comprovado": 10.0,
+  "aceito": 0.0,
+  "mes": 10.0,
+  "hoje": 0,
+  "a_fazer": 0,
+  "saldo": 0.0,
+  "pago": 0,
+  "meta_hoje": 0.0,
+  "executado_hoje": 0,
+  "modulos": [
+    {
+      "os": "OS-TESTE-001",
+      "id": "MOD-001",
+      "nome": "Autenticação e controle de acesso",
+      "item": "UST-TESTE-MOD",
+      "previsto": 2.0,
+      "comprovado": 2.0,
+      "aceito": 0.0
+    },
+    {
+      "os": "OS-TESTE-001",
+      "id": "MOD-002",
+      "nome": "Cadastro documental",
+      "item": "UST-TESTE-MOD",
+      "previsto": 2.0,
+      "comprovado": 2.0,
+      "aceito": 0.0
+    },
+    {
+      "os": "OS-TESTE-001",
+      "id": "MOD-003",
+      "nome": "Upload de PDF",
+      "item": "UST-TESTE-MOD",
+      "previsto": 2.0,
+      "comprovado": 2.0,
+      "aceito": 0.0
+    },
+    {
+      "os": "OS-TESTE-001",
+      "id": "MOD-004",
+      "nome": "Pesquisa",
+      "item": "UST-TESTE-MOD",
+      "previsto": 1.0,
+      "comprovado": 1.0,
+      "aceito": 0.0
+    },
+    {
+      "os": "OS-TESTE-001",
+      "id": "MOD-005",
+      "nome": "Painel administrativo",
+      "item": "UST-TESTE-MOD",
+      "previsto": 1.0,
+      "comprovado": 1.0,
+      "aceito": 0.0
+    },
+    {
+      "os": "OS-TESTE-001",
+      "id": "MOD-006",
+      "nome": "Auditoria",
+      "item": "UST-TESTE-MOD",
+      "previsto": 1.0,
+      "comprovado": 1.0,
+      "aceito": 0.0
+    },
+    {
+      "os": "OS-TESTE-001",
+      "id": "MOD-007",
+      "nome": "Infraestrutura e documentação",
+      "item": "UST-TESTE-INFRA",
+      "previsto": 1.0,
+      "comprovado": 1.0,
+      "aceito": 0.0
+    }
+  ]
+}
