@@ -1,0 +1,493 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<title>Plataforma da Fábrica — vídeo-conceito</title>
+<style>
+:root{--bg:#08080a;--pn:#111014;--pn2:#17151a;--bd:#3a2f17;--bd2:#6b5527;--au:#d4a646;--au2:#e9c877;--tx:#efe9dc;--mu:#a59c89;--ok:#7fd19b;--no:#e0736a}
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{width:1280px;height:720px;overflow:hidden;background:var(--bg);color:var(--tx);font-family:Inter,system-ui,sans-serif}
+body::before{content:"";position:absolute;inset:0;background:radial-gradient(900px 500px at 100% 0,rgba(212,166,70,.13),transparent 60%),radial-gradient(700px 500px at 0 100%,rgba(212,166,70,.08),transparent 60%),repeating-linear-gradient(135deg,rgba(255,255,255,.018) 0 1px,transparent 1px 14px)}
+.scene{position:absolute;inset:0;opacity:0}
+.au{color:var(--au)} .mu{color:var(--mu)} .ok{color:var(--ok)} .no{color:var(--no)}
+.caps{letter-spacing:.22em;text-transform:uppercase;font-size:12px;font-weight:700}
+/* moldura */
+.frame{position:absolute;inset:14px;border:1px solid var(--bd);pointer-events:none}
+.frame i{position:absolute;width:34px;height:34px;border:3px solid var(--au)}
+.frame i:nth-child(1){left:-3px;top:-3px;border-right:0;border-bottom:0}.frame i:nth-child(2){right:-3px;top:-3px;border-left:0;border-bottom:0}
+.frame i:nth-child(3){left:-3px;bottom:-3px;border-right:0;border-top:0}.frame i:nth-child(4){right:-3px;bottom:-3px;border-left:0;border-top:0}
+/* abertura e fim */
+.center{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center}
+.linha{width:520px;height:2px;background:linear-gradient(90deg,transparent,var(--au),transparent);margin:26px 0}
+h1.big{font-size:54px;font-weight:800;letter-spacing:-.01em}
+.sub{font-size:22px;color:var(--mu);margin-top:12px}
+/* casca do app */
+#shell .side{position:absolute;left:0;top:0;bottom:0;width:206px;background:#0c0b0e;border-right:1px solid var(--bd);padding:30px 16px 18px 22px}
+#shell .side img{width:118px;display:block;margin:2px 0 4px 2px}
+#shell .side small{display:block;font-size:9.5px;letter-spacing:.2em;color:var(--au);margin:0 0 20px 4px;font-weight:700}
+.menu div{font-size:14px;color:var(--mu);padding:9px 10px;border-radius:8px;margin-bottom:3px;border:1px solid transparent;display:flex;gap:9px;align-items:center}
+.menu div b{width:7px;height:7px;border-radius:50%;background:#3d3524;flex:none}
+.menu div.on{color:var(--tx);background:linear-gradient(90deg,rgba(212,166,70,.2),rgba(212,166,70,.03));border-color:var(--bd2)}
+.menu div.on b{background:var(--au);box-shadow:0 0 10px var(--au)}
+#shell .top{position:absolute;left:206px;right:0;top:0;height:56px;border-bottom:1px solid var(--bd);display:flex;align-items:center;justify-content:space-between;padding:0 58px 0 26px}
+#titulo{font-size:19px;font-weight:700}
+.tag{border:1px solid var(--bd2);color:var(--au);padding:5px 12px;border-radius:4px;font-size:10.5px;letter-spacing:.2em;font-weight:700}
+.body{position:absolute;left:206px;right:0;top:56px;bottom:0;padding:16px 24px 52px;zoom:1.16;display:flex;flex-direction:column;justify-content:center}
+.cap{position:absolute;left:232px;right:26px;bottom:16px;height:36px;display:flex;align-items:center;gap:12px;font-size:16.5px;color:var(--tx)}
+.cap span{background:var(--au);color:#0b0a08;font-weight:800;border-radius:50%;width:26px;height:26px;display:grid;place-items:center;font-size:13px;flex:none}
+.card{background:linear-gradient(180deg,var(--pn2),var(--pn));border:1px solid var(--bd);border-radius:12px;padding:16px 18px}
+.card h3{font-size:12px;color:var(--mu);font-weight:600;letter-spacing:.06em;text-transform:uppercase;margin-bottom:8px}
+.num{font-size:38px;font-weight:800;letter-spacing:-.02em;font-variant-numeric:tabular-nums}
+.num small{font-size:15px;color:var(--mu);font-weight:600;margin-left:5px}
+.grid4{display:grid;grid-template-columns:repeat(4,1fr);gap:14px}
+.row{display:flex;gap:14px}
+table{width:100%;border-collapse:collapse;font-size:14px}
+th{text-align:left;color:var(--au);font-size:11px;letter-spacing:.12em;text-transform:uppercase;padding:8px 10px;border-bottom:1px solid var(--bd2)}
+td{padding:9px 10px;border-bottom:1px solid var(--bd)}
+#s2 .body{zoom:1.05}
+.pill{white-space:nowrap;display:inline-block;border-radius:20px;padding:3px 11px;font-size:12px;font-weight:700;border:1px solid var(--bd2);color:var(--au)}
+.pill.g{border-color:#2f6b45;color:var(--ok)} .pill.r{border-color:#7a3a35;color:var(--no)}
+.barra{height:10px;border-radius:6px;background:#221d12;overflow:hidden}
+.barra i{display:block;height:100%;width:0;background:linear-gradient(90deg,#9c7527,var(--au2));border-radius:6px}
+.kv{display:flex;gap:12px;align-items:baseline;padding:9px 0;border-bottom:1px solid var(--bd);font-size:15px}
+.kv b{color:var(--au);width:118px;flex:none;font-size:12px;letter-spacing:.1em;text-transform:uppercase}
+.kv em{font-style:normal;color:var(--mu);font-size:12px;margin-left:auto;white-space:nowrap}
+/* pipeline */
+.pipe{display:flex;align-items:flex-start;justify-content:space-between;position:relative;margin:26px 10px 0}
+.pipe .trilho{position:absolute;left:54px;right:54px;top:35px;height:3px;background:#2a2416}
+.pipe .trilho i{display:block;height:100%;width:0;background:var(--au)}
+.etp{position:relative;width:108px;text-align:center}
+.etp .c{width:72px;height:72px;border-radius:50%;margin:0 auto;border:2px solid var(--bd2);background:#0e0d10;display:grid;place-items:center;font-size:26px;font-weight:800;color:#6e6148;position:relative}
+.etp .c .g{position:absolute;inset:-2px;border-radius:50%;background:var(--au);color:#0b0a08;display:grid;place-items:center;box-shadow:0 0 26px rgba(212,166,70,.55)}
+.etp p{margin-top:10px;font-size:14.5px;font-weight:700;color:var(--tx)}
+.etp small{display:block;font-size:11.5px;color:var(--mu);margin-top:3px;line-height:1.3}
+/* kanban */
+.kan{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-top:14px}
+.col{background:#0e0d10;border:1px solid var(--bd);border-radius:12px;padding:10px;height:292px;position:relative}
+.col h4{font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--au);margin-bottom:10px}
+.tk{position:absolute;left:10px;right:10px;background:var(--pn2);border:1px solid var(--bd2);border-radius:9px;padding:9px 11px;font-size:13.5px}
+.tk small{display:block;color:var(--mu);font-size:11.5px;margin-top:3px}
+.av{width:38px;height:38px;border-radius:50%;border:2px solid var(--au);display:grid;place-items:center;font-size:13px;font-weight:800;background:#17130b;color:var(--au2)}
+/* terminal */
+.term{background:#060607;border:1px solid var(--bd2);border-radius:12px;padding:16px 18px;font-family:"DejaVu Sans Mono",monospace;font-size:14px;line-height:2.05;height:100%}
+.term .p{color:var(--au2)}
+.nav{background:#0e0d10;border:1px solid var(--bd2);border-radius:12px;overflow:hidden}
+.nav .b{height:30px;background:#17151a;display:flex;align-items:center;gap:6px;padding:0 12px;font-size:11px;color:var(--mu)}
+.nav .b i{width:9px;height:9px;border-radius:50%;background:#4a3f25}
+.nav img{width:100%;display:block}
+/* medição */
+.etapas{display:grid;grid-template-columns:1fr 46px 1fr 46px 1fr;align-items:center}
+.etapa{border:1px solid var(--bd2);border-radius:12px;padding:14px 18px;background:var(--pn)}
+.etapa.cheia{background:linear-gradient(180deg,rgba(212,166,70,.26),rgba(212,166,70,.07));border-color:var(--au)}
+.seta{text-align:center;color:var(--au);font-size:26px}
+.chart{display:flex;align-items:flex-end;gap:10px;height:118px;padding-top:6px}
+.chart .d{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:flex-end;height:100%;gap:5px;font-size:10.5px;color:var(--mu)}
+.chart .d .bs{display:flex;align-items:flex-end;gap:3px;height:96px}
+.chart .d i{display:block;width:13px;border-radius:3px 3px 0 0;height:0}
+.chart .m{border:1px solid var(--au);background:rgba(212,166,70,.12)} .chart .e{background:var(--au)}
+.formula{font-family:"DejaVu Sans Mono",monospace;font-size:15px;line-height:1.9}
+/* documento */
+.doc{position:absolute;left:34px;top:6px;width:336px;height:475px;border-radius:4px;overflow:hidden;box-shadow:0 30px 80px rgba(0,0,0,.8),0 0 0 1px var(--bd2)}
+.doc img{width:100%;height:100%;display:block}
+.doc .t{position:absolute;left:36px;right:36px;top:96px;font-size:8.5px;line-height:1.45}
+.doc .t h5{font-size:12px;margin-bottom:5px}
+.doc .t .l{height:5px;border-radius:3px;background:rgba(239,233,220,.26);margin:6px 0}
+.doc .t .tb{border:1px solid #6b5527;margin:8px 0;font-size:7.5px}
+.doc .t .tb div{display:flex;justify-content:space-between;padding:3px 6px;border-bottom:1px solid #3a2f17}
+.doc .t .tb div:first-child{background:#b98f3a;color:#0b0a08;font-weight:800}
+.chk{display:flex;align-items:center;gap:12px;font-size:16px;padding:6px 0}
+.chk i{width:24px;height:24px;border-radius:50%;background:var(--au);color:#0b0a08;display:grid;place-items:center;font-style:normal;font-weight:900;font-size:13px;flex:none}
+.btn{border:1px solid var(--au);color:var(--au2);border-radius:8px;padding:9px 18px;font-weight:700;font-size:14px}
+/* continuidade */
+.passos{display:grid;grid-template-columns:repeat(4,1fr);gap:14px}
+.passo{border:1px solid var(--bd2);border-radius:12px;padding:16px;background:var(--pn);position:relative}
+.passo b{display:block;font-size:17px;margin-bottom:6px}
+.passo small{color:var(--mu);font-size:13px;line-height:1.45;display:block}
+.passo u{position:absolute;right:14px;top:12px;text-decoration:none;color:var(--au);font-weight:800;font-size:22px;opacity:.5}
+.dias{display:flex;align-items:center;gap:0;margin-top:26px}
+.dia{flex:1;border:1px solid var(--bd);border-radius:10px;padding:12px 14px;background:#0e0d10;font-size:13.5px}
+.dia b{color:var(--au);display:block;margin-bottom:4px;font-size:12px;letter-spacing:.14em}
+.lig{width:44px;height:2px;background:var(--au);flex:none}
+</style>
+</head>
+<body>
+
+<!-- 1. abertura -->
+<section class="scene" data-start="0" data-end="4.6">
+  <div class="center">
+    <img data-in="0.2" data-dur="1" src="logo.png" style="width:640px">
+    <div class="linha" data-in="0.9" data-fx="none"></div>
+    <h1 class="big" data-in="1.2">Plataforma da Fábrica</h1>
+    <p class="sub" data-in="1.7">Do edital ao pagamento, em um só lugar</p>
+    <p class="caps au" data-in="2.3" style="margin-top:34px">Vídeo-conceito · dados de demonstração</p>
+  </div>
+</section>
+
+<!-- casca -->
+<section class="scene" id="shell" data-start="4.4" data-end="82.2">
+  <div class="side">
+    <img src="v4.png" alt="">
+    <small>FÁBRICA DIGITALGOV</small>
+    <div class="menu">
+      <div data-s="s2"><b></b>Painel</div>
+      <div data-s="s3"><b></b>Editais</div>
+      <div data-s="s4"><b></b>Fluxo E.P.D.A.</div>
+      <div data-s="s5"><b></b>Produção</div>
+      <div data-s="s6"><b></b>Código e testes</div>
+      <div data-s="s7"><b></b>Medição</div>
+      <div data-s="s8"><b></b>Equipe e horas</div>
+      <div data-s="s9"><b></b>Relatórios</div>
+      <div data-s="s10"><b></b>Continuidade</div>
+    </div>
+  </div>
+  <div class="top"><div id="titulo"></div><div class="tag">CONCEITO · DADOS DE DEMONSTRAÇÃO</div></div>
+</section>
+
+<!-- 2. painel -->
+<section class="scene app" id="s2" data-title="Painel geral" data-start="4.6" data-end="13">
+  <div class="body">
+    <div class="grid4">
+      <div class="card" data-in="0.5"><h3>Contratado</h3><div class="num"><span data-count="300" data-in="0.6">0</span><small>UST</small></div></div>
+      <div class="card" data-in="0.75"><h3>Executado</h3><div class="num au"><span data-count="80.4" data-dec="1" data-in="0.9">0</span><small>UST</small></div></div>
+      <div class="card" data-in="1.0"><h3>Aceito pelo órgão</h3><div class="num"><span>0</span><small>próxima etapa</small></div></div>
+      <div class="card" data-in="1.25"><h3>Saldo para executar</h3><div class="num"><span data-count="219.6" data-dec="1" data-in="1.4">0</span><small>UST</small></div></div>
+    </div>
+    <div class="row" style="margin-top:14px">
+      <div class="card" style="flex:1.7" data-in="2.2">
+        <h3>Contratos</h3>
+        <table>
+          <tr><th>Contrato</th><th>Serviço</th><th>Medição</th><th>Situação</th></tr>
+          <tr data-in="2.7"><td>Atendimento ao cidadão</td><td>Desenvolvimento</td><td>UST</td><td><span class="pill g">Em execução</span></td></tr>
+          <tr data-in="3.1"><td>Sustentação de sistemas</td><td>Sustentação</td><td>UST</td><td><span class="pill">Aguardando OS</span></td></tr>
+          <tr data-in="3.5"><td>Apoio técnico</td><td>Consultoria</td><td>Horas técnicas</td><td><span class="pill">Em escopo</span></td></tr>
+        </table>
+      </div>
+      <div class="card" style="flex:1" data-in="2.5">
+        <h3>Hoje</h3>
+        <div class="kv" data-in="3.9"><b>Meta do dia</b>10,9 UST</div>
+        <div class="kv" data-in="4.3"><b>Testes</b><span class="ok" style="white-space:nowrap">111 aprovados · 0 falhas</span></div>
+        <div class="kv" data-in="4.7"><b>Pendências</b>2 aguardando a equipe</div>
+        <div style="margin-top:14px;font-size:12px;color:var(--mu)" data-in="5.1">Execução do contrato</div>
+        <div class="barra" style="margin-top:6px" data-in="5.1"><i data-w="26.8" data-in="5.3" data-dur="1.5"></i></div>
+      </div>
+    </div>
+    <div class="card" style="margin-top:14px" data-in="5.6">
+      <h3>Últimas atividades</h3>
+      <div class="kv" data-in="6.0"><b>Testes</b>Cadastro de protocolos: 18 testes aprovados<em>com registro</em></div>
+      <div class="kv" data-in="6.4"><b>Medição</b>Ordem de serviço medida: 80,4 UST executadas<em>com memória de cálculo</em></div>
+      <div class="kv" data-in="6.8" style="border-bottom:0"><b>Relatório</b>Relatório técnico do dia emitido<em>papel timbrado</em></div>
+    </div>
+  </div>
+  <div class="cap" data-in="0.4"><span>1</span>Um painel só: quanto foi contratado, executado, aceito e o que falta.</div>
+</section>
+
+<!-- 3. edital -->
+<section class="scene app" id="s3" data-title="Editais" data-start="13" data-end="22">
+  <div class="body">
+    <div class="row" style="height:100%">
+      <div class="card" style="flex:1">
+        <h3>Documento recebido</h3>
+        <div style="border:1.5px dashed var(--bd2);border-radius:12px;padding:26px 16px;text-align:center;margin-top:6px" data-in="0.5">
+          <div style="font-size:40px" class="au">▤</div>
+          <div style="font-weight:700;margin-top:8px">EDITAL.pdf</div>
+          <div class="mu" style="font-size:13px;margin-top:4px">223 páginas</div>
+        </div>
+        <div class="mu" style="font-size:12.5px;margin-top:18px" data-in="1.0">Lendo o edital inteiro, com os anexos</div>
+        <div class="barra" style="margin-top:7px" data-in="1.0"><i data-w="100" data-in="1.1" data-dur="2.6"></i></div>
+        <div style="margin-top:24px" data-in="5.6">
+          <h3>Confronto com a empresa</h3>
+          <div class="row" style="gap:8px;margin-top:4px"><span class="pill g">Atende 6</span><span class="pill">Ajustar 38</span><span class="pill r">Falta 43</span></div>
+        </div>
+      </div>
+      <div class="card" style="flex:1.6">
+        <h3>O que a fábrica extraiu</h3>
+        <div class="kv" data-in="2.2"><b>Objeto</b>Serviços de TI sob demanda, por ordem de serviço<em>p. 1</em></div>
+        <div class="kv" data-in="2.7"><b>Medição</b>UST × fator de complexidade 1, 2 ou 3<em>p. 135</em></div>
+        <div class="kv" data-in="3.2"><b>Volume</b>130.000 UST base por ano (referencial)<em>p. 136</em></div>
+        <div class="kv" data-in="3.7"><b>Serviços</b>15 tipos, de suporte a desenvolvimento<em>p. 181</em></div>
+        <div class="kv" data-in="4.2"><b>Habilitação</b>50 exigências, com prazo de cada uma<em>p. 126</em></div>
+        <div class="kv" data-in="4.7"><b>Níveis de serviço</b>26 indicadores e suas glosas<em>anexos</em></div>
+        <div style="margin-top:16px;font-size:13.5px" class="mu" data-in="5.2">Cada informação vem com a página do edital. O que não está escrito aparece como <b class="au">“não especificado”</b>.</div>
+      </div>
+    </div>
+  </div>
+  <div class="cap" data-in="0.4"><span>2</span>O edital entra, a fábrica lê tudo e mostra o que atende e o que falta.</div>
+</section>
+
+<!-- 4. EPDA -->
+<section class="scene app" id="s4" data-title="Fluxo E.P.D.A." data-start="22" data-end="31">
+  <div class="body">
+    <div class="pipe">
+      <div class="trilho"><i data-w="100" data-in="3.4" data-dur="4.6" data-ease="lin"></i></div>
+      <div class="etp" data-in="0.4"><div class="c">E<div class="g" data-in="3.3" data-fx="scale">E</div></div><p>Escopar</p><small>o que o contrato pede</small></div>
+      <div class="etp" data-in="0.6"><div class="c">P<div class="g" data-in="4.2" data-fx="scale">P</div></div><p>Planejar</p><small>atividades, datas, UST</small></div>
+      <div class="etp" data-in="0.8"><div class="c">D<div class="g" data-in="5.1" data-fx="scale">D</div></div><p>Desenvolver</p><small>código ou produto técnico</small></div>
+      <div class="etp" data-in="1.0"><div class="c">A<div class="g" data-in="6.0" data-fx="scale">A</div></div><p>Auditar</p><small>testes e evidências</small></div>
+      <div class="etp" data-in="1.2"><div class="c">P<div class="g" data-in="6.9" data-fx="scale">P</div></div><p>Publicar</p><small>só com autorização</small></div>
+      <div class="etp" data-in="1.4"><div class="c">R<div class="g" data-in="7.8" data-fx="scale">R</div></div><p>Relatar</p><small>relatório ao órgão</small></div>
+    </div>
+    <div class="row" style="margin-top:40px">
+      <div class="card" style="flex:1;border-color:#7a3a35" data-in="1.6" data-out="3.0">
+        <h3 style="color:var(--no)">Portão fechado</h3>
+        <div style="font-size:20px;font-weight:700">START bloqueado</div>
+        <div class="mu" style="margin-top:6px;font-size:14.5px">Falta a ordem de serviço autorizada pelo órgão.</div>
+      </div>
+      <div class="card" style="flex:1;border-color:#2f6b45;position:absolute;left:26px;right:26px" data-in="3.0">
+        <h3 style="color:var(--ok)">Portão aberto</h3>
+        <div style="font-size:20px;font-weight:700">OS autorizada <span class="ok">✓</span></div>
+        <div class="mu" style="margin-top:6px;font-size:14.5px">Quem autorizou, em que data e com qual documento. Só então o trabalho começa.</div>
+      </div>
+    </div>
+    <div class="row" style="margin-top:14px">
+      <div class="card" style="flex:1" data-in="4.4"><h3>Para escopar</h3><div style="font-size:14.5px">Edital ou contrato lido, com a página de cada exigência.</div></div>
+      <div class="card" style="flex:1" data-in="5.3"><h3>Para concluir</h3><div style="font-size:14.5px">Código salvo, teste executado e evidência conferida.</div></div>
+      <div class="card" style="flex:1" data-in="6.2"><h3>Para publicar</h3><div style="font-size:14.5px">Autorização por escrito de quem pode autorizar.</div></div>
+    </div>
+  </div>
+  <div class="cap" data-in="0.4"><span>3</span>Seis etapas com portões. Nada começa sem ordem de serviço autorizada.</div>
+</section>
+
+<!-- 5. produção -->
+<section class="scene app" id="s5" data-title="Produção" data-start="31" data-end="41">
+  <div class="body">
+    <div class="card" style="display:flex;align-items:center;gap:14px;padding:11px 16px" data-in="0.5">
+      <div class="row" style="gap:7px"><div class="av">AM</div><div class="av">LU</div><div class="av">JE</div><div class="av">WA</div><div class="av">WI</div></div>
+      <div><b>Equipe técnica</b><div class="mu" style="font-size:13px">responde pelos agentes: orienta, revisa e aprova</div></div>
+      <div style="margin-left:auto;text-align:right"><b class="au" style="font-size:22px">44</b><div class="mu" style="font-size:12px">agentes de IA, um por função</div></div>
+    </div>
+    <div class="kan">
+      <div class="col"><h4>A fazer</h4>
+        <div class="tk" style="top:38px" data-in="1.0" data-out="2.2">Banco de dados<small>MOD-101 · agente G08</small></div>
+        <div class="tk" style="top:100px" data-in="1.2" data-out="3.4">API com validação<small>MOD-101 · agente G06</small></div>
+        <div class="tk" style="top:162px" data-in="1.4" data-out="4.6">Tela de cadastro<small>MOD-101 · agente G07</small></div>
+        <div class="tk" style="top:224px" data-in="1.6" data-out="5.8">Testes automáticos<small>MOD-101 · agente G12</small></div>
+      </div>
+      <div class="col"><h4>Em execução</h4>
+        <div class="tk" style="top:38px" data-in="2.3" data-out="3.6">Banco de dados<small>tabela + migração</small></div>
+        <div class="tk" style="top:38px" data-in="3.7" data-out="4.9">API com validação<small>5 rotas + auditoria</small></div>
+        <div class="tk" style="top:38px" data-in="5.0" data-out="6.2">Tela de cadastro<small>busca + formulário</small></div>
+        <div class="tk" style="top:38px" data-in="6.3" data-out="7.4">Testes automáticos<small>API e tela</small></div>
+      </div>
+      <div class="col"><h4>Em revisão</h4>
+        <div class="tk" style="top:38px" data-in="3.7" data-out="5.0">Banco de dados<small>revisor independente</small></div>
+        <div class="tk" style="top:38px" data-in="5.1" data-out="6.3">API com validação<small>revisor independente</small></div>
+        <div class="tk" style="top:38px" data-in="6.4" data-out="7.5">Tela de cadastro<small>revisor independente</small></div>
+        <div class="tk" style="top:38px" data-in="7.5" data-out="8.4">Testes automáticos<small>revisor independente</small></div>
+      </div>
+      <div class="col"><h4>Concluído</h4>
+        <div class="tk" style="top:38px;border-color:#2f6b45" data-in="5.1">Banco de dados <span class="ok">✓</span><small>commit + hash</small></div>
+        <div class="tk" style="top:100px;border-color:#2f6b45" data-in="6.4">API com validação <span class="ok">✓</span><small>commit + hash</small></div>
+        <div class="tk" style="top:162px;border-color:#2f6b45" data-in="7.6">Tela de cadastro <span class="ok">✓</span><small>captura da tela</small></div>
+        <div class="tk" style="top:224px;border-color:#2f6b45" data-in="8.5">Testes automáticos <span class="ok">✓</span><small>resultado gravado</small></div>
+      </div>
+    </div>
+  </div>
+  <div class="cap" data-in="0.4"><span>4</span>Os agentes executam, um revisor diferente confere e a equipe responde por tudo.</div>
+</section>
+
+<!-- 6. código e testes -->
+<section class="scene app" id="s6" data-title="Código e testes" data-start="41" data-end="49">
+  <div class="body">
+    <div class="row" style="align-items:center">
+      <div style="flex:1.05"><div class="term" style="height:auto">
+        <div data-in="0.5" data-fx="none"><span class="p">$</span> fabrica sistema gerar SISTEMA.yaml</div>
+        <div data-in="1.3" data-fx="none"><span class="ok">✓</span> banco: tabela + migração</div>
+        <div data-in="1.9" data-fx="none"><span class="ok">✓</span> API: 5 rotas, validação, auditoria</div>
+        <div data-in="2.5" data-fx="none"><span class="ok">✓</span> permissão por perfil</div>
+        <div data-in="3.1" data-fx="none"><span class="ok">✓</span> tela: busca e formulário</div>
+        <div data-in="3.9" data-fx="none"><span class="p">$</span> testes no PostgreSQL</div>
+        <div data-in="4.7" data-fx="none"><span class="ok">✓ 111 aprovados</span> · 0 falhas</div>
+        <div data-in="5.3" data-fx="none"><span class="ok">✓ 27 testes de tela</span> · build OK</div>
+      </div></div>
+      <div style="flex:1.25" data-in="3.3"><div class="nav">
+        <div class="b"><i></i><i></i><i></i><span style="margin-left:8px">prévia local · dados fictícios</span></div>
+        <img src="preview.png" alt="">
+      </div></div>
+    </div>
+  </div>
+  <div class="cap" data-in="0.4"><span>5</span>Código de verdade: banco, API, tela e testes. Sem teste executado, não há entrega.</div>
+</section>
+
+<!-- 7. medição -->
+<section class="scene app" id="s7" data-title="Medição" data-start="49" data-end="59">
+  <div class="body">
+    <div class="etapas">
+      <div class="etapa cheia" data-in="0.5"><div class="caps au">1 · Executado</div><div class="num" style="font-size:32px;margin-top:4px"><span data-count="80.4" data-dec="1" data-in="0.7">0</span><small>UST</small></div><div class="mu" style="font-size:12.5px">entregue, testado e auditado</div></div>
+      <div class="seta" data-in="1.3" data-fx="none">→</div>
+      <div class="etapa" data-in="1.5"><div class="caps au">2 · Aceito pelo órgão</div><div class="num" style="font-size:32px;margin-top:4px">0<small>UST</small></div><div class="mu" style="font-size:12.5px">próxima etapa: termo de aceite</div></div>
+      <div class="seta" data-in="2.0" data-fx="none">→</div>
+      <div class="etapa" data-in="2.2"><div class="caps au">3 · Pago</div><div class="num" style="font-size:32px;margin-top:4px">0<small>UST</small></div><div class="mu" style="font-size:12.5px">depois do aceite</div></div>
+    </div>
+    <div class="row" style="margin-top:14px">
+      <div class="card" style="flex:1.25" data-in="3.0">
+        <h3>De onde vem o número</h3>
+        <div class="formula">
+          <div data-in="3.5" data-fx="none"><span class="mu">Cadastro de interessados</span></div>
+          <div data-in="4.1" data-fx="none">&nbsp;4 h analista &nbsp;× 1,2 = &nbsp;4,8</div>
+          <div data-in="4.6" data-fx="none">16 h programador × 1,0 = 16,0</div>
+          <div data-in="5.1" data-fx="none">&nbsp;4 h testes &nbsp;&nbsp;&nbsp;× 0,9 = &nbsp;3,6</div>
+          <div data-in="5.8" data-fx="none" class="au" style="font-weight:700;border-top:1px solid var(--bd2);margin-top:4px">Total do módulo &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;= 24,4 UST</div>
+        </div>
+        <div class="mu" style="font-size:12.5px;margin-top:8px" data-in="6.3">Horas e fatores vêm do catálogo do contrato. Linha de código não conta.</div>
+      </div>
+      <div class="card" style="flex:1" data-in="3.2">
+        <h3>Meta diária × executado</h3>
+        <div class="chart" id="chart"></div>
+        <div class="row mu" style="gap:16px;font-size:12px;margin-top:8px"><span><i style="display:inline-block;width:10px;height:10px;border:1px solid var(--au);margin-right:5px"></i>meta do dia</span><span><i style="display:inline-block;width:10px;height:10px;background:var(--au);margin-right:5px"></i>executado</span></div>
+      </div>
+    </div>
+  </div>
+  <div class="cap" data-in="0.4"><span>6</span>A ordem certa: a empresa executa, o órgão aceita e só então paga.</div>
+</section>
+
+<!-- 8. equipe e horas -->
+<section class="scene app" id="s8" data-title="Equipe e horas" data-start="59" data-end="67">
+  <div class="body">
+    <div class="row">
+      <div class="card" style="flex:1.2" data-in="0.5">
+        <h3>Horas lançadas pelo gestor</h3>
+        <table>
+          <tr><th>Pessoa</th><th>Dia</th><th>Horário</th><th>Horas</th></tr>
+          <tr data-in="1.2"><td>Profissional 1</td><td>03/11</td><td>09:00 – 12:00</td><td>3,0</td></tr>
+          <tr data-in="1.9"><td>Profissional 2</td><td>03/11</td><td>13:00 – 17:00</td><td>4,0</td></tr>
+          <tr data-in="2.6"><td>Profissional 1</td><td>03/11</td><td>11:00 – 14:00</td><td><span class="pill r">sobreposição</span></td></tr>
+        </table>
+        <div style="margin-top:14px;font-size:14px" data-in="3.3">A plataforma <b class="au">soma e confere</b>. Ela não lança horas sozinha.</div>
+        <div class="mu" style="margin-top:6px;font-size:13px" data-in="3.8">Tempo de agente de IA nunca vira hora de pessoa.</div>
+      </div>
+      <div class="card" style="flex:1" data-in="0.8">
+        <h3>Divisão das UST do módulo · 24,4</h3>
+        <div style="margin-top:6px" data-in="4.3">
+          <div style="display:flex;justify-content:space-between;font-size:14.5px"><span>Conduziu o trabalho <span class="mu">· peso 3</span></span><b class="au"><span data-count="18.3" data-dec="1" data-in="4.5">0</span> UST</b></div>
+          <div class="barra" style="margin:7px 0 16px"><i data-w="75" data-in="4.5" data-dur="1.2"></i></div>
+        </div>
+        <div data-in="5.0">
+          <div style="display:flex;justify-content:space-between;font-size:14.5px"><span>Revisou <span class="mu">· peso 1</span></span><b class="au"><span data-count="6.1" data-dec="1" data-in="5.2">0</span> UST</b></div>
+          <div class="barra" style="margin:7px 0 14px"><i data-w="25" data-in="5.2" data-dur="1.2"></i></div>
+        </div>
+        <div class="formula" style="font-size:13px" data-in="5.9">24,4 × 3 ÷ 4 = 18,3 &nbsp;·&nbsp; 24,4 × 1 ÷ 4 = 6,1</div>
+        <div class="mu" style="font-size:12.5px;margin-top:8px" data-in="6.3">Divisão interna. Não muda o que o órgão aceita e paga.</div>
+      </div>
+    </div>
+  </div>
+  <div class="cap" data-in="0.4"><span>7</span>Você lança as horas. A plataforma confere e divide as UST por quem participou.</div>
+</section>
+
+<!-- 9. relatórios -->
+<section class="scene app" id="s9" data-title="Relatórios" data-start="67" data-end="75">
+  <div class="body">
+    <div class="doc" data-in="0.5" data-dur="1.1" data-fx="up">
+      <img src="timbrado.jpg" alt="">
+      <div class="t">
+        <h5 data-in="1.5" data-fx="none">Relatório Técnico de Execução e Medição</h5>
+        <div class="l" style="width:92%" data-in="1.8" data-fx="none"></div><div class="l" style="width:78%" data-in="1.9" data-fx="none"></div>
+        <div class="tb" data-in="2.2" data-fx="none"><div><span>Etapa</span><span>UST</span></div><div><span>Contratado</span><span>300</span></div><div><span>Executado</span><span>80,4</span></div><div><span>Aceito pelo órgão</span><span>0</span></div><div><span>Saldo para executar</span><span>219,6</span></div></div>
+        <div class="l" style="width:88%" data-in="2.6" data-fx="none"></div><div class="l" style="width:95%" data-in="2.7" data-fx="none"></div><div class="l" style="width:60%" data-in="2.8" data-fx="none"></div>
+        <div class="tb" data-in="3.1" data-fx="none"><div><span>Módulo</span><span>Entregue</span></div><div><span>MOD-101</span><span>banco · API · tela · testes</span></div><div><span>MOD-102</span><span>banco · API · tela · testes</span></div></div>
+        <div class="l" style="width:84%" data-in="3.4" data-fx="none"></div><div class="l" style="width:70%" data-in="3.5" data-fx="none"></div>
+      </div>
+    </div>
+    <div style="position:absolute;left:410px;right:20px;top:18px">
+      <div class="caps au" data-in="1.2">Todo dia, à tarde</div>
+      <div style="font-size:24px;font-weight:800;margin:8px 0 10px" data-in="1.4">Um relatório só, organizado, no seu papel timbrado</div>
+      <div class="chk" data-in="2.2"><i>✓</i>Situação do contrato e saldo</div>
+      <div class="chk" data-in="2.7"><i>✓</i>Meta do dia e o que foi executado</div>
+      <div class="chk" data-in="3.2"><i>✓</i>O que cada módulo entregou</div>
+      <div class="chk" data-in="3.7"><i>✓</i>Conta de cada UST, passo a passo</div>
+      <div class="chk" data-in="4.2"><i>✓</i>Telas reais e código do mês</div>
+      <div class="chk" data-in="4.7"><i>✓</i>Assinatura do responsável</div>
+      <div class="row" style="margin-top:16px;gap:10px" data-in="5.4"><div class="btn">Word</div><div class="btn">PDF</div><div class="btn">Excel</div></div>
+    </div>
+  </div>
+  <div class="cap" data-in="0.4"><span>8</span>O relatório para o órgão sai pronto, só com números que têm prova.</div>
+</section>
+
+<!-- 10. continuidade -->
+<section class="scene app" id="s10" data-title="Continuidade" data-start="75" data-end="82.2">
+  <div class="body">
+    <div class="passos">
+      <div class="passo" data-in="0.5"><u>1</u><b>Abrir o dia</b><small>Lê o estado salvo e mostra onde parou.</small></div>
+      <div class="passo" data-in="1.0"><u>2</u><b>Registrar</b><small>Cada ação real, com a prova anexada.</small></div>
+      <div class="passo" data-in="1.5"><u>3</u><b>Fechar o dia</b><small>Relatório do dia e pendências.</small></div>
+      <div class="passo" data-in="2.0"><u>4</u><b>Passar adiante</b><small>Pacote para continuar em outra conversa.</small></div>
+    </div>
+    <div class="dias">
+      <div class="dia" data-in="2.8"><b>DIA 1</b>Escopo aprovado</div><div class="lig" data-in="3.2" data-fx="none"></div>
+      <div class="dia" data-in="3.4"><b>DIA 2</b>Banco e API prontos</div><div class="lig" data-in="3.8" data-fx="none"></div>
+      <div class="dia" data-in="4.0"><b>DIA 3</b>Tela, testes e medição</div><div class="lig" data-in="4.4" data-fx="none"></div>
+      <div class="dia" data-in="4.6" style="border-color:var(--au)"><b>DIA 4</b>Continua do ponto certo</div>
+    </div>
+    <div style="margin-top:30px;font-size:21px;font-weight:700;text-align:center" data-in="5.0">Cada projeto com o seu histórico. <span class="au">Nenhum dia recomeça do zero.</span></div>
+  </div>
+  <div class="cap" data-in="0.4"><span>9</span>O trabalho continua de um dia para o outro, sem depender de memória.</div>
+</section>
+
+<!-- 11. fim -->
+<section class="scene" data-start="82.2" data-end="88">
+  <div class="center">
+    <img data-in="0.3" src="selo.png" style="width:150px">
+    <h1 class="big" style="font-size:44px;margin-top:22px" data-in="0.8">Nada inventado.</h1>
+    <h1 class="big au" style="font-size:44px" data-in="1.3">Prova antes de afirmar.</h1>
+    <div class="linha" data-in="1.8" data-fx="none"></div>
+    <p class="sub" style="margin-top:0" data-in="2.1">A empresa executa · o órgão aceita · o órgão paga</p>
+    <img data-in="2.8" src="logo.png" style="width:330px;margin-top:34px">
+    <p class="caps mu" data-in="3.3" style="margin-top:16px;font-size:10px">Vídeo-conceito · dados de demonstração</p>
+  </div>
+</section>
+
+<div class="frame"><i></i><i></i><i></i><i></i></div>
+
+<script>
+"use strict";
+(function () {
+  var DUR = 88;
+  var ease = function (x) { return x <= 0 ? 0 : x >= 1 ? 1 : 1 - Math.pow(1 - x, 3); };
+  var lin = function (x) { return x <= 0 ? 0 : x >= 1 ? 1 : x; };
+  // gráfico de meta diária (valores do relatório de demonstração)
+  var dias = [["03", 35.3, 80.4], ["04", 23.1, 0], ["05", 10.9, 0], ["06", 10.9, 0], ["09", 4.9, null], ["10", 9.8, null], ["11", 9.8, null], ["12", 4.9, null]];
+  var chart = document.getElementById("chart");
+  dias.forEach(function (d, i) {
+    var el = document.createElement("div"); el.className = "d";
+    var hm = Math.round(d[1] / 80.4 * 92), he = d[2] ? Math.round(d[2] / 80.4 * 92) : 0;
+    el.innerHTML = '<div class="bs"><i class="m" data-h="' + hm + '" data-in="' + (3.8 + i * 0.25) + '"></i>' +
+      (d[2] !== null ? '<i class="e" data-h="' + he + '" data-in="' + (4.2 + i * 0.25) + '"></i>' : "") + "</div>" + d[0] + "/11";
+    chart.appendChild(el);
+  });
+  var cenas = [].slice.call(document.querySelectorAll(".scene")).map(function (s) {
+    return { el: s, a: +s.dataset.start, b: +s.dataset.end, itens: [].slice.call(s.querySelectorAll("[data-in]")) };
+  });
+  var titulo = document.getElementById("titulo"), menu = [].slice.call(document.querySelectorAll(".menu div"));
+  function fmt(v, dec) { return v.toLocaleString("pt-BR", { minimumFractionDigits: dec, maximumFractionDigits: dec }); }
+  function render(t) {
+    var atual = null;
+    cenas.forEach(function (c) {
+      var vis = t >= c.a - 0.05 && t < c.b + 0.35;
+      if (!vis) { c.el.style.opacity = 0; c.el.style.visibility = "hidden"; return; }
+      c.el.style.visibility = "visible";
+      c.el.style.opacity = Math.min(ease((t - c.a) / 0.45), 1 - ease((t - c.b) / 0.35));
+      if (c.el.classList.contains("app") && t >= c.a && t < c.b) atual = c.el;
+      var l = t - c.a;
+      c.itens.forEach(function (e) {
+        var d = +e.dataset.in, dur = +(e.dataset.dur || 0.6), p = (e.dataset.ease === "lin" ? lin : ease)((l - d) / dur);
+        if (e.dataset.count !== undefined) { var dec = +(e.dataset.dec || 0); e.textContent = fmt(+e.dataset.count * ease((l - d) / 1.4), dec); return; }
+        if (e.dataset.w !== undefined) { e.style.width = (+e.dataset.w * p) + "%"; return; }
+        if (e.dataset.h !== undefined) { e.style.height = (+e.dataset.h * p) + "px"; return; }
+        var o = p;
+        if (e.dataset.out !== undefined) o = p * (1 - ease((l - +e.dataset.out) / 0.35));
+        e.style.opacity = o;
+        var fx = e.dataset.fx || "rise";
+        e.style.transform = fx === "none" ? "" : fx === "scale" ? "scale(" + (0.6 + 0.4 * p) + ")" : fx === "up" ? "translateY(" + ((1 - p) * 90) + "px)" : "translateY(" + ((1 - p) * 14) + "px)";
+      });
+    });
+    if (atual) { titulo.textContent = atual.dataset.title; menu.forEach(function (m) { m.classList.toggle("on", m.dataset.s === atual.id); }); }
+  }
+  window.DURACAO = DUR;
+  window.seek = function (t) { render(t); };
+  if (location.search.indexOf("rec") < 0) {
+    var t0 = performance.now();
+    (function loop() { render(((performance.now() - t0) / 1000) % DUR); requestAnimationFrame(loop); })();
+  } else { render(0); }
+})();
+</script>
+</body>
+</html>
