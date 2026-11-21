@@ -1,18 +1,20 @@
 # Relatório de testes reais
 
-Execução: 2026-11-06 20:21 (horário do servidor de testes). Banco: PostgreSQL 16 real, com bancos de teste separados. Arquivos de resultado (JUnit) em `docs/resultados_testes/`.
+Execução: 2026-11-21 15:28 (horário de Brasília). Banco: PostgreSQL 16 real, com bancos de teste separados. Arquivos de resultado (JUnit) em `docs/resultados_testes/`.
 
-## Gerenciador central: 45 de 45 passaram
+## Gerenciador central: 48 de 48 passaram
 
 | Arquivo de teste | Testes | Resultado |
 |---|---|---|
 | `test_acesso` | 8 | passou |
 | `test_backup` | 1 | passou |
+| `test_bootstrap` | 2 | passou |
 | `test_cadastros` | 11 | passou |
 | `test_cli` | 5 | passou |
 | `test_documentos` | 3 | passou |
 | `test_horas` | 6 | passou |
 | `test_migracoes` | 1 | passou |
+| `test_painel_web` | 1 | passou |
 | `test_relatorios` | 4 | passou |
 | `test_start_e_situacao` | 6 | passou |
 
@@ -27,6 +29,8 @@ Execução: 2026-11-06 20:21 (horário do servidor de testes). Banco: PostgreSQL
 - `test_acesso` · test_so_admin_exclui_e_cria_usuario — passou
 - `test_acesso` · test_senha_guardada_com_scrypt_e_sem_aparecer — passou
 - `test_backup` · test_backup_e_restauracao_do_banco_central — passou
+- `test_bootstrap` · test_cria_o_primeiro_admin_e_recusa_o_segundo — passou
+- `test_bootstrap` · test_politica_de_senha_e_perfil — passou
 - `test_cadastros` · test_cadastro_completo_e_filtro — passou
 - `test_cadastros` · test_validacoes_do_contrato — passou
 - `test_cadastros` · test_alteracao_parcial_respeita_as_regras — passou
@@ -53,6 +57,7 @@ Execução: 2026-11-06 20:21 (horário do servidor de testes). Banco: PostgreSQL
 - `test_horas` · test_aceite_so_para_horas_humanas_e_trava_correcao — passou
 - `test_horas` · test_filtro_por_mes — passou
 - `test_migracoes` · test_migracoes_vao_e_voltam_e_batem_com_os_modelos — passou
+- `test_painel_web` · test_painel_web_e_servido_com_politica_de_seguranca — passou
 - `test_relatorios` · test_relatorio_de_horas_em_word_pdf_e_excel — passou
 - `test_relatorios` · test_relatorio_de_medicao — passou
 - `test_relatorios` · test_exportar_cadastros_para_excel — passou
@@ -81,7 +86,7 @@ Execução: 2026-11-06 20:21 (horário do servidor de testes). Banco: PostgreSQL
 
 </details>
 
-## Demonstração ponta a ponta (navegador)
+## Demonstração ponta a ponta (navegador, 06/11/2026)
 
 Gerenciador (porta 8200) e projeto de exemplo (porta 8100) no ar, cada um com o próprio banco PostgreSQL; roteiro executado no Chromium (Playwright). Dados de demonstração identificados como DEMO.
 
@@ -97,7 +102,7 @@ Gerenciador (porta 8200) e projeto de exemplo (porta 8100) no ar, cada um com o 
 
 Capturas em `docs/telas/`. Relatórios gerados pelo sistema em funcionamento em `docs/exemplos_relatorios/` (Word, PDF e Excel).
 
-## Outras verificações
+## Outras verificações (06/11/2026)
 
 | Verificação | Resultado |
 |---|---|
@@ -114,4 +119,4 @@ Capturas em `docs/telas/`. Relatórios gerados pelo sistema em funcionamento em 
 - **`iniciar.ps1` (Windows):** escrito e revisado, mas não executado (esta máquina é Linux).
 - **Integração com agentes (Codex):** não existe conector; o sistema mostra "Integração pendente" e não simula execução.
 
-Total: 49 testes automatizados, todos passaram.
+Total: 52 testes automatizados, 52 passaram.
