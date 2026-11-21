@@ -16,3 +16,6 @@ contratos/*/entregas/*/*.zip
 contratos/*/privado/
 # Logs brutos da verificação de stacks (o resultado consolidado fica em VERIFICACAO.md e _verificacao/resultado.json)
 fabrica/stacks/_verificacao/*/
+fabrica/treinamento/kit/
+fabrica/treinamento/*.zip
+fabrica/treinamento/kit_src/
