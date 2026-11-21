@@ -1,0 +1,6 @@
+755ae0ad8727eaa823c777537d790d88514080059c766fd2427aa3c4fefbed80  DIGITALGOV-GERENCIADOR_2026-11-21.zip
+d8937c0bba783e64e675dec4403bcef2af73bf666b45c0612e5efbffac0f6d3e  PROJ-PROTOCOLO_2026-11-21.zip
+
+# Gerado de git archive (só arquivos versionados; nenhum .env) no commit f2bb230, em 21/11/2026.
+# Conferência: ZIP do gerenciador extraído em pasta nova -> 47 testes passaram, 1 pulado
+# (importação dos agentes precisa de fabrica/agentes/registry.yaml, que fica no repositório da fábrica).
