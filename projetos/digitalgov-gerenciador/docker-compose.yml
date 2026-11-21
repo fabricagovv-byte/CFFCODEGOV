@@ -1,0 +1,24 @@
+# Gerenciador com o próprio PostgreSQL (banco central separado dos bancos dos projetos).
+# Uso: cp .env.example .env (preencha SENHA_BANCO_CENTRAL) && docker compose up -d --build
+services:
+  banco-central:
+    image: postgres:16-alpine
+    environment:
+      POSTGRES_DB: digitalgov_gerenciador
+      POSTGRES_USER: gerenciador_app
+      POSTGRES_PASSWORD: ${SENHA_BANCO_CENTRAL:?defina SENHA_BANCO_CENTRAL no .env}
+    volumes: [banco_central:/var/lib/postgresql/data]
+    healthcheck: {test: ["CMD-SHELL", "pg_isready -U gerenciador_app -d digitalgov_gerenciador"], interval: 5s, retries: 10}
+    restart: unless-stopped
+  gerenciador:
+    build: .
+    env_file: [{path: .env, required: false}]
+    environment:
+      GERENCIADOR_DATABASE_URL: postgresql+psycopg://gerenciador_app:${SENHA_BANCO_CENTRAL}@banco-central:5432/digitalgov_gerenciador
+    volumes: [documentos:/dados/arquivos]
+    depends_on: {banco-central: {condition: service_healthy}}
+    ports: ["127.0.0.1:8200:8200"]   # publique pelo Nginx com HTTPS (docs/TUTORIAL_IMPLANTACAO.md)
+    restart: unless-stopped
+volumes:
+  banco_central:
+  documentos:

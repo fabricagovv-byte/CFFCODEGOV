@@ -1,0 +1,61 @@
+============================= test session starts ==============================
+platform linux -- Python 3.13.18, pytest-9.2.0, pluggy-1.7.0 -- /tmp/claude-0/-home-user-CFFCODEGOV/967e6d0a-7c30-596d-96b7-83d47da1f103/scratchpad/venv/bin/python
+rootdir: /home/user/CFFCODEGOV/projetos/digitalgov-gerenciador/backend
+plugins: anyio-4.16.0
+collecting ... collected 45 items
+
+tests/test_acesso.py::test_login_e_dados_do_usuario PASSED               [  2%]
+tests/test_acesso.py::test_sem_login_nao_entra PASSED                    [  4%]
+tests/test_acesso.py::test_senha_errada PASSED                           [  6%]
+tests/test_acesso.py::test_bloqueio_apos_cinco_erros PASSED              [  8%]
+tests/test_acesso.py::test_sair_encerra_a_sessao PASSED                  [ 11%]
+tests/test_acesso.py::test_perfil_consulta_nao_altera PASSED             [ 13%]
+tests/test_acesso.py::test_so_admin_exclui_e_cria_usuario PASSED         [ 15%]
+tests/test_acesso.py::test_senha_guardada_com_scrypt_e_sem_aparecer PASSED [ 17%]
+tests/test_backup.py::test_backup_e_restauracao_do_banco_central PASSED  [ 20%]
+tests/test_cadastros.py::test_cadastro_completo_e_filtro PASSED          [ 22%]
+tests/test_cadastros.py::test_validacoes_do_contrato PASSED              [ 24%]
+tests/test_cadastros.py::test_alteracao_parcial_respeita_as_regras PASSED [ 26%]
+tests/test_cadastros.py::test_os_autorizada_precisa_de_responsavel PASSED [ 28%]
+tests/test_cadastros.py::test_relacionamento_inexistente_responde_409 PASSED [ 31%]
+tests/test_cadastros.py::test_projeto_guarda_so_o_nome_da_variavel_do_banco PASSED [ 33%]
+tests/test_cadastros.py::test_profissional_so_com_cpf_mascarado PASSED   [ 35%]
+tests/test_cadastros.py::test_agente_tarefa_evidencia PASSED             [ 37%]
+tests/test_cadastros.py::test_medicao_aceita_precisa_de_documento PASSED [ 40%]
+tests/test_cadastros.py::test_resumo_da_medicao_do_contrato PASSED       [ 42%]
+tests/test_cadastros.py::test_auditoria_registra_antes_e_depois PASSED   [ 44%]
+tests/test_cli.py::test_importar_profissionais_ignora_exemplos_e_cpf_completo PASSED [ 46%]
+tests/test_cli.py::test_importar_agentes_da_fabrica PASSED               [ 48%]
+tests/test_cli.py::test_criar_projeto_a_partir_do_modelo PASSED          [ 51%]
+tests/test_cli.py::test_gravar_env_protege_o_arquivo PASSED              [ 53%]
+tests/test_cli.py::test_criar_projeto_com_banco_isolado_no_postgresql PASSED [ 55%]
+tests/test_documentos.py::test_anexar_e_baixar_edital PASSED             [ 57%]
+tests/test_documentos.py::test_recusa_formato_tamanho_e_tipo PASSED      [ 60%]
+tests/test_documentos.py::test_arquivo_alterado_no_disco_e_recusado PASSED [ 62%]
+tests/test_horas.py::test_lancamento_calcula_horas_liquidas PASSED       [ 64%]
+tests/test_horas.py::test_regras_do_lancamento PASSED                    [ 66%]
+tests/test_horas.py::test_totais_separam_humanas_aceitas_e_ia PASSED     [ 68%]
+tests/test_horas.py::test_inconsistencias_sao_apontadas_sem_alterar_lancamentos PASSED [ 71%]
+tests/test_horas.py::test_aceite_so_para_horas_humanas_e_trava_correcao PASSED [ 73%]
+tests/test_horas.py::test_filtro_por_mes PASSED                          [ 75%]
+tests/test_migracoes.py::test_migracoes_vao_e_voltam_e_batem_com_os_modelos PASSED [ 77%]
+tests/test_relatorios.py::test_relatorio_de_horas_em_word_pdf_e_excel PASSED [ 80%]
+tests/test_relatorios.py::test_relatorio_de_medicao PASSED               [ 82%]
+tests/test_relatorios.py::test_exportar_cadastros_para_excel PASSED      [ 84%]
+tests/test_relatorios.py::test_painel PASSED                             [ 86%]
+tests/test_start_e_situacao.py::test_start_bloqueia_sem_contrato_e_sem_os_autorizada PASSED [ 88%]
+tests/test_start_e_situacao.py::test_start_bloqueia_sem_banco_configurado PASSED [ 91%]
+tests/test_start_e_situacao.py::test_start_completo_inicia_o_servico_e_mostra_integracao_pendente PASSED [ 93%]
+tests/test_start_e_situacao.py::test_situacao_nao_mostra_senha_do_banco PASSED [ 95%]
+tests/test_start_e_situacao.py::test_situacao_do_codigo_pelo_git PASSED  [ 97%]
+tests/test_start_e_situacao.py::test_importar_resultado_dos_testes PASSED [100%]
+
+=============================== warnings summary ===============================
+tests/test_acesso.py::test_login_e_dados_do_usuario
+  /tmp/claude-0/-home-user-CFFCODEGOV/967e6d0a-7c30-596d-96b7-83d47da1f103/scratchpad/venv/lib/python3.13/site-packages/fastapi/testclient.py:1: StarletteDeprecationWarning: Using `httpx` with `starlette.testclient` is deprecated; install `httpx2` instead.
+    from starlette.testclient import TestClient as TestClient  # noqa
+
+-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+- generated xml file: /home/user/CFFCODEGOV/projetos/digitalgov-gerenciador/docs/resultados_testes/junit_gerenciador.xml -
+======================== 45 passed, 1 warning in 13.84s ========================
+codigo de saida: 0

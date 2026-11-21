@@ -87,3 +87,31 @@ jobs:
       - name: Imagens
         run: docker compose build
         env: {DG_COMM_SECRET: x, DG_FACTORY_TOKEN: y}
+
+  gerenciador:
+    runs-on: ubuntu-latest
+    services:
+      postgres:
+        image: postgres:16-alpine
+        env: {POSTGRES_USER: ci, POSTGRES_PASSWORD: ci, POSTGRES_DB: gerenciador_teste}
+        ports: ["5432:5432"]
+        options: --health-cmd "pg_isready -U ci" --health-interval 5s --health-retries 10
+    defaults: {run: {working-directory: projetos/digitalgov-gerenciador/backend}}
+    env:
+      TEST_DATABASE_URL: postgresql+psycopg://ci:ci@localhost:5432/gerenciador_teste
+      PG_ADMIN_URL: postgresql+psycopg://ci:ci@localhost:5432/postgres
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with: {python-version: "3.13"}
+      - run: sudo apt-get update && sudo apt-get install -y postgresql-client
+      - run: pip install -r requirements-dev.txt
+      - run: python -m pytest -q
+      - name: Projeto de exemplo (banco próprio)
+        working-directory: projetos/proj-protocolo/backend
+        run: |
+          PGPASSWORD=ci psql -h localhost -U ci -d postgres -c "CREATE DATABASE proj_protocolo_teste"
+          TEST_DATABASE_URL=postgresql+psycopg://ci:ci@localhost:5432/proj_protocolo_teste python -m pytest -q
+      - name: Docker Compose válido
+        working-directory: projetos/digitalgov-gerenciador
+        run: SENHA_BANCO_CENTRAL=x docker compose config -q && docker compose build

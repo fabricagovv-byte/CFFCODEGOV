@@ -24,6 +24,14 @@ FORMATOS = {"docx": "application/vnd.openxmlformats-officedocument.wordprocessin
             "pdf": "application/pdf", "xlsx": "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"}
 
 
+def qtd(v: float | None, unidade: str = "") -> str:
+    """Quantidade no padrão brasileiro: 11797.5 -> '11.797,5'."""
+    if v is None:
+        return "—"
+    texto = f"{v:,.2f}".replace(",", "X").replace(".", ",").replace("X", ".").rstrip("0").rstrip(",")
+    return f"{texto} {unidade}".strip()
+
+
 def _entregar(rel: Relatorio, formato: str, nome: str) -> Response:
     if formato not in FORMATOS:
         raise HTTPException(422, "Formato: docx, pdf ou xlsx")
@@ -77,11 +85,11 @@ def relatorio_medicao(contrato_id: int, formato: str, s: Session = Depends(sessa
     rel = Relatorio(f"Relatório de medição — contrato {contrato.numero}", f"{orgao.nome if orgao else ''} · {contrato.objeto}")
     rel.secao("Situação do contrato").tabela(
         ["Contratado", "Executado", "Aceito", "Pago", "Glosado", "Saldo", "Valor executado", "Valor aceito"],
-        [[f"{r['contratado'] or 0:g} {u}", f"{r['executado']:g} {u}", f"{r['aceito']:g} {u}", f"{r['pago']:g} {u}",
-          f"{r['glosado']:g} {u}", f"{r['saldo']:g} {u}" if r["saldo"] is not None else "—", brl(r["valor_executado"]), brl(r["valor_aceito"])]])
+        [[qtd(r["contratado"], u), qtd(r["executado"], u), qtd(r["aceito"], u), qtd(r["pago"], u),
+          qtd(r["glosado"], u), qtd(r["saldo"], u), brl(r["valor_executado"]), brl(r["valor_aceito"])]])
     itens = list(s.scalars(select(Medicao).where(Medicao.contrato_id == contrato_id).order_by(Medicao.data_execucao)))
     rel.secao("Itens medidos").tabela(["Data", "Item", "Descrição", "Quantidade", "Situação", "Documento de aceite"],
-                                      [[f"{i.data_execucao:%d/%m/%Y}", i.item, i.descricao, f"{float(i.quantidade):g} {u}", i.situacao,
+                                      [[f"{i.data_execucao:%d/%m/%Y}", i.item, i.descricao, qtd(float(i.quantidade), u), i.situacao,
                                         i.documento_aceite or "—"] for i in itens])
     rel.texto("Quantidade aceita só com documento do órgão. Executado sem aceite aguarda conferência.")
     return _entregar(rel, formato, f"medicao_{contrato.numero}".replace("/", "-"))

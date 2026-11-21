@@ -31,7 +31,7 @@ def test_relatorio_de_medicao(cliente, base):
     h, ct = base["h"], base["contrato"]
     docx = cliente.get(f"/api/relatorios/medicao/{ct['id']}.docx", headers=h)
     celulas = " ".join(c.text for t in Document(io.BytesIO(docx.content)).tables for r in t.rows for c in r.cells)
-    assert "202.5 UST" in celulas and "R$ 6.075,00" in celulas and "797.5 UST" in celulas
+    assert "202,5 UST" in celulas and "R$ 6.075,00" in celulas and "797,5 UST" in celulas and "1.000 UST" in celulas
     assert cliente.get(f"/api/relatorios/medicao/{ct['id']}.pdf", headers=h).content.startswith(b"%PDF")
     assert cliente.get(f"/api/relatorios/medicao/{ct['id']}.txt", headers=h).status_code == 422
 

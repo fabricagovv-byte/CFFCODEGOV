@@ -4,7 +4,7 @@
 set -euo pipefail
 umask 077
 RAIZ="$(cd "$(dirname "$0")/../.." && pwd)"
-set -a; [ -f "$RAIZ/.env" ] && . "$RAIZ/.env"; set +a
+if [ -z "${DATABASE_URL:-}" ] && [ -f "$RAIZ/.env" ]; then set -a; . "$RAIZ/.env"; set +a; fi   # conexão já informada tem prioridade
 DESTINO="${1:-$RAIZ/backups}"
 URL="${DATABASE_URL/+psycopg/}"
 CARIMBO="$(date +%Y%m%dT%H%M%S)"
